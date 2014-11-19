@@ -58,7 +58,7 @@ public function getagendaPubList($cari)
 					//$strQuery="SELECT a.c_agenda,n_judul,n_detil,d_agenda,n_tempat,c_status  from portal.tmagenda a, portal.tmagendakpd b where c_status=1  and a.c_agenda=b.c_agenda $cari  order by d_agenda asc ";
 					//	$strQuery="SELECT distinct b.c_agenda,b.n_judul,b.n_detil,b.d_agenda,b.n_tempat,b.c_status 
 					//	from portal.tmagenda b left join  portal.tmagendakpd a on a.c_agenda=b.c_agenda $cari order by b.d_agenda asc";					
-					$result = $db->fetchAll($strQuery);
+					$result = $db->fetchAll($strQuery); 
 					$jmlResult = count($result);
 					for ($j = 0; $j < $jmlResult; $j++) 
 					{$data[$j] = array("c_agenda"=>(string)$result[$j]->c_agenda,

@@ -196,7 +196,8 @@ or (c_pend = '10' and c_golongan in('04','05','06','07','08','09','10','11','12'
 			$this->view->pengumumanPubList = $this->pengumuman_serv->getpengumumanPubList($cari2);	
 			$userii=$this->view->userid;
 			$tglsek=date('Ymd');
-			$cari3 = " and (i_nip='$this->i_peg_nip' or b.i_entri='$userii')  and to_char(d_agenda,'yyyymmdd') >= '$tglsek' ";
+			// $cari3 = " and (i_nip='$this->i_peg_nip' or b.i_entri='$userii')  and to_char(d_agenda,'yyyymmdd') >= '$tglsek' ";
+			$cari3 = "";
 			$this->view->agendaPubList = $this->agenda_serv->getagendaPubList($cari3);	
 
 			$cari4 = "";
