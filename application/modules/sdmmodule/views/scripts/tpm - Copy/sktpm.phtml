@@ -1,0 +1,297 @@
+<? require_once 'Zend/View.php';
+    require_once 'share/halaman_list.php';
+  
+	$ctrlFrm = new Zend_View();
+	$halaman = new halaman_list(); 
+  
+	$jmldataPraTpm = count($this->dataPraTpm);
+
+	$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}  
+?>
+	<div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong> TPM &nbsp;
+			<strong>&#8250;</strong>&nbsp;Daftar TPM
+	</div>
+
+	<div id="top"></div>
+	<div id="confirm" class="<?=$confirm?>" style="display: none">
+		<h2 class="title"><?echo $this->pesan;?></h2>				
+	</div>
+	<h2 class="title">Daftar TPM</h2>
+<form id="formtpmsk" method="post" action="" name="formtpmsk"enctype="multipart/form-data" >	
+<div class="panel">	
+
+
+		<fieldset class="fields"> 
+
+	<table width="100%">
+		<tr>
+			<td width="20%">Nomor Surat</td>
+			<td width="1%">:</td>
+			<td>
+				<?=$this->dataPraTpm[0]['usulan_nomor'];?>
+				<input type="hidden" name="usulan_id" id="usulan_id" value="<?=$this->dataPraTpm[0]['usulan_id'];?>" size="50">
+				<input type="hidden" name="c_eselon" id="c_eselon" value="<?=$this->dataPraTpm[0]['c_eselon'];?>" size="50">
+				<input type="hidden" name="c_jabatan" id="c_jabatan" value="<?=$this->dataPraTpm[0]['usulan_keterangan'];?>" size="50">
+			</td>
+		</tr>
+		<tr>
+			<td>Usulan Jabatan</td>
+			<td>:</td>
+			<td>
+				<?=$this->dataPraTpm[0]['n_jabatan'];?>
+			</td>
+		</tr>
+	</table>	
+<?
+$c_eselon_i=$this->dataPraTpm[0]['c_eselon_i'];
+if ($c_eselon_i=='03' || $c_eselon_i=='04' || $c_eselon_i=='05')
+{
+?>
+	<table width="100%">	
+		<tr>
+			<td align="left" width="20%">Eselon I</td>
+			<td align="left" width="1%">:</td> 
+			<td align="left">		
+				<?=$this->dataPraTpm[0]['neselon1']?>
+				<input type="hidden" name="c_eselon_i" id="c_eselon_i" value="<?=$this->dataPraTpm[0]['c_eselon_i'];?>" size="50">
+			</td>
+		</tr>
+		<tr>
+			<td align="left">Pengadilan Tk Banding</td>
+			<td align="left">:</td> 
+			<td align="left">	
+				<?=$this->dataPraTpm[0]['neselon2']?>
+				<input type="hidden" name="c_eselon_ii" id="c_eselon_ii" value="<?=$this->dataPraTpm[0]['c_eselon_ii'];?>" size="50">
+			</td>
+		</tr>
+		<tr>
+			<td align="left">Pengadilan Tk I</td>
+			<td align="left">:</td> 
+			<td align="left">		
+				<?=$this->dataPraTpm[0]['neselon3']?>
+				<input type="hidden" name="c_eselon_iii" id="c_eselon_iii" value="<?=$this->dataPraTpm[0]['c_eselon_iii'];?>" size="50">
+			</td>
+		</tr>
+		<tr>
+			<td align="left">Unit Kerja</td>
+			<td align="left">:</td> 
+			<td align="left">	
+				<?=$this->dataPraTpm[0]['neselon4']?>
+				<input type="hidden" name="c_eselon_iv" id="c_eselon_iv" value="<?=$this->dataPraTpm[0]['c_eselon_iv'];?>" size="50">
+			</td>
+		</tr>
+	</table>
+
+<?
+}
+else{
+?>
+	<table width="100%">	
+		<tr>
+			<td align="left" width="20%">Eselon I</td>
+			<td align="left"  width="1%">:</td> 
+			<td align="left">					
+				<?=$this->dataPraTpm[0]['neselon1']?>
+				<input type="hidden" name="c_eselon_i" id="c_eselon_i" value="<?=$this->dataPraTpm[0]['c_eselon_i'];?>" size="50">
+			</td>
+		</tr>
+		<tr>
+			<td align="left">Eselon II</td>
+			<td align="left">:</td> 
+			<td align="left">				
+				<?=$this->dataPraTpm[0]['neselon2']?>
+				<input type="hidden" name="c_eselon_ii" id="c_eselon_ii" value="<?=$this->dataPraTpm[0]['c_eselon_ii'];?>" size="50">
+			</td>
+		</tr>
+		<tr>
+			<td align="left">Eselon III</td>
+			<td align="left">:</td> 
+			<td align="left">					
+				<?=$this->dataPraTpm[0]['neselon3']?>
+				<input type="hidden" name="c_eselon_iii" id="c_eselon_iii" value="<?=$this->dataPraTpm[0]['c_eselon_iii'];?>" size="50">
+			</td>
+		</tr>
+		<tr>
+			<td align="left">Eselon IV</td>
+			<td align="left">:</td> 
+			<td align="left">				
+				<?=$this->dataPraTpm[0]['neselon4']?>
+				<input type="hidden" name="c_eselon_iv" id="c_eselon_iv" value="<?=$this->dataPraTpm[0]['c_eselon_iv'];?>" size="50">
+			</td>
+		</tr>
+	</table>
+
+<?
+}
+?>
+	<table width="100%">	
+		<tr>
+			<td width="20%">Tanggal</td>
+			<td width="1%">:</td>
+			<td>
+				<?=$this->dataPraTpm[0]['mod_date']?>&nbsp;<span class="hightlight">tgl-bln-thn</span>
+			</td>
+		</tr>
+		<? $connip=1;$con=0; foreach ($this->dataPraTpm as $key => $val): if($con==0){ ?>
+		<tr>
+			<td>Hasil TPM</td>
+			<td>:</td>
+			<td>
+				<?php echo trim($this->escape($val['peg_nip']))." / ".trim($this->escape($val['tpm_namalengkap']));?>
+				<input type="hidden" name="i_peg_nip_<?=$connip?>" id="i_peg_nip_<?=$connip?>" value="<?=trim($this->escape($val['peg_nip']));?>" size="50">
+			</td>
+		</tr>
+		<?}else{?>	
+		<tr>
+			<td>&nbsp;</td>
+			<td>:</td>
+			<td>
+				<?php echo trim($this->escape($val['peg_nip']))." / ".trim($this->escape($val['tpm_namalengkap']));?>
+				<input type="hidden" name="i_peg_nip_<?=$connip?>" id="i_peg_nip_<?=$connip?>" value="<?=trim($this->escape($val['peg_nip']));?>" size="50">
+			</td>
+		</tr>
+		<?php }$con++;$connip++; endforeach;?>	
+	</table>
+<input type="hidden" name="counttable" id="counttable" value="<?=$con;?>" size="50">	
+<?if (($this->dataPraTpm[0]['c_stat_cetak'])!='cetak'){?>
+
+	<table width="100%">	
+		<tr>
+			<td align="left" width="20%">Nomor SK <span class="hightlight">*</span></td>
+			<td align="left"  width="1%">:</td> 
+			<td align="left">					
+				<input type="text" name="n_sk" id="n_sk" value="<?=$this->n_sk?>" size="80">
+			</td>
+		</tr>
+		<tr>
+			<td align="left">Tanggal SK <span class="hightlight">*</span></td>
+			<td align="left">:</td> 
+			<td align="left">				
+				<input type="text" name="d_sk" id="d_sk" value="<?=$this->d_sk?>" size="10">&nbsp;<span class="hightlight">tgl-bln-thn</span>
+			</td>
+		</tr>
+		<tr>
+			<td align="left">Pejabat Penandatangan</td>
+			<td align="left">:</td> 
+			<td align="left">				
+				<input type="text" name="n_pejabat" id="n_pejabat" value="<?=$this->n_pejabat?>" size="80">
+			</td>
+		</tr>		
+		
+
+	</table>
+<?}else{?>
+	<table width="100%">	
+		<tr>
+			<td align="left" width="20%">Nomor SK</td>
+			<td align="left"  width="1%">:</td> 
+			<td align="left">					
+				<?=$this->dataPraTpm[0]['n_sk']?>
+			</td>
+		</tr>
+		<tr>
+			<td align="left">Tanggal SK</td>
+			<td align="left">:</td> 
+			<td align="left">				
+				<?=$this->dataPraTpm[0]['d_sk']?> <span class="hightlight">tgl-bln-thn</span>
+			</td>
+		</tr>
+		<tr>
+			<td align="left">Pejabat Penandatangan</td>
+			<td align="left">:</td> 
+			<td align="left">				
+				<?=$this->dataPraTpm[0]['n_pejabat']?>
+			</td>
+		</tr>		
+		
+
+	</table>
+<?}?>	
+	</div>	
+
+	<div class="panel">
+
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">	
+			<tr>
+				<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+				<td></td>
+				<td align="right">
+					<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/tpm/daftartpm','');"> 									
+					<?if (($this->dataPraTpm[0]['c_stat_cetak'])!='cetak'){?>
+					<input type="submit" value="Simpan" onClick="insertTpmSk()">
+					<?}else{?>
+					<input type="button" value="Cetak Proses" onclick="cetak(<?=$this->dataPraTpm[0]['usulan_id'];?>);">&nbsp;
+					<input type="button" value="Cetak Hasil" onclick="cetakhasil(<?=$this->dataPraTpm[0]['usulan_id'];?>);">					
+					<?}?>
+					<input type="hidden" id="proses" name="proses" value="<?=$this->par;?>">
+				</td>
+			</tr>
+		</table>
+
+	</div>	
+	</form>
+	
+<script>
+jQuery(function() {jQuery("#d_sk").datepicker();});
+	
+function cetak(usulan_id){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/tpm/cetak?usulan_id="+usulan_id;
+	var wid='1000';
+	var heg='600';
+	var w = 0; 
+	var h = 0;
+	w = screen.availWidth;
+	h = screen.availHeight;
+	var popW = wid, popH = heg;
+	var leftc = (w-popW)/2;
+	var topc = (h-popH)/2;
+	var selectWindow = window.open(url,'Selection', 'left=' + leftc + ',top=' + topc + ', width='+popW+',height='+popH+',resizable=0,scrollbars=yes');	
+}
+function cetakhasil(usulan_id){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/tpm/cetakhasil?usulan_id="+usulan_id;
+	var wid='1000';
+	var heg='600';
+	var w = 0; 
+	var h = 0;
+	w = screen.availWidth;
+	h = screen.availHeight;
+	var popW = wid, popH = heg;
+	var leftc = (w-popW)/2;
+	var topc = (h-popH)/2;
+	var selectWindow = window.open(url,'Selection', 'left=' + leftc + ',top=' + topc + ', width='+popW+',height='+popH+',resizable=0,scrollbars=yes');	
+}
+
+function insertTpmSk(){
+	jQuery("#formtpmsk").ajaxForm(maintain_tpmsk);
+}
+
+var maintain_tpmsk = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formtpmsk;
+		astr= "document.formtpmsk";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/
+				if((!n_sk.value)){cekVal = sdmValidasiData(astr,"n_sk","Nomor Surat Keputusan harus diisi....!");return false;break;}
+				if((!d_sk.value)){cekVal = sdmValidasiData(astr,"d_sk","Tanggal Surat Keputusan harus diisi....!");return false;break;}
+				 break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/tpm/maintaindatatpmsk',
+	type: 'post',
+	resetForm: false
+};
+</script>

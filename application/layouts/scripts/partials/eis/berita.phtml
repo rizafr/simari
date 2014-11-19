@@ -1,0 +1,18 @@
+<?php
+$jumberitaPubList = count($this->beritaPubList); 
+if ($jumberitaPubList!=0) {
+echo" 		<ul class=\"nostyle\">\n";
+ foreach ($this->beritaPubList as $val): 
+$dat = $listtmberita[$i];
+$objtmberita = unserialize($dat); 
+$idberita=trim($this->escape($val['c_berita']));
+$jdlberita=trim($this->escape($val['n_judul']));
+$detilberita=trim($this->escape($val['n_detil']));
+$tglberita=formatDate(trim($this->escape($val['d_berita'])));
+ ?>
+<li><span class="date"><?=$tglberita?></span>
+	<h3><?php echo $jdlberita;?></h3></li>
+<?php endforeach;?> 	
+</ul>	
+<?php } else echo "<center class=\"highlight\">Tidak ada berita</center>\n"; ?>
+	

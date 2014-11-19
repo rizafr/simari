@@ -1,0 +1,265 @@
+<?
+	require_once 'Zend/View.php';
+	require_once 'share/oa_date.php'; 
+	
+	$ctrlDate = new oa_date();   
+	
+// Tambahan Cah Bagus //
+	require_once 'share/oa_page.php';
+	$ctrlFrm = new Zend_View();
+	$halaman = new oa_page();
+	$numToDisplay = $this->numToDisplay;
+	$currentPage  = $this->currentPage;
+// Akhir Tambahan Cah Bagus //	
+	
+	$jumSetujuKgbList = count($this->setujuKgbList);
+	for ($j = 0; $j < $jumSetujuKgbList; $j++) {
+		$setuju[$j] = array("no"=>$j+1,
+			"nip"  		=>(string)$this->setujuKgbList[$j]['i_peg_nip'],
+			"nama"		=>(string)$this->setujuKgbList[$j]['n_peg'],
+			"gol"      	=>(string)$this->setujuKgbList[$j]['gol'],
+			"status"   	=>(string)$this->setujuKgbList[$j]['status'],
+			"jnsNaik"	=>(string)$this->setujuKgbList[$j]['jnsNaik'],
+			"tglUsul"   =>(string)$this->setujuKgbList[$j]['tglUsul'],
+			"pangkat"  	=>(string)$this->setujuKgbList[$j]['pangkat'],
+			"tmtMasuk"  =>(string)$this->setujuKgbList[$j]['tmtMasuk'],
+			"mkThn"  	=>(string)$this->setujuKgbList[$j]['mkThn'],
+			"mkBln"  	=>(string)$this->setujuKgbList[$j]['mkBln'],
+			"tmtKGB"  	=>(string)$this->setujuKgbList[$j]['tmtKGB']
+			);	
+	} 
+   
+	$idSetujuList = array("#"=>"--",
+				"2"=>"Setuju",
+				"3"=>"Tidak Setuju");
+	
+	$spath = $this->getScriptPaths();
+	$this->addScriptPath($spath[0] . 'pangkat');
+	echo $this->render('pangkatjs.phtml');
+?>
+<form id="frmrekapctk" action="<?php echo $this->basePath; ?>/sdm/pangkat/rekapctk" method="post" name="frmrekapctk">	  
+<div class="contentdata-modul" id="modul">
+	 <div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Pengembangan Karir
+		<strong> &#8250; </strong> Kenaikan Pangkat
+		<strong> &#8250; </strong> Rekap Data Usulan
+	</div>
+
+	<h3 class="title">REKAP USULAN KENAIKAN PANGKAT DAN CETAK SURAT</h3>
+	&nbsp;&nbsp;&nbsp;&nbsp;Menu ini digunakan untuk ....... 
+	<div class="spacer"></div>
+	<a name="top"></a>	
+
+
+	<div class="search-panel">
+	<dl>
+		  <b>Persetujuan&nbsp;:&nbsp;</b>
+		  <?php $idSetuju = $_POST['idSetuju'];?>
+		  <?php echo $ctrlFrm->formSelect('idSetuju', $idSetuju, null, $idSetujuList) ?>
+	</dl>
+	<dl>
+		<dt><b>Periode Usulan&nbsp;:&nbsp;</b>			
+					<?php
+					// Tambahan Cah Bagus //
+ 						$hr1 = $_POST['hr1'];
+						$bln1 = $_POST['bln1'];
+						$thn1 = $_POST['thn1'];
+						$hr2 = $_POST['hr2'];
+						$bln2 = $_POST['bln2'];
+						$thn2 = $_POST['thn2'];
+						$tgl1 = $thn1."-".$bln1."-".$hr1;
+						$tgl2 = $thn2."-".$bln2."-".$hr2;
+						if (($hr1 == '#') || ($bln1 == '#') || ($thn1 *1  == 0)) {
+							$tgl1 = '1950-01-01';
+							$hr1 = "#";$bln1 = '#';$thn1 = '';
+						}
+						if (($hr2 == '#') || ($bln2 == '#') || ($thn2 * 1== 0)) {
+							$tgl2 = '2100-01-01';
+							$hr2 = '#';$bln2 = '#';$thn2 == '';
+						}
+					// Akhir Tambahan Cah Bagus //	
+					?> 			
+
+			<?php echo $ctrlDate->formTanggal_oa('hr1',$hr1,'bln1',$bln1,'thn1',$thn1); ?> &nbsp;<b>s/d</b>&nbsp;
+		    <?php echo $ctrlDate->formTanggal_oa('hr2',$hr2,'bln2',$bln2,'thn2',$thn2);  ?>&nbsp;
+		</dt>
+	</dl>
+	<dl>
+		<dt>
+			<?php  
+			  $atribSubmit = array("onclick"=>"javascript:cariRekapCtk();");
+			  echo $ctrlFrm->formSubmit('perintah', 'CARI', $atribSubmit)."&nbsp;";
+			?>
+		</dt>
+	</dl>
+	</div>
+		
+	<div class="space-line"></div>
+	<div class="title2">Rekap Usulan Pangkat Pegawai</div>	
+	<div class="spacer"></div>
+<?
+	if ($jumSetujuKgbList == 0) {
+		echo "<font color=\"red\">Data Tidak Ditemukan</font>";	
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+			<tr>
+				<th >No.</th>
+				<th >NIP</th>
+				<th >NAMA</th>
+				<th >Golongan <br>Pangkat</th>
+				<th >Jenis <br>Kenaikan</th>
+				<th >TMT CPNS</th>
+				<th >Masa Kerja</th>
+				<th >Tanggal <br>Usulan</th>
+				<th >Persetujuan</th>
+			</tr>
+		</table>
+<? } else { 
+?>
+<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+	<tr>
+				<th >No.</th>
+				<th >NIP</th>
+				<th >NAMA</th>
+				<th >Golongan <br>Pangkat</th>
+				<th >Jenis <br>Kenaikan</th>
+				<th >TMT CPNS</th>
+				<th >Masa Kerja</th>
+				<th >Tanggal <br>Usulan</th>
+				<th >Persetujuan</th>
+	</tr>
+	<?php
+		foreach ($setuju as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+				<?php
+				$gol =  $this->escape($val['gol']);
+				$pangkat =  $this->escape($val['pangkat']);
+				$golPangkat = $gol." - ".$pangkat;
+				
+				$jnsNaik =  $this->escape($val['jnsNaik']);
+				if ($jnsNaik == 'P') {
+				  $jnsNaik = 'Pilihan';
+				}else if ($jnsNaik == 'R') {
+				  $jnsNaik = 'Reguler';
+				}
+
+				$tglTmt = $this->escape($val['tmtMasuk']);				
+					$thnTmt = substr($tglTmt,0,4);
+					$blnTmt = substr($tglTmt,5,2);
+					$hrTmt = substr($tglTmt,8,2);
+					$tglTmt = $hrTmt."-".$blnTmt."-".$thnTmt;
+					if ($thnTmt == ''){
+						$tglTmt = null;
+					}
+					else if ($blnTmt == '#'){
+						$tglTmt = null;
+					}
+					else if ($hrTmt == '#'){
+						$tglTmt = null;
+					}
+				
+				$mkThn = $this->escape($val['mkThn']);
+				$mkBln = $this->escape($val['mkBln']);
+				$mk = $mkThn." thn ".$mkBln." bln ";
+
+				$tglKgb = $this->escape($val['tmtKGB']);				
+					$thnKgb = substr($tglKgb,0,4);
+					$blnKgb = substr($tglKgb,5,2);
+					$hrKgb = substr($tglKgb,8,2);
+					$tglKgb = $hrKgb."-".$blnKgb."-".$thnKgb;
+					if ($thnKgb == ''){
+						$tglKgb = null;
+					}
+					else if ($blnKgb == '#'){
+						$tglKgb = null;
+					}
+					else if ($hrKgb == '#'){
+						$tglKgb = null;
+					}
+
+				if ($this->escape($val['status'])=="2") {
+				   $status = 'Disetujui';
+				}else if ($this->escape($val['status'])=="3") {
+				   $status = 'Ditolak';
+				}  
+				
+				$no = $this->escape($val['no']);
+				?>
+				<td class="clright"> <?php echo $no;?></td>
+				<td class="clcenter"> <?php echo $this->escape($val['nip']);?> </a></td>
+				<td class="clleft"> <?php echo $this->escape($val['nama']);?></td>
+				<td class="clcenter"> <?php echo $golPangkat;?></td>
+				<td class="clleft"> <?php echo $jnsNaik;?></td>
+				<td class="clcenter"> <?php echo $tglTmt;?></td>
+				<td class="clcenter"> <?php echo $mk;?></td>
+				<td class="clcenter"> <?php echo $ctrlDate->convertTglMachineToHuman($this->escape($val['tglUsul'])); ?></td>
+				<td class="clcenter"> <?php echo $status; ?></td>
+				</td>
+		  </tr>
+	<?php 
+		endforeach;?>
+</table>
+
+<? } ?>
+
+		<?php  
+		if ($jumSetujuKgbList > 0){
+			$totalData = $this->iData;
+			$modul = $this->basePath."/sdm/penghargaan/rekapsuratpenghargaan";
+			$fungsi = ''; 
+			echo $halaman->showPage($totalData, $numToDisplay, $currentPage, $modul,$fungsi,'','','','');
+		}
+		?>		
+	<div class="right" >
+		<?php 
+		if ($jumSetujuKgbList > 0){ 
+		  // $atribReset = array("class"=>"button2",
+		                      // "onClick"=>"javascript:comdCetak1('$idSetuju');");
+		  $atribReset = array("class"=>"button2",
+		                      "onClick"=>"javascript:comdCetak1('$idSetuju','$tgl1','$tgl2','$currentPage');");
+
+		  echo $this->formButton("cmdCetak","Cetak Lamp List",$atribReset);					  
+		  $atribReset = array("class"=>"button2",
+		                      "onClick"=>"javascript:comdCetak2('$idSetuju');");
+		  echo $this->formButton("cmdCetak","Cetak Surat",$atribReset);					  
+		}
+		?>
+	</div>
+</form>
+<div><a href="#top" class="top" title="Kembali ke atas">Kembali ke atas</a></div>
+
+<script language="JavaScript">
+ function comdCetak1(iChoice,tgl1,tgl2,currentPage) {
+	switch (iChoice) {
+	case '#':
+	   iChoice='0';
+		break;
+	case '2':
+	   iChoice='2';
+		break;
+	case '3':
+	   iChoice='3';
+		break;
+	default:
+	   iChoice='0';
+	}
+	var opt={iChoice : iChoice};
+	//var url = '<?php echo $this->basePath; ?>/sdm/pangkat/printrekap?iChoice='+iChoice;	
+	var url = '<?php echo $this->basePath; ?>/sdm/pangkat/printrekap?iChoice='+iChoice+'&tgl1='+tgl1+'&tgl2='+tgl2+'&currentPage='+currentPage;	
+	window.open(url,"Selection","width=900,height=600,resizable=yes,scrollbars=yes");	
+ } 
+
+ function comdCetak2(iChoice) {
+	var opt={iradio : iChoice};
+	var url = "<?php echo $this->basePath; ?>/sdm/pangkat/printrekaplamp";	
+	window.open(url,"Selection","width=900,height=600,resizable=yes,scrollbars=yes");	
+ } 
+</script>
+</body>
+</html>

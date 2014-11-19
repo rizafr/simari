@@ -1,0 +1,153 @@
+<? 
+require_once 'Zend/View.php';
+require_once 'share/tanggal.php'; 
+   
+$ctrlDate = new tanggal();   
+   
+   $ctrlFrm = new Zend_View();
+   $thnskrg = date("Y");
+   $thnList = $thnskrg - 11;
+   $thnList2 = $thnskrg - 55;
+	
+   $thnArrayList['#'] = '--';
+   		
+   for ($i = 0; $i < 21; $i++) {
+     $thnList = $thnList + 1;
+     $thnArrayList[$thnList] = $thnList;
+   }
+
+	
+   $thnArrayList2['#'] = '--';
+   	 
+   for ($i = 0; $i < 60; $i++) {
+     $thnList2 = $thnList2 + 1;
+     $thnArrayList2[$thnList2] = $thnList2;
+   }
+		
+		
+   $pnjngArray = count($thnArrayList);
+
+	  $blnList = 0;
+	  for ($j = 0; $j < 12; $j++) {
+        $blnList = $blnList + 1;
+		if ($blnList < 10) {
+		  $blnBaruList = "0".$blnList;
+		  $blnArrayList[] = $blnBaruList;
+		} else {
+		  $blnBaruList = $blnList;
+		  $blnArrayList[] = $blnBaruList;
+		}
+      }
+		
+	  $hrList = 0;
+	  for ($k = 0; $k < 31; $k++) {
+        $hrList = $hrList + 1;
+		if ($hrList < 10) {
+		  $hrBaruList = "0".$hrList;
+		  $hrArrayList[] = $hrBaruList;
+		} else {
+		  $hrBaruList = $hrList;
+		  $hrArrayList[] = $hrBaruList;
+		}
+      }
+
+$jumPelatihanList = count($this->pelatihanList);     
+$pesan = $this->pesan;
+$spath = $this->getScriptPaths();
+$this->addScriptPath($spath[0] . 'pegawai');
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong> SDM 
+				<strong> &#8250; </strong> <a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Maintain Data Pegawai</a>
+				<strong> &#8250; </strong>Pelatihan
+			</div>
+	        <a name="top"></a>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>	
+
+	<h2 class="title">Pelatihan</h2>
+	<div class="search-panel">
+	<?php include "$this->leftMenu/datapokok.phtml";?>
+	</div>
+	
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+  
+<div class="add" title="Tambah Data" onclick="PelatihanM('insert','');"></div>
+<?	if ($jumPelatihanList == 0) {
+		echo "<font color=\"red\">Data Pelatihan Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+				<tr>
+			    <th width="20%">Nama Pelatihan</th>
+				<th width="10%">Jenis Pelatihan</th>
+				<th width="8%">Mulai</th>
+				<th width="8%">Selesai</th>
+				<th width="5%">File</th>
+				<th width="4%" colspan="2">&nbsp;</th>
+				</tr>
+
+<?
+	if ($jumPelatihanList == 0) {
+?>				<tr class="event">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				</tr>
+<? } else { ?>				
+		<?php foreach ($this->pelatihanList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+				<? 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					$c_pelatihan=trim($this->escape($val['c_pelatihan']));
+					if ($c_pelatihan=='S'){$c_pelatihan="Struktural";}
+					else{$c_pelatihan="Non Struktural";}
+					$n_pelatihan=trim($this->escape($val['n_pelatihan']));
+					$n_dok_pelatihan=trim($this->escape($val['n_dok_pelatihan']));
+				?>
+				<td>
+					<a href="#" onclick="detilLatih('<?=$nip?>','<?=trim($this->escape($val['c_pelatihan']))?>','<?=$n_pelatihan?>')"><?php echo $this->escape($val['n_pelatihan']);?></a>
+				</td>
+				<td><?php echo $c_pelatihan;?></td>
+				<td class="clcenter"><?php echo $this->escape($val['d_mulai_pelatihan']);?></td>
+				<td class="clcenter"><?php echo $this->escape($val['d_akhir_pelatihan']);?></td>
+				<td class="clcenter"><?
+					if ($n_dok_pelatihan){ ?>
+						<div class="pdf" title="Format PDF" onclick="javascript:GetFileLat('<?php echo "/data/sdm/sertifikasi/".$n_dok_pelatihan ?>')"></div>
+					<?}?>
+				</td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data"  onclick="PelatihanM('update','<?=trim($this->escape($val['c_pelatihan']))?>','<?=$this->escape($val['d_mulai_pelatihan']);?>');"></div>	
+				</td>
+				<td class="clcenter">			
+					<div class="delete" title="Hapus Data"  onClick="HapusDataPelatihan('<?=$nip?>','<?=trim($this->escape($val['c_pelatihan']))?>','<?=$this->escape($val['d_mulai_pelatihan']);?>')"></div>
+				</td>				
+		  </tr>
+	<?php endforeach;?> 	
+	<? } ?>
+	</table>									
+<div id="targetdetil"></div>						
+		</fieldset>		 
+		</form>
+<script>
+function detilPend(nip,cPend){
+var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/detilpelatihan';
+var param = {nip:nip,cPend:cPend};
+jQuery.get(url,param,function(data) {
+jQuery("#targetdetil").html(data);
+centerPopup();
+loadPopup();});}
+</script>	

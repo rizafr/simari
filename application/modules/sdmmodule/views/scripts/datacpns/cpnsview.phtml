@@ -1,0 +1,356 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+$ceseloncpns=$this->ceseloncpns*1;
+?>
+
+ 	
+
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+			<strong> &#8250; </strong><?=$this->jdl;?> Data CPNS
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+
+<h2 class="title"><?=$this->jdl;?> Data CPNS</h2>
+<?php if($this->par=='Ubah') {$opr='dcpns';include "$this->leftMenu/linkdatapns.phtml";}?>	
+
+
+<? if ($this->par=='Ubah'){
+	$readonly="readonly='true'";
+}?>
+	
+<form id="formpegawai" method="post" action="" name="formpegawai"enctype="multipart/form-data" >	
+	<div class="boxholder">	
+	<div class="panel">
+	<?php if($this->par=='Ubah') {include "$this->leftMenu/toplink.phtml";}?>
+	</div>
+	<div class="panel">
+		<div class="spacer"></div> 
+			
+			<table border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td width="65%">
+					<table width="100%">
+							<tr>
+								<td width="25%">Status Kepegawaian</td>
+								<td width="2%">:</td>
+								<td>
+								<?=$this->n_peg_status?>						
+								</td>
+							</tr>
+					</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table width="100%" id="targetnip">
+							
+							<tr>
+							<td width="25%">
+							<? 
+			if($this->c_status_kepegawaian == '2' || $this->c_status_kepegawaian == '3') {
+				echo 'NIP / NIP LAMA ';
+				$varnip = $this->i_peg_nip_new.' / '.$this->i_peg_nip;
+			} else if ($this->c_status_kepegawaian > 3){
+				echo 'NRP ';
+				$varnip = $this->i_peg_nrp;
+			} else {// NON PNS
+				echo 'NIP ';
+				$varnip = $this->i_peg_nip;
+			}?> </td>
+								<td width="2%">:</td>
+								<td><?=$varnip?>
+								</td>
+							</tr>							
+							
+
+						</table>	
+						<table width="100%">	
+							<tr>
+								<td width="25%">Nama Lengkap</td>
+								<td width="2%">:</td>
+								<td>
+									<?=$this->n_peg?>
+								</td>
+							</tr>
+							<tr>
+								<td>Gelar Depan</td>
+								<td>:</td>
+								<td>
+									<?=$this->n_peg_gelardepan?>
+								</td>
+							</tr>
+							<tr>
+								<td>Pangkat </td>
+								<td>:</td>
+								<td id="targetgol">
+									<?=$this->n_peg_pangkat;?>
+								</td>
+							</tr>
+							<tr>
+								<td>TMT CPNS</td>
+								<td>:</td>
+								<td>
+									<?=$this->d_tmt_cpns?>
+								</td>
+							</tr>
+						
+							<tr>
+								<td>Eselon</td>
+								<td>:</td>
+								<td>									
+									<?=$this->n_eselon;?>								
+								</td>
+							</tr>
+							<tr>
+								<td>Nama Jabatan</td>
+								<td>:</td> 
+								<td>
+									<?=$this->n_jabatan_cpns?>
+								</td>																
+							</tr>									
+						</table>
+					</td>
+					<td>
+						<table width="100%">
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>	
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>								
+							<tr>
+								<td>Gelar Belakang</td>
+								<td>:</td>
+								<td>
+									<?=$this->n_peg_gelarblkg?>
+								</td>
+							</tr>
+							<tr>
+								<td>Pendidikan</td>
+								<td>:</td>
+								<td>
+									<?=$this->n_pend_cpns?>									
+								</td>
+							</tr>
+							<tr>
+								<td>Tanggal Lahir</td>
+								<td>:</td>
+								<td>
+									<?=$this->d_peg_lahir?>
+								</td>
+							</tr>
+							<tr>
+								<td>Jenis Kelamin</td>
+								<td>:</td> 
+								<td>					
+								<?=$this->c_peg_jeniskelamin;?>
+								</td>
+							</tr>	
+						
+						</table>
+					</td>					
+				</tr>
+			</table>
+
+<?if ($this->c_lokasi_unitkerja=='1'){?>		
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%" id="listcombo">
+				<tr>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b><u>UNIT KERJA</u></b><h3>
+								</td>
+							</tr>
+							
+							<tr>
+								<td width="30%">Lokasi</td>
+								<td width="2%">:</td> 
+								<td>					
+									<?=$n_lokasi?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon I</td>
+								<td>:</td> 
+								<td>					
+									<?=$this->n_eselon_i?>
+								</td>
+							</tr>
+							<tr>
+								<td width="30%">Eselon II</td>
+								<td width="2%">:</td> 
+								<td>				
+									<?=$this->n_eselon_ii?>
+								</td>
+							</tr>						
+							<tr>
+								<td width="30%">Eselon III</td>
+								<td width="2%">:</td> 
+								<td>					
+									<?=$this->n_eselon_iii?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon IV</td>
+								<td>:</td> 
+								<td>				
+									<?=$this->n_eselon_iv?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon V</td>
+								<td>:</td> 
+								<td id="targeteslv">				
+									<?=$this->n_eselon_v?>
+								</td>
+							</tr>							
+
+							
+						</table>
+	
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3">&nbsp;<!--<h3 class="title"><b><u>HASIL AKHIR NAMA JABATAN</u></b><h3>--></td>
+							</tr>
+							<tr>
+								<td colspan="3"><?=$this->jabat_lengkap?>
+								</td>
+							</tr>
+						</table>
+					</td>						
+					</td>
+					
+
+				</tr>
+			</table>	
+	<?}  else{include ("listcombo2.phtml");}?>	
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+				<tr>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b><u>MASA KERJA TAMBAHAN</u></b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td>Fiktif</td>
+								<td>:</td>
+								<td>
+									<?=$this->q_fiktif_cpns_thn?> Tahun
+									<?=$this->q_fiktif_cpns_bln?> Bulan
+								</td>
+							</tr>	
+							<tr>
+								<td>Honorer</td>
+								<td>:</td>
+								<td>
+									<?=$this->q_honorer_cpns_thn?> Tahun
+									<?=$this->q_honorer_cpns_bln?> Bulan
+								</td>
+							</tr>	
+							<tr>
+								<td>Swasta</td>
+								<td>:</td>
+								<td>
+									<?=$this->q_swasta_cpns_thn?> Tahun
+									<?=$this->q_swasta_cpns_bln?> Bulan
+								</td>
+							</tr>	
+							<tr>
+								<td>Masa Kerja Total</td>
+								<td>:</td>
+								<td><?=$this->q_mktotal_cpns_thn?> Tahun
+									<?=$this->q_mktotal_cpns_bln?> Bulan
+								</td>
+							</tr>	
+									
+						</table>
+					</td>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3"><h3 class="title"><b><u>SURAT KEPUTUSAN</u></b><h3></td>
+							</tr>
+							<tr>
+								<td width="30%">Nomor</td>
+								<td width="2">:</td> 
+								<td><?=$this->i_sk_cpns?>
+								</td>
+							</tr>
+							<tr>
+								<td>Tanggal</td>
+								<td>:</td> 
+								<td><?=$this->d_sk_cpns?>
+								</td>
+							</tr>
+							<tr>
+								<td>Pejabat</td>
+								<td>:</td> 
+								<td><?=$this->n_sk_pejabatcpns?>
+								</td>
+							</tr>							
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table width="100%">
+							<tr>
+								<td colspan="3"><h3 class="title"><b><u>SURAT PERINTAH MELAKSANAKAN TUGAS</u></b><h3></td>
+							</tr>
+							<tr>
+								<td width="30%">Nomor</td>
+								<td width="2">:</td> 
+								<td><?=$this->i_spmt_cpns?>
+								</td>
+							</tr>
+							<tr>
+								<td>Tanggal</td>
+								<td>:</td> 
+								<td><?=$this->d_spmt_cpns?>
+								</td>
+							</tr>
+							<tr>
+								<td>Pejabat</td>
+								<td>:</td> 
+								<td><?=$this->n_spmt_pejabatcpns?>
+								</td>
+							</tr>							
+						</table> 
+					</td>
+				</tr>		
+			</table>
+	</div>		
+<br>
+	
+	<div>
+	<div id="targetdetil"></div>
+</form>	

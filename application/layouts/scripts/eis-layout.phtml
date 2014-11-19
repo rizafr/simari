@@ -1,0 +1,178 @@
+<?php
+require_once 'share/Portalconf.php'; 
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+?>
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><?php echo $this->render('partials/eis/head.phtml'); ?></head>
+</head>
+<body>
+<div id="header">
+	<div id="logo">
+		<h1><a href="#">&nbsp;</a></h1>
+	</div>
+	<div id="menu">
+		<div class="wrap"> 
+            <ul>
+				<li><a href="/main" title="Home"><span>Home</span></a></li>
+				<li><a href="#">EIS</a></li>
+			</ul>
+		</div> 
+	</div>
+</div>
+<div id="marquee">
+<marquee onmouseover="this.stop()" onmouseout="this.start()" valign="bottom" direction="left" scrollamount="3">
+<?php
+$jumpengumumanPubList = count($this->pengumumanPubList); 
+if ($jumpengumumanPubList!=0) 
+{
+foreach ($this->pengumumanPubList as $val2): 
+	$dat = $listtmpengumuman[$j];
+	$objtmpengumuman = unserialize($dat); 
+	$idpengumuman=trim($this->escape($val2['c_pengumuman']));
+	$jdlpengumuman=trim($this->escape($val2['n_judul']));
+	$detilpengumuman=trim($this->escape($val2['n_detil']));
+	$tglpengumuman=formatDate(trim($this->escape($val2['d_pengumuman'])));
+
+	$jdlpengumumanx='&nbsp;'.$jdlpengumumanx.'<img width="12" src="images/logo_ma.gif">&nbsp;'.$jdlpengumuman.'&nbsp;'; 
+
+endforeach; 
+}
+
+echo $jdlpengumumanx;?>	
+</marquee>
+</div>
+
+
+<!-- end header -->
+<!-- start page -->
+<div id="page">
+<!--
+<marquee bgcolor='green'  scrollamount='2' width='900' behavior='alternate'>tulisan kalian disini </marquee>
+-->
+	<!-- start content -->
+	<div id="content">
+		<div class="contentdata">
+		  <div class="entry">
+		<!-- put content here -->
+       <div id="leftside">
+       <center>
+		<div class="widget">
+		  <h4 class="widgettitle">Dashboard</h4>
+			<div id="slider1"> 
+			
+				<!-- Kepegawaian -->
+				<div>
+					<h5>Komposisi Pegawai Berdasarkan Usia</h5>
+				<?php echo $this->render('partials/eis/grafikusia.phtml'); ?>
+				</div>
+				<div>
+					<h5>Komposisi Pegawai Berdasarkan Pendidikan</h5>									
+				<?php echo $this->render('partials/eis/grafikpendidikan.phtml'); ?>
+				</div>
+				<div>
+					<h5>Komposisi Pegawai Berdasarkan Golongan</h5>									
+				<?php echo $this->render('partials/eis/grafikgolongan.phtml'); ?>
+				</div>
+				<div>
+					<h5>Data Pensiun Satu Tahun ke Depan</h5>									
+				<?php echo $this->render('partials/eis/grafikpensiun.phtml'); ?>
+				</div>
+				<div>
+					<h5>Naik Golongan / Pangkat 6 Bulan ke Depan</h5>								
+				<?php echo $this->render('partials/eis/grafiknaikgol.phtml'); ?>
+				</div>
+				<!-- ASET -->
+				<? if ((trim($this->c_jabatan)!='008' && trim($this->c_eselon_ii)!='002') || (trim($this->c_jabatan)!='008' && trim($this->c_eselon_ii)!='006')) {  ?>
+				<div>
+					<h5>A S E T</h5>
+				<?php echo $this->render('partials/eis/grafikaset.phtml'); ?>
+				</div>
+				<div>
+					<h5>A S E T</h5>
+				<?php echo $this->render('partials/eis/grafikasetb.phtml'); ?>
+				</div>	
+				<div>
+					<h5>A S E T</h5>
+				<?php echo $this->render('partials/eis/grafikasetc.phtml'); ?>
+				</div>
+				<!-- Perencanaan -->				
+				<div>
+					<h5>Pagu Anggaran</h5>		
+				<?php echo $this->render('partials/eis/grafikrencana1.phtml'); ?>
+				</div>
+				<div>
+					<h5>Pagu Anggaran</h5>		
+				<?php echo $this->render('partials/eis/grafikrencana2.phtml'); ?>
+				</div>	
+				<!-- Keuangan -->	
+				<div>
+					<h5>Pagu Anggaran</h5>		
+				<?php echo $this->render('partials/eis/grafikkeuangan.phtml'); ?>
+				</div>
+				<!--div>
+					<h5>Kasus TGR</h5>		
+				<!--?php echo $this->render('partials/eis/grafikkeuangantgr.phtml'); ?-->
+				<!--/div-->
+				<!-- Logistik -->
+				<div>
+					<h5>Stok Barang</h5>				
+				<?php echo $this->render('partials/eis/grafiklogistikstok.phtml'); ?>
+				</div>
+				<?}?>
+				
+				<div>
+					<h5>Monitoring Perkara Kasasi Sisa</h5>				
+				<?php echo $this->render('partials/eis/grafiksiap.phtml'); ?>
+				</div>
+
+				<div>
+					<h5>Monitoring Perkara Kasasi Masuk</h5>				
+				<?php echo $this->render('partials/eis/grafiksiap1.phtml'); ?>
+				</div>
+				
+			</div>
+		</div>	
+	</center>		
+	</div>
+
+	<div id="rightside">
+
+	  <div class="widget">
+		<h4 class="widgettitle">User Online</h4>
+		<?php echo $this->render('partials/eis/useronline.phtml'); ?>	
+	</div>
+<!--	
+	<div class="widget">
+		<h4 class="widgettitle">Pengumuman</h4>
+			<?php //echo $this->render('partials/eis/pengumuman.phtml'); ?>		
+	</div>
+-->	
+	  <div class="widget">
+		<h4 class="widgettitle">Berita</h4>
+	             <?php echo $this->render('partials/eis/berita.phtml'); ?>		
+	  </div>
+	  
+	</div>
+
+
+
+
+		</div>	
+         <div class="space"></div>		 
+		 <p class="links"></p>
+		</div>
+
+	</div>
+	<!-- end content -->
+
+	<div style="clear: both;">&nbsp;</div>
+</div>
+<!-- end page -->
+<hr>
+<div id="footer">
+	<p>Copyright © 2011 Pemerintah Kota Cimahi
+</p></div>
+<html> 

@@ -1,0 +1,86 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/pesan.php';
+require_once 'share/halaman_list.php';
+
+   $ctrlFrm = new Zend_View();
+   $pesan = new pesan();
+   $halaman = new halaman_list();
+
+	  
+$jumstatusfungList = count($this->listStatusfung);     
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong>Referensi III
+			</div>
+	        <a name="top"></a>
+<?
+$proses		= $this->proses;
+$keterangan	= $this->keterangan;
+$status		= $this->status;
+echo $pesan->show_message($proses, $keterangan, $status);
+?>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+	<h2 class="title">Referensi Status Fungsional</h2>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+  
+<div class="add" title="Tambah Data" onclick="openFormStatusfung('insert','','');"></div>
+<?	if ($jumstatusfungList == 0) {
+		echo "<font color=\"red\">Data Referensi Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center" width="50%">
+			<tr>
+		    <th width="10%">Kode Status Fungsional</th>
+			<th width="70%">Status Status Fungsional</th>
+			<th width="10%">Kode Kelompok</th>
+			<th colspan="2">&nbsp;</th>
+			</tr>		
+<?
+	if ($jumstatusfungList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->listStatusfung as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					?>
+				
+				<td><?php  echo $this->escape($val['c_statusfung']);?></td>
+				<td><?php  echo $this->escape($val['c_kelompok']);?></td>
+				<td><?php  echo $this->escape($val['n_statusfung']);?></td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data"  onclick="openFormStatusfung('update','<?=trim($this->escape($val['c_statusfung']))?>');"></div>	
+				</td>
+				<td class="clcenter">			
+					<div class="delete" title="Hapus Data"  onClick="HapusStatusfung('Status Fungsional','<?=trim($this->escape($val['c_statusfung']))?>','<?=trim($this->escape($val['n_statusfung']))?>')"></div>
+				</td>	
+		  </tr>
+	<?php endforeach; ?> 		  	  
+<?	}	?>
+	</table>									
+	<?php
+	$totalData = $this->totalData;
+	$numToDisplay = $this->numToDisplay;
+	$currentPage = $this->currentPage;
+	$modul	= $this->basePath.'/sdmmodule/refstatusfung/liststatusfung';
+	echo $halaman->halamanList($totalData, $numToDisplay, $currentPage, $modul);
+
+	?>					
+									
+	</fieldset>		 
+	</form>

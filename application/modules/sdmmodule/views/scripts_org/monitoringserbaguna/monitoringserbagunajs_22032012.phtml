@@ -1,0 +1,68 @@
+function cariJab(){
+	var kd_jbt=document.getElementById('kd_jbt').value;
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/combonamajabatan'; 
+	var param = {kd_jbt:kd_jbt};
+	jQuery.get(url, param, function(data) {
+		jQuery("#targetjabatan").html(data);	
+	});
+
+}
+function sertifikasiM(par,nip,nSertifikasi,dMulaiSertifikasi){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datasertifikasi/sertifikasi"	
+	var opt = {par:par,nip:nip,nSertifikasi:nSertifikasi,dMulaiSertifikasi:dMulaiSertifikasi};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#formsertifikasi").ajaxForm(maintain_sertifikasi);
+		});		
+} 
+var maintain_sertifikasi = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formsertifikasi;
+		astr= "document.formsertifikasi";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/				
+				if((!n_sertifikasi.value)){cekVal = sdmValidasiData(astr,"n_sertifikasi","Nama Sertifikasi harus diisi....!");return false;break;}
+				if((!i_sertifikasi.value)){cekVal = sdmValidasiData(astr,"i_sertifikasi","Nomor Sertifikasi harus diisi....!");return false;break;}
+				if((!d_sertifikasi.value)){cekVal = sdmValidasiData(astr,"d_sertifikasi","Tanggal Sertifikat Keluar harus diisi....!");return false;break;}				
+				if((!d_mulai_sertifikasi.value)){cekVal = sdmValidasiData(astr,"d_mulai_sertifikasi","Tanggal Mulai harus diisi....!");return false;break;}
+				if((!d_akhir_sertifikasi.value)){cekVal = sdmValidasiData(astr,"d_akhir_sertifikasi","Tanggal Akhir harus diisi....!");return false;break;}
+				if (d_akhir_sertifikasi.value && d_mulai_sertifikasi.value){
+					cekVal = compareDate(d_mulai_sertifikasi.value,d_akhir_sertifikasi.value);
+					if (cekVal == false) {return false;break;}						
+				}
+				 break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formsertifikasi").ajaxForm(maintain_sertifikasi);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datasertifikasi/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+function insertSertifikasi(){
+	jQuery("#formsertifikasi").ajaxForm(maintain_sertifikasi);
+}
+
+function HapusDataSertifikasi(nip,nSertifikasi,dMulaiSertifikasi)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/datasertifikasi/hapusdata"
+		var opt = {nip:nip,nSertifikasi:nSertifikasi,dMulaiSertifikasi:dMulaiSertifikasi};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}

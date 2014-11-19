@@ -1,0 +1,47 @@
+			<div style="overflow: auto; padding: 15px width: 300px;">
+						<?echo $this->chartaset;?>
+
+			</div>			
+			<table border="0" width="100%" align="center">
+				<tr>
+					<td align="center">
+						
+						<table border="0" width="100%" align="center" class="tbl2">
+									<tr class="event">
+										<td width="20%">Persediaan :</td> 
+										<td align="right" width="30%">Rp. <?echo number_format($this->jmlrppersediaan, 2, ',', '.');?></td>
+									</tr>
+									<tr class="event">
+										<td>Tanah :</td>
+										<td align="right">Rp. <?echo number_format($this->jmlrptanah, 2, ',', '.');?></td>
+									</tr>
+									<tr  class="event">
+										<td>Peralatan & Mesin :</td>
+										<td align="right">Rp. <?echo number_format($this->jmlrpperalatandanmesin, 2, ',', '.');?></td>
+									</tr>
+									<tr  class="event">
+										<td>Gedung & Bangunan :</td>
+										<td align="right">Rp. <?echo number_format($this->jmlrpbdg, 2, ',', '.');?></td>
+									</tr>
+									<tr  class="event">
+										<td>Jalan,Irigasi & Jaringan :</td>
+										<td align="right">Rp. <?echo number_format($this->jmlrpjalan, 2, ',', '.');?></td>
+									</tr>
+									<tr  class="event">
+										<td>Aset Tetap Lainnya :</td>
+										<td align="right">Rp. <?echo number_format($this->jmlrpatl, 2, ',', '.');?></td>
+									</tr>
+									<tr  class="event">
+										<td nowrap>Konstruksi Dalam Pengerjaan :</td>
+										<td align="right">Rp. <?echo number_format($this->jmlrpkdp, 2, ',', '.');?></td>
+									</tr>
+									<tr  class="event">
+										<td>Aset Tak Berwujud</td>
+										<td align="right">Rp. <?echo number_format($this->jmlrpatb, 2, ',', '.');?></td>
+									</tr>						
+						</table>
+					</td>
+				</tr>		
+			</table>
+			
+			

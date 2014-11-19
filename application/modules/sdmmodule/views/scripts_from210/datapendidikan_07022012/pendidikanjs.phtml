@@ -1,0 +1,79 @@
+function PendidikanM(par,jenisPend){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datapendidikan/pendidikan"	
+	var opt = {par:par,jenisPend:jenisPend};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#formpendidikan").ajaxForm(maintain_pendidikan);
+		});		
+} 
+var maintain_pendidikan = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formpendidikan;
+		astr= "document.formpendidikan";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/
+				
+				if((!c_pend.value)){cekVal = sdmValidasiData(astr,"c_pend","Jenjang Pendidikan harus diisi....!");return false;break;}
+				if((!n_pend_lembaga.value)){cekVal = sdmValidasiData(astr,"n_pend_lembaga","Nama Sekolah harus diisi....!");return false;break;}
+				if((!d_pend_mulai.value)){cekVal = sdmValidasiData(astr,"d_pend_mulai","Tanggal mulai pendidikan harus diisi....!");return false;break;}
+				if((!d_pend_akhir.value)){cekVal = sdmValidasiData(astr,"d_pend_akhir","Tanggal akhir pendidikan harus diisi....!");return false;break;}
+				if (d_pend_akhir.value<d_pend_mulai.value){alert ("Tahun Akhir lebih kecil dari Tahun Mulai....!"); return false;break;}
+				if((!i_pend_ijazah.value)){cekVal = sdmValidasiData(astr,"i_pend_ijazah","Nomor ijazah harus diisi....!");return false;break;}
+				if((!d_pend_ijazah.value)){cekVal = sdmValidasiData(astr,"d_pend_ijazah","Tanggal ijazah harus diisi....!");return false;break;}
+				if (c_pend.value!='1' && c_pend.value!='2'){
+					if((!n_pend_jurusan.value)){cekVal = sdmValidasiData(astr,"n_pend_jurusan","Jurusan harus diisi....!");return false;break;}
+				}
+				
+		
+				 break;
+			}
+		}
+	
+		//if (cekVal == false) {return false;}	
+		
+	}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpendidikan").ajaxForm(maintain_pendidikan);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datapendidikan/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+function insertPendidikan(){
+	jQuery("#formpendidikan").ajaxForm(maintain_pendidikan);
+}
+
+function cPend(){
+	var c_pend=document.getElementById("c_pend").value;
+	//if (c_pend=='1' || c_pend=='2')
+	if (c_pend=='29' || c_pend=='40' || c_pend=='41')
+	{url = "<?php echo $this->basePath; ?>/sdmmodule/datapendidikan/pendidikanb";}	
+	else{url = "<?php echo $this->basePath; ?>/sdmmodule/datapendidikan/pendidikana";}
+	var opt = {c_pend:c_pend};
+	jQuery.get(url,opt,function(data) {
+	jQuery("#target").html(data);
+			jQuery("#formpendidikan").ajaxForm(maintain_pendidikan);
+	});
+}
+
+function HapusDataPend(nip,c_pend)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/datapendidikan/hapusdata"
+		var opt = {nip:nip,c_pend:c_pend};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}

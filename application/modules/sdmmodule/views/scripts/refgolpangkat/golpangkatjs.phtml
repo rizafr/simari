@@ -1,0 +1,56 @@
+function openFormGolpangkat(par,c_peg_golongan,c_peg_tipegolongan,c_peg_lvlgolongan,n_peg_golongan,n_peg_pangkat,c_pph){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refgolpangkat/golpangkatolahdata";
+	var opt = {par:par, c_peg_golongan:c_peg_golongan, c_peg_tipegolongan:c_peg_tipegolongan,c_peg_lvlgolongan:c_peg_lvlgolongan,n_peg_golongan:n_peg_golongan,n_peg_pangkat:n_peg_pangkat,c_pph:c_pph};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formgolpangkat").ajaxForm(maintain_golpangkat);
+		});		
+} 
+
+function insertGolpangkat(){
+	jQuery("#formgolpangkat").ajaxForm(maintain_golpangkat);
+}
+
+var maintain_golpangkat = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formgolpangkat").ajaxForm(maintain_golpangkat);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refgolpangkat/insertgolpangkat',
+	type: 'post',
+	resetForm: false
+};
+
+function updateGolpangkat(){
+	jQuery("#formgolpangkat").ajaxForm(update_golpangkat);
+}
+
+var update_golpangkat = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formgolpangkat").ajaxForm(maintain_golpangkat);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refgolpangkat/updategolpangkat',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusGolpangkat(param1, param2, param3, param4){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refgolpangkat/deletegolpangkat';
+		var opt = {c_peg_golongan : param2, c_peg_tipegolongan : param4};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

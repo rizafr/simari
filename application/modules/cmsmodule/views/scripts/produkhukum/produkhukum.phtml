@@ -1,0 +1,130 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+require_once 'share/Portalconf.php'; 
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+$cstatus=$this->c_status;
+$ckategori=$this->c_kategori;
+//echo "s=".$ckategori;
+
+$status1="";
+$status0="";
+if ($this->c_status!='') {
+	if (trim($this->c_status)==1) {$status1='checked';$status0='unchecked';}
+	if (trim($this->c_status)==0) {$status0='checked';$status1='unchecked';}
+} else $status1='checked';
+
+if ($pesancek=='gagal'){$confirm ='confirmfail';}
+else {$confirm ='confirm';}
+
+
+?>
+ <script type="text/javascript">
+ $(document).ready(function(){
+	var rf = "";
+	CKEDITOR.replace("content", {
+	 filebrowserBrowseUrl: rf,
+	 filebrowserUploadUrl: rf,
+	 filebrowserImageBrowseUrl: rf + "?type=image",
+	 filebrowserImageUploadUrl: rf + "?type=image"
+	 });
+	 });</script>
+	 <script type="text/javascript">
+
+	$(function() {
+		$("#d_pengumuman").datepicker();
+	});
+	</script>
+
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>cms">Halaman Utama</a> 
+				<strong> &#8250; </strong> <a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/cmsmodule/produkhukum/listprodukhukum','<?php echo $this->basePath; ?>/cmsmodule/produkhukum/produkhukumjs');">Kelola Data Produk Hukum</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Data Produk Hukum
+			</div>
+			<br>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h3><?echo $pesan = $this->pesan;?></h3>				
+</div>
+
+	
+<form id="formprodukhukum" name="formprodukhukum" enctype="multipart/form-data" method="post" action="">
+
+<h2 class="title"><?=$this->jdl;?> Data Produk Hukum</h2>
+
+		<div class="spacer"></div> 
+
+<table  width="100%">
+ <tr>
+   <td width="20%">Status Produk Hukum</td>
+   <td width="1%">:</td>
+   <td width="79%">
+		<label for="post_status_publish" class="selectit"><input id="post_status_publish" class="radio" name="c_status" type="radio" value="1" <?=$status1?> /> Diterbitkan</label>
+		<label for="post_status_pengumuman" class="selectit"><input id="post_status_notpublish" class="radio" name="c_status" type="radio" value="0"  <?=$status0?> /> Tidak Diterbitkan</label>
+  </td>
+ </tr>
+  <tr>
+   <td width="20%">Kategori Produk Hukum<span class="highlight">*</span></td>
+   <td width="1%">:</td>
+   <td width="79%">
+		<?
+			$jmlgolref = count($this->KategoriHukumList);												   
+			$ktgrHkmReff[''] = '--Pilih--';
+			for ($i = 0; $i < $jmlgolref; $i++) {										   
+				$ktgrHkmReff[(string)$this->KategoriHukumList[$i]->c_kategori] = (string)$this->KategoriHukumList[$i]->n_judul;					
+			}												 
+			echo $ctrlFrm->formSelect('c_kategori', $this->c_kategori, null, $ktgrHkmReff);
+		?>
+   
+   </td>
+ </tr>
+ <tr>
+   <td width="20%">Judul Produk Hukum<span class="highlight">*</span></td>
+   <td width="1%">:</td>
+   <td width="79%"><input type="text" name="n_judul" size="60" tabindex="1" value="<?=$this->n_judul?>" id="n_judul"/></td>
+ </tr>
+  <tr>
+   <td width="20%">Nomor Surat</td>
+   <td width="1%">:</td>
+   <td width="79%"><input type="text" name="i_nomor_produkhukum" size="60" tabindex="1" value="<?=$this->i_nomor_produkhukum?>" id="i_nomor_produkhukum"/></td>
+ </tr>
+  <tr>
+   <td width="20%">Tahun</td>
+   <td width="1%">:</td>
+   <td width="79%"><input type="text" name="d_tahun_produkhukum" size="5" tabindex="1" value="<?=$this->d_tahun_produkhukum?>" id="d_tahun_produkhukum" onkeyup="isNumber('d_tahun_produkhukum')"/></td>
+ </tr>
+ <tr>
+   <td width="20%">Isi Produk Hukum</td>
+   <td width="1%">:</td>
+   <td width="79%"><textarea  class="ckeditor" id="content" name="n_detil" rows="10" cols="80"><?=$this->n_detil?></textarea></td>
+ </tr>
+ <tr>
+   <td width="20%">File</td>
+   <td width="1%">:</td>
+   <td width="79%">
+		<div class="fileinputs">
+			<input type="file" size="49" id="n_file" name="n_file"  value="<? echo $this->n_file?>"onChange="setvalueuplfile(this.value,'n_file','doc')" />
+			<div class="fakefile">
+				<input type="hidden" size="41" name="a_file" id="a_file" value="<? echo $this->n_file?>"/>
+			</div>
+		</div>   
+   
+   </td>
+ </tr> 
+ 
+</table>
+<input type="hidden" value="<?=$this->c_produkhukum?>" name="c_produkhukum" id="c_produkhukum" > 
+<input type="hidden" value="<?=$this->par?>" name="action" id="action"> 
+ket :&nbsp;(<span class="highlight">*</span>)&nbsp;harus diisi
+		<p class="submit">
+		<span id="autosave"></span>
+
+		<input name="cancel" type="button" id="publish" tabindex="5" accesskey="p" value="Batal" onClick="open_url_to_div('<?php echo $this->basePath; ?>/cmsmodule/produkhukum/listprodukhukum','<?php echo $this->basePath; ?>/cmsmodule/produkhukum/produkhukumjs');"/>
+		<input type="submit"  value="<?=$this->pars;?>" onClick="insertProdHukum()" style="font-weight: bold;" />
+
+
+	
+</form>	

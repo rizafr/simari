@@ -1,0 +1,97 @@
+<? require_once 'Zend/View.php';
+   
+   $ctrlFrm = new Zend_View();
+
+	  
+$jumjabatanList = count($this->jabatanList);     
+$pesan = $this->pesan;
+$spath = $this->getScriptPaths();
+$this->addScriptPath($spath[0] . 'pegawai');
+$pesancek=$this->pesancek;
+if ($pesancek=='gagal'){$confirm ='confirmfail';}
+else {$confirm ='confirm';}	  
+
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+				<strong> &#8250; </strong>Jabatan Struktural
+			</div>
+	        <a name="top"></a>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+	<h2 class="title">Jabatan Struktural</h2>
+<?php $opr='rjbt'; include "$this->leftMenu/linkriwayat.phtml";?>
+<div class="boxholder">		
+	<div class="panel">
+	<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>			
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+ <?if ($this->c_izin=='000002' || $this->c_izin=='000003'){ ?>	   
+<div class="add" title="Tambah Data" onclick="jabatanM('insert','','');"></div>
+<?}?>
+<!--
+<input type="button" value="Jabatan Struktural" disabled="true">&nbsp;
+
+<input type="button" value="Jabatan Fungsional" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datajabatanfungsional/listjabatan','<?php echo $this->basePath; ?>/sdmmodule/datajabatanfungsional/jabatanjs');">
+-->
+<?	if ($jumjabatanList == 0) {
+		echo "<font color=\"red\">Data Jabatan Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+			<tr>
+		    <th width="7%">TMT Jabatan</th>
+			<th width="40%">Nama Jabatan</th>
+			<th width="18%">No SK / Tgl. SK</th>
+			<th width="8%">Tgl Pelantikan</th>
+			<th width="6%" colspan="2">&nbsp;</th>
+			</tr>		
+<?
+	if ($jumjabatanList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { 
+
+		  foreach ($this->jabatanList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					list($y_tmt,$m_tmt,$d_tmt) = split('-',$this->escape($val['d_mulai_jabat']));
+					$tgl_mulai_jabat = "$d_tmt-$m_tmt-$y_tmt";
+					?>
+				<td class="clcenter">
+					<a href="#" onclick="detiljabatan('<?=$nip?>','<?=trim($this->escape($val['id']))?>')"><?php  echo $tgl_mulai_jabat;?></a>
+				</td>
+				<td><?php  echo $this->escape($val['e_jabatan']);?>
+				<?php if (trim($this->escape($val['c_jabatan'])) == ''  && $this->escape($val['e_unit'])) { echo "(".$this->escape($val['e_unit']). ($this->escape($val['e_instansi']) ? ', '.$this->escape($val['e_instansi']):"").")";}?>
+				</td>
+				<td class="clleft"><?php  echo $this->escape($val['i_sk_jabat']).($this->escape($val['d_sk_jabat']) ? ' ('.$this->escape($val['d_sk_jabat']).')' :'');?></td>
+				<td class="clcenter"><?php echo $this->escape($val['d_tmt_lantik']);?></td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data"  onclick="jabatanM2('update','<?=trim($this->escape($val['id']))?>');"></div>	
+				</td>
+ <?if ($this->c_izin=='000002' || $this->c_izin=='000003'){ ?>					
+				<td class="clcenter">			
+					<div class="delete" title="Hapus Data"  onClick="HapusDatajabatan('<?=$nip?>','<?=trim($this->escape($val['id']))?>')"></div>
+				</td>	
+<?}?>				
+		  </tr>
+	<?php endforeach;?> 		  	  
+<?	}	?>
+	</table>									
+						
+									
+	</div>		 
+	</form>

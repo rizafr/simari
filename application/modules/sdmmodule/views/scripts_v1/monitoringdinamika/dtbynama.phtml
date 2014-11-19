@@ -1,0 +1,66 @@
+<?php 
+require_once 'share/halaman_list.php'; 
+$halaman = new halaman_list(); 
+?>
+<div id="backgroundPopup" >
+	<center>
+	<div id="popupContact" style="height:300px; width:500px;" >
+	
+
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+			<tr class="event">
+				<td align="left">
+					<h3>Help : NAMA</h3>
+				</td>
+				<td align="right">
+					<div class="delete" title="Close" onclick="closeDetil()"></div>
+				</td>
+			</tr>
+		</table>
+
+
+		
+			<form onsubmit="xjxmW.closeWindow(' .  . ')xajax_add('HELP','querynama',document.getElementById('keyd').value);return false;" id="fd1" name="fd1" enctype="multipart/form-data" method="post">
+			
+			<br>
+			<table border="0" width="100%" class="table">
+			<tr>
+				<td align="center" colspan="3" class="row1">
+					<input type="radio" onclick="document.getElementById('valantar').value = '=';document.getElementById('val1').value = '';document.getElementById('val2').value = '';" checked="" value="=" id="tpnilai" name="tpnilai" tabindex="50">Sama Persis&nbsp;&nbsp;
+					<input type="radio" onclick="document.getElementById('valantar').value = ' like ';document.getElementById('val1').value = '';document.getElementById('val2').value = '%';" value="Aw" id="tpnilai" name="tpnilai" tabindex="51">Awalan&nbsp;&nbsp;
+					<input type="radio" onclick="document.getElementById('valantar').value = ' like ';document.getElementById('val2').value = '';document.getElementById('val1').value = '%';" value="Ak" id="tpnilai" name="tpnilai" tabindex="52">Akhiran&nbsp;&nbsp;
+					<input type="radio" onclick="document.getElementById('valantar').value = ' like ';document.getElementById('val1').value = '%';document.getElementById('val2').value = '%';" value="%" id="tpnilai" name="tpnilai" tabindex="53">Mengandung&nbsp;&nbsp;
+					<input type="hidden" value="" id="val1" name="val1">
+					<input type="hidden" value="" id="val2" name="val1">
+					<input type="hidden" value="=" id="valantar" name="valantar">			 
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" class="row">Nama: <input type="text" tabindex="53" value="" name="nipnew" id="nipnew" size="30">
+					<input type="button" onclick="if (document.getElementById('nipnew').value != '') { var strquery_nip=''; var strg = document.getElementById('query_nip').value; if ((strg != '' &amp;&amp; strg == 'AND (') || (strg != '' &amp;&amp; strg == 'OR (')) {var sbgsql=''; var strquery_nip=strg;} else if ((strg != '' &amp;&amp; strg != '' &amp;&amp; strg != 'AND (') || (strg != '' &amp;&amp; strg != '' &amp;&amp; strg != 'OR (')) {var sbgsql=' OR ';var strquery_nip = strg;};   document.getElementById('query_nip').value = strquery_nip +  'upper(n_peg) ' + document.getElementById('valantar').value + '\'' + document.getElementById('val1').value + document.getElementById('nipnew').value.toUpperCase() + document.getElementById('val2').value + '\'';} document.getElementById('nipnew').value='';" value="Masukan!" tabindex="54" name="bt_input" id="bt_input">
+				</td>
+			</tr>
+			<tr>
+				<td align="center" colspan="3" class="row1">
+					<textarea cols="70" rows="5" id="query_nip" name="query_nip"></textarea>
+				</td>
+			</tr>
+			<tr class="row1">
+				<td align="left" colspan="2">
+					&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value;  document.getElementById('query_nip').value = document.getElementById('query_nip').value + '(';" value=" ( " tabindex="56" name="bt1">
+					&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value;   document.getElementById('query_nip').value = document.getElementById('query_nip').value + ' OR '; " value=" OR " tabindex="57" name="bt0">
+					&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg == '') {  document.getElementById('query_nip').value = document.getElementById('query_nip').value + ' AND ';} " value=" AND " tabindex="58" name="bt2">
+					&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value;  document.getElementById('query_nip').value = document.getElementById('query_nip').value + ')';" value=" ) " tabindex="59" name="bt3">
+				</td>
+				<td align="right">
+					<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg != '') {document.getElementById('query_result').value = document.getElementById('query_result').value + ' ' + strg;closeDetil()} " value="OK !" tabindex="58" name="bt3">
+				</td>
+			</tr>
+		</tbody>
+		</table>      
+		</form>
+		* <span class="text1">Harus diisi</span>
+	
+	</div>
+	</center>
+</div>	

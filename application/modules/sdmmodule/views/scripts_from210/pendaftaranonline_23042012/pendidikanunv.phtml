@@ -1,0 +1,125 @@
+<?php 
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+
+   $thnskrg = date("Y");
+   $thnList = $thnskrg - 40;
+   $thnArrayList[''] = '--';
+   for ($i = 0; $i < 60; $i++) {
+     $thnList = $thnList + 1;
+     $thnArrayList[$thnList] = $thnList;
+   }
+?>
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%" id="targetpend">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b>Pendidikan</b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td width="16%">Pendidikan<span class="hightlight">*</span></td>
+								<td width="2%">:</td>
+								<td>
+									<?php
+										$jmljenjang = count($this->nmJenjangList);														   
+										$jenjangReff[''] = '--Pilih--';							
+										for ($i = 0; $i < $jmljenjang; $i++) {
+											$n_pend=trim($this->nmJenjangList[$i]['n_pend']);												   
+											$jenjangReff[trim((string)$this->nmJenjangList[$i]['c_pend'])] = $n_pend;
+										}
+										$pendAtrib = array("onChange"=>"javascript:cariPend()"); 
+										echo $ctrlFrm->formSelect('c_pend',$this->c_pend,$pendAtrib,$jenjangReff);
+									?>									
+								</td>
+							</tr>
+						<tr>
+							<td>Perguruan Tinggi</td>
+							<td>:</td> 
+							<td>
+							<?php 
+								$pendidikanAtrib = array("size"=>"70","class"=>""); 
+								echo $ctrlFrm->formText('n_pend_lembaga', $this->n_pend_lembaga, $pendidikanAtrib); 
+							?>
+							</td>
+						</tr>							
+						<tr id="idjur">
+							<td>Jurusan</td>
+							<td>:</td> 
+							<td>
+							<?php 
+								$jurusanAtrib = array("size"=>"70",
+												 "class"=>""); 
+								echo $ctrlFrm->formText('n_pend_jurusan', $this->n_pend_jurusan, $jurusanAtrib);
+							?>
+							</td>
+						</tr>
+						<tr>
+							<td>Akreditasi</td>
+							<td>:</td> 
+							<td>
+								<?php 
+									$akreditasi = array("-"=>"--Pilih--","1"=>"Terdaftar","2"=>"Diakui","3"=>"Disamakan");	
+									echo $ctrlFrm->formSelect('c_pend_akreditasi', $this->c_pend_akreditasi, null, $akreditasi);
+								?>							
+							</td>
+						</tr>						
+						<tr>
+							<td>Tahun Mulai</td>
+							<td>:</td> 
+							<td>
+							<?php 
+								echo $ctrlFrm->formSelect('d_pend_mulai', $this->d_pend_mulai, null, $thnArrayList);
+							?>
+							</td>
+						</tr>
+						<tr>
+							<td>Tahun Akhir</td>
+							<td>:</td> 
+							<td>
+							<?php 
+								echo $ctrlFrm->formSelect('d_pend_akhir', $this->d_pend_akhir, null, $thnArrayList);
+							?>
+							</td>
+						</tr>
+						<tr id="idipk">
+							<td>IPK / Nilai Ijazah</td>
+							<td>:</td> 
+							<td>
+							<?php 
+								$ipk = $_POST['ipk'];
+								if ($ipk == '') {
+									$ipk = 0.00;
+								} 			
+								$ipkAtrib = array("size"=>"10",
+												 "maxlength"=>"5",
+												 "class"=>"clright",
+												 "id" => "i_pend_ipk",
+												 "onKeyup" => "javascript:isNumber('i_pend_ipk');"); 
+								echo $ctrlFrm->formText('i_pend_ipk', $this->i_pend_ipk, $ipkAtrib);
+							 ?>
+						<?
+						echo "<font color=\"red\">00.00</font>";
+						?>
+							</td>
+						</tr>
+						<tr>
+							<td>Nomor Ijazah</td>
+							<td>:</td> 
+							<td>
+							<?php 
+								$noIjazahAtrib = array("size"=>"25",
+												 "maxlength"=>"30",
+												 "class"=>""); 
+								echo $ctrlFrm->formText('i_pend_ijazah', $this->i_pend_ijazah, $noIjazahAtrib);
+							 ?>
+							</td>
+						</tr>
+						<tr>
+							<td>Tanggal Ijazah</td>
+							<td>:</td> 
+							<td>
+								<input type="text" id="d_pend_ijazah" name="d_pend_ijazah" value="<?=$this->d_pend_ijazah?>" size = "15">
+								<span class="hightlight">tgl-bln-thn</span>
+							</td>
+						</tr>							
+			</table>

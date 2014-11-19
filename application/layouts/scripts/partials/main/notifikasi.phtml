@@ -1,0 +1,27 @@
+<ul class="nostyle">
+  <li><b>Kepegawaian</b>
+		<ul>
+			<li> 
+				<?if ($this->remindPensiun!=0){?>
+					<a href="#targetreminder" onclick="listdata('pensiun')"> Daftar Pegawai yang akan pensiun 1 tahun ke depan <blink> (<?=$this->remindPensiun?>)</blink></a>
+				<?} else {?>
+					Daftar Pegawai yang akan pensiun 1 tahun ke depan(<?=$this->remindPensiun?>)
+				<?}?>
+			</li>
+			<li> 
+				<?if ($this->remindGolPangkat!=0){?>
+					<a href="#targetreminder" onclick="listdata('golongan')"> Daftar Pegawai yang akan naik Gol/Pangkat 6 bulan ke depan <blink> (<?=$this->remindGolPangkat?>)</blink></a>
+				<?} else {?>
+					Daftar Pegawai yang akan naik Gol/Pangkat 6 bulan ke depan(<?=$this->remindGolPangkat?>)
+				<?}?>
+			<li>
+				<?if ($this->remindKgb!=0){?>
+					<a href="#targetreminder" onclick="listdata('kgb')"> Daftar Pegawai yang akan menerima Kenaikan Gaji Berkala (KGB) 6 bulan ke depan <blink> (<?=$this->remindKgb?>)</blink></a>
+				<?} else {?>
+					Daftar Pegawai yang akan menerima Kenaikan Gaji Berkala (KGB) 6 bulan ke depan (<?=$this->remindKgb?>)
+				<?}?>	
+			
+			</li>
+		</ul>
+	</li>
+</ul>	

@@ -1,0 +1,55 @@
+<div id="backgroundPopup">
+	<div id="popupContact">
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+			<tr class="event">
+				<td>
+					<div class="delete" title="Close" onclick="closeDetil()"></div>
+				</td>
+			</tr>
+		</table>	
+		<center>
+		<div class="hideshow">
+			<table width="100%">
+				<tr>
+					<td align="center">
+					<?echo $this->judul;?>
+					</td>
+				</tr>
+			</table>				
+			<table border="0" width="100%" align="center">
+				<tr>
+					<td align="center">
+						<?echo $this->chart;?>
+						<table border="0" width="50%" align="center" class="tbl2">
+							<tr>
+								<th>SD</th>
+								<th>SMP</th>
+								<th>SMA</th>
+								<th>D1</th>
+								<th>D2</th>
+								<th>D3</th>
+								<th>D4</th>
+								<th>S1</th>
+								<th>S2</th>
+								<th>S3</th>
+							</tr>
+							<tr class="event2">
+								<td align="right"><?=$this->jmlsd?></td>
+								<td align="right"><?=$this->jmlsmp?></td>
+								<td align="right"><?=$this->jmlsma?></td>
+								<td align="right"><?=$this->jmld1?></td>
+								<td align="right"><?=$this->jmld2?></td>
+								<td align="right"><?=$this->jmld3?></td>
+								<td align="right"><?=$this->jmld4?></td>
+								<td align="right"><?=$this->jmls1?></td>
+								<td align="right"><?=$this->jmls2?></td>
+								<td align="right"><?=$this->jmls3?></td>
+							</tr>
+						</table>
+					</td>
+				</tr>		
+			</table>		
+		</div>	
+		</center>
+	</div>
+</div>	

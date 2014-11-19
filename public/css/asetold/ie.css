@@ -1,0 +1,390 @@
+INPUT.button {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+INPUT.button-secondary {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+INPUT.button-highlighted {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+#minor-publishing-actions INPUT {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; min-width: auto
+}
+#major-publishing-actions INPUT {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; min-width: auto
+}
+#minor-publishing-actions .preview {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; min-width: auto
+}
+#wpbody-content .postbox {
+	BORDER-RIGHT: #dfdfdf 1px solid; BORDER-TOP: #dfdfdf 1px solid; BORDER-LEFT: #dfdfdf 1px solid; BORDER-BOTTOM: #dfdfdf 1px solid
+}
+#wpbody-content .postbox H3 {
+	MARGIN-BOTTOM: -1px
+}
+ HTML #side-info-column {
+	HEIGHT: auto
+}
+ HTML #wpbody-content #screen-options-link-wrap {
+	DISPLAY: inline-block; WIDTH: 150px; TEXT-ALIGN: center
+}
+ HTML #wpbody-content #contextual-help-link-wrap {
+	DISPLAY: inline-block; WIDTH: 100px; TEXT-ALIGN: center
+}
+ HTML #adminmenu {
+	MARGIN-LEFT: -120px;
+}
+ HTML DIV.folded #adminmenu {
+	MARGIN-LEFT: -20px
+}
+ HTML #content #adminmenu LI.menu-top {
+	PADDING-RIGHT: 0px; DISPLAY: inline; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+.folded#content #adminmenu LI.menu-top {
+	DISPLAY: block
+}
+UL#adminmenu {
+	Z-INDEX: 99
+}
+#adminmenu LI.menu-top A.menu-top {
+	WIDTH: auto; min-width: auto
+}
+#content #adminmenu LI.wp-has-current-submenu A.wp-has-submenu {
+	FONT-STYLE: normal
+}
+ HTML #content #adminmenu .wp-menu-open .wp-menu-toggle {
+	BACKGROUND: none transparent scroll repeat 0% 0%
+}
+ HTML #content #adminmenu .wp-has-submenu .wp-menu-toggle {
+	BACKGROUND: url(../images/menu-bits.gif) no-repeat left -109px
+}
+ HTML #content #adminmenu LI.wp-has-current-submenu .wp-menu-toggle {
+	BACKGROUND: url(../images/menu-bits.gif) no-repeat left -206px
+}
+ HTML #adminmenu DIV.wp-menu-image {
+	HEIGHT: 29px
+}
+#content #adminmenu .wp-submenu LI {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+#adminmenu {
+	ZOOM: 100%
+}
+.wp-submenu {
+	ZOOM: 100%
+}
+.wp-submenu LI {
+	ZOOM: 100%
+}
+.wp-menu-toggle {
+	ZOOM: 100%
+}
+.folded#content #adminmenu LI.wp-menu-separator {
+	WIDTH: 28px
+}
+#content #adminmenu .wp-submenu LI.wp-submenu-head {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 10px; PADDING-BOTTOM: 4px; PADDING-TOP: 3px; ZOOM: 100%
+}
+.folded#content #adminmenu .menu-top {
+	HEIGHT: 30px
+}
+.folded #adminmenu .wp-submenu {
+	MARGIN: -1px 0px 0px
+}
+#template {
+	ZOOM: 100%
+}
+#template DIV {
+	ZOOM: 100%
+}
+#editcat {
+	ZOOM: 100%
+}
+#addcat {
+	ZOOM: 100%
+}
+.submitbox {
+	MARGIN-TOP: 10px
+}
+#wpbody-content .quick-edit-row-post .inline-edit-col-left {
+	WIDTH: 39%
+}
+#wpbody-content .inline-edit-row-post .inline-edit-col-center {
+	WIDTH: 19%
+}
+#wpbody-content .quick-edit-row-page .inline-edit-col-left {
+	WIDTH: 49%
+}
+#wpbody-content .bulk-edit-row .inline-edit-col-left {
+	WIDTH: 29%
+}
+.inline-edit-row P.submit {
+	ZOOM: 100%
+}
+.inline-edit-row FIELDSET LABEL SPAN.title {
+	DISPLAY: block; FLOAT: left; WIDTH: 5em
+}
+.inline-edit-row FIELDSET LABEL SPAN.input-text-wrap {
+	MARGIN-LEFT: 0px; ZOOM: 100%
+}
+#wpbody-content .inline-edit-row FIELDSET LABEL SPAN.input-text-wrap INPUT {
+	LINE-HEIGHT: 130%
+}
+#wpbody-content .inline-edit-row .input-text-wrap INPUT {
+	WIDTH: 95%
+}
+#wpbody-content .inline-edit-row .input-text-wrap INPUT.inline-edit-password-input {
+	WIDTH: 8em
+}
+ HTML .row-actions {
+	VISIBILITY: visible
+}
+#dashboard-widgets H3 A {
+	LINE-HEIGHT: 20px; HEIGHT: 20px
+}
+#the-comment-list .comment-item {
+	ZOOM: 100%
+}
+UL#widget-list LI.widget-list-item {
+	ZOOM: 100%
+}
+#wphead-info {
+	FLOAT: right
+}
+#titlediv #title {
+	WIDTH: 98%
+}
+A.button {
+	MARGIN: 1px; LINE-HEIGHT: 1.4em
+}
+ HTML DIV.widget-liquid-left-holder {
+	DISPLAY: block; POSITION: relative
+}
+ HTML DIV.widget-liquid-right {
+	DISPLAY: block; POSITION: relative
+}
+#screen-options-wrap {
+	OVERFLOW: hidden
+}
+#favorite-actions {
+	Z-INDEX: 12
+}
+#favorite-inside {
+	ZOOM: 100%
+}
+#favorite-inside A {
+	ZOOM: 100%
+}
+.favorite-action {
+	ZOOM: 100%
+}
+#post-status-info {
+	DISPLAY: block; ZOOM: 100%
+}
+#wrap {
+	DISPLAY: block; ZOOM: 100%
+}
+#content {
+	DISPLAY: block; ZOOM: 100%
+}
+#post {
+	DISPLAY: block; ZOOM: 100%
+}
+#wrap {
+	DISPLAY: block; ZOOM: 100%
+}
+#postdivrich {
+	DISPLAY: block; ZOOM: 100%
+}
+#postdiv {
+	DISPLAY: block; ZOOM: 100%
+}
+#poststuff {
+	DISPLAY: block; ZOOM: 100%
+}
+.metabox-holder {
+	DISPLAY: block; ZOOM: 100%
+}
+#titlediv {
+	DISPLAY: block; ZOOM: 100%
+}
+#post-body {
+	DISPLAY: block; ZOOM: 100%
+}
+#editorcontainer {
+	DISPLAY: block; ZOOM: 100%
+}
+.tablenav {
+	DISPLAY: block; ZOOM: 100%
+}
+.widget-control-list {
+	DISPLAY: block; ZOOM: 100%
+}
+LI.widget-list-control-item {
+	DISPLAY: block; ZOOM: 100%
+}
+#dragHelper {
+	DISPLAY: block; ZOOM: 100%
+}
+LI.widget-list-control-item H4 {
+	DISPLAY: block; ZOOM: 100%
+}
+.widget-sortable {
+	DISPLAY: block; ZOOM: 100%
+}
+.widget-control-actions {
+	DISPLAY: block; ZOOM: 100%
+}
+#tagchecklist {
+	DISPLAY: block; ZOOM: 100%
+}
+#col-container {
+	DISPLAY: block; ZOOM: 100%
+}
+#col-left {
+	DISPLAY: block; ZOOM: 100%
+}
+#col-right {
+	DISPLAY: block; ZOOM: 100%
+}
+P.search-box {
+	FLOAT: right; MARGIN: -3px 0px 4px; POSITION: static
+}
+ HTML #editorcontainer {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+#editorcontainer #content {
+	MARGIN: auto; OVERFLOW: auto; WIDTH: 98%
+}
+FORM#template DIV {
+	WIDTH: 100%
+}
+#ed_toolbar INPUT {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 4px; PADDING-BOTTOM: 0px; OVERFLOW: visible; PADDING-TOP: 0px
+}
+#poststuff H2 {
+	FONT-SIZE: 1.6em
+}
+ HTML #poststuff H2 {
+	MARGIN-LEFT: 0px
+}
+#bh {
+	FLOAT: right; MARGIN: 7px 10px 0px 0px
+}
+DIV#dashboard-widgets {
+	PADDING-RIGHT: 1px
+}
+#tagchecklist SPAN {
+	DISPLAY: block
+}
+#tagchecklist SPAN A {
+	DISPLAY: block
+}
+#tagchecklist SPAN A {
+	MARGIN: 4px 0px 0px -9px
+}
+.tablenav .button-secondary {
+	PADDING-RIGHT: 1px; PADDING-LEFT: 1px; PADDING-BOTTOM: 0px; VERTICAL-ALIGN: middle; PADDING-TOP: 0px
+}
+.nav .button-secondary {
+	PADDING-RIGHT: 1px; PADDING-LEFT: 1px; PADDING-BOTTOM: 0px; VERTICAL-ALIGN: middle; PADDING-TOP: 0px
+}
+.tablenav SELECT {
+	MARGIN-TOP: 2px; DISPLAY: inline-block; FONT-SIZE: 13px; VERTICAL-ALIGN: top
+}
+TABLE.ie-fixed {
+	TABLE-LAYOUT: fixed
+}
+.widefat TR {
+	MARGIN-BOTTOM: 0px; border-spacing: 0
+}
+.widefat TH {
+	MARGIN-BOTTOM: 0px; border-spacing: 0
+}
+.widefat TH INPUT {
+	MARGIN: 0px 0px 0px 5px
+}
+.widefat .check-column {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 2px; PADDING-TOP: 6px
+}
+.widefat TBODY TH.check-column {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 22px; PADDING-TOP: 4px
+}
+.tablenav A.button-secondary {
+	PADDING-RIGHT: 5px; DISPLAY: inline-block; PADDING-LEFT: 5px; PADDING-BOTTOM: 2px; PADDING-TOP: 2px
+}
+#icon-index {
+	background: transparent url(../images/icons32.gif) no-repeat -137px -10px;
+}
+#icon-responden {
+	background: transparent url(../images/icons32.gif) no-repeat -11px -10px;
+}
+#adminmenu #menu-deskinfo div.wp-menu-image {
+	background: transparent url("../images/menu.gif") no-repeat scroll -121px -33px;
+}
+
+#adminmenu #menu-deskinfo:hover div.wp-menu-image,
+#adminmenu #menu-deskinfo.wp-has-current-submenu div.wp-menu-image {
+	background: transparent url("../images/menu.gif") no-repeat scroll -121px -1px;
+}
+
+#adminmenu #menu-anggaran div.wp-menu-image {
+	background: transparent url("../images/menu.gif") no-repeat scroll -91px -33px;
+}
+
+#adminmenu #menu-anggaran:hover div.wp-menu-image,
+#adminmenu #menu-anggaran.wp-has-current-submenu div.wp-menu-image {
+	background: transparent url("../images/menu.gif") no-repeat scroll -91px -1px;
+}
+
+#adminmenu #menu-pages div.wp-menu-image {
+	background: transparent url("../images/menu.gif") no-repeat scroll -151px -33px;
+}
+
+#adminmenu #menu-pages:hover div.wp-menu-image,
+#adminmenu #menu-pages.wp-has-current-submenu div.wp-menu-image {
+	background: transparent url("../images/menu.gif") no-repeat scroll -151px -1px;
+}
+
+#adminmenu #menu-sistem div.wp-menu-image {
+	background: transparent url("../images/menu.gif") no-repeat scroll -31px -33px;
+}
+
+#adminmenu #menu-sistem:hover div.wp-menu-image,
+#adminmenu #menu-sistem.wp-has-current-submenu div.wp-menu-image,
+#adminmenu #menu-sistem.current div.wp-menu-image {
+	background: transparent url("../images/menu.gif") no-repeat scroll -31px -1px;
+}
+
+#adminmenu #menu-responden div.wp-menu-image {
+	background: transparent url("../images/menu.gif") no-repeat scroll -1px -33px;
+}
+
+#adminmenu #menu-responden:hover div.wp-menu-image,
+#adminmenu #menu-responden.wp-has-current-submenu div.wp-menu-image {
+	background: transparent url("../images/menu.gif") no-repeat scroll -1px -1px;
+}
+
+HTML #content{float:none;margin-top:-10px;}
+.button,
+.button-secondary,
+.submit{
+	border-color: #aaa;
+	color: #464646;
+	background:#eee url(../images/grad.gif) top  repeat-x;
+	text-shadow: #fff 0 1px 0;
+	cursor:pointer;
+}
+
+.button:hover,
+.button-secondary:hover,
+.submit:hover{
+	color: #000;
+	border-color: #98b659;
+	background:#eee url(../images/grad_hov.gif) top  repeat-x;
+}
+HTML .scroll-medium {
+	height:300px;
+	
+}
+

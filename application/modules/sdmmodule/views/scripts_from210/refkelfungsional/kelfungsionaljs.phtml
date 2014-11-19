@@ -1,0 +1,56 @@
+function openFormKelfungsional(par,c_kelfungsional,n_kelfungsional,c_filter){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refkelfungsional/kelfungsionalolahdata";
+	var opt = {par:par, c_kelfungsional:c_kelfungsional, n_kelfungsional:n_kelfungsional,c_filter:c_filter};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formkelfungsional").ajaxForm(maintain_kelfungsional);
+		});		
+} 
+
+function insertKelfungsional(){
+	jQuery("#formkelfungsional").ajaxForm(maintain_kelfungsional);
+}
+
+var maintain_kelfungsional = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formkelfungsional").ajaxForm(maintain_kelfungsional);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refkelfungsional/insertkelfungsional',
+	type: 'post',
+	resetForm: false
+};
+
+function updateKelfungsional(){
+	jQuery("#formkelfungsional").ajaxForm(update_kelfungsional);
+}
+
+var update_kelfungsional = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formkelfungsional").ajaxForm(maintain_kelfungsional);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refkelfungsional/updatekelfungsional',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusKelfungsional(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refkelfungsional/deletekelfungsional';
+		var opt = {c_kelfungsional : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

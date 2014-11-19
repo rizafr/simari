@@ -1,0 +1,225 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/pesan.php';
+   require_once 'share/formatangka.php';
+   require_once 'share/halaman_list.php';
+
+   $ctrlFrm = new Zend_View();
+   $pesan = new pesan();
+   $formatangka = new formatangka();
+   $halaman = new halaman_list();
+
+	  
+$jumformulir1List = count($this->listFormulir1); 
+$jumgolList = count($this->listGol);
+$totalnilai=0;  
+
+
+			
+?>
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong>Formasi Kepegawaian <!--a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Maintain Data Pegawai</a-->
+				<strong> &#8250; </strong>Formulir 1
+			</div>
+	        <a name="top"></a>
+<?
+$proses		= $this->proses;
+$keterangan	= $this->keterangan;
+$status		= $this->status;
+echo $pesan->show_message($proses, $keterangan, $status);
+?>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+	<h2 class="title">Formulir 1</h2>
+	<form method="post" name="tampil" id="tampil" >
+	<table width="50%" border="0" cellpadding="0" cellspacing="0">
+	<tr><td size="20%">
+	
+	Tahun Anggaran </td><td size="1%">  :</td><td size="79%"> <select name="tahun" id="tahun">
+				<? if($this->tahun != "" && $this->tahun != "Tahun"){
+					echo "<option value=".$this->tahun.">".$this->tahun."</option>";
+				 ?>
+				 <option>Tahun</option>
+				 <? for($i=date('Y')+5;$i>=date('Y')-2;$i--){
+					echo "<option value=$i>$i</option>";
+				    }
+				  }else{ ?>
+					 <option>Tahun</option>
+				 <? for($i=date('Y')+5;$i>=date('Y')-2;$i--){
+					echo "<option value=$i>$i</option>";
+				    }
+				    }
+				 ?>
+				 </select></td></tr>
+	<tr><td>&nbsp;</td><td>&nbsp;</td><td><input type="button" value="Tampil" name="tampil" onclick="tampilTaun()"></td></tr>
+	</table>
+	</form><br><br>
+		<div align="center">PENYUSUNAN BEZETTING TAHUN <span class="thn_skr"><? echo $this->tahun; ?></span></div>
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+  
+	
+		<tr><td width="10%"></td></tr>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center" width="50%">
+			
+			<tr>
+		    <th width="5%">No</th>
+			<th width="5%">GOL. RUANG GAJI</th>
+			<th width="10%">BEZETING 31-12-<span id="thn_sblm"><? echo $this->thn_sblm; ?></span> </th>
+			<th width="10%">KENAIKAN PANGKT THN ANG <span class="thn_skr"><? echo $this->tahun; ?></span></th>
+			<th width="10%">KEADAAN SETELAH KENAIKAN PANGKAT THN.ANG. <span class="thn_skr"><? echo $this->tahun; ?></span></th>
+			<th width="8%">PENGANGKATAN PEGAWAI BARU TA. <span class="thn_skr"><? echo $this->tahun; ?></span></th>
+			<th width="12%">PERBANTUAN, PENARIKAN KEMBALI, PENGALIHAN JENIS KEPEG, PINDAH INST. DARI INST.LAIN TA. <span class="thn_skr"><? echo $this->tahun; ?></span></th>
+			<th width="10%">PERBANTUAN, PENARIKAN KEMBALI, PINDAH INST. KE INST.LAIN TA. <span class="thn_skr"><? echo $this->tahun; ?></span></th>
+			<th width="10%">PNS YANG BERHENTI TA. <span class="thn_skr"><? echo $this->tahun; ?></span></th>
+			<th width="10%">BEZETTING 31/12/<span class="thn_skr"><? echo $this->tahun; ?></span> LAJUR 5+6+7-8-9</th>
+			<th width="10%">KETERANGAN</th>
+			<th colspan="2">&nbsp;</th>
+			</tr>
+			<tr>
+			<th>1</th>
+			<th>2</th>
+			<th>3</th>
+			<th>4</th>
+			<th>5</th>
+			<th>6</th>
+			<th>7</th>
+			<th>8</th>
+			<th>9</th>
+			<th>10</th>
+			<th>11</th>
+			<th colspan="2">&nbsp;</th>
+			</tr>
+<?
+	if ($jumformulir1List == 0) {
+?>		
+		<? $i=1;
+			foreach ($this->listGol as $a => $gol):
+			//foreach ($this->listFormulir1 as $key => $val):
+				if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					//$nip=trim($this->escape($val['i_peg_nip']));*/
+					
+					?>
+				
+			<td><?php echo $i++; ?></td>
+			<td><?php echo $this->escape($gol['n_peg_golongan']);?></td>
+			<td><?php echo $this->escape($gol['jumlah']);
+				$totbez=$totbez + $this->escape($gol['jumlah']);?></td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td class="clcenter">			
+					<div class="edit" title="Ubah Data"  onclick="OpenFormulir1Olahdata('Insert','','<?=trim($this->escape($gol['n_peg_golongan']))?>','<? echo trim($this->escape($gol['jumlah']))?>');"></div>	
+				</td>
+			<td>&nbsp;</td>
+			</tr>
+		<? endforeach; ?>
+<? 	}	else { ?>
+
+		<?php 	
+			$i=1;
+			$totbez = 0;
+			$totkenaikn = 0;
+			$totstlhnaik = 0;
+			$totpgngktan = 0;
+			$totdariinstalain = 0;
+			$totkeinstalain = 0;
+			$totpnsberhnti = 0;
+			$totlajur = 0; 
+			
+			foreach ($this->listGol as $a => $gol):
+			//foreach ($this->listFormulir1 as $key => $val):
+				if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					//$nip=trim($this->escape($val['i_peg_nip']));*/
+					
+					?>
+				
+				<td><?php echo $i++; ?></td>
+				
+				<td><?php echo $this->escape($gol['n_peg_golongan']);?></td>
+					
+				<td><?php echo $this->escape($gol['jumlah']);
+					$totbez=$totbez + $this->escape($gol['jumlah']);?></td>
+				<td><?php foreach ($this->listFormulir1 as $key => $val):
+					if($this->escape($gol['n_peg_golongan'])==$this->escape($val['gol_ruang_gaji'])){
+					echo $this->escape($val['knaikn_pngkt']);
+					$totkenaikn = $totkenaikn + $this->escape($val['knaikn_pngkt']);
+					} 
+					endforeach;?></td>
+				<td><?php foreach ($this->listFormulir1 as $key => $val):
+					if($this->escape($gol['n_peg_golongan'])==$this->escape($val['gol_ruang_gaji'])){
+					echo $this->escape($val['stlh_naik_pgkt']);
+					$totstlhnaik = $totstlhnaik + $this->escape($val['stlh_naik_pgkt']);
+					} 
+					endforeach;?></td>
+				<td><?php foreach ($this->listFormulir1 as $key => $val):
+						if($this->escape($gol['n_peg_golongan'])==$this->escape($val['gol_ruang_gaji'])){
+						echo $this->escape($val['pengangkt_pgwai_br']);
+						$totpgngktan = $totpgngktan + $this->escape($val['pengangkt_pgwai_br']);
+						} 
+					endforeach;?></td>
+				<td><?php foreach ($this->listFormulir1 as $key => $val):
+					if($this->escape($gol['n_peg_golongan'])==$this->escape($val['gol_ruang_gaji'])){
+					echo $this->escape($val['pndah_dr_instasi_lain']);
+					$totdariinstalain = $totdariinstalain + $this->escape($val['pndah_dr_instasi_lain']);
+					} 
+					endforeach;?></div></td>
+				<td><?php foreach ($this->listFormulir1 as $key => $val):
+					if($this->escape($gol['n_peg_golongan'])==$this->escape($val['gol_ruang_gaji'])){
+					echo $this->escape($val['pndah_ke_instasi_lain']);
+					$totkeinstalain = $totkeinstalain + $this->escape($val['pndah_ke_instasi_lain']);
+					} 
+					endforeach;?></td>
+				<td><?php foreach ($this->listFormulir1 as $key => $val):
+					if($this->escape($gol['n_peg_golongan'])==$this->escape($val['gol_ruang_gaji'])){
+					echo $this->escape($val['pns_yg_brhnti']);
+					$totpnsberhnti = $totpnsberhnti + $this->escape($val['pns_yg_brhnti']);
+					} 
+					endforeach;?></td>
+				<td><?php foreach ($this->listFormulir1 as $key => $val):
+					if($this->escape($gol['n_peg_golongan'])==$this->escape($val['gol_ruang_gaji'])){
+					$totbezlajur = ((($this->escape($val['stlh_naik_pgkt'])+$this->escape($val['pengangkt_pgwai_br'])+$this->escape($val['pndah_dr_instasi_lain']))-$this->escape($val['pndah_ke_instasi_lain']))-$this->escape($val['pns_yg_brhnti'])) ;
+					echo $totbezlajur;
+					$totlajur = $totlajur + $totbezlajur;
+					} 
+					endforeach; ?></td>
+				<td><?php 
+					foreach ($this->listFormulir1 as $key => $val):
+					if($this->escape($gol['n_peg_golongan'])==$this->escape($val['gol_ruang_gaji'])){
+					echo $this->escape($val['ket']);} 
+					endforeach;?></td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data" onclick="OpenFormulir1Olahdata('Insert','<?foreach ($this->listFormulir1 as $key => $val):
+															if($this->escape($gol['n_peg_golongan'])==$this->escape($val['gol_ruang_gaji'])){
+															echo $this->escape($val['id']);} 
+															endforeach;?>','<?=trim($this->escape($gol['n_peg_golongan']))?>',
+															'<? echo trim($this->escape($gol['jumlah']))?>');"></div>	
+				</td>
+				<td>&nbsp;</td>
+				
+			</tr>
+			<? //endforeach;?>	
+	<?php endforeach; ?>  	  
+<?	}	
+	?>
+	<tr class="event"><td colspan="2"><div align="center" style="font-weight:bold">JUMLAH</div></td><td><? echo $totbez; ?></td>
+	<td><? echo $totkenaikn ?></td><td><? echo $totstlhnaik ?></td><td><? echo $totpgngktan ?></td><td><? echo $totdariinstalain ?></td>
+	<td><? echo $totkeinstalain ?></td><td><? echo $totpnsberhnti ?></td><td><? echo $totlajur ?></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	</table>
+	</fieldset>		 
+	</form>

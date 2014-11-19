@@ -1,0 +1,59 @@
+<?php 
+require_once 'share/halaman_list.php'; 
+$halaman = new halaman_list(); 
+?>
+<div id="backgroundPopup">
+	<div id="popupContact">
+	<div style="width: 800px; height: 550px; overflow: auto; padding: 5px">
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+			<tr class="event">
+				<td>
+					<div class="delete" title="Close" onclick="closeDetil()"></div>
+				</td>
+			</tr>
+		</table>	
+
+<h2 class="title">Golongan/Pangkat <?=strtoupper($this->par)?></h2>	
+<div class="boxholder">		
+	<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+		<tr>
+			<th width="20%">NIP</th>
+			<th width="25%">Nama</th>
+			<th width="20%">Gol/Pangkat</th>
+		</tr>
+<?
+	if (count($this->dataList) == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->dataList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? }?>
+				<td>
+					<?php echo $this->escape($val['i_peg_nip']);?>
+				</td>
+				<td><?php  echo $this->escape($val['n_peg']);?></td>
+				<td><?php  echo $this->escape($val['n_golongan'])."/".$this->escape($val['n_pangkat']);?></td>
+		  </tr>
+	<?php endforeach;?> 		  	  
+<?	}	?>
+	</table>
+		<?
+		
+		$modul = $this->basePath."/sdmmodule/portalchart/view?mod=".$this->mod."&par=".$this->par;
+		echo $halaman->halamanListPopup($this->totalpegawaiList, $this->numToDisplay, $this->currentPage, $modul)
+		?>	
+	</div>
+
+</div>			
+</div>
+</div>
+

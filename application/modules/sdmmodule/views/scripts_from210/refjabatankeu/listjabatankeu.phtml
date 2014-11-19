@@ -1,0 +1,113 @@
+<? require_once 'Zend/View.php';
+require_once 'share/pesan.php';
+require_once 'share/halaman_list.php';
+   
+   $ctrlFrm = new Zend_View();
+   $pesan = new pesan();
+   $halaman = new halaman_list();
+
+	  
+$jumjabatankeuList = count($this->listJabatankeu);     
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong>Referensi
+			</div>
+	        <a name="top"></a>
+<?
+$proses		= $this->proses;
+$keterangan	= $this->keterangan;
+$status		= $this->status;
+echo $pesan->show_message($proses, $keterangan, $status);
+?>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+	<h2 class="title">Referensi Jabatan Keuangan</h2>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+  
+<div class="add" title="Tambah Data" onclick="openFormJabatankeu('insert','','');"></div>
+<?	if ($jumjabatankeuList == 0) {
+		echo "<font color=\"red\">Data Referensi Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center" width="50%">
+			<tr>
+		    <th width="10%">ID</th>
+			<th width="25%">Nama Jabatan</th>
+			<th width="15%">Tanggal Awal</th>
+			<th width="15%">Tanggal Akhir</th>
+			<th width="10%">Nama sk</th>
+			<th width="10%">Kode Status delete</th>
+			<th width="15%">Tanggal Status delete</th>
+			<th colspan="2">&nbsp;</th>
+			</tr>		
+<?
+	if ($jumjabatankeuList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->listJabatankeu as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					?>
+				
+				<td><?php  echo $this->escape($val['id']);?></td>
+				<td><?php  echo $this->escape($val['n_jabatan']);?></td>
+				<td><?php  	if($this->escape($val['d_awal']) == "") {
+						echo $this->escape($val['d_awal']);
+						
+						}else{
+						echo date('d-m-Y',strtotime($this->escape($val['d_awal'])))." ".gmdate('H:i:s', strtotime($this->escape($val['d_awal']))+60*60*7);
+						}
+						?></td>
+				<td><?php  	if($this->escape($val['d_akhir']) == "") {
+						echo $this->escape($val['d_akhir']);
+						
+						}else{
+						echo date('d-m-Y',strtotime($this->escape($val['d_akhir'])))." ".gmdate('H:i:s', strtotime($this->escape($val['d_akhir']))+60*60*7);
+						}
+						
+						;?></td>
+				<td><?php  echo $this->escape($val['n_sk']);?></td>
+				<td><?php  echo $this->escape($val['c_statusdelete']);?></td>
+				<td><?php  	if($this->escape($val['d_statusdelete']) == "") {
+						echo $this->escape($val['d_statusdelete']);
+						
+						}else{
+						echo date('d-m-Y',strtotime($this->escape($val['d_statusdelete'])))." ".gmdate('H:i:s', strtotime($this->escape($val['d_statusdelete']))+60*60*7);
+						}
+						?></td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data"  onclick="openFormJabatankeu('update','<?=trim($this->escape($val['id']))?>');"></div>	
+				</td>
+				<td class="clcenter">			
+					<div class="delete" title="Hapus Data"  onClick="HapusJabatankeu('Jabatan Keuangan', '<?=trim($this->escape($val['id']))?>','<?=trim($this->escape($val['n_jabatan']))?>')"></div>
+				</td>	
+		  </tr>
+	<?php endforeach; ?> 		  	  
+<?	}	?>
+	</table>									
+	<?php
+	$totalData = $this->totalData;
+	$numToDisplay = $this->numToDisplay;
+	$currentPage = $this->currentPage;
+	$modul	= $this->basePath.'/sdmmodule/refjabatankeu/listjabatankeu';
+	echo $halaman->halamanList($totalData, $numToDisplay, $currentPage, $modul);
+
+	?>
+									
+	</fieldset>		 
+	</form>

@@ -1,0 +1,476 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+$ceseloncpns=$this->ceseloncpns*1;
+?>
+
+ 	<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_sk_pns").datepicker();
+		jQuery("#d_kesehatan_pns").datepicker();
+		jQuery("#d_sk_prajab").datepicker();
+		
+	});
+	
+	</script>
+
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong> SDM 
+				<strong> &#8250; </strong> <a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Maintain Data Pegawai</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Data Pegawai
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+
+	
+<form id="formpegawai" method="post" action="" name="formpegawai"enctype="multipart/form-data" >
+<input type="hidden" size="25" maxlength="9" name="i_peg_nip" id="i_peg_nip" readonly="true" value="<?=$this->i_peg_nip?>">
+<?if ($this->pns!='pns'){?>
+<h2 class="title"><?=$this->jdl;?> Data CPNS</h2>
+
+	<div class="panel">
+		<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+			<tr>
+				<td width="15%">NIP<span class="hightlight">*</span></td>
+				<td width="2%">:</td>
+				<td>
+					<input type="text" size="25" maxlength="9" name="i_peg_nipx" id="i_peg_nipx" readonly="true" value="<?=$this->i_peg_nip?>">
+				</td>
+			</tr>
+			<tr>
+				<td>Nama</td>
+				<td>:</td>
+				<td>
+					<input type="text" size="40" maxlength="35" name="n_peg" id="n_peg"  readonly="true" value="<?=$this->n_peg?>" >
+				</td>
+			</tr>
+	
+		</table>
+<?}else{?>
+	<h2 class="title"><?=$this->jdl;?> Data PNS</h2>
+                    <ul class="tabs">
+                        <li class="selected"><a href="#Pns" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapns/pns?par=pns','<?php echo $this->basePath; ?>/sdmmodule/datapns/pnsjs');">PNS</a></li>
+                        <li><a href="#Pokok" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pokok</a></li>
+						<li><a href="#Riwayat" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapendidikan/listpendidikan','<?php echo $this->basePath; ?>/sdmmodule/datapendidikan/pendidikanjs');">Data Riwayat</a></li>
+						
+						<? if ($this->statuspeg!='2CP'){?>
+						<li><a href="#Diklat" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datadikpenjenjangan/listdiklat','<?php echo $this->basePath; ?>/sdmmodule/datadikpenjenjangan/dikpenjenjanganjs');">Diklat</a></li>
+						<li><a href="#Kinerja" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dptiga/listdptiga','<?php echo $this->basePath; ?>/sdmmodule/dptiga/dptigajs');">Kinerja</a></li>						
+						<!--<li><a href="#Penilaian" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/underconstruktion/index','');">Penilaian</a></li>-->
+						<?}?>
+                    </ul> 
+					
+	<div class="panel">
+<?}?>	
+		<div class="spacer"></div> 
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+				<tr>
+					<td width="50%">
+					<table width="100%">
+							<tr>
+								<td><h3 class="title"><b>UNIT KERJA</b><h3></td>
+							</tr>
+					</table>
+					</td>
+				</tr>			
+				<tr>
+					<td width="50%">
+						<table width="100%">							
+							<tr>
+								<td width="20%">Eselon<span class="hightlight">*</span></td>
+								<td width="2%">:</td>
+								<td>									
+									<?
+										$jmlEslList=count($this->eselonList);
+										$eslList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmlEslList; $i++) {
+												$eslList[(string)$this->eselonList[$i]->c_eselon] = (string)$this->eselonList[$i]->n_eselon;			 
+											}
+										$eslAtrib = array("onChange"=>"javascript:getEselon()"); 		
+										echo $ctrlFrm->formSelect('c_eselon',$this->c_eselon, $eslAtrib, $eslList); 							
+									?>									
+								</td>
+							</tr>						
+							
+							<tr>
+								<td>Lokasi<span class="hightlight">*</span></td>
+								<td>:</td> 
+								<td>					
+									<?
+										$jmlLokList=count($this->lokasiList);
+										$lokList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmlLokList; $i++) {
+												$lokList[(string)$this->lokasiList[$i]->c_lokasi] = (string)$this->lokasiList[$i]->n_lokasi;			 
+											}
+										$lokAtrib = array("style"=>"width: 300px","id"=>"c_lokasi_unitkerja","onChange"=>"javascript:cariEselon('targetesli')"); 
+										echo $ctrlFrm->formSelect('c_lokasi_unitkerja',$this->c_lokasi_unitkerja,$lokAtrib,$lokList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon I</td>
+								<td>:</td> 
+								<td id="targetesli">					
+									<?
+										$jmleseloniList=count($this->eseloniList);
+										$eseloniList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniList; $i++) {
+												$eseloniList[(string)$this->eseloniList[$i]->c_eselon_i] = (string)$this->eseloniList[$i]->n_unitkerja;			 
+											}
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_i","onChange"=>"javascript:cariEselon('targeteslii')");  	
+										echo $ctrlFrm->formSelect('c_eselon_i',$this->c_eselon_i,$eslAtrib,$eseloniList); 							
+									?>
+								</td>
+							</tr>
+							<tr id="targetesliix">
+								<td>Eselon II</td>
+								<td>:</td> 
+								<td id="targeteslii">				
+									<?
+										$jmleseloniiList=count($this->eseloniiList);
+										$eseloniiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiList; $i++) {
+												$eseloniiList[(string)$this->eseloniiList[$i]->c_eselon_ii] = (string)$this->eseloniiList[$i]->n_unitkerja;
+											}
+										if ($ceseloncpns>=3){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_ii","onChange"=>"javascript:cariEselon('targetesliii')");}
+										else {$eslAtrib = array("style"=>"width: 300px","disabled"=>"true","id"=>"c_eselon_ii","onChange"=>"javascript:cariEselon('targetesliii')");}
+										echo $ctrlFrm->formSelect('c_eselon_ii',$this->c_eselon_ii,$eslAtrib,$eseloniiList); 							
+									?>
+								</td>
+							</tr>						
+							<tr id="targetesliiix">
+								<td>Eselon III</td>
+								<td>:</td> 
+								<td id="targetesliii">					
+									<?
+										$jmleseloniiiList=count($this->eseloniiiList);
+										$eseloniiiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiiList; $i++) {
+												$eseloniiiList[(string)$this->eseloniiiList[$i]->c_eselon_iii] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+											}
+										
+										if ($ceseloncpns>=5){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii","onChange"=>"javascript:cariEselon('targetesliv')");  	}										
+										else{	$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii","disabled"=>"true","onChange"=>"javascript:cariEselon('targetesliv')");}
+										
+										echo $ctrlFrm->formSelect('c_eselon_iii',$this->c_eselon_iii, $eslAtrib, $eseloniiiList); 							
+									?>
+								</td>
+							</tr>
+							<tr id="targeteslivx">
+								<td>Eselon IV</td>
+								<td>:</td> 
+								<td id="targetesliv">				
+									<?
+										$jmleselonivList=count($this->eselonivList);
+										$eselonivList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonivList; $i++) {
+												$eselonivList[(string)$this->eselonivList[$i]->c_eselon_iv] = (string)$this->eselonivList[$i]->n_unitkerja;			 
+											}
+										if ($ceseloncpns>=7){
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iv","onChange"=>"javascript:cariEselon('targeteslv')"); 
+										}
+										else{
+										$eslAtrib = array("style"=>"width: 300px","disabled"=>"true", "id"=>"c_eselon_iv","onChange"=>"javascript:cariEselon('targeteslv')"); 
+										}
+										
+										
+										echo $ctrlFrm->formSelect('c_eselon_iv',$this->c_eselon_iv,$eslAtrib,$eselonivList); 							
+									?>
+								</td>
+							</tr>
+							<tr id="targeteslvx">
+								<td>Eselon V</td>
+								<td>:</td> 
+								<td id="targeteslv">				
+									<?
+										$jmleselonvList=count($this->eselonvList);
+										$eselonvList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonvList; $i++) {
+												$eselonvList[(string)$this->eselonvList[$i]->c_eselon_v] = (string)$this->eselonvList[$i]->n_unitkerja;			 
+											}
+										if ($ceseloncpns>=9){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_v");}										
+										else{$eslAtrib = array("style"=>"width: 300px","disabled"=>"true","id"=>"c_eselon_v");}
+										echo $ctrlFrm->formSelect('c_eselon_v',$this->c_eselon_v, $eslAtrib, $eselonvList); 							
+									?>
+								</td>
+							</tr>							
+						</table>
+					</td>
+					<!--
+					
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3">					
+									<textarea id="jabat_lengkap" name="jabat_lengkap" rows="5"><?=$this->jabat_lengkap?></textarea>
+								</td>
+							</tr>
+						</table>
+					</td>
+					-->
+					
+				</tr>
+			</table>
+			
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+				<tr>
+					<td width="20%">Unit Kerja (tanpa kode)</td>
+					<td width="2%">:</td>
+					<td>
+						<textarea id="n_unitkerja_nokode" name="n_unitkerja_nokode" rows="3"><?=$this->n_unitkerja_nokode?></textarea>
+					</td>
+				</tr>
+			</table>
+				
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+				<tr>
+
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3"><h3 class="title"><b>SURAT KEPUTUSAN PNS</b><h3></td>
+							</tr>
+							<tr>
+								<td width="30%">Nomor<span class="hightlight">*</span></td>
+								<td width="2">:</td> 
+								<td>					
+									<input type="text" name="i_sk_pns" id="i_sk_pns" value="<?=$this->i_sk_pns?>" size="30">
+								</td>
+							</tr>
+							<tr>
+								<td>Tanggal<span class="hightlight">*</span></td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="d_sk_pns" id="d_sk_pns" value="<?=$this->d_sk_pns?>" size="10">
+									<span class="hightlight">tgl-bln-thn</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Pejabat</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="n_sk_pejabatpns" id="n_sk_pejabatpns" value="<?=$this->n_sk_pejabatpns?>" size="50">
+								</td>
+							</tr>							
+						</table>
+					</td>
+
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b>SURAT TANDA LULUS KESEHATAN</b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td>Nomor</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="i_kesehatan_pns" id="i_kesehatan_pns" value="<?=$this->i_kesehatan_pns?>" size="25">
+								</td>
+							</tr>	
+							<tr>
+								<td>Tanggal</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="d_kesehatan_pns" id="d_kesehatan_pns" value="<?=$this->d_kesehatan_pns?>" size="10">
+									<span class="hightlight">tgl-bln-thn</span>
+								</td>
+							</tr>	
+							<tr>
+								<td>Rumah Sakit</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="n_rumahsakit_pns" id="n_rumahsakit_pns" value="<?=$this->n_rumahsakit_pns?>" size="45">
+								</td>
+							</tr>	
+							<tr>
+								<td>Pejabat</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="n_kesehatan_pejabatpns" id="n_kesehatan_pejabatpns" value="<?=$this->n_kesehatan_pejabatpns?>" size="50">
+								</td>
+							</tr>	
+									
+						</table>
+					</td>					
+				</tr>
+				<tr>
+					<td>
+						<h3 class="title"><b>SURAT TANDA LULUS PRA JABATAN</b><h3>
+					</td>
+				</tr>
+				<tr>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td width="30%">Nomor<span class="hightlight">*</span></td>
+								<td width="2">:</td> 
+								<td>					
+									<input type="text" name="i_sk_prajab" id="i_sk_prajab" value="<?=$this->i_sk_prajab?>" size="30">
+								</td>
+							</tr>
+							<tr>
+								<td>Tanggal<span class="hightlight">*</span></td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="d_sk_prajab" id="d_sk_prajab" value="<?=$this->d_sk_prajab?>" size="10">
+									<span class="hightlight">tgl-bln-thn</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Pejabat</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="n_sk_pejabatprajab" id="n_sk_pejabatprajab" value="<?=$this->n_sk_pejabatprajab?>" size="50">
+								</td>
+							</tr>							
+						</table>
+					</td>
+				</tr>				
+			</table>
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td align="right">
+								<div class="right">
+								<?if ($this->pns!='pns'){?>
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datacpns/cpns','<?php echo $this->basePath; ?>/sdmmodule/datapns/pegawaijs');"> 
+								<?}else{?>	
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datacpns/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapns/pegawaijs');"> 
+								<?}?>			
+									<input type="submit" value="<?=$this->par;?>" onClick="insertPegawai()">
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+								</div>
+							</td>
+						</tr>
+			</table>				
+	</div>
+	<div id="targetdetil"></div>
+</form>	
+<script>
+function CariJabatan(){
+var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/listnamajabatan';
+var param = {};
+jQuery.get(url,param,function(data) {
+jQuery("#targetdetil").html(data);
+centerPopup();
+loadPopup();});}
+
+function cariEselon(target){
+	var esl =document.getElementById('c_eselon').value;
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;
+	var c_eselon_x='';
+	if (target=='targetesli')
+		{var url = '<?php echo $this->basePath; ?>/sdmmodule/datapns/listcomboeseloni';}
+	if (target=='targeteslii')
+		{var url = '<?php echo $this->basePath; ?>/sdmmodule/datapns/listcomboeselonii'; c_eselon_x=document.getElementById('c_eselon_i').value;}
+	if (target=='targetesliii')
+		{var url = '<?php echo $this->basePath; ?>/sdmmodule/datapns/listcomboeseloniii'; c_eselon_x=document.getElementById('c_eselon_ii').value;}
+	if (target=='targetesliv')
+		{var url = '<?php echo $this->basePath; ?>/sdmmodule/datapns/listcomboeseloniv'; c_eselon_x=document.getElementById('c_eselon_iii').value;}		
+	if (target=='targeteslv')
+		{var url = '<?php echo $this->basePath; ?>/sdmmodule/datapns/listcomboeselonv'; c_eselon_x=document.getElementById('c_eselon_iv').value;}				
+	var param = {c_lokasi_unitkerja:c_lokasi_unitkerja,c_eselon_x:c_eselon_x};
+	jQuery.get(url, param, function(data) {
+		jQuery("#"+target).html(data);
+		
+		getEselon();
+		getNJab();
+		
+	});
+	
+}
+function getNJab(){
+		var c_eselon_i=document.getElementById('c_eselon_i').value;
+		c_eselon_il=String(c_eselon_i).length
+		c_eselon_i= Left(c_eselon_i,c_eselon_il);
+		var c_eselon_ii=document.getElementById('c_eselon_ii').value;
+		c_eselon_iil=String(c_eselon_ii).length
+		c_eselon_ii= Left(c_eselon_ii,c_eselon_iil);
+		var c_eselon_iii=document.getElementById('c_eselon_iii').value;
+		c_eselon_iiil=String(c_eselon_iii).length
+		c_eselon_iii= Left(c_eselon_iii,c_eselon_iiil);
+		var c_eselon_iv=document.getElementById('c_eselon_iv').value;
+		c_eselon_ivl=String(c_eselon_iv).length
+		c_eselon_iv= Left(c_eselon_iv,c_eselon_ivl);
+		var c_eselon_v=document.getElementById('c_eselon_v').value;
+		c_eselon_vl=String(c_eselon_v).length
+		c_eselon_v= Left(c_eselon_v,c_eselon_vl);
+		document.getElementById('jabat_lengkap').value=document.getElementById('n_jabatan').value+", pada "+c_eselon_v+", "+c_eselon_iv+", "+c_eselon_iii+", "+c_eselon_ii+", "+c_eselon_i;
+
+}
+
+function getEselon(){
+var esl =document.getElementById('c_eselon').value;
+
+if (esl=='01' || esl=='02')
+	{
+		document.getElementById('c_eselon_ii').value="";
+		document.getElementById('c_eselon_iii').value="";
+		document.getElementById('c_eselon_iv').value="";
+		document.getElementById('c_eselon_v').value="";
+		document.forms[0].c_eselon_ii.disabled = "disabled" ;
+		document.forms[0].c_eselon_iii.disabled = "disabled" ;
+		document.forms[0].c_eselon_iv.disabled = "disabled" ;
+		document.forms[0].c_eselon_v.disabled = "disabled" ;
+	}
+ else if (esl=='03' || esl=='04')
+	{
+		document.getElementById('c_eselon_iii').value="";
+		document.getElementById('c_eselon_iv').value="";
+		document.getElementById('c_eselon_v').value="";
+		document.forms[0].c_eselon_ii.disabled = false ;
+		document.forms[0].c_eselon_iii.disabled = "disabled" ;
+		document.forms[0].c_eselon_iv.disabled = "disabled" ;
+		document.forms[0].c_eselon_v.disabled = "disabled" ;
+		
+	}
+	
+else if (esl=='05' || esl=='06')
+	{
+		document.getElementById('c_eselon_iv').value="";
+		document.getElementById('c_eselon_v').value="";	
+		document.forms[0].c_eselon_ii.disabled = false ;
+		document.forms[0].c_eselon_iii.disabled = false ;
+		document.forms[0].c_eselon_iv.disabled = "disabled" ;
+		document.forms[0].c_eselon_v.disabled = "disabled" ;
+		document.forms[0].c_eselon_ii.value = "" ;
+	}
+else if (esl=='07' || esl=='08')
+	{
+		document.getElementById('c_eselon_v').value="";	
+		document.forms[0].c_eselon_ii.disabled = false ;
+		document.forms[0].c_eselon_iii.disabled = false ;
+		document.forms[0].c_eselon_iv.disabled = false ;
+		document.forms[0].c_eselon_v.disabled = "disabled" ;
+	}
+else if (esl=='09')
+	{
+		document.forms[0].c_eselon_ii.disabled = false ;
+		document.forms[0].c_eselon_iii.disabled = false ;
+		document.forms[0].c_eselon_iv.disabled = false ;
+		document.forms[0].c_eselon_v.disabled = false ;
+	}
+else	
+	{
+		document.forms[0].c_eselon_ii.disabled = false ;
+		document.forms[0].c_eselon_iii.disabled = false ;
+		document.forms[0].c_eselon_iv.disabled = false ;
+		document.forms[0].c_eselon_v.disabled = false ;
+	} 	
+}
+</script>

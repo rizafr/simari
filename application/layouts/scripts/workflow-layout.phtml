@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><?php echo $this->render('partials/workflow/head.phtml'); ?></head>
+<body>
+<div id="main"><!--main start -->
+	<div id="header">
+<!--header start -->
+		<?php echo $this->render('partials/workflow/app_workflow.phtml'); ?>
+	</div><!--header end -->
+	<div id="cont-nav">
+	    <div id="nav-top">
+				<div class="username">Nama User : Administrator | <a href="">Logout</a></div>
+				<div class="crdate"><span id="servertime"></span></div>
+		</div>
+			<div id="nav">
+				<?php echo $this->render('partials/workflow/headMenu.phtml'); ?>
+			</div>
+		</div>  
+
+
+	<div id="page">
+	 <div id="content">
+		<div id="tableview">
+			<div class="navlink">Halaman Utama</div>
+			<div class="widget">
+
+				<h4 class="widgettitle">Dashboard</h4>
+					<div class="bd">
+					<center>
+					
+						<div class="space2"></div>
+						<div class="hr"></div>
+		
+						<div class="space2"></div>
+										<center>Data Tahun <select>
+				  <option> 2011&nbsp; </option>
+				  <option> 2010 </option>
+				  <option> 2009 </option>
+				  <option> 2008 </option>
+				  <option> 2007 </option>
+				</select>				
+				 
+				<div class="space2"></div>
+				<div class="hr"></div>
+				<div class="space2"></div>
+			<div id="chartdiv" align="center"> FusionCharts. </div>
+		
+      <script type="text/javascript">
+		   var chart = new FusionCharts("<?echo $this->baseUrl?>/FusionCharts/Charts/FCF_MSColumn3DLineDY.swf", "ChartId", "600", "350");
+		   chart.setDataURL("Col3DLineDY.xml");		   
+		   chart.render("chartdiv");
+		</script> 				
+				
+				</center> 
+			</div>
+			<div class="ft"></div>
+	    </div>	
+<!--
+			<div class="mod2">
+				<div class="hd">Reminder</div>
+				<div class="bd">
+						<ul>
+							<li> 
+							<?if ($this->remindPensiun!=0){?>
+							<a href="#targetreminder" onclick="listdata('pensiun')"> Daftar Pegawai yang akan pensiun 1 tahun ke depan <blink> (<?=$this->remindPensiun?>)</blink></a>
+							<?} else {?>
+								Daftar Pegawai yang akan pensiun 1 tahun ke depan(<?=$this->remindPensiun?>)
+							<?}?>
+							</li>
+							<li> 
+							<?if ($this->remindGolPangkat!=0){?>
+							<a href="#targetreminder" onclick="listdata('golongan')"> Daftar Pegawai yang akan naik Gol/Pangkat 6 bulan ke depan <blink> (<?=$this->remindGolPangkat?>)</blink></a>
+							<?} else {?>
+								Daftar Pegawai yang akan naik Gol/Pangkat 6 bulan ke depan(<?=$this->remindGolPangkat?>)
+							<?}?>
+							<li>Daftar Pegawai yang akan menerima Kenaikan Gaji Berkala (KGB) 6 bulan ke depan (0)</blink></li>
+						</ul>
+				<div id="targetreminder"></div>		
+				</div>
+				
+				<div class="ft"></div>
+			</div>		
+
+		</div>-->
+		<div class="space2"></div>
+	  </div>				 
+	 </div>
+
+	</div>
+</div><!--main  end -->
+<div id="footer"><!--footer start -->
+<?php echo $this->render('partials/workflow/footer.phtml'); ?>
+</div><!--footer end -->
+</body>
+
+</html>

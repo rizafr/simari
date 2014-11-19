@@ -1,0 +1,154 @@
+function tampilTaun(pross){
+	var tahuns= document.getElementById('tahun').value;
+	if(tahuns == ''){
+		alert('Pilih Tahun');
+	} else {
+		/*var tahun_asli = tahun;
+		var thn_sblm = tahun - 1;
+		if(tahun != "Tahun"){
+			tahun = "TAHUN "+tahun;
+		}
+		*/
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir1/listformulir1';
+	
+		var opt = {tahun:tahuns,proses:pross};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				/*if(tahun != "Tahun"){
+					jQuery(".thn_skr").html(tahun);
+					jQuery("#thn_sblm").html(thn_sblm);
+					jQuery("#tahun").val(tahun_asli);
+				}else{
+					jQuery(".thn_skr").html("");
+					jQuery("#thn_sblm").html("");
+				
+				}*/
+			 });
+		
+	}	
+};
+
+function enterNumber(id){
+	
+	var e = document.getElementById(id);
+	var d = document.getElementById(id).value;
+
+	if(d != ""){
+	if (!/^[0-9]+$/.test(e.value)) 
+	{ 
+	alert("Masukan Angka saja");
+	e.value = e.value.substring(0,e.value.length-1);
+	jQuery('id').focus();
+
+	}
+	}
+}   
+
+function OpenFormulir1Olahdata(par,id,gol_ruang_gaji,jumlah){
+		
+		var thn_skr=jQuery(".thn_skr").html();
+		var thn_sblm=jQuery("#thn_sblm").html();
+		var tahun=jQuery("#tahun").val();
+		if(thn_skr == ""){
+		alert("Tampil Tahun Terlebih dahulu !");
+		return;
+		}
+		
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir1/formulir1olahdata';
+		
+		if(id==""){
+		par="Insert";
+		}else{
+		par="Update";
+		}
+		var opt = {par:par,id:id,gol_ruang_gaji:gol_ruang_gaji,jumlah:jumlah};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				jQuery("#gol_ruang_gaji").val(gol_ruang_gaji);
+				jQuery("#bezetting").val(jumlah);
+				jQuery(".thn_skr").html(thn_skr);
+				jQuery("#thn_sblm").html(thn_sblm);
+				jQuery("#thn_skrg2").val(thn_skr);
+				jQuery("#thn_sblm2").val(thn_sblm);
+				jQuery("#tahun").val(tahun);
+			 });
+
+}
+
+function OpenFormulir1(){
+		var thn_skr=jQuery(".thn_skr").html();
+		var thn_sblm=jQuery("#thn_sblm").html();
+		var tahun=jQuery("#tahun").val()
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir1/listformulir1';
+		
+		var opt = {tahun:tahun};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				jQuery("#tahun").val(tahun);
+				jQuery(".thn_skr").html(thn_skr);
+				jQuery("#thn_sblm").html(thn_sblm);
+			 });
+
+}
+
+function insertFormulir1(){
+		var thn_skr=jQuery(".thn_skr").html();
+		var thn_sblm=jQuery("#thn_sblm").html();
+		var tahun=jQuery("#tahun").val()
+		jQuery("#formformulir1").ajaxForm(maintain_formulir1);
+	
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir1/listformulir1';
+		var opt = {tahun:tahun,thn_skr:thn_skr,thn_sblm:thn_sblm};
+		jQuery.get(handler,opt,function(data) {
+				//$("#tableview").html(data);
+			jQuery("#tahun").val(tahun);
+				jQuery(".thn_skr").html(thn_skr);
+				jQuery("#thn_sblm").html(thn_sblm);
+			 });
+}
+
+var maintain_formulir1 = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formformulir1").ajaxForm(maintain_formulir1);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/formulir1/insertformulir1',
+	type: 'post',
+	resetForm: false
+};
+
+function updateFormulir1(){
+	var thn_skr=jQuery(".thn_skr").html();
+	var thn_sblm=jQuery("#thn_sblm").html();
+	var tahun=jQuery("#tahun").val()
+	
+	jQuery("#formformulir1").ajaxForm(update_formulir1);
+	
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir1/listformulir1';
+		
+		var opt = {tahun:tahun,thn_skr:thn_skr,thn_sblm:thn_sblm};
+		jQuery.get(handler,opt,function(data) {
+				//$("#tableview").html(data);
+				jQuery("#tahun").val(tahun);
+				jQuery(".thn_skr").html(thn_skr);
+				jQuery("#thn_sblm").html(thn_sblm);
+			 });
+}
+
+var update_formulir1 = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formformulir1").ajaxForm(update_formulir1);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/formulir1/updateformulir1',
+	type: 'post',
+	resetForm: false
+};

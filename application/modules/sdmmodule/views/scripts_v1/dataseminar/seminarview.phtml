@@ -1,0 +1,132 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+   $thnskrg = date("Y");
+   $thnList = $thnskrg - 40;
+   $thnArrayList['#'] = '--';
+   for ($i = 0; $i < 40; $i++) {
+     $thnList = $thnList + 1;
+     $thnArrayList[$thnList] = $thnList;
+   } $blnArrayList['#'] = '--';	
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_mulai_seminar").datepicker();
+		jQuery("#d_akhir_seminar").datepicker();
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataseminar/listseminar','<?php echo $this->basePath; ?>/sdmmodule/dataseminar/seminarjs');">Seminar</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Seminar
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Seminar</h2>	
+	
+<div class="boxholder">					
+	<div class="panel">
+		<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<br>
+<form id="formseminar" method="post" name="formseminar">		
+	<div class="panel">
+		<div class="spacer"></div> 
+						<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td width="30%">Nama Seminar / Simposium</td>
+					<td width="2%">:</td> 
+					<td>					
+						<input type="text" maxlength="150" name="n_seminar" id="n_seminar" value="<?=$this->n_seminar?>" size="70">
+						
+					</td>
+				</tr>
+				<tr>
+					<td>Peran</td>
+					<td>:</td> 
+					<td>						
+
+						<?
+								$nseminarperan = array(
+														""=>"--Pilih--",
+														"Narasumber"=>"Narasumber",
+														"Pemakalah/Pembicara"=>"Pemakalah/Pembicara",
+														"Peserta"=>"Peserta",
+														"Moderator"=>"Moderator");
+								$n_seminar_peran=strtolower($this->n_seminar_peran);
+								echo $ctrlFrm->formSelect('n_seminar_peran', ucwords($n_seminar_peran), null, $nseminarperan); 							
+						?>							
+					
+					</td>
+				</tr>
+				<tr>
+					<td>Mulai</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_mulai_seminar" id="d_mulai_seminar" value="<?=$this->d_mulai_seminar?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>	 
+						<input type="hidden" name="d_mulai_seminar2" id="d_mulai_seminar2" value="<?=$this->d_mulai_seminar?>" size="10">
+					</td>
+				</tr>
+				<tr>
+					<td>Akhir</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_akhir_seminar" id="d_akhir_seminar" value="<?=$this->d_akhir_seminar?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>	 
+					</td>
+				</tr>
+				<tr>
+					<td>Penyelenggara</td>
+					<td>:</td> 
+					<td>
+						<input type="text" maxlength="50" name="n_seminar_lembaga" id="n_seminar_lembaga" value="<?=$this->n_seminar_lembaga?>" size="70">
+					</td>
+				</tr>
+				<tr>
+					<td>Tempat</td>
+					<td>:</td> 
+					<td>
+						<input type="text" maxlength="50" name="a_seminar" id="a_seminar" value="<?=$this->a_seminar?>" size="70">
+					</td>
+				</tr>
+				<tr>
+					<td>Keterangan</td>
+					<td>:</td> 
+					<td>
+					<?php 
+						$keteranganAtrib = array("rows"=>"3","cols"=>"25","maxlength"=>"100", "class"=>"medium"); 
+						echo $ctrlFrm->formTextarea('e_keterangan', $this->e_keterangan, $keteranganAtrib);
+					?>
+					</td>
+				</tr>
+</table>
+</div>
+<br>
+	<div class="panel">				
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				</tr>
+						<tr>
+
+							<td></td>
+							<td>
+								<div class="right">
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataseminar/listseminar','');"> 
+									
+								</div>
+							</td>
+						</tr>			
+			</table>			
+	</div>
+</div>	
+	</form>

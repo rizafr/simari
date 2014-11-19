@@ -1,0 +1,261 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+require_once "share/halaman.php";  
+
+$tanggal = new tanggal();
+$halaman = new halaman();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$jmllokasilist = count($this->lokasilist);
+for ($i=0; $i<$jmllokasilist; $i++)
+{
+	$datalokasilist[(string)$this->lokasilist[$i]['c_lokasi']] = (string)$this->lokasilist[$i]['n_lokasi'];
+}
+/*
+	$dataeselon1lst[(string)$this->eselon1lst[$i]['c_lokasi_unitkerja'].
+	                (string)$this->eselon1lst[$i]['c_eselon_i'].
+	                (string)$this->eselon1lst[$i]['c_eselon_ii'].
+	                (string)$this->eselon1lst[$i]['c_eselon_ii'].
+	                (string)$this->eselon1lst[$i]['c_eselon_iv'].
+	                (string)$this->eselon1lst[$i]['c_eselon_v']] = (string)$this->eselon1lst[$i]['n_unitkerja'];
+*/
+$jmleselon1lst = count($this->eselon1lst);
+for ($i=0; $i<$jmleselon1lst; $i++)
+{
+	$dataeselon1lst[(string)$this->eselon1lst[$i]['c_eselon_i']] = (string)$this->eselon1lst[$i]['n_unitkerja'];
+}
+$jmleselon2lst = count($this->eselon2lst);
+for ($i=0; $i<$jmleselon2lst; $i++)
+{
+	$dataeselon2lst[(string)$this->eselon2lst[$i]['c_eselon_ii']] = (string)$this->eselon2lst[$i]['n_unitkerja'];
+}
+/*
+$jmlunitkerjalst = count($this->unitkerjalst);
+for ($i=0; $i<$jmlunitkerjalst; $i++)
+{
+	$dataunitkerjalst[(string)$this->unitkerjalst[$i]['c_lokasi_unitkerja'].
+	                  (string)$this->unitkerjalst[$i]['c_eselon_i'].
+					  (string)$this->unitkerjalst[$i]['c_eselon_ii'].
+					  (string)$this->unitkerjalst[$i]['c_eselon_iii'].
+					  (string)$this->unitkerjalst[$i]['c_eselon_iv'].
+					  (string)$this->unitkerjalst[$i]['c_eselon_v']] = (string)$this->unitkerjalst[$i]['n_unitkerja'];
+}
+*/
+$jmlLokasiList = count($this->LokasiList);
+for ($i=0; $i<$jmlLokasiList; $i++)
+{
+	$kdLokasiList[(string)$this->LokasiList[$i]['kd_lokasi']] = (string)$this->LokasiList[$i]['kd_lokasi'].". ".(string)$this->LokasiList[$i]['ur_upb'];
+}
+	   $harilst = array("Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu");
+	   $bulanLst = array("01"=>"Januari","02"=>"Februari","03"=>"Maret","04"=>"April","05"=>"Mei","06"=>"Juni","07"=>"Juli",
+	   "08"=>"Agustus","09"=>"September","10"=>"Oktober","11"=>"November","12"=>"Desember");
+	   $absensilst = array("V"=>"Hadir & Pulang Tepat Waktu",
+	                       "DL"=>"Dinas Luar",
+						   "CB"=>"Cuti Bersama",
+						   "C"=>"Cuti",
+						   "S"=>"Sakit",
+						   "I"=>"Ijin",
+						   "TK"=>"Tanpa Keterangan",
+						   "L"=>"Terlambat Datang",
+						   "E"=>"Pulang Cepat");
+					  
+$thnSekarang = $this->tahunabsen;
+$blnSekarang = $this->bulanabsen;
+$nipE = explode('.',$this->i_peg_nip);
+$terminal = 'BUA0000001';
+?>
+<div class="navlink">
+	<a  href="<? echo $this->baseUrl; ?>/main">Halaman Utama</a> 
+	<strong> &#8250; </strong> Absensi 
+	<strong> &#8250; </strong> Entri Data Absensi
+</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+
+<div class="search-panel">
+	<table width="100%" class="tbl2">
+			<tr>
+				<td class="clright" width="15%"><b>Kode Lokasi :</b></td>
+				<td class="clleft" width="85%" align="left"><b>
+				<?
+				$kdLokasiListatr = array("style"=>"width:250px");
+				echo $ctrlFrm->formSelect('kd_lokasi', $this->kd_lokasi, $kdLokasiListatr, $datalokasilist);
+				?>
+				</b></td>
+			</tr>
+			<tr>
+				<td class="clright" width="15%"><b>Eselon I :</b></td>
+				<td class="clleft" width="85%" align="left"><b>
+				<?
+				$eselonatr = array("style"=>"width:550px");
+				echo $ctrlFrm->formSelect('c_eselon_i', $this->c_eselon_i, $eselonatr, $dataeselon1lst);
+				?>
+				</b></td>
+			</tr>
+			<tr>
+				<td class="clright" width="15%"><b>Eselon II :</b></td>
+				<td class="clleft" width="85%" align="left"><b>
+				<?
+				$eselonatr = array("style"=>"width:450px");
+				echo $ctrlFrm->formSelect('c_eselon_ii', $this->c_eselon_ii, $eselonatr, $dataeselon2lst);
+				?>
+				</b></td>
+			</tr>
+			<!---
+			<tr>
+				<td class="clright" width="15%"><b>Eselon III :</b></td>
+				<td class="clleft" width="85%" align="left"><b>
+				<?
+				//$eselonatr = array("style"=>"width:450px");
+				//echo $ctrlFrm->formSelect('c_eselon_iii', $this->c_eselon_iii, $eselonatr, $dataeselon3lst);
+				?>
+				</b></td>
+			</tr>
+			<tr>
+				<td class="clright" width="15%"><b>Satuan Kerja :</b></td>
+				<td class="clleft" width="85%" align="left"><b>
+				<?
+				//$unitkerjaatr = array("style"=>"width:450px");
+				//echo $ctrlFrm->formSelect('unitkerja', $this->unitkerja, $unitkerjaatr, $dataunitkerjalst);
+				?>
+				</b></td>
+			</tr>
+			!--->
+			<tr>
+				<td class="clright" width="15%"><b>Pegawai :</b></td>
+				<td class="clleft" width="85%" align="left"><b>
+				<?
+				$i_peg_nipatr = array("style"=>"width:450px");
+				echo $ctrlFrm->formHidden('nip', $nipE[0]);
+				echo $ctrlFrm->formText('i_peg_nip', $this->i_peg_nip, $i_peg_nipatr);
+				$nikpegatr = array("style"=>"width:40px","onclick"=>"funcCaripegawai()");
+				echo $ctrlFrm->formButton('nikpeg', '...', $nikpegatr);
+				?>
+				</b></td>
+			</tr>
+			<tr>
+				<td class="clright" width="15%"><b>Periode Absensi :</b></td>
+				<td class="clleft" width="85%" align="left"><b>
+				<?
+				$blnatr = array("style"=>"width:100px");
+				$thnatr = array("style"=>"width:40px");
+				echo $ctrlFrm->formSelect('bulanabsen', $blnSekarang, $blnatr, $bulanLst)." ";
+				echo $ctrlFrm->formText('tahunabsen', $thnSekarang, $thnatr);
+
+				?> 
+				</b></td>
+			</tr>
+	</table>
+</div>
+
+<div class="panel" id='pentry'>
+   <input type='hidden' id='mode' name='mode' value='0'>
+	<table width="100%" class="tbl">
+		<tbody>
+			<tr>
+				<th>No</th>
+				<th>Tanggal</th>
+				<th>Hari</th>
+				<th>Jam Masuk</th>
+				<th>Jam Pulang</th>
+				<th>Absensi</th>
+				<th>Nomor Surat</th>
+				<th>Persetujuan</th>
+			</tr>
+			<?php
+	    $bln=$blnSekarang;
+	    $noUrut=0;
+        for ($i=1; $i<32; $i++)
+        {
+          $tahunE = date("Y", mktime(0, 0, 0, $bln, $i, $thnSekarang));
+          $bulanE = date("m", mktime(0, 0, 0, $bln, $i, $thnSekarang));
+          $tglE = date("d", mktime(0, 0, 0, $bln, $i, $thnSekarang));
+          $hariE = date("w", mktime(0, 0, 0, $bln, $i, $thnSekarang));
+		  if ($nipE[0]!='') 
+		  { 
+		     $nipabsen = $this->absensi_serv->getNipAbsenfromMesin($terminal,$nipE[0]);
+		     $jammasuk = $this->absensi_serv->getAbsnMasukPegawai($terminal,$nipabsen,$tahunE.$bulanE.$tglE); 
+		  }
+		  else { $jammasuk = ''; }
+		  if ($nipE[0]!='') 
+		  { 
+		     $nipabsen = $this->absensi_serv->getNipAbsenfromMesin($terminal,$nipE[0]);
+		     $jamkeluar = $this->absensi_serv->getAbsnPulangPegawai($terminal,$nipabsen,$tahunE.$bulanE.$tglE);  
+		  }
+		  else { $jamkeluar = ''; }
+		  if ($bulanE==$bln)
+          { 
+		     $noUrut++;
+		     if ($i%2==0)
+			 { 
+			    if (($hariE=="0") || ($hariE=="6"))
+				{ 
+				   $chCkd = "Checked"; 
+				   $dSbld = "disabled";
+				   $valStatus = "Libur";
+			       echo "<tr class='event' id='triHariKe$i' style='color:red'>"; 
+				}   
+				else
+				{
+				   $chCkd = ""; 
+				   $dSbld = "";
+				   $valStatus = "Masuk";
+			       echo "<tr class='event' id='triHariKe$i'>"; 
+				}
+			 }
+			 else
+			 { 
+			    if (($hariE=="0") || ($hariE=="6"))
+				{ 
+				   $chCkd = "Checked"; 
+				   $dSbld = "disabled";
+				   $valStatus = "Libur";
+			       echo "<tr class='event2' id='triHariKe$i' style='color:red'>"; 
+				}   
+				else
+				{
+				   $chCkd = ""; 
+				   $dSbld = "";
+				   $valStatus = "Masuk";
+			       echo "<tr class='event2' id='triHariKe$i'>"; 
+				}
+			 }
+echo "				
+					<td class='clcenter'>".$noUrut."</td>			
+					<td class='clcenter'>".$tglE."</td>			
+					<td class='clleft'>&nbsp;".$harilst[$hariE]."</td>			
+					<td class='clcenter'>".$jammasuk."
+					</td>			
+					<td class='clcenter'>".$jamkeluar."
+					</td>";
+					$nip = explode('.',$this->i_peg_nip);
+					$where = "i_peg_nip='".$nip[0]."' and to_char(d_peg_ijin,'yyyy-mm-dd')='".
+					$this->tahunabsen.'-'.$this->bulanabsen.'-'.$tglE."'"; // and d_jam_mulai
+				    $kdijin = $this->absensimsn_serv->getdataIjin($where);
+//var_dump($kdijin);
+					$absenatr = array("style"=>"width:200px");
+				//$absenatr = array("style"=>"width:200px","onChange"=>"funcChangeKdIjin(this.value)");
+				echo "<td class='clleft'>".$ctrlFrm->formSelect('kdijin'.$i, $kdijin[0]['c_ijin'], $absenatr, $absensilst)."</td>";
+				$ijinatr = array("style"=>"width:200px");
+				echo "<td class='clleft'>".$ctrlFrm->formText('suratijin'.$i, $kdijin[0]['i_no_surat_ijin'], $ijinatr)."</td>";
+				$setujuatr = array("onclick"=>"funcSetuju($i)");
+				echo "<td class='clcenter'>".$ctrlFrm->formButton('setuju'.$i, 'Setuju', $setujuatr)."</td>";
+echo "					
+				</tr>";
+		  }
+	    }
+			?>
+		</tbody>
+	</table>
+   <div class="panel">
+   <div class="right">
+
+   </div>
+   <br>
+   </div>
+</div>
+

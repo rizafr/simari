@@ -1,0 +1,329 @@
+<? require_once 'Zend/View.php';
+   require_once "share/tanggal.php";  
+	$tanggal = new tanggal();
+	$ctrlFrm = new Zend_View();
+	$curdate = date("Y");
+	$prev = $curdate-1;
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}	
+
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_cuti_mulai").datepicker();
+		jQuery("#d_cuti_akhir").datepicker();
+	});
+</script>
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM
+				<strong> &#8250; </strong>Form Pengajuan Cuti
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+	
+	<h2 class="title">Form Pengajuan Cuti</h2>
+<form method="post" name="frmajuancuti" id="frmajuancuti">		
+<div class="boxholder">
+	<div class="panel">
+		<div class="spacer"></div> 
+
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+							<tr>
+							    <td>&nbsp;</td>
+								<td>NIP</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="i_peg_nip" id="i_peg_nip" value="<?=$this->i_peg_nip?>" size="25" readonly="true">
+									<?if ($this->par!='Ubah'){?>
+									<input type="button" value="Cari Nip" onclick="cariNip()">
+									<?}?>
+								</td>	
+							</tr>
+							<tr>
+								<td width="2%">&nbsp;</td>
+								<td width="20%">Nama Pegawai</td>
+								<td width="2%">:</td>
+								<td>
+									<input type="text" name="n_peg" id="n_peg" value="<?=$this->n_peg?>" size="60" readonly="true">
+								</td>
+							</tr>
+
+							<tr>
+								<td>&nbsp;</td>
+								<td>Pangkat & Golongan</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="n_pangkat" id="n_pangkat" value="<?=$this->n_pangkat?>" size="25" readonly="true"> /
+									<input type="text" name="c_golongan" id="c_golongan" value="<?=$this->c_golongan?>" size="10" readonly="true">
+								</td>
+							</tr>
+							<tr>
+							    <td>&nbsp;</td>
+								<td>Jenis Kelamin</td>
+								<td>:</td>
+								<td>
+									<input type="hidden" name="c_peg_jeniskelamin" id="c_peg_jeniskelamin" value="<?=$this->c_peg_jeniskelamin?>" size="20" readonly="true">
+									<input type="text" name="n_peg_jeniskelamin" id="n_peg_jeniskelamin" value="<?=$this->n_peg_jeniskelamin?>" size="20" readonly="true">
+								</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>Sisa Cuti Tahun <? echo $prev; ?> </td>
+								<td>:</td>
+								<td>
+									<input type="text" name="q_cuti_thnlalu" id="q_cuti_thnlalu" value="<?=$this->q_cuti_thnlalu?>" size="5" readonly="true">
+									&nbsp;&nbsp;Hari
+								</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>Sisa Cuti Tahun <? echo $curdate; ?> </td>
+								<td>:</td>
+								<td>
+									<input type="text" name="q_cuti_thnskrg" id="q_cuti_thnskrg" value="<?=$this->q_cuti_thnskrg?>" size="5" readonly="true">
+									&nbsp;&nbsp;Hari
+								</td>
+							</tr>
+		</table>
+
+<br>
+								
+<h3 class="title"><b>Cuti Yang Diambil</b><h3>
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+			<tr>
+				<td width="2%">&nbsp;</td>
+				<td width="20%">Jenis Cuti</td>
+				<td width="2%">:</td>
+				<td>
+					<?php 
+							$ncutilist = array(""=>"--Pilih--",
+											"B"=>"Cuti Besar",
+											"H"=>"Cuti Bersalin",
+											"P"=>"Alasan Penting",
+											"S"=>"Cuti Sakit",
+											"T"=>"Tahunan");
+							echo $ctrlFrm->formSelect('c_jenis_cuti', $this->c_jenis_cuti, null, $ncutilist);
+					?>
+				</td>
+			</tr>
+			<tr id='dlTahunPrev' style='display:none'>
+				<td>&nbsp;</td>
+				<td>Tahun <? echo $prev; ?></td>
+				<td>:</td>
+				<td><?php $jmlCutiAmbil1Atrib = array("size"=>"4",
+																		 "maxlength"=>"2",
+																		 "class"=>"",
+																		 "onblur"=>"cekTahun1(this.value,$ctThnlalu)"); 							 
+							  echo $ctrlFrm->formText('jmlCtAmbilThnlalu', null, $jmlCutiAmbil1Atrib); 
+							?>&nbsp;&nbsp;&nbsp;Hari
+				</td>
+			</tr>
+			<tr id='dlTahunCur' style='display:none'>
+				<td width="2%">&nbsp;</td>
+				<td>Tahun <? echo $curdate; ?></td>
+				<td>:</td>
+				<td><?php 
+											$jmlCutiAmbil2Atrib = array("size"=>"4",
+																		 "maxlength"=>"2",
+																		 "onkeyup"=>"cekTahun2(this.value,$ctThnskr)");
+											echo $ctrlFrm->formText('jmlCtAmbilThnskr', null, $jmlCutiAmbil2Atrib) 
+										?>&nbsp;&nbsp;&nbsp;Hari <div id='msgCuti' style='color:red'></div>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>Lama Cuti</td>
+				<td>:</td>
+				<td>
+					<input type="text" name="q_lama_cuti" id="q_lama_cuti" value="<?=$this->q_lama_cuti?>" size="5">&nbsp; Hari
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>Tanggal Mulai Cuti</td>
+				<td>:</td>
+				<td>
+					<input type="text" name="d_cuti_mulai" id="d_cuti_mulai" value="<?=$this->d_cuti_mulai?>" size="10">
+					<span class="hightlight">tgl-bln-thn</span>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>Tanggal Akhir Cuti</td>
+				<td>:</td>
+				<td>
+					<input type="text" name="d_cuti_akhir" id="d_cuti_akhir" value="<?=$this->d_cuti_akhir?>" size="10">
+					<span class="hightlight">tgl-bln-thn</span>
+				</td>
+			</tr>
+		</table>
+
+<br>
+<h3 class="title"><b>Alamat Cuti</b><h3>
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+			<tr>
+				<td width="2%">&nbsp;</td>
+				<td width="20%">Alamat</td>
+				<td width="2%">:</td>
+				<td>
+					<?php 
+										  $alamatCutiAtrib = array("size"=>"80",
+																   "class"=>""); 
+										  echo $ctrlFrm->formText('a_alamat_cuti',$this->a_alamat_cuti, $alamatCutiAtrib) 
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>RT / RW</td>
+				<td>:</td>
+				<td><?php 
+										  $rtCutiAtrib = array("size"=>"5",
+																   "maxlength"=>"3",
+																   "class"=>""); 
+										  echo $ctrlFrm->formText('a_cuti_rt', $this->a_cuti_rt, $rtCutiAtrib) 
+										?>&nbsp;&nbsp;/&nbsp;&nbsp;
+										<?php 
+										  $rwCutiAtrib = array("size"=>"5",
+																   "maxlength"=>"3",
+																   "class"=>""); 
+										  echo $ctrlFrm->formText('a_cuti_rw', $this->a_cuti_rw, $rwCutiAtrib) 
+										?>
+				</td>
+			</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>Propinsi</td>
+								<td>:</td>
+								<td>
+								<?php 
+									   $jmlPropList = count($this->propinsiList);
+									   $propinsiList[''] = '--Pilih--';
+									   for ($i = 0; $i < $jmlPropList; $i++) {
+										$propinsiList[(string)$this->propinsiList[$i]->c_propinsi] = (string)$this->propinsiList[$i]->n_propinsi;			 
+									   }
+										$propAtrib = array("onClick"=>"javascript:cariKota('targetkab','propinsi')"); 
+										echo $ctrlFrm->formSelect('a_cuti_propinsi',$this->a_cuti_propinsi, $propAtrib, $propinsiList)
+								?>
+								</td>
+							</tr>	
+							<tr>
+								<td>&nbsp;</td>
+								<td>Kota</td>
+								<td>:</td>
+								<td id="targetkab">
+								<?php 
+									$jmlKabList = count($this->kabupatenList);
+									$kabupatenList[''] = '--Pilih--';
+									for ($i = 0; $i < $jmlKabList; $i++) {
+										$kabupatenList[(string)$this->kabupatenList[$i]->c_kabupaten] = (string)$this->kabupatenList[$i]->n_kabupaten;			 
+									}
+									echo $ctrlFrm->formSelect('a_cuti_kota', $this->a_cuti_kota,null, $kabupatenList);
+								?>
+								</td>
+							</tr>
+							
+			<tr>
+				<td>&nbsp;</td>
+				<td>Kode Pos</td>
+				<td>:</td>
+				<td>
+							<?php 
+							  $kdPosAtrib = array("size"=>"5",
+													   "maxlength"=>"5",
+													   "onkeyup"=>"javascript:isNumber('a_cuti_kodepos')",
+													   "onkeypress"=>"javascript:isNumber('a_cuti_kodepos')", 
+													   "class"=>""); 
+							  echo $ctrlFrm->formText('a_cuti_kodepos', $this->a_cuti_kodepos, $kdPosAtrib) 
+							?>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>Telephone Rumah</td>
+				<td>:</td>
+				<td>
+							<?php 
+							  $tlpRmhAtrib = array("size"=>"35",
+													   "maxlength"=>"15",
+													   "onkeyup"=>"javascript:isNumber('i_cuti_telponrumah')",
+													   "onkeypress"=>"javascript:isNumber('i_cuti_telponrumah')",
+													   "class"=>""); 
+							  echo $ctrlFrm->formText('q_cuti_telponrumah', $this->q_cuti_telponrumah, $tlpRmhAtrib) 
+							?>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td>Handphone</td>
+				<td>:</td>
+				<td>
+							<?php 
+							  $hpAtrib = array("size"=>"35",
+											   "maxlength"=>"15",
+											   "onkeyup"=>"javascript:isNumber('i_cuti_telponhp')",
+											   "onkeypress"=>"javascript:isNumber('i_cuti_telponhp')",
+											   "class"=>"");  
+							  echo $ctrlFrm->formText('q_cuti_telponhp', $this->q_cuti_telponhp, $hpAtrib) 
+							?>
+				</td>
+			</tr>
+
+			<tr>
+				<td>&nbsp;</td>
+				<td valign="top">Alasan Cuti</td>
+				<td valign="top">:</td>
+				<td>
+							<?php 
+							  $remCutiAtrib = array("cols"=>"25", 
+													"rows"=>"3"); 
+							  echo $ctrlFrm->formTextarea('e_cuti_alasan', $this->e_cuti_alasan, $remCutiAtrib)
+							?>
+				</td>
+			</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>
+								<div class="right">
+									<input name="perintah" type="submit" value="<?=$this->par;?>" onclick="insertCuti()">
+									<!--tutupsementara<input name="cetak" type="button" value="Cetak" onclick="cetakForm()">-->
+									<?if ($this->par=='Ubah'){?>
+									<input name="cetak" type="button" value="Kembali" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/cuti/listubahcuti','<?php echo $this->basePath; ?>/sdmmodule/cuti/cutijs');">
+									<?}?>
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+								</div>
+							</td>
+						</tr>	
+		</table>
+</div>
+</div>
+</form>		
+<div id="popupview"></div>
+<script>
+function cariNip(){
+var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/listpegawaicuti';
+var param = {};
+jQuery.get(url,param,function(data) {
+jQuery("#popupview").html(data);
+centerPopup();
+loadPopup();});}
+
+function cariKota(target){
+	var c_propinsi=document.getElementById('a_cuti_propinsi').value;
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/cuti/listcombokabupaten';	
+	var param = {c_propinsi:c_propinsi};
+	jQuery.get(url, param, function(data) {
+		jQuery("#targetkab").html(data);
+
+	});
+}
+</script>
+		

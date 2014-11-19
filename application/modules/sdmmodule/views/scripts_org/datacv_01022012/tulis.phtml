@@ -1,0 +1,14 @@
+<?php
+  include_once "Spreadsheet/Excel/Writer.php";
+  $xls =& new Spreadsheet_Excel_Writer();
+  $xls->send("data1.xls");
+  $sheet =& $xls->addWorksheet('datanya');
+  $sheet->setMerge(1, 1, 1, 5);
+  $sheet->write(0,0,12);
+  $sheet->write(0,1,"Namaku, Bambang Riswanto");
+  $format =& $xls->addFormat();
+  $format->setBold();
+  $format->setColor("green");
+  $sheet->write(1,1,"Hallo, Bambang Riswanto",$format);
+  $xls->close();
+?>  

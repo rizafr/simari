@@ -1,0 +1,188 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php'; 
+   
+	$ctrlDate = new oa_date();   
+
+	$ctrlFrm = new Zend_View();
+
+	$jumSetujuKgbList = count($this->setujuKgbList);
+   //echo "jumKgbList= ".$jumSetujuKgbList;
+   for ($j = 0; $j < $jumSetujuKgbList; $j++) {
+     $setuju[$j] = array("no"=>$j+1,
+						"nip"  		=>(string)$this->setujuKgbList[$j]['i_peg_nip'],
+						"nama"		=>(string)$this->setujuKgbList[$j]['n_peg'],
+	                    "gol"      	=>(string)$this->setujuKgbList[$j]['gol'],
+						"jnsNaik"	=>(string)$this->setujuKgbList[$j]['jnsNaik'],
+	                    "tglUsul"   =>(string)$this->setujuKgbList[$j]['tglUsul'],
+						"pangkat"  	=>(string)$this->setujuKgbList[$j]['pangkat'],
+						"tmtMasuk"  =>(string)$this->setujuKgbList[$j]['tmtMasuk'],
+						"mkThn"  	=>(string)$this->setujuKgbList[$j]['mkThn'],
+						"mkBln"  	=>(string)$this->setujuKgbList[$j]['mkBln'],
+						"tmtKGB"  	=>(string)$this->setujuKgbList[$j]['tmtKGB']);	
+		//echo "tglUsul phtml = ".$this->setujuKgbList[$j]['tglUsul'].'<br>';				
+   } 
+	
+	$spath = $this->getScriptPaths();
+	$this->addScriptPath($spath[0] . 'pangkat');
+	echo $this->render('pangkatjs.phtml');
+?>
+	 <div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Pengembangan Karir
+		<strong> &#8250; </strong> Kenaikan Pangkat
+		<strong> &#8250; </strong> Persetujuan Usulan Kenaikan Pangkat
+	</div>
+<fieldset class="fields1">
+<legend>Persetujuan Usulan Kenaikan Pangkat</legend>
+<form id="frmusulkp" action="<?php echo $this->basePath; ?>/sdm/pangkat/usulkp" method="post" name="frmusulkp">	  
+<a name="top"></a>
+<div class="blank"></div>
+	<tr>
+		<p align="center">
+		<td><b>Periode&nbsp;:&nbsp;</b>
+			<?php 
+			$hr1 = $_POST['hr1'];
+			$bln1 = $_POST['bln1'];
+			$thn1 = $_POST['thn1'];
+			$hr2 = $_POST['hr2'];
+			$bln2 = $_POST['bln2'];
+			$thn2 = $_POST['thn2'];
+			$tgl1 = $thn1."-".$bln1."-".$hr1;
+			$tgl2 = $thn2."-".$bln2."-".$hr2;
+			 
+			if (($hr1 == '--') || ($bln1 == '--') || ($thn1 == null)) {
+				$tgl1 = '1900-01-01';
+			}
+			if (($hr2 == '--') || ($bln2 == '--') || ($thn2 == null)) {
+				$tgl2 = '2100-01-01';				
+			}
+ 			
+			?>
+			<?php echo $ctrlDate->formTanggal_oa('hr1',$hr1,'bln1',$bln1,'thn1',$thn1); ?> &nbsp;<b>s/d</b>&nbsp;
+		    <?php echo $ctrlDate->formTanggal_oa('hr2',$hr2,'bln2',$bln2,'thn2',$thn2);  ?>&nbsp;
+			<?php  
+			  $atribSubmit = array("onclick"=>"javascript:cariSetujuKGB();");
+			  echo $ctrlFrm->formSubmit('perintah', 'CARI', $atribSubmit)."&nbsp;";
+			?>
+		</td>	
+	</tr>
+<br><br>
+<p align="center" class="date">
+<?
+	if ($jumSetujuKgbList == 0) {
+		echo "Data Tidak Ditemukan";
+?>
+</p>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+			<tr>
+				<th >No.</th>
+				<th >NIP</th>
+				<th >NAMA</th>
+				<th >Golongan <br>Pangkat</th>
+				<th >Jenis <br>Kenaikan</th>
+				<th >TMT CPNS</th>
+				<th >Masa Kerja</th>
+				<th >Tanggal <br>Usulan</th>
+			<!--	<th width="12%">Persetujuan</th>-->
+			</tr>
+		</table>
+<? } else { ?>
+<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+	<tr>
+				<th >No.</th>
+				<th >NIP</th>
+				<th >NAMA</th>
+				<th >Golongan <br>Pangkat</th>
+				<th >Jenis <br>Kenaikan</th>
+				<th >TMT CPNS</th>
+				<th >Masa Kerja</th>
+				<th >Tanggal <br>Usulan</th>
+	<!--	<th width="12%">Persetujuan</th>-->
+	</tr>
+	<?php
+		foreach ($setuju as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+				<?php
+				$gol =  $this->escape($val['gol']);
+				$pangkat =  $this->escape($val['pangkat']);
+				$golPangkat = $gol." - ".$pangkat;
+				
+				$jnsNaik =  $this->escape($val['jnsNaik']);
+				if ($jnsNaik == 'P') {
+				  $jnsNaik = 'Pilihan';
+				}else if ($jnsNaik == 'R') {
+				  $jnsNaik = 'Reguler';
+				}
+
+				$tglTmt = $this->escape($val['tmtMasuk']);				
+					$thnTmt = substr($tglTmt,0,4);
+					$blnTmt = substr($tglTmt,5,2);
+					$hrTmt = substr($tglTmt,8,2);
+					$tglTmt = $hrTmt."-".$blnTmt."-".$thnTmt;
+					if ($thnTmt == ''){
+						$tglTmt = null;
+					}
+					else if ($blnTmt == '#'){
+						$tglTmt = null;
+					}
+					else if ($hrTmt == '#'){
+						$tglTmt = null;
+					}
+				
+				$mkThn = $this->escape($val['mkThn']);
+				$mkBln = $this->escape($val['mkBln']);
+				$mk = $mkThn." thn ".$mkBln." bln ";
+
+				$tglKgb = $this->escape($val['tmtKGB']);				
+					$thnKgb = substr($tglKgb,0,4);
+					$blnKgb = substr($tglKgb,5,2);
+					$hrKgb = substr($tglKgb,8,2);
+					$tglKgb = $hrKgb."-".$blnKgb."-".$thnKgb;
+					if ($thnKgb == ''){
+						$tglKgb = null;
+					}
+					else if ($blnKgb == '#'){
+						$tglKgb = null;
+					}
+					else if ($hrKgb == '#'){
+						$tglKgb = null;
+					}
+				
+				$no = $this->escape($val['no']);
+				?>
+				<td align=left>&nbsp; <?php echo $no;?></td>
+				<td align=left>&nbsp;
+				<a href="#" onClick="javascript:usul_kp('<? echo $this->escape($val['nip']); ?>','<? echo $this->escape($val['tglUsul']); ?>');" class="link" title="Proses"><?php echo $this->escape($val['nip']);?> </a></td>
+				<td align=left>&nbsp; <?php echo $this->escape($val['nama']);?></td>
+				<td align=left>&nbsp; <?php echo $golPangkat;?></td>
+				<td align=left>&nbsp; <?php echo $jnsNaik;?></td>
+				<td class="clcenter"> <?php echo $tglTmt;?></td>
+				<td class="clcenter"> <?php echo $mk;?></td>
+				<td class="clcenter"> <?php echo $ctrlDate->convertTglMachineToHuman($this->escape($val['tglUsul'])); ?></td>
+				
+<!--				<td class="clcenter">
+			<?php
+/* 				$nip = $this->escape($val['nip']);
+				$tglUsul = $this->escape($val['tglUsul']);
+			  $atribSetuju = array("onclick"=>"javascript:setujuKGB('$nip', '$tglUsul')");
+			 echo $ctrlFrm->formSubmit('perintah', 'PROSES', $atribSetuju)."&nbsp;";
+ */			 ?>
+				</td>
+-->		  </tr>
+	<?php 
+		endforeach;?> 		  
+</table>
+<? } ?>
+</fieldset>
+</form>
+<div class="back2">
+	<a href="#" onClick="javascript:kembaliSetujuKGB();" class="back" title="Kembali">Kembali</a>
+	 <!--<a href="#top" class="top" title="Kembali ke atas">Top</a>-->
+</div>
+</body>
+</html>

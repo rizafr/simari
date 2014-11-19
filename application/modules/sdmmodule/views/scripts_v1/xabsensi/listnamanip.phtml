@@ -1,0 +1,128 @@
+<? require_once 'Zend/View.php';
+   
+   $ctrlFrm = new Zend_View();
+   
+   $jmlListNama = count($this->listNama);
+ //echo "jmlListNama= ".$jmlListNama;
+   for ($j = 0; $j < $jmlListNama; $j++) {
+     $pegawai[$j] = array("nip"  			=>(string)$this->listNama[$j]['i_peg_nip'],
+							"nama"  		=>(string)$this->listNama[$j]['n_peg'],
+							"unitKerja"  	=>(string)$this->listNama[$j]['unitKerja']);
+   }
+   
+   
+?>
+	
+<br>
+<link href="<? echo $this->basePath;?>/css/tools.css" rel="stylesheet" type="text/css" />
+<link href="<? echo $this->basePath;?>/css/spec.css" rel="stylesheet" type="text/css" />
+<link href="<? echo $this->basePath;?>/css/typo.css" rel="stylesheet" type="text/css" />
+<link href="<? echo $this->basePath;?>/css/oa_style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="<? echo $this->basePath;?>/css/tabcontent.css" />
+<link rel="alternate stylesheet" href="<? echo $this->basePath;?>/css/ice_blue.css" type="text/css" title="Ice Blue style" />
+
+<link href="<? echo $this->basePath;?>/images/ico_oa.gif" rel="icon" type="image/png" />
+
+<script src="<? echo $this->basePath;?>/js/oa_fn.js" type="text/javascript"></script>
+<SCRIPT src="<? echo $this->basePath;?>/js/jquery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="<? echo $this->basePath;?>/js/jquery.form.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="<? echo $this->basePath;?>/js/interface.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="<? echo $this->basePath;?>/js/ajax-navigation.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="<? echo $this->basePath;?>/js/tabcontent.js" type="text/javascript"></SCRIPT>
+<!--<SCRIPT type="text/javascript">-->
+<?
+	include "absensijs.phtml";
+?>
+<!--</script>-->
+
+<div class="popups">
+	<h3>Daftar Nama Pegawai</h3>
+
+	<hr>
+	
+	<fieldset class="panel-form3">
+		<form method="post" name="frmNamaNip" id="frmNamaNip">
+			<dl>
+				<!--<dt>NIP</dt>-->
+				<dd class="col-left2"></dd>
+				<dd class="col-left2"></dd>
+				<dd>NIP&nbsp;&nbsp;&nbsp;&nbsp;</dd>
+				<dd class="dot2">:</dd>
+				<dd>
+				<?php 
+					$nipAtrib = array("size"=>"20",
+						//"maxlength"=>"9",
+						"maxlength"=>"20",
+						"class"=>""
+					);
+					echo $ctrlFrm->formText('i_peg_nip', $i_peg_nip, $nipAtrib);
+					?>
+				</dd>
+			</dl>
+			<dl>
+				<dd class="col-left2"></dd>
+				<dd class="col-left2"></dd>
+				<dd>Nama</dd>
+				<dd class="dot2">:</dd>
+				<dd>
+				<?php 
+					$npegAtrib = array("size"=>"31",
+						"maxlength"=>"30",
+						"class"=>""
+					);
+					echo $ctrlFrm->formText('n_peg', $n_peg, $npegAtrib);
+					?>
+
+				</dd>
+			</dl>
+			<dl>
+				<dd class="col-right2"></dd>
+				<dd>
+				<? 
+				$buttonAtrib = array("class"=>"clcenter",
+										"onclick"=>"javascript:cariNama();");
+				echo $ctrlFrm->formSubmit('perintah', 'CARI', $atribSubmit)."&nbsp;";
+				?>
+				</dd>
+				
+			</dl>
+			
+		</form>
+	</fieldset>
+	<hr>
+
+	<table border="0" cellspacing="1" cellpadding="2" class="tbl2">
+		<tr>
+			<th>Nama</th>
+			<th>NIP</th>			
+			<th>Unit Kerja</th>
+		</tr>
+			<?php foreach ($pegawai as $key => $val): 
+			if ($key%2==0) {?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+				$noUrut = $key+1;
+			?>
+				
+			<td align="center">&nbsp;
+				<a href="#" onClick='setNamaNip("<? echo $this->escape($val['nip']); ?>","<? echo $this->escape($val['nama']); ?>");'>
+				<?php echo $this->escape($val['nama']);?>
+				</a>
+				</td>
+			<td align="center">&nbsp;<?php echo $this->escape($val['nip']);?></td>
+			<td align="center">&nbsp;<?php echo $this->escape($val['unitKerja']);?></td>				
+		</tr>
+			<?php endforeach; ?>
+
+	</table>
+
+
+<div class="closebox">
+<FORM>
+  <INPUT TYPE="BUTTON" VALUE="Tutup" onClick="window.close()">
+</FORM>
+</div>
+<div class="spacer"></div>
+</div>

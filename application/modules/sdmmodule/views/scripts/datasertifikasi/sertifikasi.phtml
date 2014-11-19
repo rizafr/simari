@@ -1,0 +1,143 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+   $thnskrg = date("Y");
+   $thnList = $thnskrg - 40;
+   $thnArrayList['#'] = '--';
+   for ($i = 0; $i < 40; $i++) {
+     $thnList = $thnList + 1;
+     $thnArrayList[$thnList] = $thnList;
+   } $blnArrayList['#'] = '--';	
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_sertifikasi").datepicker();
+		jQuery("#d_mulai_sertifikasi").datepicker();
+		jQuery("#d_akhir_sertifikasi").datepicker();
+	});
+</script>
+  
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datariwayatpegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datariwayatpegawai/pegawaijs');">Data Riwayat</a>
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datasertifikasi/listsertifikasi','<?php echo $this->basePath; ?>/sdmmodule/datasertifikasi/sertifikasijs');">Sertifikasi</a
+				<strong> &#8250; </strong><?=$this->jdl;?> Sertifikasi
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Sertifikasi</h2>	
+		<div class="search-panel">
+			<?php include "$this->leftMenu/datapokok.phtml";?>
+		</div>	
+<form id="formsertifikasi" method="post" name="formsertifikasi">		
+	<div class="panel">
+		<div class="spacer"></div> 
+						<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+					<td>Nama Sertifikasi Keahlian
+					<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+					<?php 
+						$nmSer = $_POST['nmSer'];
+						$nmSerAtrib = array("size"=>"50",
+										 "maxlength"=>"100",
+										 "class"=>""); 
+						echo $ctrlFrm->formText('n_sertifikasi', $this->n_sertifikasi, $nmSerAtrib);
+					?>
+						<input type="hidden" name="n_sertifikasi2" id="n_sertifikasi2" value="<?=$this->n_sertifikasi?>" size="10">
+					</td>
+				</tr>
+				<tr>
+					<td>No. Sertifikat<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>
+					<?php 
+						$noSer = $_POST['noSer'];
+						$noSerAtrib = array("size"=>"50",
+										 "maxlength"=>"30",
+										 "class"=>""); 
+						echo $ctrlFrm->formText('i_sertifikasi', $this->i_sertifikasi, $noSerAtrib);
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td>Tanggal Sertifikat Keluar<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_sertifikasi" id="d_sertifikasi" value="<?=$this->d_sertifikasi?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>	 	 
+					</td>
+				</tr>
+				<tr>
+					<td>Lembaga Yang Mengeluarkan</td>
+					<td>:</td> 
+					<td>
+					<?php 
+						$lembaga = $_POST['lembaga'];
+						$lembagaAtrib = array("size"=>"50",
+										 "maxlength"=>"100",
+										 "class"=>""); 
+						echo $ctrlFrm->formText('n_sertifikasi_lembaga', $this->n_sertifikasi_lembaga, $lembagaAtrib);
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td>Berlaku Mulai<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_mulai_sertifikasi" id="d_mulai_sertifikasi" value="<?=$this->d_mulai_sertifikasi?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+						<input type="hidden" name="d_mulai_sertifikasi2" id="d_mulai_sertifikasi2" value="<?=$this->d_mulai_sertifikasi?>" size="10">						
+					</td>
+				</tr>
+				<tr>
+					<td>Berlaku Akhir<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_akhir_sertifikasi" id="d_akhir_sertifikasi" value="<?=$this->d_akhir_sertifikasi?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>	 	 
+					</td>
+				</tr>
+				<tr>
+					<td>Keterangan</td>
+					<td>:</td> 
+					<td>
+					<?php 
+						$keterangan = $_POST['keterangan'];
+						if ($keterangan == '') {
+							$keterangan = null;
+						} 
+						$keteranganAtrib = array("rows"=>"3",
+											    "cols"=>"25",
+												"maxlength"=>"200",
+											    "class"=>"medium"); 
+						echo $ctrlFrm->formTextarea('e_keterangan', $this->e_keterangan, $keteranganAtrib);
+					?>
+					</td>
+				</tr>
+		
+				</tr>
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td>
+								<div class="right">
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datasertifikasi/listsertifikasi','');"> 
+									<input type="submit" value="<?=$this->par;?>" onClick="insertSertifikasi()">
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+									<input type="hidden" name="id" value="<?=$this->id;?>">
+								</div>
+							</td>
+						</tr>			
+			</table>
+	</div>
+</form>

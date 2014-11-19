@@ -1,0 +1,79 @@
+<? require_once 'Zend/View.php';
+   
+   $ctrlFrm = new Zend_View();
+
+	  
+$jumusulanList = count($this->usulanList);     
+$pesan = $this->pesan;
+$spath = $this->getScriptPaths();
+$this->addScriptPath($spath[0] . 'pegawai');
+$pesancek=$this->pesancek;
+if ($pesancek=='gagal'){$confirm ='confirmfail';}
+else {$confirm ='confirm';}	  
+
+?>
+<div class="navlink">
+<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+<strong> &#8250; </strong>Usulan Penerimaan CPNS
+</div>
+<a name="top"></a>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+<h2 class="title">Usulan Penerimaan CPNS</h2>
+<?include ("searchpanel.phtml")?>				
+
+<div class="panel" id="trgtlist">					
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+
+<div class="add" title="Tambah Data" onclick="usulCpns('Simpan');"></div>
+<?	if ($jumusulanList == 0) {
+		echo "<font color=\"red\">Data Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+			<tr>
+		    <th width="30%">Nomor Surat</th>
+			<th width="10%">Tanggal Surat</th>
+			<th width="40%">Perihal</th>
+			<th width="14%">File</th>
+			<th width="6%" colspan="2">&nbsp;</th>
+			</tr>		
+<?
+	if ($jumusulanList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->usulanList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+				<td>								
+					<?php echo $this->escape($val['n_surat']);?>
+				</td>
+				<td><?php  echo $this->escape($val['d_surat']);?></td>
+				<td><?php  echo $this->escape($val['n_perihal']);?></td>
+				<td class="clleft"><?php  echo $this->escape($val['n_file']);?></td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data"  onclick="usulCpns('Ubah','<?=trim($this->escape($val['id']))?>');"></div>	
+				</td>
+				<?if ($this->c_izin=='setuju'){ ?>					
+					<td class="clcenter">			
+						<div class="delete" title="Hapus Data"  onClick="hapusUsulCpns('<?=trim($this->escape($val['id']))?>','<?=trim($this->escape($val['n_surat']))?>')"></div>					
+					</td>	
+				<?}?>				
+		  </tr>
+	<?php endforeach;?> 		  	  
+<?	}	?>
+	</table>									
+</div>	
+	</form>

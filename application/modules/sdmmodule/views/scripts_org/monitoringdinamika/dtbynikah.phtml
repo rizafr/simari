@@ -1,0 +1,51 @@
+<div id="backgroundPopup" >
+	<center>
+	<div id="popupContact" style="height:310px; width:550px;" >	
+
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+			<tr class="event">
+				<td align="left">
+					<h3>Help : Status Nikah</h3>
+				</td>
+				<td align="right">
+					<div class="delete" title="Close" onclick="closeDetil()"></div>
+				</td>
+			</tr>
+		</table>
+			<form id="fd1" name="fd1" enctype="multipart/form-data" method="post">
+			
+			
+			<table border="0" width="100%" class="table">
+		
+		<tbody><tr>
+             <td align="center" colspan="3" class="row1"><input type="checkbox" onclick="if (this.checked == true) {document.getElementById('jumlahcek').value = eval(parseInt(document.getElementById('jumlahcek').value) + 1)} else {document.getElementById('jumlahcek').value = eval(document.getElementById('jumlahcek').value - 1)}" value="B" id="jns_darah[]" name="jns_darah[]">&nbsp;Belum Kawin&nbsp;[B]&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" onclick="if (this.checked == true) {document.getElementById('jumlahcek').value = eval(parseInt(document.getElementById('jumlahcek').value) + 1)} else {document.getElementById('jumlahcek').value = eval(document.getElementById('jumlahcek').value - 1)}" value="D" id="jns_darah[]" name="jns_darah[]">&nbsp;Duda&nbsp;[D]&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" onclick="if (this.checked == true) {document.getElementById('jumlahcek').value = eval(parseInt(document.getElementById('jumlahcek').value) + 1)} else {document.getElementById('jumlahcek').value = eval(document.getElementById('jumlahcek').value - 1)}" value="J" id="jns_darah[]" name="jns_darah[]">&nbsp;Janda&nbsp;[J]&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" onclick="if (this.checked == true) {document.getElementById('jumlahcek').value = eval(parseInt(document.getElementById('jumlahcek').value) + 1)} else {document.getElementById('jumlahcek').value = eval(document.getElementById('jumlahcek').value - 1)}" value="K" id="jns_darah[]" name="jns_darah[]">&nbsp;Kawin&nbsp;[K]&nbsp;&nbsp;&nbsp;&nbsp;<br><a class="link7" onclick="check_all(document.getElementsByName('jns_darah[]'),'',true);document.getElementById('jumlahcek').value= '4'" href="#">Check</a> - <a class="link7" onclick="check_all(document.getElementsByName('jns_darah[]'),'',false);document.getElementById('jumlahcek').value= '0'" href="#">Uncheck</a>	<input type="hidden" value="0" id="jumlahcek" name="jumlahcek"> 
+			 </td>
+         </tr>
+		<tr>
+             <td align="center" colspan="3" class="row">
+     			<input type="button" onclick="if (parseInt(document.getElementById('jumlahcek').value) &gt; 0) {var strg = document.getElementById('query_nip').value; var rstdrh = check_all(document.getElementsByName('jns_darah[]'),document.getElementById('jumlahcek').value,true); if (strg != 'AND ' || strg != 'OR ') {document.getElementById('query_nip').value = strg + ' c_peg_statusnikah IN (' + rstdrh + ') ';} else {document.getElementById('query_nip').value = document.getElementById('query_nip').value + ' c_peg_statusnikah IN (' + rstdrh + ') ';}}" value="Masukan!" tabindex="55" name="bt_input" id="bt_input">
+			</td>
+         </tr>
+		 <tr>
+             <td align="center" colspan="3" class="row1">
+			 <textarea cols="70" rows="5" id="query_nip" name="query_nip"></textarea>
+						</td>
+         </tr>
+		 <tr class="row1">
+             <td align="left" colspan="2">
+				&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = document.getElementById('query_nip').value + '(';" value=" ( " tabindex="56" name="bt1">
+			 		&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg == '') {  document.getElementById('query_nip').value = 'OR ';} else if (strg == 'AND ') {document.getElementById('query_nip').value = 'OR ';}" value=" OR " tabindex="56" name="bt0">
+			 	&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg == '') {  document.getElementById('query_nip').value = 'AND ';} else if (strg == 'OR ') {document.getElementById('query_nip').value = 'AND ';}" value=" AND " tabindex="57" name="bt2">
+				&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = document.getElementById('query_nip').value + ')';" value=" ) " tabindex="57" name="bt3">
+			</td>
+			 <td align="right">
+			 <input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg != '') {document.getElementById('query_result').value = document.getElementById('query_result').value + ' ' + strg;closeDetil()}" value="OK !" tabindex="58" name="bt3">
+			 </td>
+         </tr></tbody></table>      
+			</form>
+			
+			</fieldset>
+	
+	</div>
+	</center>
+</div>	

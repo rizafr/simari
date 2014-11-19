@@ -1,0 +1,115 @@
+.ddsmoothmenu{
+position:relative;
+top:6px;
+font: bold;
+width: 100%;
+z-index:3;
+}
+
+.ddsmoothmenu ul{
+z-index:100;
+margin: 0;
+padding: 0;
+list-style-type: none;
+}
+
+/*Top level list items*/
+.ddsmoothmenu ul li{
+position: relative;
+display: inline;
+float: left;
+}
+
+/*Top level menu link items style*/
+.ddsmoothmenu ul li a{
+	display: block; /*background of menu items (default state)*/
+	padding: 0px 10px;
+	line-height:34px;
+	background:url(../images/v_line.gif) right no-repeat;
+	text-decoration: none;
+}
+
+* html .ddsmoothmenu ul li a{ /*IE6 hack to get sub menu links to behave correctly*/
+display: inline-block;
+}
+
+.ddsmoothmenu ul li a:link, .ddsmoothmenu ul li a:visited{
+	color: #f6f1d4;
+padding:0 30px;
+}
+
+.ddsmoothmenu ul li a:hover{
+/*background: #EEE; background of menu items during onmouseover (hover state)*/
+background:#f6f1d4 url(../images/v_line.gif) right no-repeat;
+color: #222;
+}
+	
+/*1st sub level menu*/
+.ddsmoothmenu ul li ul{
+	position: absolute;
+	left: 0;
+	display: none; /*collapse all sub menus to begin with*/
+	visibility: hidden;
+	color:#f6f1d4;
+	
+}
+
+/*Sub level menu list items (undo style from Top level List Items)*/
+.ddsmoothmenu ul li ul li{
+display: list-item;
+float: none;
+}
+.ddsmoothmenu ul li ul li a:link, .ddsmoothmenu ul li ul li a:visited{
+	background: #713d03 url(../images/blank.gif) right no-repeat;
+padding:0px 10px;
+line-height:26px;
+	color: #f6f1d4;
+}
+.ddsmoothmenu ul li ul li a:hover{
+	background: #f6f1d4;
+	color: #222;
+}
+
+/*All subsequent sub menu levels vertical offset after 1st level sub menu */
+.ddsmoothmenu ul li ul li ul{
+top: 0;
+}
+
+/* Sub level menu links style */
+.ddsmoothmenu ul li ul li a{
+width: 180px; /*width of sub menus*/
+padding: 0 5px;
+margin: 0;
+border: 1px solid #999;
+border-top-width: 0;
+}
+
+
+/* ######### CSS classes applied to down and right arrow images  ######### */
+
+.downarrowclass{
+position: absolute;
+top: 10px;
+right: 3px;
+}
+
+.rightarrowclass{
+position: absolute;
+top: 6px;
+right: 5px;
+}
+
+/* ######### CSS for shadow added to sub menus  ######### */
+
+.ddshadow{
+position: absolute;
+left: 0;
+top: 0;
+width: 0;
+height: 0;
+background: silver;
+}
+
+.toplevelshadow{ /*shadow opacity. Doesn't work in IE*/
+opacity: 0.8;
+}

@@ -1,0 +1,22 @@
+
+#exampleVIII {
+	display: inline-block;
+	width: 180px;
+	text-align: center;
+	cursor: pointer;
+	background: url('../images/shading.png');
+	padding: 5px;
+}
+
+
+.picker {
+	cursor: pointer;
+	width: 13px;
+	height: 12px;
+	display: inline-block;
+	background: url('../images/calendar.gif') no-repeat;
+	margin-left: -19px;
+	margin-top: 4px;
+	position: absolute;
+	display: inline;
+}

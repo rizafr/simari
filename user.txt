@@ -1,0 +1,28 @@
+muhammad.ali.zaki    Biro Perencanaan dan Organisasi
+
+subagyo Sub. Bagian Rencana Anggaran II 
+nursani Bagian Rencana dan Program 
+"196606101991031005";"196606101991031005";"Nursani";"1 ";"01  ";"001 ";"01  ";"00  ";"00  ";"05";"020 "
+
+naulina_sianturi Sub. Bagian Rencana dan Program II 
+"220000996";"196011071987032003";"NAULINA B.I. SIANTURI";"1 ";"01  ";"001 ";"01  ";"03  ";"00  ";"07";"031 "
+
+
+fany.pria	 Sub. Bagian Tata Laksana 
+"197202042002121004";"197202042002121004";"FANY WIDIA";"1 ";"01  ";"001 ";"04  ";"02  ";"00  ";"07";"031 "
+
+dodo.surganda/196105221984031001	 Bagian Evaluasi dan Pelaporan 
+"196105221984031001";"196105221984031001";"Dodo Surganda";"1 ";"01  ";"001 ";"05  ";"00  ";"00  ";"05";"020 "
+
+yusnatin/196306301983032001 Sub. Bagian Pelaporan 
+"220000665";"196306301983032001";"YUSNATIN";"1 ";"01  ";"001 ";"05  ";"02  ";"00  ";"07";"031 "
+
+eldam 	 Sub. Bagian Bimbingan dan Monitoring Penyelenggaraan Program
+"220001512";"197303242002121006";"EL DAMARA";"1 ";"01  ";"001 ";"03  ";"01  ";"00  ";"07";"031 "
+
+
+Kepala Bagian ,Bagian Rencana dan Program,;Biro Perencanaan dan Organisasi,Badan Urusan Administrasi
+Kepala Bagian ,Bagian Penyusunan Renacana Anggaran,;Biro Perencanaan dan Organisasi,Badan Urusan Administrasi
+Kepala Bagian ,Bagian Bimbingan dan Monitoring,;Biro Perencanaan dan Organisasi,Badan Urusan Administrasi
+Kepala Bagian ,Bagian Organisasi dan Tata Laksana,;Biro Perencanaan dan Organisasi,Badan Urusan Administrasi
+Kepala Bagian ,Bagian Evaluasi dan Pelaporan,;Biro Perencanaan dan Organisasi,Badan Urusan Administrasi

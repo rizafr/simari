@@ -1,0 +1,56 @@
+function openFormJabatancalon(par,c_jabatan,n_jabatan){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refjabatancalon/jabatancalonolahdata";
+	var opt = {par:par, c_jabatan:c_jabatan, n_jabatan:n_jabatan};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formjabatancalon").ajaxForm(maintain_jabatancalon);
+		});		
+} 
+
+function insertJabatancalon(){
+	jQuery("#formjabatancalon").ajaxForm(maintain_jabatancalon);
+}
+
+var maintain_jabatancalon = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjabatancalon").ajaxForm(maintain_jabatancalon);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refjabatancalon/insertjabatancalon',
+	type: 'post',
+	resetForm: false
+};
+
+function updateJabatancalon(){
+	jQuery("#formjabatancalon").ajaxForm(update_jabatancalon);
+}
+
+var update_jabatancalon = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjabatancalon").ajaxForm(maintain_jabatancalon);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refjabatancalon/updatejabatancalon',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusJabatancalon(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refjabatancalon/deletejabatancalon';
+		var opt = {c_jabatan : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

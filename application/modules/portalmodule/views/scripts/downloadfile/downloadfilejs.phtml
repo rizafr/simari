@@ -1,0 +1,23 @@
+function uploadData(){
+   document.getElementById("trgt").style.display="block";
+	jQuery("#formimport").ajaxForm(import_data);
+}
+
+function ambilFilePdf(){
+ 
+	url = "<?php echo $this->basePath; ?>/portalmodule/downloadfile/downloadfilepdf";
+	BukaWindows(url,500,200);
+} 
+
+function BukaWindows(url,wid,heg){
+	var w = 0; 
+	var h = 0;
+	w = screen.availWidth;
+	h = screen.availHeight;
+	var popW = wid, popH = heg;
+	var leftc = (w-popW)/2;
+	var topc = (h-popH)/2;
+	var selectWindow = window.open(url,'Selection', 'left=' + leftc + ',top=' + topc + ', width='+popW+',height='+popH+',resizable=0,scrollbars=yes');
+}	
+
+

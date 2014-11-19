@@ -1,0 +1,48 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+?>
+
+	<h3 class="title"><b>Riwayat Pendidikan</b><h3>
+	<br>
+	<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+		<tr>
+			<td width="15%">Strata</td>
+			<td width="1%">:</td>
+			<td>
+				<?
+					$jmljenjang = count($this->nmJenjangList);														   
+					$jenjangReff[''] = '--Pilih--';							
+						for ($i = 0; $i < $jmljenjang; $i++) {
+							$n_pend=trim($this->nmJenjangList[$i]['n_pend']);												   
+							$jenjangReff[trim((string)$this->nmJenjangList[$i]['c_pend'])] = $n_pend;
+						}	
+						echo $ctrlFrm->formSelect('c_pend',$this->c_pend,$pendAtrib,$jenjangReff);
+				?>
+			</td>						
+
+		</tr>
+				<tr>
+					<td>Nama Lembaga</td>
+					<td>:</td> 
+					<td>
+						<input type="text" maxlength="50" name="a_seminar" id="a_seminar" value="<?=$this->a_seminar?>" size="70">
+					</td>
+				</tr>
+				<tr>
+					<td>Jurusan</td>
+					<td>:</td> 
+					<td>
+						<input type="text" maxlength="50" name="a_seminar" id="a_seminar" value="<?=$this->a_seminar?>" size="70">
+					</td>
+				</tr>				
+				<tr>
+					<td>Tahun Lulus</td>
+					<td>:</td> 
+					<td>
+						<input type="text" maxlength="50" name="a_seminar" id="a_seminar" value="<?=$this->a_seminar?>" size="10">
+					</td>
+				</tr>		
+	</table>

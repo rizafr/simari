@@ -1,0 +1,56 @@
+function openFormMiliter(par,c_jenis_kel,n_jenis_kel){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refmiliter/militerolahdata";
+	var opt = {par:par, c_jenis_kel:c_jenis_kel, n_jenis_kel:n_jenis_kel};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formmiliter").ajaxForm(maintain_militer);
+		});		
+} 
+
+function insertMiliter(){
+	jQuery("#formmiliter").ajaxForm(maintain_militer);
+}
+
+var maintain_militer = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formmiliter").ajaxForm(maintain_militer);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refmiliter/insertmiliter',
+	type: 'post',
+	resetForm: false
+};
+
+function updateMiliter(){
+	jQuery("#formmiliter").ajaxForm(update_militer);
+}
+
+var update_militer = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formmiliter").ajaxForm(maintain_militer);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refmiliter/updatemiliter',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusMiliter(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refmiliter/deletemiliter';
+		var opt = {c_jenis_kel : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

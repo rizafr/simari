@@ -1,0 +1,114 @@
+function cariListSurat(){
+var cCol=document.getElementById("cCol").value;
+var nCol=document.getElementById("nCol").value;
+	url = "<?php echo $this->basePath; ?>/sdmmodule/usulanterimacpns/listusulan"	
+	var opt = {cCol:cCol,nCol:nCol};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+} 
+
+function usulCpns(par,id){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/usulanterimacpns/usulan"	
+	var opt = {par:par,id:id};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+} 
+
+var maintain_cpnsusul = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formcpnsusul;
+		astr= "document.formcpnsusul";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/								
+					if((!n_surat.value)){cekVal = sdmValidasiData(astr,"n_surat","Nomor Surat harus diisi....!");return false;break;}
+					if((!n_perihal.value)){cekVal = sdmValidasiData(astr,"n_perihal","Perihal harus diisi....!");return false;break;}
+					if((!d_surat.value)){cekVal = sdmValidasiData(astr,"d_surat","Tanggal surat harus diisi....!");return false;break;}
+				 break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formcpnsusul").ajaxForm(maintain_cpnsusul);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/usulanterimacpns/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+function insertCpnsUsul(){
+	jQuery("#formcpnsusul").ajaxForm(maintain_cpnsusul);
+}
+
+
+function hapusBarisx(r) {
+ 	document.getElementById("n_jabatan_usul_1").value="";
+	document.getElementById("n_pend_usul_1").value="";
+}
+function hapusBaris(induk,r) {
+	var i=r.parentNode.parentNode.rowIndex;
+	document.getElementById("tblIndikator_"+induk+"").deleteRow(i);
+	var counttbl=document.getElementById('counttable').value;
+	document.getElementById('counttable').value=counttbl*1-1;
+}
+function tambahBaris(par1){
+	var html="";
+	var countpar=par1*1+1;
+	var counttbl=document.getElementById('counttable').value;
+	var counttblx=counttbl*1+1;	
+    if  (par1*1>=counttbl*1)
+    {
+        html = html + '<table  align="center" border="0" cellspacing="1" cellpadding="2" class="tbl" id="tblIndikator_'+countpar+'">';
+        html = html + '<tr class="event" id="tr_'+countpar+'">';
+        html = html + '<td width="30%">';
+        html = html + '<textarea rows="1" name="n_jabatan_usul_'+countpar+'" id="n_jabatan_usul_'+countpar+'"></textarea>';
+        html = html + '</td>';
+        html = html + '<td width="45%">';
+        html = html + '<textarea rows="1" name="n_pend_usul_'+countpar+'" id="n_pend_usul_'+countpar+'"></textarea>';
+        html = html + '</td>';
+        html = html + '<td width="5%">';
+        html = html + '<img src="/images/del.gif" title="Hapus Baris" class=link onclick=javascript:hapusBaris("'+countpar+'",this); >&nbsp;';
+        html = html + '<img src="/images/add_row.gif" title="Tambah Baris" class=link onclick=javascript:tambahBaris("'+countpar+'"); > ';
+        html = html + '</td>';
+        html = html + '</tr>';
+        html = html + '</table>';	
+        html = html + '<div id="tblind_'+countpar+'"></div>';
+        document.getElementById("tblind_"+par1+"").innerHTML = html;
+        document.getElementById('counttable').value=counttbl*1+1;	
+    }
+}
+
+function CariJabatan(){
+var url = '<?php echo $this->basePath; ?>/sdmmodule/usulanterimacpns/listnamajabatan';
+var param = {};
+jQuery.get(url,param,function(data) {
+jQuery("#targetdetil").html(data);
+centerPopup();
+loadPopup();});}
+
+function setvalueuplfile(v,n,f) { 
+	  if (f!="") {
+	    var pass=false;
+	    var af=f.split("/");
+        var nval=eval("document.forms[0]."+n);
+		var ext=v.substring(v.lastIndexOf(".")+1,v.length);
+		if ((ext==f)||(ext=='PDF')){ 
+		document.forms[0].a_file.value=v; 
+		}
+		else{
+		  alert ("Hanya untuk file berekstensi '"+f+"'");
+		  nval.value="";
+		  document.forms[0].a_file.value=""; 
+		  return;	  
+		}
+	  }
+}
+
+

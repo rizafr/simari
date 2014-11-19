@@ -1,0 +1,11 @@
+<?
+	require_once 'Zend/View.php';
+	$ctrlFrm = new Zend_View();
+						   $lisdikteknis[''] = '--Pilih--';
+						   if (count($this->lisdikteknis)>=1){
+						   foreach ($this->lisdikteknis as $key => $val):					
+								$lisdikteknis[$this->escape($val['c_diklat_teknis'])]= $this->escape($val['n_diklat_teknis']);			 
+						   endforeach;
+						   }
+							echo $ctrlFrm->formSelect('n_diklat', $this->n_diklat, null, $lisdikteknis);
+?>

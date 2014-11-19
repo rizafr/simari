@@ -1,0 +1,204 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tanggal_lahir").datepicker();
+		jQuery("#d_tanggal_nikah").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Jabatan
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Referensi Jabatan</h2>	
+		
+<form id="formjabatan" method="post" name="formjabatan">		
+	<div class="panel">
+		<div class="spacer"></div> 
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<? if($this->par != "insert"){?>
+				<tr>
+					<td>Kode Jabatan
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_jabatan" id="c_jabatan" value="<?=$this->detailJabatan['c_jabatan']?>" size="70" maxlength="4" readonly>
+					</td>
+				</tr>
+				<?}?>
+				<tr>
+					<td>Nama Jabatan <span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_jabatan" id="n_jabatan" value="<?=$this->detailJabatan['n_jabatan']?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Keterangan
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="e_keterangan" id="e_keterangan" value="<?=$this->detailJabatan['e_keterangan']?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Kelompok Fungsional</td>
+					<td>:</td> 
+					<td>					
+						<?php 
+						 $jmlPropList = count($this->jabatanKelFungList);
+					   $KelFungListList[''] = '--Pilih--';
+					   for ($i = 0; $i < $jmlPropList; $i++) {
+						$KelFungListList[(string)$this->jabatanKelFungList[$i]->c_kelfungsional] = (string)$this->jabatanKelFungList[$i]->n_kelfungsional;			 
+					   }
+					  echo $ctrlFrm->formSelect('c_kelfgs', $this->detailJabatan['c_kelfgs'], null, $KelFungListList)
+					?>
+					
+					</td>
+				</tr>
+				<tr>
+					<td>Tingkat Fungsional </td>
+					<td>:</td> 
+					<td>
+						
+						<?php 
+						$tktfungsional = $this->detailJabatan['c_tkfgs'].'@'.$this->detailJabatan['q_tktfgs'];
+					   $jmltkt = count($this->tingkatFungList);
+					   $tktFungListList[''] = '--Pilih--';
+					   for ($i = 0; $i < $jmltkt; $i++) {
+						$tktFungListList[(string)$this->tingkatFungList[$i]->c_tkfgs.'@'.(string)$this->tingkatFungList[$i]->q_tktfgs] = (string)$this->tingkatFungList[$i]->n_title;			 
+					   }
+					  echo $ctrlFrm->formSelect('c_tkfgs', $tktfungsional, null, $tktFungListList)
+					?>	
+					</td>
+				</tr>
+				<tr>
+					<td>Pangkat Terendah
+					</td>
+					<td>:</td> 
+					<td>					
+						<select name="c_golr" id="c_golr" >
+						<option value="">.....</option>
+						<?
+						$jmlgol=count($this->golRef);
+						foreach ($this->golRef as $key => $val): 
+							$c_peg_golongan=$this->escape($val['c_peg_golongan']);
+							$n_peg_golongan=$this->escape($val['n_peg_golongan']);
+							$sel='';
+							if ($c_peg_golongan == $this->detailJabatan['c_golr']) $sel='selected';							
+							echo "<option value=\"$c_peg_golongan\" $sel>$n_peg_golongan</option>";		
+							
+						 endforeach;
+						?>
+						</select>
+					</td>
+				</tr><tr>
+					<td>Pangkat Tertinggi
+					</td>
+					<td>:</td> 
+					<td>					
+						<select name="c_golt" id="c_golt">
+						<option value="">.....</option>
+						<?
+						$jmlgol=count($this->golRef);
+						foreach ($this->golRef as $key => $val): 
+							$c_peg_golongan=$this->escape($val['c_peg_golongan']);
+							$n_peg_golongan=$this->escape($val['n_peg_golongan']);
+							$sel='';
+							if ($c_peg_golongan == $this->detailJabatan['c_golt']) $sel='selected';							
+							
+							echo "<option value=\"$c_peg_golongan\" $sel>$n_peg_golongan</option>";		
+							
+						 endforeach;
+						?>
+						</select>
+					</td>
+				</tr><tr>
+					<td> Eselon <span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<select name="c_eselon" id="c_eselon">
+						<?
+						
+						foreach ($this->eselonRef as $key => $val):
+							$sel='';
+							$c_eselon=$this->escape($val['c_eselon']);
+							$n_eselon=$this->escape($val['n_eselon']);
+							if ($c_eselon == $this->detailJabatan['c_eselon']) $sel='selected';							
+							echo "<option value=\"$c_eselon\" $sel>$n_eselon</option>";		
+							
+						 endforeach;
+						 ?>
+						</select>
+					</td>
+				</tr><tr>
+					<td>Pendidikan
+					</td>
+					<td>:</td> 
+					<td>					
+						<select name="c_strata" id="c_strata">
+						<option value="">.....</option>
+						<?
+						$jmpddk=count($this->pendRef);
+						foreach ($this->pendRef as $key => $val): 
+							$n_pend=$this->escape($val['n_pend']);
+							$c_pend=$this->escape($val['c_pend']);
+							$sel='';
+							if ($c_pend == $this->detailJabatan['c_strata']) $sel='selected';							
+							echo "<option value=\"$c_pend\" $sel>$n_pend</option>";		
+							
+						 endforeach;
+						 ?>
+						</select>
+					</td>
+				</tr><tr>
+					<td>Besar Tunjangan (Rp)
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="q_tunjangan" id="q_tunjangan" value="<?=$this->detailJabatan['q_tunjangan']?>" size="70" maxlength=12 onKeypress="return justnumberanddot(event)">
+					</td>
+				</tr><tr>
+					<td>Usia Pensiun  <span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="q_usia_pens" id="q_usia_pens" value="<?=$this->detailJabatan['q_usia_pens']?>" size="30" maxlength=2 onKeypress="return justnumber(event)">
+					</td>
+				</tr><tr>
+					<td>Angka Kredit minimal
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="q_ak_minimal" id="q_ak_minimal" value="<?=$this->detailJabatan['q_ak_minimal']?>" size="30" maxlength=6 onKeypress="return justnumber(event)">
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/refjabatan/listjabatan','<?php echo $this->basePath; ?>/sdmmodule/refjabatan/jabatanjs');"> 
+							<?if ($this->par == 'insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertJabatan()">
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updateJabatan()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>

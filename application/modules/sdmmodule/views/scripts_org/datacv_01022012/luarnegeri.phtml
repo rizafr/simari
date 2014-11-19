@@ -1,0 +1,62 @@
+<? require_once 'Zend/View.php';
+   
+   $ctrlFrm = new Zend_View();
+ 	  
+$jumluarnegeriList = count($this->luarnegeriList); 
+	if ($jumluarnegeriList == 0) {    
+		echo "<font color=\"red\">Data Luar Negeri Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+		<tr>
+		    <th width="20%" rowspan="2">Negara</th>
+			<th width="20%" rowspan="2">Tujuan</th>
+			<th width="15%" rowspan="2">Pembiayaan</th>
+			<th width="15%" rowspan="2">Sponsor</th>
+			<th width="10%" rowspan="2">Tgl Berangkat</th>
+			<th width="20%" colspan="3">Lama Kunjungan</th>
+		</tr>
+		<tr>
+		    <th>Hari</th>
+			<th>Bulan</th>
+			<th>Tahun</th>
+		</tr>		
+<?
+	if ($jumluarnegeriList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->luarnegeriList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					?>
+
+				<td>
+					<a href="#" onclick="detilluarnegeri('<?=$nip?>','<?=trim($this->escape($val['c_negara']))?>','<?=trim($this->escape($val['d_barangkat']))?>')"><?php echo $this->escape($val['n_negara']);?></a>
+				</td>
+				<td><?php  echo $this->escape($val['a_tujuan']);?></td>
+				<td><?php  echo $this->escape($val['n_biaya']);?></td>
+				<td><?php  echo $this->escape($val['e_sponsor']);?></td>
+				<td class="clcenter"><?php echo $this->escape($val['d_barangkat']);?></td>
+				<td class="clright"><?php echo $this->escape($val['q_hari']);?></td>
+				<td class="clright"><?php echo $this->escape($val['q_bulan']);?></td>
+				<td class="clright"><?php echo $this->escape($val['q_tahun']);?></td>
+	
+		  </tr>
+	<?php endforeach;?> 		  	  
+<?	}	?>
+	</table>									

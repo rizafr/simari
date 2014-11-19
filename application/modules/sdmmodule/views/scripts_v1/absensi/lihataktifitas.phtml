@@ -1,0 +1,204 @@
+<? 	require_once 'Zend/View.php';
+	require_once 'share/oa_page.php';
+	require_once 'share/oa_date.php'; 
+   
+	$ctrlDate = new oa_date();      
+	$ctrlFrm = new Zend_View();
+	$halaman = new oa_page();
+
+
+   $thnskrg = date("Y");
+   $thnList = $thnskrg - 11;
+   $thnList2 = $thnskrg - 55;
+	
+   $thnArrayList['#'] = '--';
+   		
+   for ($i = 0; $i < 21; $i++) {
+     $thnList = $thnList + 1;
+     $thnArrayList[$thnList] = $thnList;
+   }
+
+	
+   $thnArrayList2['#'] = '--';
+   	 
+   for ($i = 0; $i < 60; $i++) {
+     $thnList2 = $thnList2 + 1;
+     $thnArrayList2[$thnList2] = $thnList2;
+   }
+		
+		
+   $pnjngArray = count($thnArrayList);
+
+	  $blnList = 0;
+	  for ($j = 0; $j < 12; $j++) {
+        $blnList = $blnList + 1;
+		if ($blnList < 10) {
+		  $blnBaruList = "0".$blnList;
+		  $blnArrayList[] = $blnBaruList;
+		} else {
+		  $blnBaruList = $blnList;
+		  $blnArrayList[] = $blnBaruList;
+		}
+      }
+		
+	  $hrList = 0;
+	  for ($k = 0; $k < 31; $k++) {
+        $hrList = $hrList + 1;
+		if ($hrList < 10) {
+		  $hrBaruList = "0".$hrList;
+		  $hrArrayList[] = $hrBaruList;
+		} else {
+		  $hrBaruList = $hrList;
+		  $hrArrayList[] = $hrBaruList;
+		}
+      }
+
+
+
+   $xxxIdList = array("#"=>"--",
+                     "nip"=>"NIP",
+					 "nama"=>"Nama Pegawai");
+
+
+   $jmlPegawaiList = count($this->pegawaiList);
+   //echo $jmlPegawaiList;
+   for ($j = 0; $j < $jmlPegawaiList; $j++) {
+     $pegawai[$j] = array("i_peg_nip"  		=>(string)$this->pegawaiList[$j]['i_peg_nip'],
+	                      "n_peg"      		=>(string)$this->pegawaiList[$j]['n_peg'],
+						  "n_jabatan"  		=>(string)$this->pegawaiList[$j]['n_jabatan'],
+						  //"gol"  			=>(string)$this->pegawaiList[$j]['gol'],   //gol dr tabel e_sdm_pegawai_0_tm
+						  //"pangkat"  		=>(string)$this->pegawaiList[$j]['pangkat'],        //pangkat dr tabel e_sdm_pegawai_0_tm
+						  "gol"  			=>(string)$this->pegawaiList[$j]['golMax'],    //gol dr tabel e_sdm_peg_golonganterakhir_vm
+						  "pangkat"  		=>(string)$this->pegawaiList[$j]['pangkatMax'],   //pangkat dr tabel e_sdm_peg_golonganterakhir_vm
+						  "statusPeg"  		=>(string)$this->pegawaiList[$j]['statusPeg'],
+						  "unitKerja"  		=>(string)$this->pegawaiList[$j]['unitKerja']);
+   }
+
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'absensi');
+   echo $this->render('aktifitasjs.phtml'); 
+   
+	$numToDisplay = $this->numToDisplay;
+	$currentPage = $this->currentPage;  
+?>
+<div class="contentdata-modul" id="modul">
+   <div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Absensi
+		<strong> &#8250; </strong> Melihat Aktifitas Harian
+	</div>
+	<div class="navlink">Halaman Utama Pegawai</div>
+	<h3 class="title">MELIHAT AKTIFITAS HARIAN PEGAWAI</h3>
+	&nbsp;&nbsp;&nbsp;&nbsp;Menu ini digunakan untuk melihat aktifitas harian pegawai.
+	<div class="spacer"></div>
+	<a name="top"></a>	
+	<div class="search-panel">
+		<fieldset class="panel-form3">
+			<form id="frmLihatAkt" action="<?php echo $this->basePath; ?>/sdm/absensi/lihataktifitas" method="post" name="frmLihatAkt">
+				<dl>
+					<dt>Pencarian berdasarkan</dt>
+					<dd class="dot2">:</dd> 
+					<dd class="col-right3">
+					<?php 
+						$xxxId = $_POST['xxxId'];
+					   if ($xxxId == null) {
+							$xxxId = $_REQUEST['param2'];
+					   }
+						echo $ctrlFrm->formSelect('xxxId', $xxxId, null, $xxxIdList);
+					 
+						$idAtrib = array("size"=>"20",
+										 //"maxlength"=>"9",
+										 "maxlength"=>"20",
+										 "class"=>""); 
+						$id = $_POST['id'];
+					   if ($id == null) {
+							$id = $_REQUEST['param1'];
+					   }
+					?>
+					&nbsp;				
+					<?
+						echo $ctrlFrm->formText('id', $id, $idAtrib);
+					    
+						$atribSubmit = array("onclick"=>"javascript:commandSubmit();");
+						echo $ctrlFrm->formSubmit('perintah', 'CARI', $atribSubmit)."&nbsp;";
+					?>
+					</dd>
+				</dl>
+			</form>
+		</fieldset>
+	</div> <!--end div Search Panel-->
+
+	<div class="space-line"></div>
+	
+	<fieldset class="fields">
+		<div class="title2">Data Aktifitas Pegawai</div>
+			<div class="blank"></div>
+<? 	if ($jmlPegawaiList == 0) {
+		echo "<font color=\"red\">Data Tidak Ditemukan</font>";
+?>
+		<table align="center" width="80%" border="0" cellspacing="1" cellpadding="2" class="tbl">
+		   <tr>
+				<th width="4%">No.</th>
+				<th width="30%">Nama Pegawai</th>
+				<th width="10%">NIP</th>
+				<th width="56%">Satuan Kerja</th>
+				<!--<th width="26%">Tanggal Aktifitas</th>-->
+			</tr> 
+		</table>
+<? } else { ?>
+		<table align="center" width="80%" border="0" cellspacing="1" cellpadding="2" class="tbl">
+			<tr>
+				<th width="4%">No.</th>
+				<th width="30%">Nama Pegawai</th>
+				<th width="10%">NIP</th>
+				<th width="56%">Satuan Kerja</th>
+				<!--<th width="26%">Tanggal Aktifitas</th>-->
+			</tr> 
+	  			<?php 
+					   foreach ($pegawai as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+						$noUrut = (($currentPage -1)* $numToDisplay) + $key +1;
+					// $hr = document."."."frmLihatAkt".".".hr1.".".value;	
+					// $bln = document."."."frmLihatAkt".".".bln1.".".value;	
+					// $thn = document."."."frmLihatAkt".".".thn1.".".value;	
+					// $tgl = $thn."-".$bln."-".$hr;
+					// $hr1 = $_POST['hr1'];
+					// $bln1 = $_POST['bln1'];
+					// $thn1 = $_POST['thn1'];
+					// $tgl = $thn1."-".$bln1."-".$hr1;
+					?>
+				<td class="clcenter">&nbsp;<?php echo $noUrut;?></td>
+			    <td>&nbsp;
+					<!--<a href="#" onClick="javascript:viewAktifitas('<? echo $this->escape($val['i_peg_nip']); ?>', '<? echo $tgl; ?>');" class="link" title="View Aktifitas"><?php echo $this->escape($val['n_peg']);?> </a>-->
+					<a href="#" onClick="javascript:viewAktifitas('<? echo $this->escape($val['i_peg_nip']); ?>');" class="link" title="View Aktifitas"><?php echo $this->escape($val['n_peg']);?> </a>
+				</td>
+			    <td>&nbsp;<?php echo $this->escape($val['i_peg_nip']);?></td>
+				<td>&nbsp;<?php echo $this->escape($val['unitKerja']);?></td>
+				<!--<td class="clcenter">
+					<?php 
+					//echo $ctrlDate->formTanggal_oa('hr1',$hr1,'bln1',$bln1,'thn1',$thn1); 
+					?>				
+				</td>-->
+				
+			</tr>
+	<?php endforeach;?> 	
+
+	</table>
+			<a name="pageCursor"></a>
+			<?			
+ 			$totalData = $this->totPegawai;			
+			$modul = $this->basePath."/sdm/absensi/lihataktifitas";
+			$fungsi = 'pegSearch';
+			echo $halaman->showPage($totalData, $numToDisplay, $currentPage, $modul, $fungsi, $id, $xxxId,'','');
+ 			//echo $hal;
+			?>
+	<? } ?>
+	
+
+	</fieldset>
+</div>		   			   

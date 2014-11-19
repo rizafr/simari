@@ -1,0 +1,49 @@
+<? require_once 'Zend/View.php';
+   
+   $ctrlFrm = new Zend_View();
+
+	  
+$jumkesehatanList = count($this->kesehatanList);     
+	if ($jumkesehatanList == 0) {
+		echo "<font color=\"red\">Data Kesehatan Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+			<tr>
+		    <th width="20%">Nama Penyakit</th>
+			<th width="12%">Tanggal Sakit</th>
+			<th width="12%">Tanggal Sembuh</th>
+			<th width="16%">Nama Rumah Sakit</th>
+			<th width="20%">Alamat Rumah Sakit</th>
+			</tr>		
+<?
+	if ($jumkesehatanList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->kesehatanList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					?>
+				<td>
+					<a href="#" onclick="detilkesehatan('<?=$nip?>','<?=trim($this->escape($val['d_rawatmulai']))?>')"><?php echo $this->escape($val['n_penyakit']);?></a>
+				</td>
+				<td><?php  echo $this->escape($val['d_rawatmulai']);?></td>
+				<td class="clcenter"><?php  echo $this->escape($val['d_rawatakhir']);?></td>
+				<td class="clcenter"><?php  echo $this->escape($val['n_rmhsakit']);?></td>
+				<td><?php echo $this->escape($val['a_rmhsakit']);?></td>
+		  </tr>
+	<?php endforeach;?> 		  	  
+<?	}	?>
+	</table>									

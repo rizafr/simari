@@ -1,0 +1,54 @@
+function TpaM(par,id){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datatpa/tpa"	
+	var opt = {par:par,id:id};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#formtpa").ajaxForm(maintain_tpa);
+		});		
+} 
+var maintain_tpa = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formtpa;
+		astr= "document.formtpa";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/
+				if((!e_tujuan_akademik.value)){cekVal = sdmValidasiData(astr,"e_tujuan_akademik","Tujuan harus diisi....!");return false;break;}
+				if((!q_nilai_akademik.value)){cekVal = sdmValidasiData(astr,"q_nilai_akademik","Nilai harus diisi....!");return false;break;}
+				if((!d_test_akademik.value)){cekVal = sdmValidasiData(astr,"d_test_akademik","Tanggal Test harus diisi....!");return false;break;}
+				break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formtpa").ajaxForm(maintain_tpa);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datatpa/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+
+function insertTpa(){
+	jQuery("#formtpa").ajaxForm(maintain_tpa);
+}
+
+function HapusDataTpa(nip,id)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/datatpa/hapusdata"
+		var opt = {nip:nip,id:id};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}

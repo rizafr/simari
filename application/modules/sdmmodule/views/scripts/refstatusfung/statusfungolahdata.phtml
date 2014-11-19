@@ -1,0 +1,69 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tanggal_lahir").datepicker();
+		jQuery("#d_tanggal_nikah").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Status Fungsional
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Referensi Status Fungsional</h2>	
+		
+<form id="formstatusfung" method="post" name="formstatusfung">		
+	<div class="panel">
+		<div class="spacer"></div> 
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Kode Status Fungsional<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_statusfung" id="c_statusfung" value="<?=$this->detailStatusfung['c_statusfung']?>" size="70" <? if($this->par != "insert"){ ?> readonly <? } ?> >
+					</td>
+				</tr><tr>
+					<td>Kode Kelompok<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_kelompok" id="c_kelompok" value="<?=$this->detailStatusfung['c_kelompok']?>" size="70" >
+					</td>
+				</tr><tr>
+					<td>Nama Status Fungsional<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_statusfung" id="n_statusfung" value="<?=$this->detailStatusfung['n_statusfung']?>" size="70" >
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/refstatusfung/liststatusfung','<?php echo $this->basePath; ?>/sdmmodule/refstatusfung/statusfungjs');"> 
+							<?if ($this->par == 'insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertStatusfung()">
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updateStatusfung()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>

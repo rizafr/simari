@@ -1,0 +1,123 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapenghargaan/listpenghargaan','<?php echo $this->basePath; ?>/sdmmodule/datapenghargaan/penghargaanjs');">Penghargaan</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Penghargaan
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Penghargaan</h2>	
+<div class="boxholder">					
+	<div class="panel">
+		<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<br>
+<form id="formpenghargaan" method="post" name="formpenghargaan">		
+	<div class="panel">
+		<div class="spacer"></div> 
+						<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td width="30%">Jenis Tanda Jasa<span class="hightlight">*</span></td>
+					<td width="2%">:</td> 
+					<td>					
+						<?php 
+							$jmlJasaList = count($this->jnsPenghargaanList);
+							$jnsPenghargaanList[''] = '--Pilih--';
+							for ($i = 0; $i < $jmlJasaList; $i++) {
+								$jnsPenghargaanList[(string)$this->jnsPenghargaanList[$i]->c_penghargaan] =(string)$this->jnsPenghargaanList[$i]->n_penghargaan;	
+							}
+							$parlisjnsttd= array("onChange"=>"getNama()");	
+							echo $ctrlFrm->formSelect('n_jns_penghargaan', $this->n_jns_penghargaan, $parlisjnsttd,$jnsPenghargaanList)
+						?>							
+						<input type="hidden" name="n_jns_penghargaan2" id="n_jns_penghargaan2" value="<?=$this->n_jns_penghargaan?>">
+					</td>
+				</tr>
+				<tr>
+					<td>Nama Tanda Jasa<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>						
+						<?php 
+							$jmlJasaList = count($this->tandaJasaList);
+							$nmttdjasa[''] = '--Pilih--';
+							for ($i = 0; $i < $jmlJasaList; $i++) {
+								$nmttdjasa[(string)$this->tandaJasaList[$i]->c_tandajasa] =(string)$this->tandaJasaList[$i]->n_tandajasa;	
+							}
+							echo $ctrlFrm->formSelect('n_penghargaan',$this->n_penghargaan, null, $nmttdjasa);
+						?>						
+						<input type="hidden" name="n_penghargaan2" id="n_penghargaan2" value="<?=$this->n_penghargaan?>">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3"><b>Nama Penghargaan Alternatif (Kategori Lain-lain)</b></td>
+				</tr>
+				<tr>
+					<td>Tahun</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_tahun_alteratif" id="d_tahun_alteratif" value="<?=$this->d_tahun_alteratif?>" size="10" maxlength="4" onkeyup="isNumber('d_tahun_alteratif')">
+					</td>
+				</tr>
+				<tr>
+					<td>Negara</td>
+					<td>:</td> 
+					<td>
+						<?php 
+							$jmlNegaraList = count($this->negaraList);
+							$negaraList[''] = '--Pilih--';
+							for ($i = 0; $i < $jmlNegaraList; $i++) {
+								$negaraList[(string)$this->negaraList[$i]->c_negara] =(string)$this->negaraList[$i]->n_negara;	
+							}
+							echo $ctrlFrm->formSelect('c_negara_alternatif', $this->c_negara_alternatif, null,$negaraList)
+						?>	
+					</td>
+				</tr>
+				<tr>
+					<td>Lembaga Pemberi</td>
+					<td>:</td> 
+					<td>
+						<input type="text" maxlength="50" name="n_lembaga_alternatif" id="n_lembaga_alternatif" value="<?=$this->n_lembaga_alternatif?>" size="70">
+					</td>
+				</tr>
+				<tr>
+					<td>Keterangan</td>
+					<td>:</td> 
+					<td>
+					<?php 
+						$keteranganAtrib = array("rows"=>"3","cols"=>"25","maxlength"=>"100", "class"=>"medium"); 
+						echo $ctrlFrm->formTextarea('e_keterangan', $this->e_keterangan, $keteranganAtrib);
+					?>
+					</td>
+				</tr>
+	</table>
+	</div>
+	<br>
+	<div class="panel">
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">		
+				</tr>
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td>
+								<div class="right">
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapenghargaan/listpenghargaan','');"> 
+									<input type="submit" value="<?=$this->par;?>" onClick="insertPenghargaan()">
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+								</div>
+							</td>
+						</tr>			
+			</table>
+	</div>
+	</form>
+</div>	

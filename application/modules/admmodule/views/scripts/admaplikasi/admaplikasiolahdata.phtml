@@ -1,0 +1,116 @@
+<? 
+   require_once 'Zend/View.php';
+   
+   $ctrlFrm = new Zend_View();
+   /*
+   require_once 'share/oa_date.php';
+   require_once 'share/oa_page.php';
+   require_once 'share/oa_message.php';
+   
+   $message = new oa_message();
+
+   
+   
+   $convDate = new oa_date();
+   $halaman = new oa_page();
+*/
+?>
+
+<div class="navlink">
+	<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+	<strong> &#8250; </strong> Perencanaan 
+	<strong> &#8250; </strong> Administrasi</a>
+	<strong> &#8250; </strong><?=$this->jdl;?> Admin User
+</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+
+	
+<h2 class="title"><?=$this->jdl;?>Mengelola Aplikasi</h2>
+
+<div class="panel">
+	<div class="inner">
+		<span class="corners-top"><span></span></span>
+	    <div class="space2"></div>  	
+		<a name="top"></a>
+	
+		<?php
+		if($this->jenisForm == "ubah")
+		{
+			?>
+			<form method="post" name="frmadmaplikasiedit" id="frmadmaplikasiedit">
+			<?
+			$formName = "frmadmaplikasiedit";
+		}
+		else
+		{
+			?>
+			<form method="post" name="frmadmaplikasiinsert" id="frmadmaplikasiinsert">
+			<?
+			$formName = "frmadmaplikasiinsert";
+		}
+		?>
+			<table border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+				    <td align="right" width="200"><span class="highlight">*</span>Urutan Aplikasi :</td>
+					<td>
+						<?php
+						$cAplikasiAtrib = array("size"=>"10",
+							"maxlength"=>"8"
+						);
+						if($this->jenisForm == 'ubah'){
+							$iUrutAplikasi = $this->detailAplikasi['i_urut_aplikasi'];
+						} else {
+							$iUrutAplikasi =  $this->noUrutAplikasi;
+						}
+						echo $ctrlFrm->formText('iUrutAplikasi', $iUrutAplikasi, null);
+						?>
+					</td>
+				</tr>
+				<tr>
+				    <td align="right" width="200"><span class="highlight">*</span> Kode Aplikasi :</td>
+					<td>
+						<?php
+						$cAplikasiAtrib = array("size"=>"10",
+							"maxlength"=>"8"
+						);
+						
+						echo $ctrlFrm->formHidden('iAplikasi', $this->detailAplikasi['i_aplikasi'], null);
+						echo $ctrlFrm->formText('cAplikasi', $this->detailAplikasi['c_aplikasi'], $cAplikasiAtrib);
+						?>
+					</td>
+				</tr>
+				<tr>
+				    <td align="right" width="200"><span class="highlight">*</span> Nama Aplikasi :</td>
+					<td>
+						<?php
+						$nAplikasiAtrib = array("size"=>"50",
+							"maxlength"=>"50"
+						);
+						echo $ctrlFrm->formText('nAplikasi', $this->detailAplikasi['n_aplikasi'], $nAplikasiAtrib);
+						?>
+					</td>
+				</tr>
+				<tr>
+				    <td align="right" width="200"><span class="highlight">*</span> Keterangan :</td>
+					<td>
+						<textarea col="2" name="eAplikasi" id="eAplikasi"><?php echo $this->detailAplikasi['e_aplikasi']; ?></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<div class="right">
+							<input type="button"    value="Batal" onClick="kembaliDaftarAplikasi()"> 
+							<input type="reset"   value="Ulangi"> 
+							<input   type="submit" value="Simpan">
+						</div>
+					</td>
+				</tr>
+			</table>
+			<div class="space2"></div>
+		</form>
+	</div>
+	<span class="corners-bottom"><span></span></span>
+</div>

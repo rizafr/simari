@@ -1,0 +1,96 @@
+<? require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+$jumPangkatList = count($this->pangkatList);   
+	if ($jumPangkatList == 0) {
+		echo "<font color=\"red\">Data Riwayat Kepangkatan Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+		<tr>
+		    <th width="15%">Golongan/Pangkat</th>
+			<th width="7%">TMT</th>
+			<th width="9%">Masa Kerja Golongan</th>
+			<th width="12%">SK Pejabat</th>
+			<th width="15%">Nomor SK</th>
+			<th width="7%">Tanggal SK</th>
+			<th width="15%">Jenis Kenaikan</th>
+			<th width="8%">Keterangan</th>
+		</tr>
+<?	if ($jumPangkatList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>			
+	</table>
+<? } else { ?>	
+	
+		<?php foreach ($this->pangkatList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					?>
+				<?php
+					$gol = $this->escape($val['c_golongan']);
+					$nmPangkat = $this->escape($val['n_pangkat']);
+					$golPangkat = $gol." - ".$nmPangkat;				
+					$tmt = $this->escape($val['d_tmt_golongan']);
+					$thnTmt = substr($tmt,0,4);
+					$blnTmt = substr($tmt,5,2);
+					$hrTmt = substr($tmt,8,2);
+					$tglTmt = $hrTmt."-".$blnTmt."-".$thnTmt;
+					
+					if ($thnTmt == ''){$tglTmt = null;}
+					if ($blnTmt == '#'){$tglTmt = null;}
+					if ($hrTmt == '#'){$tglTmt = null;}					
+					$tglSK = $this->escape($val['d_sk_golongan']);
+					$thnSK = substr($tglSK,0,4);
+					$blnSK = substr($tglSK,5,2);
+					$hrSK = substr($tglSK,8,2);
+					$tglSK = $hrSK."-".$blnSK."-".$thnSK;
+					if ($thnSK == ''){$tglSK = null;}
+					if ($blnSK == '#'){$tglSK = null;}
+					if ($hrSK == '#'){$tglSK = null;}			
+					$golTmt = $gol." TMT: ".$tglTmt;
+					$jenis = $this->escape($val['c_jenis_naik']);
+					if ($jenis == 'KP') {
+						$jenis = 'Kenaikan Golongan Pangkat';
+					}
+					else if ($jenis == 'KGB') {
+						$jenis = 'Kenaikan Gaji Berkala';
+					}
+					else if ($jenis == 'PNS') {
+						$jenis = 'Pengangkatan PNS';
+					}
+					else if ($jenis == 'CPNS') {
+						$jenis = 'Pengangkatan CPNS';
+					}
+					
+					$kerjaThn =$this->escape($val['q_masakerja_tahun']);		
+					$kerjaBln =$this->escape($val['q_masakerja_bulan']);	
+					if ($kerjaThn == null) {$kerjaThn = 0;}
+					if ($kerjaBln == null) {$kerjaBln = 0;}
+					$masaKerja = $kerjaThn." thn ".$kerjaBln." bln ";
+				?>
+				<td><?php echo $golPangkat;?></td>
+				<td class="clcenter"> <?php echo $tglTmt;?></td>
+				<td class="clcenter"> <?php echo $masaKerja;?></td>
+				<td><?php echo $this->escape($val['i_sk_pejabat']);?></td>
+				<td><?php echo $this->escape($val['i_sk_golongan']);?></td>
+				<td class="clcenter"><?php echo $tglSK;?></td>
+				<td><?php echo $jenis;?></td>
+				<td><?php echo $this->escape($val['e_keterangan']);?></td>
+				
+		  </tr>
+	<?php endforeach;?>
+	<? } ?>
+	</table>									

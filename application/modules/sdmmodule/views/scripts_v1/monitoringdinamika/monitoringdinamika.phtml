@@ -1,0 +1,76 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+?>
+
+
+		   <div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>Monitoring Dinamik
+		</div>
+<div id="top"></div>	
+
+<h2 class="title">Monitoring Dinamik</h2>
+<?php //include "$this->leftMenu/laporanlink.phtml";?>
+<form id="formresult" method="post" action="" name="formresult">
+<div class="boxholder">		
+	<div class="panel">
+		<div class="spacer"></div> 		
+		<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+			<tr>
+				<td colspan="4" align="center">
+					Awal Data : <input size="8" name="start" value="1" id="start" onkeypress="return justnumber(event)" type="text">
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					Data per halaman : <input size="8" name="limit" id="limit" value="25" onkeypress="return justnumber(event)" type="text">
+				</td>
+			</tr>
+		</table>
+	</div>
+<div class="hideshow" id="datadiri">	
+<? include("formsatu.phtml");?>
+</div>
+
+<div class="hideshow">
+<? include("formdua.phtml");?>
+</div>
+<div class="hideshow">
+<? include("formtiga.phtml");?>
+</div>
+
+<div id="targetlaporan"></div>
+</form>	
+<script>
+
+	
+	
+
+function showFormDiri ()
+{
+	$("#targetdatadiri").fadeIn("slow");
+	document.getElementById("targetdatadirioff").style.display="block";
+	document.getElementById("targetdatadirion").style.display="none";
+}
+
+function hideFormDiri ()
+{
+	$("#targetdatadiri").fadeOut("slow");
+	document.getElementById("targetdatadirioff").style.display="none";
+	document.getElementById("targetdatadirion").style.display="block";
+}	
+
+function showFormRiwayat ()
+{
+	$("#targetdatariwayat").fadeIn("slow");
+	document.getElementById("targetdatariwayatoff").style.display="block";
+	document.getElementById("targetdatariwayaton").style.display="none";
+}
+
+function hideFormRiwayat ()
+{
+	$("#targetdatariwayat").fadeOut("slow");
+	document.getElementById("targetdatariwayatoff").style.display="none";
+	document.getElementById("targetdatariwayaton").style.display="block";
+}	
+</script>

@@ -1,0 +1,54 @@
+
+function KerabatM(par,id){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datakerabat/kerabat"	
+	var opt = {par:par,id:id};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#formkerabat").ajaxForm(maintain_kerabat);
+		});		
+} 
+var maintain_kerabat = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formkerabat;
+		astr= "document.formkerabat";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/				
+				if((!c_kerabat.value)){cekVal = sdmValidasiData(astr,"c_kerabat","Status kerabat harus diisi....!");return false;break;}
+				if((!n_nama.value)){cekVal = sdmValidasiData(astr,"n_nama","Nama kerabat ke harus diisi....!");return false;break;}
+				if((!c_jns_kel.value)){cekVal = sdmValidasiData(astr,"c_jns_kel","Jenis Kelamin ke harus diisi....!");return false;break;}				
+				break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formkerabat").ajaxForm(maintain_kerabat);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datakerabat/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+function insertKerabat(){
+	jQuery("#formkerabat").ajaxForm(maintain_kerabat);
+}
+
+function HapusDataKerabat(nip,id)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/datakerabat/hapusdata"
+		var opt = {nip:nip,id:id};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}

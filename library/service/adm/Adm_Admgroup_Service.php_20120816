@@ -1,0 +1,447 @@
+<?php
+
+class Adm_Admgroup_Service {
+    private static $instance;
+
+    private function __construct() {
+    }
+
+    public static function getInstance() {
+       if (!isset(self::$instance)) {
+           $c = __CLASS__;
+           self::$instance = new $c;
+       }
+
+       return self::$instance;
+    }
+
+	public function getGrouplist($dataMasukan) {
+	   $registry = Zend_Registry::getInstance();
+	   $db = $registry->get('db');
+	   try {
+	        $db->setFetchMode(Zend_Db::FETCH_OBJ); 
+
+			$pageNumber = $dataMasukan['pageNumber'];
+			$itemPerPage = $dataMasukan['itemPerPage'];
+			$kategoriCari	=  $dataMasukan['kategoriCari'];
+			$kataKunciCari	=  $dataMasukan['kataKunciCari'];
+			$sortBy			=  $dataMasukan['sortBy'];
+			$sortOrder		=  $dataMasukan['sortOrder'];
+			$userid			=  $dataMasukan['userid'];
+			
+			if($kategoriCari == 'i_group'){
+				$whereOpt = " where $kategoriCari = '$kataKunciCari'";
+			} else if($kategoriCari == 'n_group'){
+				$whereOpt = " where $kategoriCari like '%$kataKunciCari%'";
+			}
+			if(strtolower($userid) != 'administrator'){
+				if($whereOpt){
+					$whereOpt = $whereOpt." and n_group_owner like '$userid%'";
+				} else {
+					$whereOpt = "where n_group_owner like '$userid%'";
+				}
+			}
+			
+			$sql1 = "select i_group, n_group, n_group_owner
+					 from adm.tm_group
+					 $whereOpt";
+			$sql2 = "select i_group, n_group, n_group_owner
+					 from adm.tm_group";
+					 //echo $sql1."<br>";
+					 //echo $sql2."<br>";
+			if(($pageNumber == 0) && ($itemPerPage == 0)){
+			//echo "xxx";
+				$hasilAkhir = $db->fetchOne("select count(b.i_group) from ($sql1) b");
+			} else if(($pageNumber == 9999) && ($itemPerPage == 9999)){
+			//echo "yyy";
+				$result = $db->fetchAll($sql2." order by $sortBy $sortOrder");
+			} else {
+			//echo "$sql1";
+				$result = $db->fetchAll($sql1." order by $sortBy $sortOrder");
+			}
+			
+			for ($j=0; $j<count($result); $j++){
+				$hasilAkhir[$j] = array("i_group" 		=>(string)$result[$j]->i_group,	
+										"n_group" 		=>(string)$result[$j]->n_group,	
+										"n_group_owner" =>(string)$result[$j]->n_group_owner);
+			}	
+			return $hasilAkhir;						  
+	   } catch (Exception $e) {
+	     return ;
+	   }	
+	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public function readAllMenuMap() {
+	   $registry = Zend_Registry::getInstance();
+	   $db = $registry->get('db');
+	   try {
+	        $db->setFetchMode(Zend_Db::FETCH_OBJ); 
+	        $actionList  = $db->fetchAll("select i_menu,      
+												cast(lpad(split_part(c_menu_level,'.',1),4,'0') as int) as l1 ,
+												cast(lpad(split_part(c_menu_level,'.',2),2,'0') as int) as l2,
+												cast(lpad(split_part(c_menu_level,'.',3),2,'0') as int) as l3,
+												cast(lpad(split_part(c_menu_level,'.',4),2,'0') as int) as l4,
+												a.i_aplikasi,
+												b.n_aplikasi,
+												c_menu_level,
+												n_menu,
+												c_menu_statuscb,
+												e_menu,
+												n_action
+											from adm.tm_menu a, adm.tm_aplikasi b
+											where a.i_aplikasi = b.i_aplikasi
+											order by 2,3,4,5");
+					
+					
+			for ($j=0; $j<count($actionList); $j++){
+				$data[$j] = array("i_menu" =>(string)$actionList[$j]->i_menu,	
+							"l1" =>(string)$actionList[$j]->l1,
+							"l2" =>(string)$actionList[$j]->l2,
+							"l3" =>(string)$actionList[$j]->l3,
+							"l4" =>(string)$actionList[$j]->l4,
+							"i_aplikasi" =>(string)$actionList[$j]->i_aplikasi,
+							"n_aplikasi" =>(string)$actionList[$j]->n_aplikasi,
+							"c_menu_level" =>(string)$actionList[$j]->c_menu_level,
+							"n_menu" =>(string)$actionList[$j]->n_menu,
+							"c_menu_statuscb" =>(string)$actionList[$j]->c_menu_statuscb,
+							"e_menu" =>(string)$actionList[$j]->e_menu,
+							"n_action" =>(string)$actionList[$j]->n_action);
+			}	
+			
+			return $data;						  
+	   } catch (Exception $e) {
+	     return ;
+	   }	
+	
+	}
+	
+	public function readMenuMapPerLevel($iAplikasi,$levelInduk) {
+	   $registry = Zend_Registry::getInstance();
+	   $db = $registry->get('db');
+	   try {
+	        $db->setFetchMode(Zend_Db::FETCH_OBJ); 
+			
+			if(!$levelInduk){
+				$sqlMenu = "select i_menu,      
+								substr(c_menu_level,1,2)  as l1 , 
+								substr(c_menu_level,3,2)  as l2 , 
+								substr(c_menu_level,5,2)  as l3 , 
+								substr(c_menu_level,7,2)  as l4 , b.n_aplikasi,
+								c_menu_level,
+								n_menu,
+								c_menu_statuscb,
+								e_menu,
+								n_action
+							from adm.tm_menu a, adm.tm_aplikasi b
+							where a.i_aplikasi = b.i_aplikasi
+							and length(c_menu_level) = 2
+							and a.i_aplikasi = $iAplikasi
+							order by 2,3,4,5";
+												
+												
+			} else {
+				$levelIndukLen = strlen($levelInduk)+2;
+		        $sqlMenu  = "select i_menu,      
+									substr(c_menu_level,1,2)  as l1 , 
+									substr(c_menu_level,3,2)  as l2 , 
+									substr(c_menu_level,5,2)  as l3 , 
+									substr(c_menu_level,7,2)  as l4 , b.n_aplikasi,
+									b.n_aplikasi,
+									c_menu_level,
+									n_menu,
+									c_menu_statuscb,
+									e_menu,
+									n_action
+								from adm.tm_menu a, adm.tm_aplikasi b
+								where a.i_aplikasi = b.i_aplikasi
+								and length(c_menu_level) = $levelIndukLen
+								and substr(c_menu_level,1,$levelIndukLen) like '$levelInduk%' 
+								and a.i_aplikasi = $iAplikasi
+								order by 2,3,4,5";
+			}
+
+			$actionList = $db->fetchAll("$sqlMenu");
+			//echo "$levelInduk - $levelIndukLen<br>$sqlMenu";
+												
+			for ($j=0; $j<count($actionList); $j++){
+				$data[$j] = array("i_menu" =>(string)$actionList[$j]->i_menu,	
+							"l1" =>(string)$actionList[$j]->l1,
+							"l2" =>(string)$actionList[$j]->l2,
+							"l3" =>(string)$actionList[$j]->l3,
+							"l4" =>(string)$actionList[$j]->l4,
+							"n_aplikasi" =>(string)$actionList[$j]->n_aplikasi,
+							"c_menu_level" =>(string)$actionList[$j]->c_menu_level,
+							"n_menu" =>(string)$actionList[$j]->n_menu,
+							"c_menu_statuscb" =>(string)$actionList[$j]->c_menu_statuscb,
+							"e_menu" =>(string)$actionList[$j]->e_menu,
+							"n_action" =>(string)$actionList[$j]->n_action);
+			}	
+			
+			return $data;						  
+	   } catch (Exception $e) {
+	     return ;
+	   }	
+	
+	}
+	
+	public function getMenuLevel($data) {
+	   $registry = Zend_Registry::getInstance();
+	   $db = $registry->get('db');
+	   try {
+	        $db->setFetchMode(Zend_Db::FETCH_OBJ); 
+
+			$iAplikasi 	 = $data['i_aplikasi'];
+			$cMenuLevel1 = $data['c_menu_level1'];
+			$cMenuLevel2 = $data['c_menu_level2'];
+			$cMenuLevel3 = $data['c_menu_level3'];
+			$level	     = $data['level'];
+			if ($level == 1) { $cMenuLevel = $cMenuLevel1; }
+			if ($level == 2) { $cMenuLevel = $cMenuLevel1.$cMenuLevel2; }
+			if ($level == 3) { $cMenuLevel = $cMenuLevel1.$cMenuLevel2.$cMenuLevel3; }
+			
+			$panjangCMenuLevel = 2*$level;
+			
+			$sqlMenu = "select a.n_menu
+						from adm.tm_menu a
+						where a.c_menu_level = '$cMenuLevel'
+						and a.i_aplikasi = $iAplikasi
+						and length(a.c_menu_level) = $panjangCMenuLevel ";
+//echo "<br>$level | $cMenuLevel1 | $cMenuLevel2 |$cMenuLevel3 | $cMenuLevel |$$sqlMenu";
+			$nMenu = $db->fetchOne("$sqlMenu");
+			return $nMenu;						  
+	   } catch (Exception $e) {
+	     return ;
+	   }	
+	
+	}
+	
+	
+	
+	public function groupTambah(array $dataMasukan) {
+		$registry = Zend_Registry::getInstance();
+		$db = $registry->get('db');
+		
+		try {
+			$db->beginTransaction();
+			
+			$n_group = $dataMasukan['n_group'];
+			$n_group_owner = $dataMasukan['n_group_owner'];
+			$menuArr = $dataMasukan['menuArr'];
+			$i_entry = $dataMasukan['i_entry'];
+			
+			$paramInputGroup = array("n_group"	=> $n_group,
+									 "n_group_owner" =>$n_group_owner,
+									 "i_entry"	=> $i_entry);
+			$db->insert('adm.tm_group',$paramInputGroup);
+			$i_group = $db->fetchOne("select i_group
+									  from adm.tm_group
+									  where n_group = '$n_group'");
+									  echo "i_group = $i_group";
+			if(count($menuArr)){
+				for($x=0;$x<count($menuArr); $x++){
+					$Aplikasi_Level = $menuArr[$x];
+					$Aplikasi_LevelArr = explode('_',$Aplikasi_Level);
+					$i_aplikasi = $Aplikasi_LevelArr[0];
+					$c_menu_level = $Aplikasi_LevelArr[1];
+					$paramInputGroupMenu = array("i_group"		=> $i_group,
+												 "i_aplikasi"	=> $i_aplikasi,
+												 "c_menu_level"	=> $c_menu_level);
+					//var_dump($paramInputGroupMenu);							 
+					$db->insert('adm.tm_group_menu',$paramInputGroupMenu);	
+
+					unset($paramInputGroupMenu);
+				}
+			} 
+			 
+			$db->commit();
+			
+			return "sukses";
+			
+		} catch (Exception $e) {
+			$db->rollBack();
+			$errmsgArr = explode(":",$e->getMessage());
+			
+			$errMsg = $errmsgArr[0];
+
+			if(($errMsg == "SQLSTATE[23000]") ||($errMsg == "SQLSTATE[23505]"))
+			{
+				return "gagal.Data Sudah Ada.";
+			}
+			else
+			{
+				//return "gagal";
+				return $e->getMessage();
+			}
+	   }
+	}
+	
+	public function detailGroupMenu($data) {
+	   $registry = Zend_Registry::getInstance();
+	   $db = $registry->get('db');
+	   try {
+	        $db->setFetchMode(Zend_Db::FETCH_OBJ); 
+
+			$i_group 	 = $data['i_group'];
+			$i_aplikasi 	 = $data['i_aplikasi'];
+			
+			$sqlMenu = "select a.i_group, b.i_aplikasi, b.c_menu_level, a.n_group 
+						from adm.tm_group a
+						left join adm.tm_group_menu b on (a.i_group = b.i_group) 
+						where b.i_aplikasi = '$i_aplikasi'
+						  and a.i_group = '$i_group'
+						";
+//echo "<br>$sqlMenu";
+			$result = $db->fetchAll("$sqlMenu");
+			
+			for ($j=0; $j<count($result); $j++){
+				$data[] = array("i_group" =>(string)$result[$j]->i_group,	
+							"n_group" =>(string)$result[$j]->n_group,	
+							"i_aplikasi" =>(string)$result[$j]->i_aplikasi,
+							"c_menu_level" =>(string)$result[$j]->c_menu_level);
+			}	
+			//var_dump($data);
+			return $data;						  
+	   } catch (Exception $e) {
+	     return ;
+	   }	
+	
+	}
+	
+	public function groupUbah(array $dataMasukan) {
+		$registry = Zend_Registry::getInstance();
+		$db = $registry->get('db');
+		
+		try {
+			$db->beginTransaction();
+			
+			$i_group = $dataMasukan['i_group'];
+			$n_group = $dataMasukan['n_group'];
+			$menuArr = $dataMasukan['menuArr'];
+			$n_group_owner = $dataMasukan['n_group_owner'];
+			$i_entry = $dataMasukan['i_entry'];
+			
+			$paramInputGroup = array("n_group"	=> $n_group,
+									 "n_group_owner" =>$n_group_owner,
+									 "i_entry"	=> $i_entry);
+			$whereGroup[] = "i_group = $i_group";
+			$db->update('adm.tm_group',$paramInputGroup, $whereGroup);
+			
+			//delete di group_menu yg i_group nya dari masukan
+			$db->delete('adm.tm_group_menu', $whereGroup);
+			
+			if(count($menuArr)){
+				for($x=0;$x<count($menuArr); $x++){
+					$Aplikasi_Level = $menuArr[$x];
+					$Aplikasi_LevelArr = explode('_',$Aplikasi_Level);
+					$i_aplikasi = $Aplikasi_LevelArr[0];
+					$c_menu_level = $Aplikasi_LevelArr[1];
+					$paramInputGroupMenu = array("i_group"		=> $i_group,
+												 "i_aplikasi"	=> $i_aplikasi,
+												 "c_menu_level"	=> $c_menu_level);
+					//var_dump($paramInputGroupMenu);							 
+					//echo "<br>$i_group | $i_aplikasi | $c_menu_level";
+					$db->insert('adm.tm_group_menu',$paramInputGroupMenu);	
+
+					unset($paramInputGroupMenu);
+				}
+			} 
+			 
+			$db->commit();
+			
+			return "sukses";
+			
+		} catch (Exception $e) {
+			$db->rollBack();
+			$errmsgArr = explode(":",$e->getMessage());
+			
+			$errMsg = $errmsgArr[0];
+
+			if(($errMsg == "SQLSTATE[23000]") ||($errMsg == "SQLSTATE[23505]"))
+			{
+				return "gagal.Data Sudah Ada.";
+			}
+			else
+			{
+				echo $e->getMessage();
+				return $e->getMessage();
+			}
+	   }
+	}
+	
+	public function groupHapus(array $dataMasukan) {
+		$registry = Zend_Registry::getInstance();
+		$db = $registry->get('db');
+		
+		try {
+			$db->beginTransaction();
+			
+			$i_group = $dataMasukan['i_group'];
+			
+			$whereGroup[] = "i_group = $i_group";
+			$db->delete('adm.tm_group', $whereGroup);
+			
+			//delete di group_menu yg i_group nya dari masukan
+			$db->delete('adm.tm_group_menu', $whereGroup);
+			
+			$db->commit();
+			
+			return "sukses";
+			
+		} catch (Exception $e) {
+			$db->rollBack();
+			$errmsgArr = explode(":",$e->getMessage());
+			
+			$errMsg = $errmsgArr[0];
+
+			if($errMsg == "SQLSTATE[23000]")
+			{
+				return "gagal.Data Sudah Ada.";
+			}
+			else
+			{
+				//return "gagal";
+				return $e->getMessage();
+			}
+	   }
+	}
+	
+	public function getNamaGroup($data) {
+	   $registry = Zend_Registry::getInstance();
+	   $db = $registry->get('db');
+	   try {
+	        $db->setFetchMode(Zend_Db::FETCH_OBJ); 
+
+			$i_group 	 = $data['i_group'];
+			$sqlNamaGroup = "select a.n_group
+						from adm.tm_group a
+						where a.i_group = '$i_group'";
+//echo "<br>$level | $cMenuLevel1 | $cMenuLevel2 |$cMenuLevel3 | $cMenuLevel |$$sqlMenu";
+			$nGroup = $db->fetchOne("$sqlNamaGroup");
+			return $nGroup;						  
+	   } catch (Exception $e) {
+	     return ;
+	   }	
+	
+	}
+}
+?>

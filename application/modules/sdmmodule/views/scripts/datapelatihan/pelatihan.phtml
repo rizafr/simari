@@ -1,0 +1,65 @@
+<? require_once 'Zend/View.php';   
+	$ctrlFrm = new Zend_View();
+   $jmlLatihStrukList = count($this->latihStrukList);
+   $latihStrukList[''] = '--Pilih--';
+    for ($i = 0; $i < $jmlLatihStrukList; $i++) {	 
+		$latihStrukList[(string)$this->latihStrukList[$i]->n_pend_latih ]= (string)$this->latihStrukList[$i]->n_pend_latih;			 
+   }	
+   $jenisLatihList = array(""=>"--Pilih--","F"=>"Fungsional","P"=>"Penjenjangan","T"=>"Teknis","L"=>"Lainnya");	  
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Maintain Data Pegawai</a>
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pelatihan','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Riwayat Pelatihan</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Pelatihan
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+
+	<h2 class="title"><?=$this->jdl;?> Pelatihan</h2>
+		<div class="search-panel">
+			<?php include "$this->leftMenu/datapokok.phtml";?>
+		</div>	
+	<div class="panel">
+		<div class="spacer"></div> 
+				<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null);?>
+				<div class="spacer"></div> 
+				<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+					<tr>
+						<td  width="23%">Pelatihan
+						<span class="hightlight">*</span>
+						</td>
+						<td width="2%">:</dd> 
+						<td width="75%">					
+						<?php
+							$jenisLatihAtrib= array("onchange"=>"jenisLatih('$this->par')");	  
+							echo $ctrlFrm->formSelect('jnsl', $this->jnsl, $jenisLatihAtrib, $jenisLatihList);
+						?>						
+						</dd>
+					</tr>
+				</table>
+				<div id="targetlatih">				
+				<? if($this->jnspelatihan=="fungsional"){include("fungsional.phtml");}?>
+				</div>
+	</div>
+<script>
+function jenisLatih(par){
+	var jenisLatih=document.getElementById("jnsl").value;
+	if (jenisLatih){
+		url = "<?php echo $this->basePath; ?>/sdmmodule/datapelatihan/fungsional"
+		var opt = {jenisLatih:jenisLatih,par:par};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#targetlatih").html(data);
+			});		
+	}
+else{alert("Pilih Jenis Pelatihan");}	
+} 
+</script>	

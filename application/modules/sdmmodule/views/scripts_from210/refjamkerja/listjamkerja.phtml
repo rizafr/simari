@@ -1,0 +1,90 @@
+<? require_once 'Zend/View.php';
+require_once 'share/pesan.php';
+require_once 'share/halaman_list.php';
+   
+   $ctrlFrm = new Zend_View();
+   $pesan = new pesan();
+   $halaman = new halaman_list();
+
+	  
+$jumjamkerjaList = count($this->listJamkerja);     
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong>Referensi
+			</div>
+	        <a name="top"></a>
+<?
+$proses		= $this->proses;
+$keterangan	= $this->keterangan;
+$status		= $this->status;
+echo $pesan->show_message($proses, $keterangan, $status);
+?>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+	<h2 class="title">Referensi Jam Hari Kerja</h2>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+  
+<div class="add" title="Tambah Data" onclick="openFormJamkerja('insert','','');"></div>
+<?	if ($jumjamkerjaList == 0) {
+		echo "<font color=\"red\">Data Referensi Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center" width="50%">
+			<tr>
+		    <th width="20%">Kode Hari</th>
+			<th width="20%">Jam Kerja Mulai</th>
+			<th width="20%">Jam Kerja Selesai</th>
+			<th width="20%">Jam Istirahat Mulai</th>
+			<th width="20%">Jam Istirahat Selesai</th>
+			<th colspan="2">&nbsp;</th>
+			</tr>		
+<?
+	if ($jumjamkerjaList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->listJamkerja as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					?>
+				
+				<td><?php  echo $this->escape($val['c_hari']);?></td>
+				<td><?php  echo $this->escape($val['d_jamkerja_mulai']);?></td>
+				<td><?php  echo $this->escape($val['d_jamkerja_selesai']);?></td>
+				<td><?php  echo $this->escape($val['d_jamistrht_mulai']);?></td>
+				<td><?php  echo $this->escape($val['d_jamistrht_selesai']);?></td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data"  onclick="openFormJamkerja('update','<?=trim($this->escape($val['c_hari']))?>');"></div>	
+				</td>
+				<td class="clcenter">			
+					<div class="delete" title="Hapus Data"  onClick="HapusJamkerja('Jam Hari Kerja ke', '<?=trim($this->escape($val['c_hari']))?>','<?=trim($this->escape($val['c_hari']))?>')"></div>
+				</td>	
+		  </tr>
+	<?php endforeach; ?> 		  	  
+<?	}	?>
+	</table>									
+	<?php
+	$totalData = $this->totalData;
+	$numToDisplay = $this->numToDisplay;
+	$currentPage = $this->currentPage;
+	$modul	= $this->basePath.'/sdmmodule/refjamkerja/listjamkerja';
+	echo $halaman->halamanList($totalData, $numToDisplay, $currentPage, $modul);
+
+	?>
+									
+	</fieldset>		 
+	</form>

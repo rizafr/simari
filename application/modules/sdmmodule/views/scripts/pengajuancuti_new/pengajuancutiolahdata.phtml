@@ -1,0 +1,247 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/pesan.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+    $pesan = new pesan();
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+	
+	//var_dump($this->detailAgama);
+
+$jumjenisList = count($this->JenisCuti);
+?>
+<script type="text/javascript">
+	jQuery(function(){
+		$( "#d_cuti_mulai" ).datepicker({	changeMonth: true,changeYear: true});
+		$( "#d_cuti_akhir" ).datepicker({	changeMonth: true,changeYear: true});
+	});
+</script>
+
+		   <div class="navlink">
+				<a  href="#">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong>Cuti Pegawai<!--a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a-->
+				<strong> &#8250; </strong><?//=$this->jdl;?> Pengajuan Cuti
+			</div>
+<div id="top"></div>
+<?
+$proses		= $this->proses;
+$keterangan	= $this->keterangan;
+$status		= $this->status;
+echo $pesan->show_message($proses, $keterangan, $status);
+?>
+
+	<h2 class="title"><?=$this->par;?> Pengajuan Cuti</h2>	
+<? if ($this->par=='Ubah'){
+	$readonly="readonly='true'";
+}?>
+	
+<form id="formpegawai" method="post" name="formpegawai" enctype="multipart/form-data">	
+		<h2><div align="center">Formulir Pengajuan Cuti </div></h2>
+	<div class="panel">
+		<div class="spacer"></div> 
+			
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>No Surat
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="i_surat_cuti" id="i_surat_cuti" value="<?=$this->i_surat_cuti?>" size="25" >
+						
+					</td>
+				</tr><hr><tr>
+					<td width="40%">Nama</span>
+					</td>
+					<td width="1%">:</td> 
+					<td width="59%">	
+						<input type="text" name="n_peg" id="n_peg" <?echo $readonly?> value="<?=$this->n_peg?>" size="25" ><input type="button" id="cari" name="cari" value="Cari" onclick="cariPegawai()">
+					</td>
+				</tr><tr>
+					<td>NIP
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="i_peg_nip" id="i_peg_nip" <?echo $readonly?> value="<?=$this->i_peg_nip?>" size="25" >
+						
+					</td>
+				</tr><tr>
+					<td>Unit Kerja
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_unitkerja" id="n_unitkerja" <?echo $readonly?> value="<?=$this->n_unitkerja?>" size="100" >
+					</td>
+				</tr><tr>
+					<td>Sisa Cuti Tahunan
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="i_sisa_cuti" id="i_sisa_cuti" value="<?=$this->i_sisa_cuti?>" size="5" readonly> Hari
+					</td>
+				</tr></tr><td colspan="3">Atasan Yang Menyetujui</td><tr>
+					<td>Nama Atasan
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_atasan" id="n_atasan" <?echo $readonly?> value="<?=$this->n_atasan?>" size="25" ><input type="button" id="cari_atasan" name="cari_atasan" value="Cari" onclick="cariPegawai2()">
+					</td>
+				</tr><tr>
+					<td>NIP Atasan
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="i_peg_nip_atasan" id="i_peg_nip_atasan" <?echo $readonly?> value="<?=$this->i_peg_nip_atasan?>" size="25" >
+					</td>
+				</tr><tr><td colspan="3">&nbsp;</td></tr><tr>
+					<td>Mulai Cuti Tanggal
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_cuti_mulai" id="d_cuti_mulai" value="<?=$this->d_cuti_mulai?>" size="25" > tgl-bln-thn 
+					</td>
+				</tr><tr>
+					<td>Sampai Tanggal
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_cuti_akhir" id="d_cuti_akhir" value="<?=$this->d_cuti_akhir?>" size="25" > tgl-bln-thn 
+					</td>
+				</tr><tr>
+					<td>Jumlah Cuti
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="q_lama_cuti" id="q_lama_cuti" value="<?=$this->q_lama_cuti?>" size="5"> Hari
+					</td>
+				</tr><tr>
+					<td>Jenis Cuti
+					</td>
+					<td>:</td> 
+					<td>					
+						<select name="c_jenis_cuti" id="c_jenis_cuti">
+						<? if($jumjenisList != ""){
+						?>	<option>--Pilih--</option>
+						<?	foreach($this->JenisCuti as $key => $val):
+						
+							echo "<option value='".$this->escape($val['c_cuti'])."'>".$this->escape($val['n_cuti'])."</option>";
+							endforeach;
+						  }
+						 ?>
+						 </select>
+					</td>
+				</tr><tr>
+					<td>Alamat Selama Cuti
+					</td>
+					<td>:</td> 
+					<td>
+						<textarea rows="1" name="a_alamat_cuti" id="a_alamat_cuti"><?=$this->a_alamat_cuti?></textarea>
+					</td>
+				</tr><tr>
+					<td>
+					</td>
+					<td>:</td> 
+					<td>					
+						Propinsi <input type="text" name="a_cuti_propinsi" id="a_cuti_propinsi" value="<?=$this->a_cuti_propinsi?>" size="15" > Kota <input type="text" name="a_cuti_kota" id="a_cuti_kota" value="<?=$this->a_cuti_kota?>" size="15">
+					</td>
+				</tr><tr>
+					<td>
+					</td>
+					<td>:</td> 
+					<td>					
+						RT <input type="text" name="a_cuti_rt" id="a_cuti_rt" value="<?=$this->a_cuti_rt?>" size="5" maxlength="4"> RW <input type="text" name="a_cuti_rw" id="a_cuti_rw" value="<?=$this->a_cuti_rw?>" size="5" maxlength="4"> Kode Pos <input type="text" name="a_cuti_kodepos" id="a_cuti_kodepos" value="<?=$this->a_cuti_kodepos?>" size="5" maxlength="5">
+					</td>
+				</tr><tr>
+					<td>
+					</td>
+					<td>:</td> 
+					<td>					
+						Tlp Rumah <input type="text" name="q_cuti_telponrumah" id="q_cuti_telponrumah" value="<?=$this->q_cuti_telponrumah?>" size="15" > Tlp HP <input type="text" name="q_cuti_telponhp" id="q_cuti_telponhp" value="<?=$this->q_cuti_telponhp?>" size="15">
+					</td>
+				</tr><tr>
+					<td>Keterangan / Alasan Cuti</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="e_cuti_alasan" id="e_cuti_alasan" value="<?=$this->e_cuti_alasan?>" size="25" >
+					</td>
+				</tr>
+				<tr>
+					<td align="left"></td>
+					<td></td>
+					<td>
+						<div class="center">
+							<input type="button" value="Kembali" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/cuti/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/cuti/pegawaijs');">
+							<input type="submit" value="<?=$this->par;?>" onClick="insertPegawaiCuti()">
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	<div id="popupview"></div>
+	</form>
+
+<script>
+function cariPegawai(){
+var url='<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/listnamapejabat';
+var param={};
+
+jQuery.get(url,param,function(data){
+	jQuery("#popupview").html(data);
+	centerPopup();
+	loadPopup();
+	});
+}
+
+function cariPegawai2(){
+var url='<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/listnamapejabat2';
+var param={};
+
+jQuery.get(url,param,function(data){
+	jQuery("#popupview").html(data);
+	centerPopup();
+	loadPopup();
+	});
+}
+
+/* function insertPengajuancuti(){
+		jQuery("#formpengajuancuti").ajaxForm(maintain_pengajuancuti);
+			
+}
+
+var maintain_pengajuancuti = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpengajuancuti").ajaxForm(maintain_pengajuancuti);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/insertpengajuancuti',
+	type: 'post',
+	resetForm: false
+};
+*/
+
+function insertPegawaiCuti(){
+	jQuery("#formpegawai").ajaxForm(maintain_pegawaicuti);
+}
+var maintain_pegawaicuti = {
+	target:'#tableview',
+	beforeSubmit: function() {		
+	}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpegawai").ajaxForm(maintain_pegawaicuti);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/maintaindata',
+	type: 'post',
+	resetForm: false
+}; 
+
+</script>
+	

@@ -1,0 +1,46 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+?>
+
+	<h3 class="title"><b>Riwayat Penghargaan</b><h3>
+	<br>
+	<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+				<tr>
+					<td width="15%">Jenis Penghargaan</td>
+					<td width="2%">:</td> 
+					<td>					
+						<?php 
+							$jmlJasaList = count($this->jnsPenghargaanList);
+							$jnsPenghargaanList[''] = '--Pilih--';
+							for ($i = 0; $i < $jmlJasaList; $i++) {
+								$jnsPenghargaanList[(string)$this->jnsPenghargaanList[$i]->c_penghargaan] =(string)$this->jnsPenghargaanList[$i]->n_penghargaan;	
+							}
+							echo $ctrlFrm->formSelect('n_jns_penghargaan', $this->n_jns_penghargaan, null,$jnsPenghargaanList)
+						?>
+					</td>
+				</tr>
+				<tr>
+					<td>Nama Penghargaan</td>
+					<td>:</td> 
+					<td>						
+						<?php 
+							$jmlJasaList = count($this->tandaJasaList);
+							$nmttdjasa[''] = '--Pilih--';
+							for ($i = 0; $i < $jmlJasaList; $i++) {
+								$nmttdjasa[(string)$this->tandaJasaList[$i]->c_tandajasa] =(string)$this->tandaJasaList[$i]->n_tandajasa;	
+							}
+							echo $ctrlFrm->formSelect('n_penghargaan',$this->n_penghargaan, null, $nmttdjasa);
+						?>	
+					</td>
+				</tr>
+				<tr>
+					<td>Tahun</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_tahun_alteratif" id="d_tahun_alteratif" value="<?=$this->d_tahun_alteratif?>" size="10">
+					</td>
+				</tr>			
+	</table>

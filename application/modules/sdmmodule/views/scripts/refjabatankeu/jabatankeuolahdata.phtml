@@ -1,0 +1,111 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+	
+	//var_dump($this->detailAgama);
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tanggal_lahir").datepicker();
+		jQuery("#d_tanggal_nikah").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Jabatan Keuangan
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Referensi Jabatan Keuangan</h2>	
+		
+<form id="formjabatankeu" method="post" name="formjabatankeu">		
+	<div class="panel">
+		<div class="spacer"></div> 
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>ID<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>	
+						<input type="text" name="id" id="id" value="<?=$this->detailJabatankeu['id'];?>" size="70" <? if($this->par != "insert"){ ?> readonly <? } ?> >
+					</td>
+				</tr><tr>
+					<td>Nama Jabatan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_jabatan" id="n_jabatan" value="<?=$this->detailJabatankeu['n_jabatan'];?>" size="70" >
+					</td>
+				</tr><tr>
+					<td>Tanggal Awal<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_awal" id="d_awal" value="<?=date('d-m-Y',strtotime($this->detailJabatankeu['d_awal']));?>" size="10" >tgl-bln-thn
+					</td>
+				</tr><tr>
+					<td>Tanggal Akhir<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_akhir" id="d_akhir" value="<?=date('d-m-Y',strtotime($this->detailJabatankeu['d_akhir']));?>" size="10" >tgl-bln-thn
+					</td>
+				</tr><tr>
+					<td>Nama sk<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_sk" id="n_sk" value="<?=$this->detailJabatankeu['n_sk'];?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Kode Status delete<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_statusdelete" id="c_statusdelete" value="<?=$this->detailJabatankeu['c_statusdelete'];?>" size="70" maxlength="1">
+					</td>
+				</tr><tr>
+					<td>Tanggal Status delete<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_statusdelete" id="d_statusdelete" value="<?=date('d-m-Y',strtotime($this->detailJabatankeu['d_statusdelete']));?>" size="10" >tgl-bln-thn
+					</td>
+				</tr>
+				<tr>
+					<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/refjabatankeu/listjabatankeu','<?php echo $this->basePath; ?>/sdmmodule/refjabatankeu/jabatankeujs');"> 
+							<?if ($this->par == 'insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertJabatankeu()">
+								<script type="text/javascript">
+								$("#d_awal").val("");
+								$("#d_akhir").val("");
+								$("#d_statusdelete").val("");
+								</script>
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updateJabatankeu()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>
+
+	<script type="text/javascript">
+	$(function() {
+		$("#d_awal").datepicker();
+		$("#d_akhir").datepicker();
+		$("#d_statusdelete").datepicker();
+	});
+	</script>

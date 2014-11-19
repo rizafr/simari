@@ -1,0 +1,242 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php'; 
+   
+	$ctrlDate = new oa_date();   
+   
+	$ctrlFrm = new Zend_View();
+	$thnskrg = date("Y");
+
+
+	//$jenjang = $_REQUEST['jenjang'];
+	$nip = $_REQUEST['nip'];
+	//echo "testnip".$nip;
+   		
+/*    $jmlAbsenList = count($this->absenList);
+   $absenList['-'] = '--Pilih--';
+   for ($i = 0; $i < $jmlAbsenList; $i++) {
+   $absenList[(string)$this->absenList[$i]->c_absensi] = (string)$this->absenList[$i]->n_absensi;			 
+   }
+ */	  
+	  
+	  $jmlKodeAbsen = count($this->jnsAbsen);
+	  for ($i=0; $i<$jmlKodeAbsen; $i++)
+	  {
+	     $ijinList[(string)$this->jnsAbsen[$i]['c_absensi']] = (string)$this->jnsAbsen[$i]['n_absensi'];
+	  }
+	  /*
+  $ijinList = array(	"#"		=>"   --Pilih--   ",
+						"DD"	=>"Dinas",
+						"PP"	=>"Pribadi");	
+		*/			
+	$jamArr = array("00"=>"00","01"=>"01","02"=>"02","03"=>"03","04"=>"04","05"=>"05","06"=>"06","07"=>"07",
+					"08"=>"08","09"=>"09","10"=>"10","11"=>"11","12"=>"12","13"=>"13","14"=>"14","15"=>"15",
+					"16"=>"16","17"=>"17","18"=>"18","19"=>"19","20"=>"20","21"=>"21","22"=>"22","23"=>"23");
+						
+	$mntArr = array("00"=>"00","01"=>"01","02"=>"02","03"=>"03","04"=>"04","05"=>"05","06"=>"06","07"=>"07",
+					"08"=>"08","09"=>"09","10"=>"10","11"=>"11","12"=>"12","13"=>"13","14"=>"14","15"=>"15",
+					"16"=>"16","17"=>"17","18"=>"18","19"=>"19","20"=>"20","21"=>"21","22"=>"22","23"=>"23",
+					"24"=>"24","25"=>"25","26"=>"26","27"=>"27","28"=>"28","29"=>"29","30"=>"30","31"=>"31",
+					"32"=>"32","33"=>"33","34"=>"34","35"=>"35","36"=>"36","37"=>"37","38"=>"38","39"=>"39",
+					"40"=>"40","41"=>"41","42"=>"42","43"=>"44","45"=>"46","47"=>"47","48"=>"48","49"=>"49",
+					"50"=>"50","51"=>"51","52"=>"52","53"=>"53","54"=>"54","55"=>"55","56"=>"56","57"=>"57",
+					"58"=>"58","59"=>"59");
+	  
+	$dtkArr = array("00"=>"00","01"=>"01","02"=>"02","03"=>"03","04"=>"04","05"=>"05","06"=>"06","07"=>"07",
+					"08"=>"08","09"=>"09","10"=>"10","11"=>"11","12"=>"12","13"=>"13","14"=>"14","15"=>"15",
+					"16"=>"16","17"=>"17","18"=>"18","19"=>"19","20"=>"20","21"=>"21","22"=>"22","23"=>"23",
+					"24"=>"24","25"=>"25","26"=>"26","27"=>"27","28"=>"28","29"=>"29","30"=>"30","31"=>"31",
+					"32"=>"32","33"=>"33","34"=>"34","35"=>"35","36"=>"36","37"=>"37","38"=>"38","39"=>"39",
+					"40"=>"40","41"=>"41","42"=>"42","43"=>"44","45"=>"46","47"=>"47","48"=>"48","49"=>"49",
+					"50"=>"50","51"=>"51","52"=>"52","53"=>"53","54"=>"54","55"=>"55","56"=>"56","57"=>"57",
+					"58"=>"58","59"=>"59");
+	  
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'absensi');
+   echo $this->render('absensijs.phtml'); 
+
+
+?>
+
+<div class="contentdata-modul" id="modul">
+<div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Absensi
+		<strong> &#8250; </strong> Pencatatan Absensi
+		<strong> &#8250; </strong> Proses
+</div>
+	<h3 class="title">PERUBAHAN IJIN PEGAWAI</h3>
+	&nbsp;&nbsp;&nbsp;&nbsp;Menu ini digunakan untuk merubah ijin pegawai. 
+	<div class="spacer"></div>
+	<a name="top"></a>	
+	<form id="frmUbahIjin" action="<?php echo $this->basePath; ?>/sdm/absensi/ubahijin" method="post" name="frmUbahIjin">
+		<div class="space-line"></div>
+		<div class="title2">Perubahan Ijin Pegawai</div>
+		<fieldset  class="panel-form">
+			<dl>
+				<dt>Nomor Surat
+				<span class="hightlight">*</span>
+				</dt>
+				<dd class="dot2">:</dd> 
+				<dd class="col-right">
+				<?php 
+					$noSurat = $this->escape($this->noSurat);
+					$noSuratAtrib = array("size"=>"50",
+										 "maxlength"=>"30",
+										 "class"=>""); 
+					 echo $ctrlFrm->formText('noSurat', $noSurat, $noSuratAtrib);
+					  echo $ctrlFrm->formHidden('hr1', $this->hr1, null);
+					  echo $ctrlFrm->formHidden('bln1', $this->bln1, null);
+					  echo $ctrlFrm->formHidden('thn1', $this->thn1, null);
+					  echo $ctrlFrm->formHidden('hr2', $this->hr2, null);
+					  echo $ctrlFrm->formHidden('bln2', $this->bln2, null);
+					  echo $ctrlFrm->formHidden('thn2', $this->thn2, null);
+				?>
+				</dd>
+			</dl>
+			<dl>
+				<dt>Nama
+				<span class="hightlight">*</span>
+				</dt>
+				<dd class="dot2">:</dd> 
+				<dd class="col-right">
+				<?php 
+					$nama = $this->escape($this->nama);
+					$namaAtrib = array("size"=>"50",
+										"maxlength"=>"35",
+										"class"=>"",
+										"readonly"=>"true"); 
+					echo $ctrlFrm->formText('nama', $nama, $namaAtrib);
+				?>
+				<input type="button" name="cariNama" value="Cari" onClick="javascript:windowListNama()" >
+				</dd>
+			</dl>
+			<dl>
+				<dt>NIP / Id Pegawai
+				<span class="hightlight">*</span>
+				</dt>
+				<dd class="dot2">:</dd> 
+				<dd class="col-right">
+				<?php 
+					$nip = $this->escape($this->nip);
+					$nipAtrib = array("size"=>"25",
+										//"maxlength"=>"9",
+										"maxlength"=>"20",
+										"class"=>"",
+										"readonly"=>"true"); 
+					echo $ctrlFrm->formText('nip', $nip, $nipAtrib);
+				?>
+				</dd>
+			</dl>
+			<dl>
+				<dt>Tanggal
+				<span class="hightlight">*</span>
+				</dt>
+				<dd class="dot2">:</dd> 
+				<dd class="col-right">
+				<?php 
+					$tanggal = $this->escape($this->tanggal);
+					$hrIjin = substr($tanggal,8,2);
+					$blnIjin = substr($tanggal,5,2);
+					$thnIjin = substr($tanggal,0,4);
+					echo $ctrlDate->formTanggal_oa('hrIjin',$hrIjin,'blnIjin',$blnIjin,'thnIjin',$thnIjin); 	
+				?>
+				</dd>
+			</dl>
+			<dl>
+				<dt>Jam Mulai
+				<span class="hightlight">*</span>
+				</dt>
+				<dd class="dot2">:</dd> 
+				<dd class="col-right">
+				<?php
+					$mulai = $this->escape($this->jamMulai);
+					$mulaiJam = substr($mulai,0,2);
+				echo $ctrlFrm->formSelect('mulaiJam', $mulaiJam, null, $jamArr);?>&nbsp;:
+				<?
+					$menitMulai = substr($mulai,3,2);
+				echo $ctrlFrm->formSelect('menitMulai', $menitMulai, null, $mntArr);?>&nbsp;:
+				<?
+					$detikMulai = substr($mulai,6,2);
+				echo $ctrlFrm->formSelect('detikMulai', $detikMulai, null, $dtkArr);?>&nbsp;
+				<?
+				echo "<font color=\"red\">hh:mm:ss</font>";
+				?>
+				</dd>
+			</dl>
+			<dl>
+				<dt>Jam Selesai</dt>
+				<dd class="dot2">:</dd> 
+				<dd class="col-right">
+				<?php 
+					$selesai = $this->escape($this->jamSelesai);
+					$jamSelesai= substr($selesai,0,2);
+				echo $ctrlFrm->formSelect('jamSelesai', $jamSelesai, null, $jamArr);?>&nbsp;:
+				<?
+					$menitSelesai = substr($selesai,3,2);
+				echo $ctrlFrm->formSelect('menitSelesai', $menitSelesai, null, $mntArr);?>&nbsp;:
+				<?
+					$detikSelesai = substr($selesai,6,2);
+				echo $ctrlFrm->formSelect('detikSelesai', $detikSelesai, null, $dtkArr);?>&nbsp;
+				<?
+				echo "<font color=\"red\">hh:mm:ss</font>";
+				?>
+				</dd>
+			</dl>
+			<dl>
+				<dt>Jenis Ijin</dt>
+				<dd class="dot2">:</dd> 
+				<dd class="col-right">
+				<?php
+					$kdIjin = $this->escape($this->jenis);
+					echo $ctrlFrm->formSelect('kdIjin', $kdIjin, null, $ijinList) 
+				?>
+				</dd>
+			</dl>
+			<dl>
+				<dt>Keterangan</dt>
+				<dd class="dot2">:</dd> 
+				<dd class="col-right">
+				<? 
+					$keterangan = $this->escape($this->keterangan);
+					 if ($keterangan == '') {
+						$keterangan = null;
+					 } 
+					 $keteranganAtrib = array("rows"=>"3",
+												"cols"=>"25",
+												"maxlength"=>"100",
+												"class"=>"medium"); 
+					 echo $ctrlFrm->formTextarea('keterangan', $keterangan, $keteranganAtrib);
+				?>
+				</dd>
+			</dl>
+		</fieldset>
+		
+			<div class="spacer"></div>
+			<div class="right">
+				<input type="button" value="Batal" onClick="javascript:kembaliTambahIjin();">
+				<input type="reset" value="Ulangi"> 
+			<?
+				echo $ctrlFrm->formHidden('nipH', $nip, null)."&nbsp;";
+				echo $ctrlFrm->formHidden('tanggalH', $tanggal, null)."&nbsp;";
+				echo $ctrlFrm->formHidden('mulaiH', $mulai, null)."&nbsp;";
+				$atribIjin = array("onclick"=>"javascript:updateIjin();");
+				echo $ctrlFrm->formSubmit('perintah', 'UBAH', $atribIjin)."&nbsp;";
+			?>
+			</div>
+		  	<div class="space-line"></div>
+		  	<div><a href="#top" class="top" title="Kembali ke atas">Kembali ke atas</a></div>	  	
+	         
+			<span class="hightlight">* Harus diisi</span>	 
+	</form>
+</div>
+
+		
+		
+		
+		
+
+<!--			<div class="back2">
+			  <a href="#" onClick="javascript:kembaliCatatAbsensi('<? echo $this->escape($this->nip); ?>');" class="back" title="Kembali">Kembali</a>
+			</div>
+-->

@@ -1,0 +1,10 @@
+{config_load file="english.lang" section="login"}
+<form action="index.php" method="post" accept-charset="{#char_set#}">
+<div>
+<input type="hidden" name="mode" value="login_attempt" />
+<p><label for="login" class="main">{#username#}</label><br /><input tabindex="1" id="login" type="text" name="username" /></p>
+<p><label for="password" class="main">{#password#}</label><br /><input tabindex="2" id="password" type="password" name="userpw" /></p>
+<p><input tabindex="3" type="submit" value="{#submit#}" /></p>
+</div>
+</form>
+<p class="small"><a tabindex="4" href="register.php">{#register#} / </a>  <a tabindex="5" href="index.php?mode=pw_forgotten">{#forget_password#}</a></p>

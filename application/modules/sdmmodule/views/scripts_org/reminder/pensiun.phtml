@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<LINK href="<?echo $this->baseUrl;?>/css/sdm/style.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<center>
+<table width="100%">
+<tr>
+<td>
+<?=$this->judul?>
+<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+	<th width="5%">No</th>
+	<th width="25%">NIP</th>
+	<th width="70%">Nama</th>	
+		<?php 
+		$no=0;
+		foreach ($this->remindPensiun as $key => $val): 
+		$no++;
+			if ($key%2==0) { ?>
+			<tr class="event">
+					<? } else if ($key%2==1) { ?>
+			<tr class="event2">
+					<? } ?>
+				<? 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					$nama=trim($this->escape($val['n_peg']));
+				?>
+			<td><?=$no?></td>
+			<td><?=$nip?></td>
+			<td><?=$nama?></td>	
+			</tr>
+	<?php endforeach;?> 	
+</table>
+</tr>
+</td>
+</table>
+</body>
+</html>					

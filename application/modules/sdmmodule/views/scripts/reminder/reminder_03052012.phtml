@@ -1,0 +1,40 @@
+<table width="100%">
+<tr>
+<td>
+<?
+	require_once 'Zend/View.php';
+	require_once 'share/halaman_list.php';  
+	$ctrlFrm = new Zend_View();
+	$halaman = new halaman_list(); 
+?>   
+<?=$this->judul?>
+<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+	<th width="5%">No</th>
+	<th width="25%">NIP</th>
+	<th width="70%">Nama</th>	
+		<?php 
+		$no=0;
+		foreach ($this->remindPensiun as $key => $val): 
+		$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
+			if ($key%2==0) { ?>
+			<tr class="event">
+					<? } else if ($key%2==1) { ?>
+			<tr class="event2">
+					<? } ?>
+				<? 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					$nama=trim($this->escape($val['n_peg']));
+				?>
+			<td><?=$noUrut?></td>
+			<td><?=$nip?></td>
+			<td><?=$nama?></td>	
+			</tr>
+	<?php endforeach;?> 	
+</table>
+<?
+$modul = $this->basePath."/sdmmodule/reminder/pensiun?par=pensiun"; 
+echo $halaman->halamanList($this->totaldata, $this->numToDisplay, $this->currentPage, $modul)
+?>
+</tr>
+</td>
+</table>

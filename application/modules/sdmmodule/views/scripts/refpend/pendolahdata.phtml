@@ -1,0 +1,69 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tanggal_lahir").datepicker();
+		jQuery("#d_tanggal_nikah").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Pendidikan
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Referensi Pendidikan</h2>	
+		
+<form id="formpend" method="post" name="formpend">		
+	<div class="panel">
+		<div class="spacer"></div> 
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Kode Pendidikan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_pend" id="c_pend" value="<?=$this->detailPend['c_pend']?>" size="70" maxlength="3" <? if($this->par != "insert"){ ?> readonly <? } ?> >
+					</td>
+				</tr><tr>
+					<td>Kode Jenis Pendidikan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_pend_jenis" id="c_pend_jenis" value="<?=$this->detailPend['c_pend_jenis']?>" size="70" maxlength="2">
+					</td>
+				</tr><tr>
+					<td>Nama Pendidikan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_pend" id="n_pend" value="<?=$this->detailPend['n_pend']?>" size="70" >
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/refpend/listpend','<?php echo $this->basePath; ?>/sdmmodule/refpend/pendjs');"> 
+							<?if ($this->par == 'insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertPend()">
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updatePend()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>

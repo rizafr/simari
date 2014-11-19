@@ -1,0 +1,81 @@
+jQuery("#bulanabsen").bind("change",funcChangeBulan);
+jQuery("#pnlpindahabsen").bind("click",funcCariabsen);
+
+function funcChangeBulan()
+{
+   //document.getElementById('i_peg_nip').value = '';
+   var mode = document.getElementById('mode').value;
+   var kd_lokasi = document.getElementById('c_lokasi_unitkerja').value;
+   var c_eselon_i = document.getElementById('c_eselon_i').value;
+   var c_eselon_ii = document.getElementById('c_eselon_ii').value;
+   var c_eselon_iii = document.getElementById('c_eselon_iii').value;
+   var c_eselon_iv = document.getElementById('c_eselon_iv').value;
+   if (kd_lokasi=='1')
+   {
+      var bc_eselon_i = c_eselon_i.split(' ');
+      var bc_eselon_ii = c_eselon_ii.split(' ');
+      var bc_eselon_iii = c_eselon_iii.split(' ');
+      var bc_eselon_iv = c_eselon_iv.split(' ');
+   }
+   else
+   {
+      var bc_eselon_i = c_eselon_i.split(';');  //1  c_eselon_i
+      var bc_eselon_ii = c_eselon_ii.split(';');   //2  c_eselon_ii c_parent
+      var bc_eselon_iii = c_eselon_iii.split(';');  //3 c_eselon_ii c_child c_satker
+      var bc_eselon_iv = c_eselon_iv.split(';');   //1  c_eselon_iii = '00'
+   }
+   var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensiku';
+   var i_peg_nip = document.getElementById('i_peg_nip').value;
+   
+   var bulanabsen = document.getElementById('bulanabsen').value;
+   var tahunabsen = document.getElementById('tahunabsen').value;
+   var par = { kd_lokasi:kd_lokasi, mode:mode, c_eselon_i:c_eselon_i, c_eselon_ii:c_eselon_ii, c_eselon_iii:c_eselon_iii, c_eselon_iv:c_eselon_iv, bulanabsen:bulanabsen, tahunabsen:tahunabsen, i_peg_nip:i_peg_nip  };
+   jQuery.get(url, par, function(data) {
+	$("#pentry").html(data);
+       jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensi1js');
+   });
+
+}
+
+function cariCombo(){
+	var url1 = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensiku'; 
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+	var eseloni=document.getElementById('c_eselon_i').value;
+	var eselonii=document.getElementById('c_eselon_ii').value;
+	var eseloniii=document.getElementById('c_eselon_iii').value;
+	var eseloniv=document.getElementById('c_eselon_iv').value;	
+       if (c_lokasi_unitkerja=='1')
+       { var url = '<?php echo $this->basePath; ?>/sdmmodule/listcombolaporan/listcomboabsensi';  }
+       else{
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/listcombolaporan/listcomboabsensi2'; 
+      }   
+	var param = {c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+	       jQuery.get(url, param, function(data) {
+		jQuery("#listcombo").html(data);  //getEselon();
+	       var param1 = {c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv };
+	       jQuery.get(url1, param1, function(data1) {
+	          $("#pentry").html(data1);
+                 jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensi1js');
+	       });
+	});
+}
+
+function funcCariabsen()
+{
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/insertabsensiku'; 
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+	var eseloni=document.getElementById('c_eselon_i').value;
+	var eselonii=document.getElementById('c_eselon_ii').value;
+	var eseloniii=document.getElementById('c_eselon_iii').value;
+	var eseloniv=document.getElementById('c_eselon_iv').value;	
+	//var eselonv=document.getElementById('c_eselon_v').value;	
+      
+       var bulanabsen=document.getElementById('bulanabsen').value;
+       var tahunabsen=document.getElementById('tahunabsen').value;
+       var param = { kd_lokasi:c_lokasi_unitkerja, c_eselon_i:eseloni, c_eselon_ii:eselonii, c_eselon_iii:eseloniii, c_eselon_iv:eseloniv,  bulan:bulanabsen, tahun:tahunabsen }
+	jQuery.get(url, param, function(data) {
+	   $("#databsensi").html(data);
+          jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensi1js');
+	});
+}
+

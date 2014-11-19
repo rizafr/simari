@@ -1,0 +1,126 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#tgllahir_cari").datepicker();
+		jQuery("#tmtcpns_cari").datepicker();		
+	});
+</script>
+<table width="100%">
+	<tr>
+		<td width="45%">
+			<table width="100%">
+				<tr>
+					<td width="25%" align="left">NIP [Baru/Lama]</td>
+					<td width="2%" align="left">:</td>
+					<td align="left"><input type="text" size="25" name="nip_cari" id="nip_cari" value="<?=$this->nip_cari;?>"></td>
+				</tr>
+				<tr>
+					<td align="left">Nama</td>
+					<td align="left">:</td>
+					<td align="left"><input type="text" size="45" name="nama_cari" id="nama_cari" value="<?=$this->nama_cari;?>"></td>
+				</tr>	
+				<tr>
+					<td align="left">Tanggal Lahir</td>
+					<td align="left">:</td>
+					<td align="left"><input type="text" size="10" name="tgllahir_cari" id="tgllahir_cari" value="<?=$this->tgllahir_cari;?>"></td>
+				</tr>
+				<tr>
+					<td align="left">TMT CPNS</td>
+					<td align="left">:</td>
+					<td align="left"><input type="text" size="10" name="tmtcpns_cari" id="tmtcpns_cari" value="<?=$this->tmtcpns_cari;?>"></td>
+				</tr>	
+				<tr>
+					<td align="left">Eselon</td>
+					<td align="left">:</td>
+					<td align="left">
+					<?
+					$jmlEslList=count($this->eselonList);
+					$eslList[''] = '--Pilih--';
+					for ($i = 0; $i < $jmlEslList; $i++) {
+						$eslList[(string)$this->eselonList[$i]->c_eselon] = (string)$this->eselonList[$i]->n_eselon;			 
+					}		
+					echo $ctrlFrm->formSelect('c_eselon_cari',$this->c_eselon_cari,null, $eslList); 							
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left">Pangkat</td>
+					<td align="left">:</td>
+					<td align="left">
+					<?
+						$jmlgolref = count($this->statusGolRef);												   
+						$golonganReff[''] = '--Pilih--';
+						for ($i = 0; $i < $jmlgolref; $i++) {
+								$n_peg_pangkat=trim($this->statusGolRef[$i]['n_peg_pangkat']);
+								$c_peg_golongan=trim($this->statusGolRef[$i]['c_peg_golongan']);
+								$n_peg_golongan=trim($this->statusGolRef[$i]['n_peg_golongan']);								
+								$golonganReff[trim((string)$this->statusGolRef[$i]['c_peg_golongan'])] = $n_peg_golongan." - ".$n_peg_pangkat;											   
+						}												 
+						 echo $ctrlFrm->formSelect('c_golongan_cari', $this->c_golongan_cari, null, $golonganReff);
+					?>
+					</td>
+				</tr>	
+				
+			</table>		
+		</td>
+		<td width="65%">
+			<table width="100%">
+				<tr>
+					<td align="left" width="30%">Jabatan (Query)</td>
+					<td align="left" width="2%">:</td>
+					<td align="left">
+					<?php 
+						$jab = array(""=>"--Pilih--","S"=>"Sama Persis","AW"=>"Awalan","AK"=>"Akhiran","M"=>"Mengandung");	
+						echo $ctrlFrm->formSelect('c_query', $this->c_query, null, $jab);
+					?>
+					<input type="text" size="35" name="c_jab_query" id="c_jab_query" value="<?=$this->c_jab_query;?>">
+					</td>
+				</tr>
+				<tr>
+					<td align="left">Jabatan</td>
+					<td align="left">:</td>
+					<td align="left">
+						<input type="hidden" name="c_jabatan" id="c_jabatan" value="<?=$this->c_jabatan?>">
+						<input type="text" name="n_jabatan" id="n_jabatan" value="<?=$this->n_jabatan?>" size="40">
+						<input type="button" value="Jabatan" onClick="CariJabatan()">
+					</td>
+				</tr>
+				<tr>
+					<td align="left">Jabatan Teknis</td>
+					<td align="left">:</td>
+					<td align="left"><input type="text" size="25" name="jebtex" id="jebtex" value="<?=$this->jebtex;?>"></td>
+				</tr>	
+				<tr>
+					<td align="left">Dirjen</td>
+					<td align="left">:</td>
+					<td align="left"><input type="text" size="10" name="dijen" id="dijen" value="<?=$this->dijen;?>"></td>
+				</tr>
+				<tr>
+					<td align="left">Unit</td>
+					<td align="left">:</td>
+					<td align="left"><input type="text" size="45" name="unit" id="unit" value="<?=$this->unit;?>"></td>
+				</tr>
+				<tr>
+					<td align="left">Wilayah Tkt. Banding</td>
+					<td align="left">:</td>
+					<td align="left"><input type="text" size="25" name="wil" id="wil" value="<?=$this->wil;?>"></td>
+				</tr>					
+			</table>		
+		</td>
+
+	</tr>
+</table>
+<div id="targetdetil"></div>	
+<script>
+function CariJabatan(){
+var c_eselon =document.getElementById('c_eselon_cari').value;
+var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/listnamajabatan';
+var param = {c_eselon:c_eselon};
+jQuery.get(url,param,function(data) {
+jQuery("#targetdetil").html(data);
+centerPopup();
+loadPopup();});}
+</script>
+			

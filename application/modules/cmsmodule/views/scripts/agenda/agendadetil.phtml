@@ -1,0 +1,17 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+require_once 'share/Portalconf.php'; 
+
+$idberita = $_REQUEST['idberita'];
+/*$vFoto = $this->basePath."../data/sdm/photo/".trim($this->i_peg_nip).".jpg";
+
+	if (!file_exists($vFoto)) {
+		$vFoto = $this->basePath."../images/nophoto.jpg";
+	} 
+*/
+?>
+<h2><?=$this->jdlagenda?></h2>
+Tempat : <?=$this->n_tempat?><br>
+Waktu : <span class="date"><?=$this->tglagenda?></span>
+Acara : <?=$this->detilagenda?><br>

@@ -1,0 +1,108 @@
+<? require_once 'Zend/View.php';
+   
+   $ctrlFrm = new Zend_View();
+
+
+   $jmlCvList = count($this->cvList);
+   //echo $jmlCvList;
+   for ($j = 0; $j < $jmlCvList; $j++) {
+     $cv[$j] = array("i_peg_nip"  =>(string)$this->cvList[$j]['i_peg_nip'],
+	                      "n_peg"      =>(string)$this->cvList[$j]['n_peg'],
+						  "n_jabatan"  =>(string)$this->cvList[$j]['n_jabatan'],
+						  "unitKerja"  =>(string)$this->cvList[$j]['unitKerja']);
+						  
+   }
+
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'pangkat');
+   echo $this->render('pangkatjs.phtml'); 
+?>
+
+<div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Pengembangan Karir
+		<strong> &#8250; </strong> Kenaikan Pangkat
+		<strong> &#8250; </strong> Pilihan
+</div>
+<form id="frmSearch" action="<?php echo $this->basePath; ?>/sdm/pangkat/pilihsearch" method="post" name="frmSearch">
+  <a name="top"></a>
+	<fieldset class="fields1"> 	
+
+	 <legend>DATA PEGAWAI</legend>
+	  <center> 
+	  <table border="0" align="center" width="30%">
+		<tr align="left" >
+		  <td>NIP</td>
+		  <td>:</td>
+		  <td>
+		      <?php 
+			        $idAtrib = array("size"=>"15",
+			                   "maxlength"=>"60",
+							   "class"=>""); 
+			        echo $ctrlFrm->formText('nip', null, $idAtrib) 
+			   ?>
+		  </td>
+		</tr>		
+		<tr align="left" >
+		  <td>NAMA PEGAWAI</td>
+		  <td>:</td>
+		  <td>		      
+		       <?php 
+			        $idAtrib = array("size"=>"15",
+			                   "maxlength"=>"60",
+							   "class"=>""); 
+			        echo $ctrlFrm->formText('nama', null, $idAtrib) 
+			   ?>
+		  </td>
+		</tr>
+	</fieldset>	
+	
+	<div class="blank"></div>
+		<tr><td></td></tr>
+		<tr align="center" >
+		  <td colspan="3">
+		      <?php  $atribSubmit = array("onclick"=>"javascript:commandSubmit();");
+			  echo $ctrlFrm->formSubmit('perintah', 'CARI', $atribSubmit)."&nbsp;";?>
+		  </td>
+		</tr>
+	</fieldset>	
+	</table>
+	</center>
+		
+	<div class="blank"></div> 
+		<table align="center" width="100%" border="0" cellspacing="1" cellpadding="2" class="tbl">
+
+		   <tr>
+		    <th width="8%">NIP</th>
+			<th width="20%">Nama Pegawai</th>
+			<th width="24%">Jabatan</th>
+			<th width="48%">Unit Kerja</th>
+	  	  </tr> 
+	  			<?php 
+					   foreach ($cv as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+		    <td align=left> 
+				<a href="#" onClick="javascript:viewCV('<? echo $this->escape($val['i_peg_nip']); ?>');" class="link" title="Kenaikan Pilihan"><?php echo $this->escape($val['i_peg_nip']);?> </a></td>
+		    <td align=left> <?php echo $this->escape($val['n_peg']);?></td>
+		    <td align=left> <?php echo $this->escape($val['n_jabatan']);?></td>
+		    <td align=left> <?php echo $this->escape($val['unitKerja']);?></td>
+		  </tr>
+	<?php endforeach;?> 	
+
+	</tr>		
+	  </table>
+    </fieldset> 
+</form>
+		   			   
+	  
+
+			<div class="back2">
+			  <a href="#" onClick="javascript:kembaliSearch();" class="back" title="Kembali">Kembali</a>
+			  <!--<a href="#top" class="top" title="Kembali ke atas">Top</a>-->
+			</div>
+  

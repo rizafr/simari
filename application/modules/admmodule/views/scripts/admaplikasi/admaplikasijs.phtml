@@ -1,0 +1,101 @@
+jQuery(document).ready(function() {
+	//jQuery("#frmadmaplikasiinsert").ajaxForm(tambahAplikasi_opt);
+});
+
+
+function setKatakunci(){
+	var kategoriCari = document.getElementById('kategoriCari').value;
+	
+	if (kategoriCari == 'semua'){
+		document.getElementById('cari').style.display='none';
+	} else {
+		document.getElementById('cari').style.display='block';
+	}
+}
+
+
+function displayAplikasiOlahdata()
+{
+	var handler = '<?php echo $this->basePath; ?>/admmodule/admaplikasi/admaplikasiolahdata';
+	var opt = {};
+	jQuery.get(handler,opt,function(data) {
+			$("#tableview").html(data);	
+			jQuery("#frmadmaplikasiinsert").ajaxForm(tambahAplikasi_opt);
+		 });
+}
+
+function kembaliDaftarAplikasi(){
+	var handler = '<?php echo $this->basePath; ?>/admmodule/admaplikasi/daftaraplikasi';
+	var opt = {};
+	jQuery.get(handler,opt,function(data) {
+			$("#tableview").html(data);	
+		 });
+}
+
+var tambahAplikasi_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/admmodule/admaplikasi/admaplikasitambah',
+	beforeSubmit : function(){
+		if(document.getElementById('cAplikasi').value == ''){
+			alert('Kode Aplikasi Harus Diisi.');
+			document.getElementById('cAplikasi').focus();
+			return false;
+		} else if (document.getElementById('nAplikasi').value == ''){
+				alert('Kode Aplikasi Harus Diisi.');
+				document.getElementById('nAplikasi').focus();
+				return false;
+		} 
+	},
+	success : function() {
+		jQuery("#frmadmaplikasiinsert").ajaxForm(tambahAplikasi_opt);
+		doCount(5);
+	},
+	type: 'post', 
+	resetForm: false
+};
+
+function ubahAplikasi(iAplikasi){
+	var handler = '<?php echo $this->basePath; ?>/admmodule/admaplikasi/admaplikasiolahdata';
+	var jenisForm = 'ubah';
+	var opt = {jenisForm : jenisForm, iAplikasi : iAplikasi};
+	jQuery.get(handler,opt,function(data) {
+			$("#tableview").html(data);	
+			jQuery("#frmadmaplikasiedit").ajaxForm(ubahAplikasi_opt);
+		 });
+}
+
+var ubahAplikasi_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/admmodule/admaplikasi/admaplikasiubah',
+	beforeSubmit : function(){
+		if(document.getElementById('cAplikasi').value == ''){
+			alert('Kode Aplikasi Harus Diisi.');
+			document.getElementById('cAplikasi').focus();
+			return false;
+		} else if (document.getElementById('nAplikasi').value == ''){
+				alert('Kode Aplikasi Harus Diisi.');
+				document.getElementById('nAplikasi').focus();
+				return false;
+		} 
+	},
+	success : function() {
+		jQuery("#frmadmaplikasiedit").ajaxForm(ubahAplikasi_opt);
+		doCount(5);
+	},
+	type: 'post', 
+	resetForm: false
+};
+
+function hapusAplikasi(param1, param2, param3)
+{ 
+	
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/admmodule/admaplikasi/admaplikasihapus';
+		var opt = {iAplikasi : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	}
+}  

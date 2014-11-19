@@ -1,0 +1,56 @@
+function openFormPropinsi(par,c_propinsi,n_propinsi){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refpropinsi/propinsiolahdata";
+	var opt = {par:par, c_propinsi:c_propinsi, n_propinsi:n_propinsi};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formpropinsi").ajaxForm(maintain_propinsi);
+		});		
+} 
+
+function insertPropinsi(){
+	jQuery("#formpropinsi").ajaxForm(maintain_propinsi);
+}
+
+var maintain_propinsi = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpropinsi").ajaxForm(maintain_propinsi);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refpropinsi/insertpropinsi',
+	type: 'post',
+	resetForm: false
+};
+
+function updatePropinsi(){
+	jQuery("#formpropinsi").ajaxForm(update_propinsi);
+}
+
+var update_propinsi = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpropinsi").ajaxForm(maintain_propinsi);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refpropinsi/updatepropinsi',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusPropinsi(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refpropinsi/deletepropinsi';
+		var opt = {c_propinsi : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

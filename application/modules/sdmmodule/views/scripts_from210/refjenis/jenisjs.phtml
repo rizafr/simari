@@ -1,0 +1,56 @@
+function openFormJenis(par,i_kode,n_nama,v_sort,c_status,d_update){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refjenis/jenisolahdata";
+	var opt = {par:par, i_kode:i_kode, n_nama:n_nama, v_sort:v_sort, c_status:c_status, d_update:d_update};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formjenis").ajaxForm(maintain_jenis);
+		});		
+} 
+
+function insertJenis(){
+	jQuery("#formjenis").ajaxForm(maintain_jenis);
+}
+
+var maintain_jenis = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjenis").ajaxForm(maintain_jenis);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refjenis/insertjenis',
+	type: 'post',
+	resetForm: false
+};
+
+function updateJenis(){
+	jQuery("#formjenis").ajaxForm(update_jenis);
+}
+
+var update_jenis = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjenis").ajaxForm(maintain_jenis);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refjenis/updatejenis',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusJenis(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refjenis/deletejenis';
+		var opt = {i_kode : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

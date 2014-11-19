@@ -1,0 +1,91 @@
+<title>CMS Portal Internal - Pemerintah Kota Cimahi</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="author" content="Pemerintah Kota Cimahi" />
+<link rel="stylesheet" href="<?echo $this->baseUrl;?>/css/cms/style.css" type="text/css" />
+<link rel="stylesheet" href="<?echo $this->baseUrl;?>/css/loading.css" type="text/css" />
+<link rel="stylesheet" href="<?echo $this->baseUrl;?>/css/cms/popup.css" type="text/css" />
+<link rel="stylesheet" href="<?echo $this->baseUrl;?>/css/cms/jquery.datepicker.css" type="text/css" >
+<!--<script type="text/javascript" src="<?echo $this->baseUrl;?>/js/jquery.js"></script>-->
+<script type="text/javascript" src="<?echo $this->baseUrl;?>/js/jquery-1.3.2.js"></script>
+<script type="text/javascript" src="<?echo $this->baseUrl;?>/js/jquery-ui-1.8.14.custom.min.js"></script>
+<script type="text/javascript" src="<?echo $this->baseUrl;?>/js/jquery.form.js"></script>
+<script type="text/javascript" src="<?echo $this->baseUrl;?>/js/navigation.js"></script>
+<script type="text/javascript" src="<?echo $this->baseUrl;?>/js/popup.js"></script>
+<script type="text/javascript" src="<?echo $this->baseUrl;?>/js/datepicker.js"></script>
+
+<script type="text/javascript" src="<?echo $this->baseUrl;?>/js/jquery.autocomplete.js"></script>
+<!--<script type="text/javascript" src="<?echo $this->baseUrl;?>/content/tiny_mce.js"></script>-->
+<script type="text/javascript" src="<?echo $this->baseUrl;?>/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="<?echo $this->baseUrl;?>/content/init.js"></script>
+<script type="text/javascript" src="<?echo $this->baseUrl;?>/js/ui.core.js"></script>
+<script type="text/javascript" src="<?echo $this->baseUrl;?>/js/ui.datepicker.js"></script>
+<script type="text/javascript" src="<?echo $this->baseUrl;?>/js/superfish.js"></script>
+<script type="text/javascript" src="<?echo $this->baseUrl;?>/js/superfish_002.js"></script>
+<script type="text/javascript" src="<?echo $this->baseUrl;?>/js/superfishgen.js"></script>
+<title>CMS - PORTAL MAHKAMAH AGUNG REPUBLIK INDONESIA</title>
+
+<script type='text/javascript'> 
+
+function popUpCari(URL) {
+    window.open(URL,"","width=600,height=550,resizable=yes,scrollbars=no, left=240,top=240");
+	}
+   function MM_jumpMenu(targ,selObj,restore){
+      eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+      if (restore) selObj.selectedIndex=0;
+   }
+
+	function goLocation(URL){
+	   	window.location.href=URL;
+	}
+function CheckAll()
+   {
+      for (var i=0;i<document.post.elements.length;i++)
+      {
+         var e = document.post.elements[i];
+         if (e.type == 'checkbox' && e.name != 'allbox') {
+            e.checked = document.post.allbox.checked;
+         }
+      }
+   } 
+function show(ID1,ID2) {
+  document.getElementById(ID1).style.display='block';
+  document.getElementById(ID2).style.display='none';
+		}
+function textCounter(field,cntfield,maxlimit) {
+if (field.value.length > maxlimit) // if too long...trim it!
+field.value = field.value.substring(0, maxlimit);
+// otherwise, update 'characters left' counter
+else
+cntfield.value = maxlimit - field.value.length;
+}
+		
+</script>
+<script type="text/javascript">
+// <![CDATA[
+	var jump_page = 'Masukkan no halaman yang ingin Anda tuju:';
+	var on_page = '1';
+	var base_url = '';
+	var onload_functions = new Array();
+	var onunload_functions = new Array();
+
+
+	/**
+	* New function for handling multiple calls to window.onload and window.unload by pentapenguin
+	*/
+	window.onload = function()
+	{
+		for (var i = 0; i < onload_functions.length; i++)
+		{
+			eval(onload_functions[i]);
+		}
+	}
+
+	window.onunload = function()
+	{
+		for (var i = 0; i < onunload_functions.length; i++)
+		{
+			eval(onunload_functions[i]);
+		}
+	}
+// ]]>
+</script>	

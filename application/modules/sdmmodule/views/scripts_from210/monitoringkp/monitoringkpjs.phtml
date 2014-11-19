@@ -1,0 +1,53 @@
+function viewKp(){jQuery("#formresult").ajaxForm(getlaporan);}
+
+var getlaporan = {
+	target:'#popupview',
+	beforeSubmit: function() {}, 
+	success:function(){
+		centerPopup();
+		loadPopup();
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/monitoringkp/view',
+	type: 'post',
+	resetForm: false};
+
+function viewExl(){jQuery("#formresult").ajaxForm(getlaporanexl);}
+
+var getlaporanexl = {
+	target:'#popupview',
+	beforeSubmit: function() {}, 
+	success:function(){
+
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/monitoringkp/view?par=exl',
+	type: 'post',
+	resetForm: false};
+
+function BukaWindows(url,wid,heg){
+	var w = 0; 
+	var h = 0;
+	w = screen.availWidth;
+	h = screen.availHeight;
+	var popW = wid, popH = heg;
+	var leftc = (w-popW)/2;
+	var topc = (h-popH)/2;
+	var selectWindow = window.open(url,'Selection', 'left=' + leftc + ',top=' + topc + ', width='+popW+',height='+popH+',resizable=0,scrollbars=yes');
+}	
+
+
+function cariCombo(){
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+	var eseloni=document.getElementById('c_eselon_i').value;
+	var eselonii=document.getElementById('c_eselon_ii').value;
+	var eseloniii=document.getElementById('c_eselon_iii').value;
+	var eseloniv=document.getElementById('c_eselon_iv').value;		
+if (c_lokasi_unitkerja=='1'){var url = '<?php echo $this->basePath; ?>/sdmmodule/listcombolaporan/listcombolaporan'; 
+}
+else{
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/listcombolaporan/listcombolaporan2'; 
+ } 
+	var param = {c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+	jQuery.get(url, param, function(data) {
+		jQuery("#listcombo").html(data);
+	});
+}

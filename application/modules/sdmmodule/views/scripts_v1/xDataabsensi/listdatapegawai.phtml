@@ -1,0 +1,87 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+require_once "share/halaman.php";  
+
+$tanggal = new tanggal();
+$halaman = new halaman();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$datapilfilter = array('i_peg_nip'=>'Nip Pegawai','n_peg'=>'Nama Pegawai')
+?>
+
+<div class="panel" id='pentry'>
+   <input type='hidden' id='mode' name='mode' value='1'>
+	<table width="100%" class="tbl2">
+			<tr>
+				<td class="clcenter" width="100%"><b>Pencarian Berdasarkan : 
+				<?
+				$pilfilteratr = array("style"=>"width:150px");
+				echo $ctrlFrm->formSelect('pilfilter', $this->pilfilter, $pilfilteratr, $datapilfilter);
+				?>
+				</b>
+				<?
+				$filtervalatr = array("style"=>"width:350px");
+				echo $ctrlFrm->formText('filterval', $this->filterval, $filtervalatr);
+				$buttonatr = array("style"=>"width:40px");
+				echo $ctrlFrm->formButton('btnCari', 'Cari', $buttonatr);
+				?>
+				</td>
+			</tr>
+	</table>
+	<table width="100%" class="tbl">
+		<tbody>
+			<tr>
+				<th>No</th>
+				<th>Nip</th>
+				<th>Nama</th>
+				<th>Jabatan</th>
+				<th>Status Kerja</th>
+			</tr>
+			<?php
+			if(count($this->pegawaidatalst)){
+			    //$i = $this->currentPage;
+				$ipage = (($this->currentPage-1)*($this->numToDisplay))+1;
+				foreach ($this->pegawaidatalst as $key => $val): 
+					if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+					<td class="clright"><?=$ipage?></td>
+					<td class="clleft" >
+					<a href="#" onclick="funcnipCaripegawai('<?=$this->escape($val['i_peg_nip'])?>','<?=$this->escape($val['n_peg'])?>')">
+					<?=$this->escape($val['i_peg_nip'])?></a></td>
+					<td class="clleft"><?=$this->escape($val['n_peg'])?></td>
+					<td class="clleft"><?=$this->escape($val['c_jabatan'])?></td>
+					<td class="clleft"><?=$this->escape($val['c_status_kepegawaian'])?></td>
+					</tr>
+					<?php
+					$ipage++;
+				endforeach;
+			}
+			?>
+		</tbody>
+	</table>
+   <div class="panel">
+   <div class="right">
+	<?php
+	
+	$totalData 		= $this->pegawaidatalstJml;
+	$numToDisplay	= $this->numToDisplay;
+	$currentPage = $this->currentPage;
+	$fungsi = $this->basePath.'/sdmmodule/dataabsensi/listdatapegawai';
+	$fungsijs = $this->basePath.'/sdmmodule/dataabsensi/dataabsensijs';
+	$param1 = $this->unitkerja;
+	$param2 = $this->pilfilter;
+	$param3 = $this->filterval;
+	$modul = "pentry";
+	$halaman->showPagebr($totalData, $numToDisplay, $currentPage, $modul, $fungsi, $fungsijs, $param1, $param2, $param3, $param4);
+	
+	?>
+   </div>
+   <br>
+   <br>
+   </div>
+</div>

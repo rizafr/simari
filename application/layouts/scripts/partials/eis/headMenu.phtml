@@ -1,0 +1,62 @@
+
+				<h2 class="accessibility">Navigation</h2>
+					<ul class="nav">
+					    <li><a href="main">Beranda</a></li>
+								<li><a href="#">Calon Pegawai<!--[if IE 7]><!--></a><!--<![endif]-->
+									<ul>
+										<li><a href="#pendaftaran" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/pendaftaranonline/daftaronline','<?php echo $this->basePath; ?>/sdmmodule/pendaftaranonline/daftaronlinejs');">Pendaftaran Online</a></li>										
+										<li><a href="#ujian" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/hasilpendaftaranonline/catat','<?php echo $this->basePath; ?>/sdmmodule/hasilpendaftaranonline/catatjs');">Hasil Ujian Administrasi</a></li>
+										<li><a href="#daftar" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/hasilpendaftaranonline/daftar','');">Daftar</a></li>
+										<li><a href="#rekap" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/hasilpendaftaranonline/rekap','');">Rekapitulasi</a></li>
+									</ul>
+								</li>
+			    
+						<li><a href="./">Pegawai<!--[if IE 7]><!--></a><!--<![endif]-->
+							<ul>
+								<li><a href="#datapokok" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a></li>
+								<li><a href="#datapokok" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datask/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datask/dataskjs');">Daftar SK</a></li>
+
+								<li><a href="./">TPM<!--[if IE 7]><!--></a><!--<![endif]-->
+									<ul>
+										<li><a href="#tpm" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/tpm/listusultpm','<?php echo $this->basePath; ?>/sdmmodule/tpm/tpmjs');">Usulan TPM</a></li>
+										<li><a href="#tpm" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/tpm/listpratpm','<?php echo $this->basePath; ?>/sdmmodule/tpm/tpmjs');">Pra TPM</a></li>
+										<li><a href="#tpm" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/tpm/listpratpmtpmi','<?php echo $this->basePath; ?>/sdmmodule/tpm/tpmjs');">TPM I</a></li>
+										<li><a href="#tpm" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/tpm/listpmtipmii','<?php echo $this->basePath; ?>/sdmmodule/tpm/tpmjs');">TPM II</a></li>									
+										<li><a href="#tpm" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/tpm/daftartpm','<?php echo $this->basePath; ?>/sdmmodule/tpm/tpmjs');">Daftar TPM</a></li>
+									</ul>
+								</li>
+								
+							</ul>
+						</li>
+
+						<li><a href="#pelaporan" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/monitoringkgb/monitoringkgb','<?php echo $this->basePath; ?>/sdmmodule/monitoringkgb/monitoringkgbjs');">Laporan</a></li>
+						<li><a href="#statistik" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/statistikgolongan/statistikgolongan','<?php echo $this->basePath; ?>/sdmmodule/statistikgolongan/statistikgolonganjs');">Statistik</a></li>								
+						<li><a href="./">Pencarian<!--[if IE 7]><!--></a><!--<![endif]-->
+							<ul>
+						<li><a href="#fungsional" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/monitoringserbaguna','<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/monitoringserbagunajs');">Serbaguna</a></li>
+						<li><a href="#fungsional" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/monitoringdinamika/monitoringdinamika','<?php echo $this->basePath; ?>/sdmmodule/monitoringdinamika/monitoringdinamikajs');">Dinamik</a></li>
+						<li><a href="#fungsional" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/pencarian/pencarian','<?php echo $this->basePath; ?>/sdmmodule/pencarian/pencarianjs');">Pencarian Cepat</a></li>
+							</ul>
+						</li>						
+<!--						<li><a href="#fungsional" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/monitoringfungsional/monitoringfungsional','<?php echo $this->basePath; ?>/sdmmodule/monitoringfungsional/monitoringfungsionaljs');">Fungsional</a></li>-->
+						<li><a href="#fungsional" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/penilaianmil/refpenilaianmil','<?php echo $this->basePath; ?>/sdmmodule/penilaianmil/penilaianmiljs');">Refferensi</a></li>
+						
+								 <li><a href="#">Absensi</a>
+									<ul>
+										<li><a href="#" class="enclose">Cuti</a>
+											<ul>
+												<li><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/cuti/cuti','<?php echo $this->basePath; ?>/sdmmodule/cuti/cutijs');">Pengajuan Cuti</a></li>
+												<li><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/cuti/listubahcuti','<?php echo $this->basePath; ?>/sdmmodule/cuti/cutijs');">Merubah Pengajuan Cuti</a></li>	
+												<li><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/cuti/pegawaisearch','');">Melihat Sisa Cuti</a></li>
+											</ul>								
+										</li>																			
+										<li><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensi','<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensijs');">Entry Absensi</a></li>
+										<li><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/harikerja/harikerja','<?php echo $this->basePath; ?>/sdmmodule/harikerja/harikerjajs');">Refferensi Hari Libur</a></li>										
+										<li><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/absensi/listpegabsensi','');">Rekap Absensi Pegawai</a></li>
+									</ul>
+								</li>
+<!--								
+						<li ><a href="./">Administrasi</a></li>
+-->						
+					</ul>
+

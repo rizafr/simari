@@ -1,0 +1,125 @@
+jQuery("#bulanabsen").bind("change",funcChangeBulan);
+jQuery("#c_eselon_i").bind("change",funcChangeBulan);
+jQuery("#c_eselon_ii").bind("change",funcChangeBulan);
+jQuery("#btnCari").bind("click",funcnipCaripegawaifltr);
+
+
+function funcChangeBulan()
+{
+   var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensi';
+   var kd_lokasi = document.getElementById('kd_lokasi').value;
+   var c_eselon_i = document.getElementById('c_eselon_i').value;
+   var c_eselon_ii = document.getElementById('c_eselon_ii').value;
+   var i_peg_nip = document.getElementById('i_peg_nip').value;
+   
+   var bulanabsen = document.getElementById('bulanabsen').value;
+   var tahunabsen = document.getElementById('tahunabsen').value;
+   var par = { kd_lokasi:kd_lokasi, c_eselon_i:c_eselon_i, c_eselon_ii:c_eselon_ii, bulanabsen:bulanabsen, tahunabsen:tahunabsen, i_peg_nip:i_peg_nip };
+   jQuery.get(url, par, function(data) {
+	 $("#tableview").html(data);
+     jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensijs');
+   });
+}
+function funcChangeKdIjin(vr1)
+{
+   alert('kdijin : '+vr1);
+   var bkdijin = document.getElementById('kdijin'+vr1).value;
+}
+function funcSetuju(v1)
+{ 
+   var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/simpanijin';
+   var url2 = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensi';
+   var kd_lokasi = document.getElementById('kd_lokasi').value;
+   var c_eselon_i = document.getElementById('c_eselon_i').value;
+   var c_eselon_ii = document.getElementById('c_eselon_ii').value;
+   var i_peg_nip = document.getElementById('i_peg_nip').value;
+   var bulanabsen = document.getElementById('bulanabsen').value;
+   var tahunabsen = document.getElementById('tahunabsen').value;
+   var tglijin = tahunabsen+'-'+bulanabsen+'-'+v1;
+   var kodeijin = document.getElementById('kdijin'+v1).value;
+   var suratijin = document.getElementById('suratijin'+v1).value;
+   var par = { kd_lokasi:kd_lokasi, c_eselon_i:c_eselon_i, c_eselon_ii:c_eselon_ii, bulanabsen:bulanabsen, tahunabsen:tahunabsen, i_peg_nip:i_peg_nip,
+   kodeijin:kodeijin, suratijin:suratijin, tglijin:tglijin   };
+   jQuery.get(url, par, function(data) {
+        jQuery.get(url2, par, function(data) {
+	       $("#tableview").html(data);
+           jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensijs');
+        });
+   });
+}
+function funcCaripegawai()
+{
+   var mode = document.getElementById('mode').value;
+   if (mode=='1')
+   {
+      var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensi';
+      var kd_lokasi = document.getElementById('kd_lokasi').value;
+      var c_eselon_i = document.getElementById('c_eselon_i').value;
+      var c_eselon_ii = document.getElementById('c_eselon_ii').value;
+      var i_peg_nip = document.getElementById('i_peg_nip').value;
+   
+      var bulanabsen = document.getElementById('bulanabsen').value;
+      var tahunabsen = document.getElementById('tahunabsen').value;
+      var par = { kd_lokasi:kd_lokasi, c_eselon_i:c_eselon_i, c_eselon_ii:c_eselon_ii, bulanabsen:bulanabsen, tahunabsen:tahunabsen, i_peg_nip:i_peg_nip };
+      jQuery.get(url, par, function(data) {
+	    $("#tableview").html(data);
+        jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensijs');
+      });
+   }
+   else
+   {
+      var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/listdatapegawai';
+      //var satker = document.getElementById('unitkerja').value;
+      var kd_lokasi = document.getElementById('kd_lokasi').value;
+      var c_eselon_i = document.getElementById('c_eselon_i').value;
+      var c_eselon_ii = document.getElementById('c_eselon_ii').value;
+      var unit = kd_lokasi+c_eselon_i+c_eselon_ii;
+      var par = { unitkerja:unit };
+      jQuery.get(url, par, function(data) {
+	    $("#pentry").html(data);
+        jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensijs');
+      });
+   }
+   
+}
+function funcnipCaripegawaifltr()
+{
+   var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/listdatapegawai';
+   var pilfilter = document.getElementById('pilfilter').value;
+   var filterval = document.getElementById('filterval').value;
+   var kd_lokasi = document.getElementById('kd_lokasi').value;
+   var c_eselon_i = document.getElementById('c_eselon_i').value;
+   var c_eselon_ii = document.getElementById('c_eselon_ii').value;
+   var unit = kd_lokasi+c_eselon_i+c_eselon_ii;
+   var par = { unitkerja:unit, filterval:filterval, pilfilter:pilfilter };
+   jQuery.get(url, par, function(data) {
+	 $("#pentry").html(data);
+     jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensijs');
+   });
+   
+}
+function funcnipCaripegawai(vnip,vnama)
+{
+   //alert('aku disini'+vnip);
+   var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensi';
+   var kd_lokasi = document.getElementById('kd_lokasi').value;
+   var c_eselon_i = document.getElementById('c_eselon_i').value;
+   var c_eselon_ii = document.getElementById('c_eselon_ii').value;
+   var nip = vnip+'. '+vnama;
+   
+   var bulanabsen = document.getElementById('bulanabsen').value;
+   var tahunabsen = document.getElementById('tahunabsen').value;
+   var par = { kd_lokasi:kd_lokasi, c_eselon_i:c_eselon_i, c_eselon_ii:c_eselon_ii, bulanabsen:bulanabsen, tahunabsen:tahunabsen, i_peg_nip:nip };
+   jQuery.get(url, par, function(data) {
+	 $("#tableview").html(data);
+     jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensijs');
+   });
+}
+function gantinewPagebr(divId, modul, js, currentPage, param1, param2, param3, param4)
+{
+	var opt = {currentPage : currentPage, param1 : param1, param2 : param2, param3 : param3 , param4 : param4};
+	jQuery.get(modul,opt,function(data) {
+		jQuery("#"+divId).html(data);
+        jQuery.getScript(js);
+	});
+}

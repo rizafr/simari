@@ -1,0 +1,77 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+	
+	//var_dump($this->detailAgama);
+?>
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong>Formasi Kepegawaian<!--a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a-->
+				<strong> &#8250; </strong><?//=$this->jdl;?> Formulir 7
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Formulir 7</h2>	
+		
+<form id="formformulir7" method="post" name="formformulir7">
+		<div align="left">UNIT ORGANISASI : PERWAKILAN RI DILUAR NEGRI</div>
+		<div align="center">DAFTAR KEBUTUHAN PEGAWAI LOCAL STAFF<br>TAHUN ANGGARAN <span class="thn_skr"></span></div>
+	<div class="panel">
+		<div class="spacer"></div> 
+			
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td width="40%">PERWAKILAN</span>
+					</td><input type="hidden" name="id" id="id" value="<? echo $this->id ?>">
+					<td width="1%">:</td> 
+					<td width="59%">	
+						<input type="text" name="perwakilan" id="perwakilan" value="<?=$this->detailFormulir7['perwakilan'];?>" size="25" >
+						<input type="hidden" name="thn_skrg" id="thn_skrg2">
+						<input type="hidden" name="thn_sblm" id="thn_sblm2">
+						<input type="hidden" name="tahun" id="tahun">
+					</td>
+				</tr><tr>
+					<td>JUMLAH PEGAWAI PADA 31-12-<span id="thn_sblm"></span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="jum_pegawai" id="jum_pegawai" value="<?=$this->detailFormulir7['jum_pegawai'];?>" size="25" >
+					</td>
+				</tr><tr>
+					<td>FORMASI TAHUN <span class="thn_skr"></span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="formasi" id="formasi" value="<?=$this->detailFormulir7['formasi'];?>" size="25" >
+					</td>
+				</tr><tr>
+					<td>KET.</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="ket" id="ket" value="<?=$this->detailFormulir7['ket'];?>" size="25" >
+					</td>
+				</tr>
+				<tr>
+					<td align="left"></td>
+					<td></td>
+					<td>
+						<div class="center">
+							<input type="button" value="Batal" onclick="OpenFormulir7();"> 
+							<?if ($this->par == 'Insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertFormulir7()">
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updateFormulir7()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>

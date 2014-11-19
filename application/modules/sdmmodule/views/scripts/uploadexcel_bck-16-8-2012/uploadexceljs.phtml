@@ -1,0 +1,15 @@
+function uploadData(){
+	jQuery("#formimport").ajaxForm(import_data);
+}
+
+var import_data = {
+	target:'#tableview',
+	beforeSubmit: function() {}, 
+	success:function(){
+		location.href="#top";
+		//doCounter(5);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/uploadexcel/prosesuploadexcel',
+	type: 'post',
+	resetForm: false
+};

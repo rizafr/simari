@@ -1,0 +1,35 @@
+/*
+Author : Irwan Setiawan
+Email : irwans17@yahoo.com
+Created : 17/04/2012
+Theme Color: Merah
+*/
+
+body {
+	margin: 0;
+	padding: 0;
+	background: #ededed url(../images/bg_body_red.gif) repeat-x;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+}
+
+hr {
+	display: none;
+}
+
+/* Header */
+
+#header {
+	height: 130px;
+	background: url(../images/header_red.jpg) no-repeat left top;
+}
+#page a, #page a:link, #page a:visited{color:#910505;text-decoration:none} 
+#page a:hover{color:#552604;text-decoration:underline}
+#leftside h4, #rightside h4, #middle h4  {
+	background:#dabdbd;
+	background-image: -moz-linear-gradient(rgba(238, 222, 222, 1) 0%, rgba(218, 189, 189, .9) 90%);
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(238, 222, 222)), to(rgba(218, 189, 189, .9)));/*for not FF*/
+	}
+
+
+

@@ -1,0 +1,139 @@
+<? require_once 'Zend/View.php';   
+	$ctrlFrm = new Zend_View();
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_sertifikat").datepicker();
+	});
+</script>
+		   <div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datadikteknis/listdiklat','');">Diklat Teknis</a>				
+			<strong> &#8250; </strong><?=$this->jdl;?> Diklat Teknis
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+
+	<h2 class="title"><?=$this->jdl;?> Diklat Teknis</h2>
+
+<div class="boxholder">					
+	<div class="panel">
+		<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<br>
+		
+<form id="formteknis" method="post" name="formteknis" enctype="multipart/form-data">		
+				<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>	
+<div class="panel">				
+				<div class="spacer"></div> 
+				<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+					<tr>
+						<td  width="23%">Nama / NIP</td>
+						<td width="2%">:</td> 
+						<td width="75%"><?=$this->nama." / ".$this->nip;?></td>
+					</tr>				
+					<tr>
+						<td  width="23%">Kelompok
+						
+						</td>
+						<td width="2%">:</td> 
+						<td width="75%">					
+						<?php
+						   $jmllistrkelteknis = count($this->listrkelteknis);
+						   $listrkelteknis[''] = '--Pilih--';
+							for ($i = 0; $i < $jmllistrkelteknis; $i++) {	 
+								$listrkelteknis[$this->listrkelteknis[$i]->c_kelompok ]= (string)$this->listrkelteknis[$i]->n_kelompok;			 
+						   }    
+							echo $ctrlFrm->formSelect('c_kelompok', $this->c_kelompok, null, $listrkelteknis);
+						?>					
+						</td>
+					</tr>
+			
+				<tr>
+					<td>Nama Diklat
+					
+					</td>
+					<td>:</td> 
+					<td>
+						<textarea rows="2" name="n_diklat" id="n_diklat"><?=$this->n_diklat?></textarea>
+					</td>
+				</tr>
+					<tr>
+						<td  width="23%">Negara
+						
+						</td>
+						<td width="2%">:</td> 
+						<td width="75%">					
+						<?php
+						   $jmllistnegara = count($this->listnegara);
+						   $listnegara[''] = '--Pilih--';
+							for ($i = 0; $i < $jmllistnegara; $i++) {	 
+								$listnegara[$this->listnegara[$i]->c_negara ]= (string)$this->listnegara[$i]->n_negara;			 
+						   }    
+							echo $ctrlFrm->formSelect('c_negara', $this->c_negara, null, $listnegara);
+						?>					
+						</td>
+					</tr>				
+				<tr>
+					<td>Lama Diklat (JPL)</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="q_lama" id="q_lama" value="<?=$this->q_lama?>" size="5">
+					</td>
+				</tr>
+				<tr>
+					<td>Penyelenggara</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="n_penyelenggara" id="n_penyelenggara" value="<?=$this->n_penyelenggara?>" size="80">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3"><h3 class="title"><b>SERTIFIKAT/STTPP</b><h3></td>
+				</tr>
+				<tr>
+					<td>Nomor Sertifikat</td>
+					<td>:</td> 
+					<td>
+						<input type="text" maxlength="80" name="i_sertifikat" id="i_sertifikat" value="<?=$this->i_sertifikat?>" size="50">
+					</td>
+				</tr>				
+				<tr>
+					<td>Tanggal Sertifikat</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_sertifikat" id="d_sertifikat" value="<?=$this->d_sertifikat?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+					</td>
+				</tr>	
+				<tr>
+					<td>Pejabat</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="n_pejabat" id="n_pejabat" value="<?=$this->n_pejabat?>" size="80">
+					</td>
+				</tr>
+	</table>
+	</div>
+	<br>
+	<div class="panel">
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+						<tr>
+							<td align="right">
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datadikteknis/listdiklat','');"> 									
+							</td>
+						</tr>
+					</table>
+</form>
+	</div>
+</div>	
+	

@@ -1,0 +1,198 @@
+/* HEIGLIGHT ----------------------------------------------*/
+#heiglightwp {
+	width: 628px;
+	height: 425px;
+	line-height: 120%;
+	text-align: left;
+	/*background-color: #063C6B;*/
+	margin: 0 auto 0 0px;
+	padding: 0;
+	border: 1px solid #FFFFFF;
+	clear: both;
+}
+html>body #heiglightwp {
+	width: 628px;
+}
+#heiglightwp a:link {
+	color: #155900;
+}
+#heiglightwp a:visited {
+	color: #155900;
+	text-decoration: none;
+}
+#heiglightwp a:hover {
+	color: #444444;
+}
+#heiglightwp h1 {
+	font-weight: normal;
+	font-size: 26px;
+	line-height: 110%;
+}
+#heiglightwp h2 {
+	font-size: 1.6em;
+	font-weight: bold;
+	line-height: 110%;
+	color: #FF1559000;
+}
+#heiglightwp h3 {
+	font-size: 11px;
+	color: #FF1559000;
+	text-transform: capitalize;
+	/*background-color: #073D6F;*/
+	padding: 3px  5px;
+	margin: 4px 0;
+	border-top: 0px solid #000;
+	border-bottom: 1px solid #069;
+}
+#heiglightwp h4 {
+	font-size: 11px;
+	color: #FF1559000;
+	text-transform: capitalize;
+	padding: 3px 0;
+	margin: 10px 0 5px 0;
+	display: block;
+	clear: both;
+	border-bottom: 0px solid #42a3cf;
+}
+#heiglightwp h5 {
+	font-size: 11px;
+	color: #FF1559000;
+	text-transform: capitalize;
+	padding: 1px 5px;
+	margin: 5px 0 0 0;
+	display: block;
+}
+#heiglightwp .date {
+	font-size: 10px;
+}
+#heiglightwp .bannerB1 {
+	width: 300px;
+	padding: 0;
+	margin: 10px 10px 10px 0;
+	float: left;
+}
+#heiglightwp #hlheiglight {
+	width: 614px;
+	height: 390px;
+	/*background-color: #052d52;*/
+	margin: 10px 0px 10px 0px;
+	float: left;
+}
+html>body #heiglightwp #hlheiglight {
+	width: 627px;
+	margin: 5px 5px 10px 5px;
+}
+#heiglightwp #hlheiglight .image {
+	text-align: center;
+	font-size: 10px;
+	padding: 0px;
+	margin: 0;
+	border: 1px solid #42a3cf;
+	float: left;
+}
+#heiglightwp #hlheiglight ul {
+	padding: 0px;
+	margin: 0;
+}
+#heiglightwp #hlheiglight ul li {
+	padding: 2px;
+	margin: 0 0 0 8px;
+	list-style-position: outside;
+	list-style-type: none;
+	clear: none;
+	display: inline;
+}
+#heiglightwp #hlheiglight #fotogal {
+	line-height: 170%;
+	clear: both;
+}
+#heiglightwp #hlheiglight #fotogal h1 {
+	font-weight: bold;
+	font-size: 1.7em;
+	line-height: 110%;
+	letter-spacing:-1px;
+	padding: 0 0 3px 0;
+}
+#heiglightwp #hlheiglight #fotogal h2 {
+	font-size: 13px;
+	font-weight: bold;
+	color: #FF1559000;
+}
+#heiglightwp #hlheiglight #fotogal .image {
+	padding: 0;
+	margin: 0 0 5px 0;
+	border: 0;
+	clear: both;
+}
+#heiglightwp #hlheiglight .sliderwrapper {
+	position: relative;
+	overflow: visible;
+	border: 0px solid navy;
+	border-bottom-width: 0px;
+	width: 340px;
+	height: 380px;
+	float: left;
+	padding: 0;
+	margin: 0;
+}
+#heiglightwp #hlheiglight .sliderwrapper .contentdiv {
+	visibility: hidden;
+	position: absolute;
+	left: 0px;
+	top: 0;
+	padding: 5px;
+	width: 340px;
+	font-family: Arial, Helvetica, sans-serif;
+	line-height: 120%;
+	font-size: 12px;
+	/*background: #063A6B;*/
+	height: 380px;
+}
+#heiglightwp #hlheiglight .sliderwrapper .sum {
+	padding: 5px;
+}
+#heiglightwp #hlheiglight .pagination {
+	width: 255px;
+	text-align: left;
+	padding: 0px 1px;
+	float: left;
+	margin: 0 0 0 15px;
+	height: 100%;
+}
+#heiglightwp #hlheiglight .pagination a {
+	padding: 4px 2px;
+	text-decoration: none;
+	color: #155900;
+	background: #F3F3F3;
+	margin: 0 0 5px 0;
+	display: block;
+	height: 66px;
+	font-size: 12px;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+	border:1px solid #DDDDDD;
+}
+#heiglightwp #hlheiglight .pagination .toc {
+	Clear:both;
+	margin: 0 0 5px 0;
+}
+#heiglightwp #hlheiglight .pagination .imgtumil {
+	float: left;
+	margin: 0 5px 0 0;
+}
+#heiglightwp #hlheiglight .nmkanal {
+	font-family: Verdana, Tahoma;
+	line-height: 155%;
+	color: #155900;
+	font-size: 11px;
+}
+#heiglightwp #hlheiglight .pagination a:hover {
+	color: #333333;
+	background-color: #7EF775;
+	margin: 0 0 5px 0;
+}
+#heiglightwp #hlheiglight .pagination a.selected {
+	color: #2222222;
+	background-color: #dddddd;
+	margin: 0 0 5px 0;
+}

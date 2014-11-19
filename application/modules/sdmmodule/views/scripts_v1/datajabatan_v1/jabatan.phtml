@@ -1,0 +1,435 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tmt_eselon").datepicker();
+		jQuery("#d_mulai_jabat").datepicker();
+		jQuery("#d_akhir_jabat").datepicker();
+		jQuery("#d_tmt_lantik").datepicker();
+		jQuery("#d_sk_jabat").datepicker();
+		
+		
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datariwayatpegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datariwayatpegawai/pegawaijs');">Data Riwayat</a>
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datajabatan/listjabatan','<?php echo $this->basePath; ?>/sdmmodule/datajabatan/jabatanjs');">Jabatan</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Jabatan
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Jabatan</h2>	
+<form id="formjabatan" method="post" name="formjabatan">		
+	<div class="panel">
+	<?php include "$this->leftMenu/datapokok.phtml";?>
+		<div class="spacer"></div> 
+						<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+
+
+	
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+	<tr>
+		<td>
+			<table width="100%">
+				<tr>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td width="30%">Eselon<span class="hightlight">*</span></td>
+								<td width="2%">:</td> 
+								<td>					
+									<?
+										$jmlEslList=count($this->eselonList);
+										$eslList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmlEslList; $i++) {
+												$eslList[(string)$this->eselonList[$i]->c_eselon] = (string)$this->eselonList[$i]->n_eselon;			 
+											}
+										$eslAtrib = array("style"=>"width: 240px","onChange"=>"javascript:getEselon()"); 		
+										echo $ctrlFrm->formSelect('c_eselon',$this->c_eselon, $eslAtrib, $eslList); 							
+									?>
+									<input type="hidden" name="c_eselon2" id="c_eselon2" value="<?=$this->c_eselon?>">
+								</td>							
+							</tr>
+							<tr>
+								<td>Nama Jabatan <br> (Dengan Kode Ref.)</td>
+								<td>:</td> 
+								<td>					
+									<input type="hidden" name="c_jabatan" id="c_jabatan" value="<?=$this->c_jabatan?>">
+									<input type="text" name="n_jabatan" id="n_jabatan" value="<?=$this->n_jabatan?>" size="30">
+									<input type="button" value="Cari" onClick="CariJabatan()">
+								</td>								
+							</tr>	
+							<tr>
+								<td>TMT. Jabatan<span class="hightlight">*</span></td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="d_mulai_jabat" id="d_mulai_jabat" value="<?=$this->d_mulai_jabat?>" size="10"> s/d
+									<input type="text" name="d_akhir_jabat" id="d_akhir_jabat" value="<?=$this->d_akhir_jabat?>" size="10">
+									<span class="hightlight">tgl-bln-thn</span>
+								</td>								
+							</tr>							
+						</table>		
+					</td>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td width="30%">TMT Eselon<span class="hightlight">*</span></td>
+								<td width="2%">:</td> 
+								<td>					
+									<input type="text" name="d_tmt_eselon" id="d_tmt_eselon" value="<?=$this->d_tmt_eselon?>" size="10">
+									<span class="hightlight">tgl-bln-thn</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Nama Jabatan <br> (Tanpa Kode Ref.)</td>
+								<td>:</td> 
+								<td>					
+									<textarea id="n_jabatan_nokode" name="n_jabatan_nokode" rows="1"><?=$this->n_jabatan_nokode?></textarea>
+								</td>
+							</tr>
+							<tr>
+								<td>Jumlah Angka Kredit</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="q_angka_kredit" id="q_angka_kredit" value="<?=$this->q_angka_kredit?>" size="10" onkeyup="isNumber('q_angka_kredit')">
+								</td>
+							</tr>								
+						</table>	
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>	
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+	<tr>
+		<td>
+			<table width="100%">
+				<tr>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3"><h3 class="title"><b>UNIT KERJA</b><h3></td>
+							</tr>
+							<tr>
+								<td width="30%">Lokasi</td>
+								<td width="2%">:</td> 
+								<td>					
+									<?
+										$jmlLokList=count($this->lokasiList);
+										$lokList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmlLokList; $i++) {
+												$lokList[(string)$this->lokasiList[$i]->c_lokasi] = (string)$this->lokasiList[$i]->n_lokasi;			 
+											}
+										$lokAtrib = array("style"=>"width: 240px","id"=>"c_lokasi_unitkerja","onChange"=>"javascript:cariEselon('targetesli')"); 
+										echo $ctrlFrm->formSelect('c_lokasi_unitkerja',$this->c_lokasi_unitkerja,$lokAtrib,$lokList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon I</td>
+								<td>:</td> 
+								<td id="targetesli">					
+									<?
+										$jmleseloniList=count($this->eseloniList);
+										$eseloniList['#'] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniList; $i++) {
+												$eseloniList[(string)$this->eseloniList[$i]->c_eselon_i."-".(string)$this->eseloniList[$i]->n_unitkerja] = (string)$this->eseloniList[$i]->n_unitkerja;			 
+											}
+										$eslAtrib = array("style"=>"width: 240px","id"=>"c_eselon_i","onChange"=>"javascript:cariEselon('targeteslii')");  	
+										echo $ctrlFrm->formSelect('c_eselon_i',$this->c_eselon_i,$eslAtrib,$eseloniList); 							
+									?>
+								</td>
+							</tr>
+							<tr id="targetesliix">
+								<td width="30%">Eselon II</td>
+								<td width="2%">:</td> 
+								<td id="targeteslii">				
+									<?
+										$jmleseloniiList=count($this->eseloniiList);
+										$eseloniiList['#'] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiList; $i++) {
+												$eseloniiList[(string)$this->eseloniiList[$i]->c_eselon_ii."-".(string)$this->eseloniiList[$i]->n_unitkerja] = (string)$this->eseloniiList[$i]->n_unitkerja;
+											}
+										$eslAtrib = array("style"=>"width: 240px","id"=>"c_eselon_ii","onChange"=>"javascript:cariEselon('targetesliii')");  	
+										echo $ctrlFrm->formSelect('c_eselon_ii',$this->c_eselon_ii,$eslAtrib,$eseloniiList); 							
+									?>
+								</td>
+							</tr>						
+							<tr id="targetesliiix">
+								<td width="30%">Eselon III</td>
+								<td width="2%">:</td> 
+								<td id="targetesliii">					
+									<?
+										$jmleseloniiiList=count($this->eseloniiiList);
+										$eseloniiiList['#'] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiiList; $i++) {
+												$eseloniiiList[(string)$this->eseloniiiList[$i]->c_eselon_iii."-".(string)$this->eseloniiiList[$i]->n_unitkerja] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+											}
+										$eslAtrib = array("style"=>"width: 240px","id"=>"c_eselon_iii","onChange"=>"javascript:cariEselon('targetesliv')");  	
+										echo $ctrlFrm->formSelect('c_eselon_iii',$this->c_eselon_iii, $eslAtrib, $eseloniiiList); 							
+									?>
+								</td>
+							</tr>
+							<tr id="targeteslivx">
+								<td>Eselon IV</td>
+								<td>:</td> 
+								<td id="targetesliv">				
+									<?
+										$jmleselonivList=count($this->eselonivList);
+										$eselonivList['#'] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonivList; $i++) {
+												$eselonivList[(string)$this->eselonivList[$i]->c_eselon_iv."-".(string)$this->eselonivList[$i]->n_unitkerja] = (string)$this->eselonivList[$i]->n_unitkerja;			 
+											}
+										$eslAtrib = array("style"=>"width: 240px","id"=>"c_eselon_iv","onChange"=>"javascript:cariEselon('targeteslv')");  	
+										echo $ctrlFrm->formSelect('c_eselon_iv',$this->c_eselon_iv,$eslAtrib,$eselonivList); 							
+									?>
+								</td>
+							</tr>
+							<tr id="targeteslvx">
+								<td>Eselon V</td>
+								<td>:</td> 
+								<td id="targeteslv">				
+									<?
+										$jmleselonvList=count($this->eselonvList);
+										$eselonvList['#'] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonvList; $i++) {
+												$eselonvList[(string)$this->eselonvList[$i]->c_eselon_v."-".(string)$this->eselonvList[$i]->n_unitkerja] = (string)$this->eselonvList[$i]->n_unitkerja;			 
+											}
+										$eslAtrib = array("style"=>"width: 240px","id"=>"c_eselon_v");  	
+										echo $ctrlFrm->formSelect('c_eselon_v',$this->c_eselon_v, null, $eselonvList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td width="17%">Alamat Kantor</td>
+								<td width="2%">:</td> 
+								<td>					
+									<textarea id="a_alamat_kantor" name="a_alamat_kantor" rows="1"><?=$this->a_alamat_kantor?></textarea>
+								</td>
+							</tr>							
+						</table>		
+					</td>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3"><h3 class="title"><b>HASIL AKHIR NAMA JABATAN</b><h3></td>
+							</tr>
+							<tr>
+								<td colspan="3">					
+									<textarea id="jabat_lengkap" name="jabat_lengkap" rows="7"><?=$this->jabat_lengkap?></textarea>
+								</td>
+							</tr>							
+						</table>	
+					</td>
+				</tr>
+			</table>			
+		</td>
+	</tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+	<tr>
+		<td>
+			<table width="100%">
+				<tr>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3"><h3 class="title"><b>SURAT KEPUTUSAN</b><h3></td>
+							</tr>
+							<tr>
+								<td width="30%">Nomor</td>
+								<td width="2">:</td> 
+								<td>					
+									<input type="text" name="i_sk_jabat" id="i_sk_jabat" value="<?=$this->i_sk_jabat?>" size="30">
+								</td>
+							</tr>
+							<tr>
+								<td>Tanggal</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="d_sk_jabat" id="d_sk_jabat" value="<?=$this->d_sk_jabat?>" size="10">
+									<span class="hightlight">tgl-bln-thn</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Pejabat</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="n_sk_pejabat" id="n_sk_pejabat" value="<?=$this->n_sk_pejabat?>" size="50">
+								</td>
+							</tr>						
+						</table>		
+					</td>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>							
+							<tr>
+								<td width="30%">Tanggal Pelantikan</td>
+								<td width="2">:</td> 
+								<td>					
+									<input type="text" name="d_tmt_lantik" id="d_tmt_lantik" value="<?=$this->d_tmt_lantik?>" size="10">
+									<span class="hightlight">tgl-bln-thn</span>
+								</td>
+							</tr>	
+							<tr>
+								<td width="30%">Lokasi KPPN</td>
+								<td width="2">:</td> 
+								<td>					
+									<input type="text" name="n_lok_kppn" id="n_lok_kppn" value="<?=$this->n_lok_kppn?>" size="20">
+								</td>
+							</tr>
+							<tr>
+								<td>Lokasi Taspen</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="n_lok_taspen" id="n_lok_taspen" value="<?=$this->n_lok_taspen?>" size="20">
+								</td>
+							</tr>	
+							<tr>
+								<td>Keterangan</td>
+								<td>:</td> 
+								<td>					
+									<textarea id="e_keterangan" name="e_keterangan" rows="1"><?=$this->e_keterangan?></textarea>
+								</td>
+							</tr>							
+						</table>	
+					</td>
+				</tr>
+			</table>			
+		</td>
+	</tr>
+</table>
+
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">	
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td align="right">
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datajabatan/listjabatan','');"> 									
+									<input type="submit" value="<?=$this->par;?>" onClick="insertJabatan()">
+									<input type="hidden" id="proses" name="proses" value="<?=$this->par;?>">
+							</td>
+						</tr>
+					</table>
+
+
+
+</div>
+</form>
+<div id="targetdetil"></div>
+<script>
+function CariJabatan(){
+var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/listnamajabatan';
+var param = {};
+jQuery.get(url,param,function(data) {
+jQuery("#targetdetil").html(data);
+centerPopup();
+loadPopup();});}
+
+function cariEselon(target){
+	var esl =document.getElementById('c_eselon').value;
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;
+	if (target=='targetesli')
+		{var url = '<?php echo $this->basePath; ?>/sdmmodule/datajabatan/listcomboeseloni';}
+	if (target=='targeteslii')
+		{var url = '<?php echo $this->basePath; ?>/sdmmodule/datajabatan/listcomboeselonii';}
+	if (target=='targetesliii')
+		{var url = '<?php echo $this->basePath; ?>/sdmmodule/datajabatan/listcomboeseloniii';}
+	if (target=='targetesliv')
+		{var url = '<?php echo $this->basePath; ?>/sdmmodule/datajabatan/listcomboeseloniv';}		
+	if (target=='targeteslv')
+		{var url = '<?php echo $this->basePath; ?>/sdmmodule/datajabatan/listcomboeselonv';}				
+	var param = {c_lokasi_unitkerja:c_lokasi_unitkerja};
+	jQuery.get(url, param, function(data) {
+		jQuery("#"+target).html(data);
+		getEselon();
+		getNJab();
+	});
+	
+}
+function getNJab(){
+		var c_eselon_i=document.getElementById('c_eselon_i').value;
+		c_eselon_il=String(c_eselon_i).length
+		c_eselon_i= Left(c_eselon_i,c_eselon_il);
+		var c_eselon_ii=document.getElementById('c_eselon_ii').value;
+		c_eselon_iil=String(c_eselon_ii).length
+		c_eselon_ii= Left(c_eselon_ii,c_eselon_iil);
+		var c_eselon_iii=document.getElementById('c_eselon_iii').value;
+		c_eselon_iiil=String(c_eselon_iii).length
+		c_eselon_iii= Left(c_eselon_iii,c_eselon_iiil);
+		var c_eselon_iv=document.getElementById('c_eselon_iv').value;
+		c_eselon_ivl=String(c_eselon_iv).length
+		c_eselon_iv= Left(c_eselon_iv,c_eselon_ivl);
+		var c_eselon_v=document.getElementById('c_eselon_v').value;
+		c_eselon_vl=String(c_eselon_v).length
+		c_eselon_v= Left(c_eselon_v,c_eselon_vl);
+		document.getElementById('jabat_lengkap').value=document.getElementById('n_jabatan').value+", pada "+c_eselon_v+", "+c_eselon_iv+", "+c_eselon_iii+", "+c_eselon_ii+", "+c_eselon_i;
+
+}
+
+function getEselon(){
+var esl =document.getElementById('c_eselon').value;
+if (esl=='01' || esl=='02')
+	{
+		document.forms[0].c_eselon_ii.disabled = "disabled" ;
+		document.forms[0].c_eselon_iii.disabled = "disabled" ;
+		document.forms[0].c_eselon_iv.disabled = "disabled" ;
+		document.forms[0].c_eselon_v.disabled = "disabled" ;
+
+	}
+ else if (esl=='03' || esl=='04')
+	{
+		document.forms[0].c_eselon_ii.disabled = false ;
+		document.forms[0].c_eselon_iii.disabled = "disabled" ;
+		document.forms[0].c_eselon_iv.disabled = "disabled" ;
+		document.forms[0].c_eselon_v.disabled = "disabled" ;
+	}
+	
+else if (esl=='05' || esl=='06')
+	{
+		document.forms[0].c_eselon_ii.disabled = false ;
+		document.forms[0].c_eselon_iii.disabled = false ;
+		document.forms[0].c_eselon_iv.disabled = "disabled" ;
+		document.forms[0].c_eselon_v.disabled = "disabled" ;
+	}
+else if (esl=='07' || esl=='08')
+	{
+		document.forms[0].c_eselon_ii.disabled = false ;
+		document.forms[0].c_eselon_iii.disabled = false ;
+		document.forms[0].c_eselon_iv.disabled = false ;
+		document.forms[0].c_eselon_v.disabled = "disabled" ;
+	}
+else if (esl=='09')
+	{
+		document.forms[0].c_eselon_ii.disabled = false ;
+		document.forms[0].c_eselon_iii.disabled = false ;
+		document.forms[0].c_eselon_iv.disabled = false ;
+		document.forms[0].c_eselon_v.disabled = false ;
+	}
+else	
+	{
+		document.forms[0].c_eselon_ii.disabled = false ;
+		document.forms[0].c_eselon_iii.disabled = false ;
+		document.forms[0].c_eselon_iv.disabled = false ;
+		document.forms[0].c_eselon_v.disabled = false ;
+	} 	
+}
+</script>	
+

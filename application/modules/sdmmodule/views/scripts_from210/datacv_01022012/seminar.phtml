@@ -1,0 +1,50 @@
+<? require_once 'Zend/View.php';
+   
+   $ctrlFrm = new Zend_View();
+  
+$jumseminarList = count($this->seminarList);     
+	if ($jumseminarList == 0) {
+		echo "<font color=\"red\">Data Seminar Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+		<tr>
+		    <th width="30%">Nama Seminar</th>
+			<th width="10%">Peran</th>
+			<th width="6%">Mulai</th>
+			<th width="6%">Akhir</th>
+			<th width="10%">Penyelenggara</th>
+		</tr>
+<?
+	if ($jumseminarList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->seminarList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					?>
+			
+				<td>
+					<a href="#" onclick="detilSeminar('<?=$nip?>','<?=trim($this->escape($val['n_seminar']))?>')"><?php echo $this->escape($val['n_seminar']);?></a>
+				</td>
+				<td><?php  echo $this->escape($val['n_seminar_peran']);?></td>
+				<td class="clcenter"><?php  echo $this->escape($val['d_mulai_seminar']);?></td>
+				<td class="clcenter"><?php  echo $this->escape($val['d_akhir_seminar']);?></td>
+				<td><?php echo $this->escape($val['n_seminar_lembaga']);?></td>
+		  </tr>
+	<?php endforeach;?> 		  	  
+<?	}	?>
+	</table>									
+	

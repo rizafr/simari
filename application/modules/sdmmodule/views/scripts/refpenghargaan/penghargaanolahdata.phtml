@@ -1,0 +1,61 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tanggal_lahir").datepicker();
+		jQuery("#d_tanggal_nikah").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Penghargaan
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Referensi Penghargaan</h2>	
+		
+<form id="formpenghargaan" method="post" name="formpenghargaan">		
+	<div class="panel">
+		<div class="spacer"></div> 
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Kode Penghargaan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_penghargaan" id="c_penghargaan" value="<?=$this->detailPenghargaan['c_penghargaan']?>" size="70" <? if($this->par != "insert"){ ?> readonly <? } ?> >
+					</td>
+				</tr><tr>
+					<td>Nama Penghargaan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_penghargaan" id="n_penghargaan" value="<?=$this->detailPenghargaan['n_penghargaan'];?>" size="70">
+					</td>
+				</tr>
+				<tr>
+					<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/refpenghargaan/listpenghargaan','<?php echo $this->basePath; ?>/sdmmodule/refpenghargaan/penghargaanjs');"> 
+							<?if ($this->par == 'insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertPenghargaan()">
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updatePenghargaan()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>

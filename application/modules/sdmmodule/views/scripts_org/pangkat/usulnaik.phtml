@@ -1,0 +1,141 @@
+<? require_once 'Zend/View.php';
+   require_once "share/oa_date.php"; 
+   
+   $ctrlFrm = new Zend_View();
+   $ctrlDate = new oa_date();  
+   
+    $sebabKenaikanList = array(
+                     "1"=>"Jabatan Struktural",
+					 "2"=>"Jabatan Fungsional",
+					 "3"=>"Jabatan Tertentu",
+					 "4"=>"Prestasi Luar Biasa",
+					 "5"=>"Memperoleh STTB / Ijazah",
+					 "6"=>"Tugas Belajar",
+					 "7"=>"Melakukan Inovasi",
+					 "8"=>"Pejabat Negara",
+					 "9"=>"Diperbantukan diluar Instansi");  
+					 
+//====================================
+//utk menampilkan data kode gaji & golongan
+//====================================   					 
+	$jmlkdGolongan = count($this->kdGolongan);
+    //echo "jmlUnitKerjaList = ".$jmlUnitKerjaList;
+   $kdGolongan['#'] = '--';
+    for ($i = 0; $i < $jmlkdGolongan; $i++) {
+   //$kdGolongan[(string)$this->kdGolongan[$i]->c_peg_golongan."|".$this->kdGolongan[$i]->n_peg_pangkat] = (string)$this->kdGolongan[$i]->c_peg_golongan." - ".(string)$this->kdGolongan[$i]->n_peg_pangkat;	
+     $kdGolongan[(string)$this->kdGolongan[$i]->c_peg_golongan] = (string)$this->kdGolongan[$i]->c_peg_golongan." - ".(string)$this->kdGolongan[$i]->n_peg_pangkat;	   
+   }
+						 
+//====================================
+//utk menampilkan data pegawai dr services
+//====================================   
+$judul_dat = count($this->judul);
+    for ($i = 0; $i < $judul_dat; $i++) {
+	//   echo $this->judul[$i]['i_peg_nip']." ".$this->judul[$i]['n_peg']." ".$this->judul[$i]['n_jabatan']." ".$this->judul[$i]['n_orgb']."<br>";
+        $judul_Arr[$i] = array("i_peg_nip"  	 =>(string)$this->judul[$i]['i_peg_nip'],
+							   "n_peg"           =>(string)$this->judul[$i]['n_peg'],
+							   "n_jabatan"       =>(string)$this->judul[$i]['n_jabatan'],
+							   "n_orgb"          =>(string)$this->judul[$i]['n_orgb']);
+    }
+
+//==================================
+//utk me-render ke file cutijs, proses ajax
+//==================================	 	 
+	$spath = $this->getScriptPaths();
+    $this->addScriptPath($spath[0] . 'pangkat');
+	echo $this->render('pangkatjs.phtml'); 
+?>
+	<div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Pengembangan Karir
+		<strong> &#8250; </strong> Kenaikan Pangkat
+		<strong> &#8250; </strong> Pilihan
+	</div>
+<form id="frmUsulnaik" action="<?php echo $this->basePath; ?>/sdm/pangkat/usulnaik" method="post" name="frmUsulnaik">
+ <a name="top"></a>
+  <fieldset class="fields1">
+   <legend>DATA PRIBADI</legend>
+   <input type="hidden" name="nip" value=<? echo $this->escape($judul_Arr[0]['i_peg_nip']); ?> >	
+ 	<table border="0" align="center" width="90%">
+		<tr align="left" >
+		  <td width="10%">&nbsp;</td>
+		  <td width="20%">NIP</td>
+		  <td width="2%">:</td>
+		  <td width="33%"><strong> <?php echo $this->escape($judul_Arr[0]['i_peg_nip']);?> </strong></td>
+		 </tr>
+		 <tr align="left" >
+		  <td>&nbsp;</td>
+		  <td>NAMA</td>
+		  <td>:</td>
+		  <td width="33%"><strong> <?php echo $this->escape($judul_Arr[0]['n_peg']);?> </strong></td>
+		 </tr>
+		 <tr align="left" >
+		  <td>&nbsp;</td>
+		  <td>JABATAN</td>
+		  <td>:</td>
+		  <td width="33%"> <?php echo $this->escape($judul_Arr[0]['n_jabatan']);?> </td>
+		 </tr>
+		 <tr align="left" >
+		  <td>&nbsp;</td>
+		  <td>UNIT KERJA</td>
+		  <td>:</td>
+		  <td width="33%"> <?php echo $this->escape($judul_Arr[0]['n_orgb']);?> </td>
+		 </tr>
+	</table>
+  </fieldset>
+  
+  <fieldset class="fields1">
+   <legend>USULAN KENAIKAN PANGKAT</legend>
+   <input type="hidden" name="idnip" value=<? echo $this->nip; ?> >	
+	<table border="0" align="center" width="90%">
+		 <tr align="left" >
+		  <td width="10%">&nbsp;</td>
+		  <td width="20%">TMT PANGKAT BARU</td>
+		  <td width="2%">:</td>
+		  <td width="33%"> <?php
+					 echo $ctrlDate->formTanggal_oa('hrMasuk',$hrMasuk,'blnMasuk',$blnMasuk,'thnMasuk',$thnMasuk); 	?>
+  		  </td>
+		 </tr>	
+		<tr align="left" >
+		  <td>&nbsp;</td>
+		  <td>SEBAB KENAIKAN</td>
+		  <td>:</td>
+		  <td width="33%"> <?php 
+				echo $ctrlFrm->formSelect('sebabNaik', null, null, $sebabKenaikanList) ?>
+	      </td>
+		 </tr>
+		<tr align="left" >
+		  <td>&nbsp;</td>
+		  <td>GOLONGAN-PANGKAT</td>
+		  <td>:</td>
+		  <td>
+			<?php 
+			echo $ctrlFrm->formSelect('kdGol', $kdGol, $kdGolonganAtrib, $kdGolongan) ?>
+		  </td>
+		</tr> 
+		 <tr align="left" >
+		  <td>&nbsp;</td>
+		  <td>KETERANGAN</td>
+		  <td>:</td>
+		  <td width="33%"> <?php 
+				  $remCutiAtrib = array("cols"=>"25", 
+								        "rows"=>"3"); 
+				  echo $ctrlFrm->formTextarea('remCuti', null, $remCutiAtrib)
+				?>
+		  </td>
+		</tr>
+		 
+		 
+	</table>
+  </fieldset>
+  
+  <div class="blank"></div>
+  <fieldset class="fields2">
+					<?php 
+					    $atribSubmit = array("onclick"=>"javascript:SubmitInsert();");
+						echo $ctrlFrm->formSubmit('perintah', 'Simpan', $atribSubmit)."&nbsp;";
+					?>					
+	</fieldset>
+  <div class="blank"></div>
+</form>

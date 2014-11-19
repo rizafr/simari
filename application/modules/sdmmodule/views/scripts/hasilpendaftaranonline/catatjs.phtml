@@ -1,0 +1,23 @@
+function cariData(par){
+	var q_nomor_daftar=document.getElementById('q_nomor_daftar').value;
+	if (par=='hasil'){
+	var url = '<?php echo $this->basePath;?>/sdmmodule/hasilpendaftaranonline/view';	
+	}
+	else{
+	var url = '<?php echo $this->basePath;?>/sdmmodule/hasilpendaftaranonline/catat';	
+	}
+	var param = {q_nomor_daftar:q_nomor_daftar};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);
+		});
+}
+
+function updtData(par){
+	var q_nomor_daftar=document.getElementById('q_nomor_daftar').value;
+	var url = '<?php echo $this->basePath;?>/sdmmodule/hasilpendaftaranonline/maintaindata';	
+	var param = {par:par,q_nomor_daftar:q_nomor_daftar};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);
+		});
+}
+

@@ -1,0 +1,24 @@
+function viewCv(){
+var ncol = document.getElementById('ncol').value;
+var ncari = document.getElementById('ncari').value;
+var statpeg = document.getElementById('statpeg').value;
+	var url = '<?php echo $this->basePath;?>/sdmmodule/monitoringcv/monitoringcv';	
+	var param = {ncol:ncol,ncari:ncari,statpeg:statpeg};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);			
+		});
+}
+
+function cetakCv(i_peg_nip){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/monitoringcv/cetakcv?i_peg_nip="+i_peg_nip;
+	var wid='1000';
+	var heg='600';
+	var w = 0; 
+	var h = 0;
+	w = screen.availWidth;
+	h = screen.availHeight;
+	var popW = wid, popH = heg;
+	var leftc = (w-popW)/2;
+	var topc = (h-popH)/2;
+	var selectWindow = window.open(url,'Selection', 'left=' + leftc + ',top=' + topc + ', width='+popW+',height='+popH+',resizable=0,scrollbars=yes');	
+}	

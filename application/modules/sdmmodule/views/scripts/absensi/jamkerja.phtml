@@ -1,0 +1,50 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/absensidate.php';
+
+   $ctrlFrm = new Zend_View();
+   $convDate = new absensidate();
+   $hariDesc = array("0"=>"Minggu",
+                     "1"=>"Senin",
+                     "2"=>"Selasa",
+                     "3"=>"Rabu",
+                     "4"=>"Kamis",
+                     "5"=>"Jum'at",
+                     "6"=>"Sabtu");
+
+$hariKerja = $this->hariKerja;
+$jamHariKerja = $this->jamHariKerja;
+if ($this->jamHariKerja=='') { $jamHariKerja='00:00:00'; }
+else { $jamHariKerja=$this->jamHariKerja; }
+echo "
+<div class='contentdata-modul' id='modul'>
+	<div class='navlink'>
+		<a  href='".$this->basePath."/main'>Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Absensi
+	</div>
+	<h3 class='title'>Buat Jam Kerja</h3>
+	<div class='spacer'></div>
+	<a name='top'></a>
+    <form method='post' name='frmbuathrkerja' id='frmbuathrkerja'>
+	<div class='search-panel'>
+	     <fieldset class='panel-form3'>
+            <dl>
+		 <dt>Hari</dt>
+		 <dd class='dot2'>:</dd>
+		 <dd class='col-right3'>";
+		 $thn_atr = array("style"=>"width:60px","maxlength"=>"8");
+		 $bln_atr = array("style"=>"width:100px");
+		 echo $ctrlFrm->formSelect('hariKerja', $hariKerja, $bln_atr, $hariDesc)."&nbsp;";
+		 echo $ctrlFrm->formText('jamHariKerja', $jamHariKerja, $thn_atr)."&nbsp;";
+echo "        </dd>
+		<dt></dt>
+		<dd class='dot2'></dd>
+		<dd class='col-right3'>";
+  		$submit_atr = array("style"=>"width:150px");
+		echo $ctrlFrm->formSubmit('jamBuat', 'Buat Jam Kerja', $submit_atr);
+echo "        </dd>
+	    </dl>
+	    </fieldset>
+	</div>
+    </form>	
+</div>";

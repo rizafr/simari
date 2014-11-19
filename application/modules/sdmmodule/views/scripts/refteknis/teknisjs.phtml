@@ -1,0 +1,56 @@
+function openFormTeknis(par,c_diklat_teknis,n_diklat_teknis,c_kelompok,n_kelompok){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refteknis/teknisolahdata";
+	var opt = {par:par, c_diklat_teknis:c_diklat_teknis, n_diklat_teknis:n_diklat_teknis,c_kelompok:c_kelompok,n_kelompok:n_kelompok};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formteknis").ajaxForm(maintain_teknis);
+		});		
+} 
+
+function insertTeknis(){
+	jQuery("#formteknis").ajaxForm(maintain_teknis);
+}
+
+var maintain_teknis = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formteknis").ajaxForm(maintain_teknis);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refteknis/insertteknis',
+	type: 'post',
+	resetForm: false
+};
+
+function updateTeknis(){
+	jQuery("#formteknis").ajaxForm(update_teknis);
+}
+
+var update_teknis = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formteknis").ajaxForm(maintain_teknis);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refteknis/updateteknis',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusTeknis(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refteknis/deleteteknis';
+		var opt = {c_diklat_teknis : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

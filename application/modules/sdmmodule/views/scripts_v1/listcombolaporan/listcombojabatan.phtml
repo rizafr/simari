@@ -1,0 +1,12 @@
+<?php 
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+
+	$jmlnmJabatanList=count($this->nmJabatanList);
+	$nmJabatanList[''] = '--Pilih--';
+	foreach ($this->nmJabatanList as $key => $val): 
+		$nmJabatanList[$this->escape($val['c_jabatan'])] = $this->escape($val['n_jabatan']);			 
+	endforeach;	
+	echo $ctrlFrm->formSelect('esl_jabatan',$this->esl_jabatan, null, $nmJabatanList); 							
+?>
+	<input type="text" name="nm_jabatan" id="nm_jabatan" value="<?=$this->nm_jabatan?>" size="60">

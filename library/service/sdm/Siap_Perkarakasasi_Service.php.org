@@ -1,0 +1,205 @@
+<?php
+class Siap_perkarakasasi_Service {
+    private static $instance;
+
+    private function __construct() {
+    }
+
+    public static function getInstance() {
+       if (!isset(self::$instance)) {
+           $c = __CLASS__;
+           self::$instance = new $c;
+       }
+
+       return self::$instance;
+    }
+
+ 	public function getlistperkarakasasiPP($where, $currentPage, $numToDisplay, $order) 
+	{
+		    $registry = Zend_Registry::getInstance();
+		    $configku = $registry->get('dbku');
+      		$db = Zend_Db::factory('PDO_MYSQL', $configku);
+		try 
+		{
+			if(($currentPage==0) && ($numToDisplay==0))
+			{
+				$sql = "SELECT count(*) FROM tt_perkara_ma";
+                if ($where != '') { $sql .= " where ".$where; }
+				//echo $sql;
+				$data = $db->fetchOne($sql); 
+			}
+			else		
+			{	
+		        $sql = "SELECT  no_registrasi,
+				                jenis_permohonan,
+								tgl_surat_pengantar_pengadilan_pengaju,
+								klasifikasi,
+								asal_pengadilan_pengaju,
+								status_perkara,
+								pemohon_1,
+								termohon_1,
+								tgl_kirim_ke_pengadilan_pengaju,
+								tim_id,
+								amar,
+								panmud
+											FROM tt_perkara_ma ";
+                if ($where != '') { $sql .= " where ".$where; }
+                if ($order != '') { $sql .= " order by ".$order; }
+				echo $sql;
+				$xLimit=$numToDisplay;
+				$xOffset=($currentPage-1)*$numToDisplay;				
+				$db->setFetchMode(Zend_Db::FETCH_OBJ);			
+					$result = $db->fetchAll($sql . " limit $xLimit offset $xOffset");
+					$jmlResult = count($result);
+					for ($j = 0; $j < $jmlResult; $j++) 
+					{ 
+						$data[$j] = array("no_registrasi" 		=>(string)$result[$j]->no_registrasi,
+										"jenis_permohonan" 		=>(string)$result[$j]->jenis_permohonan,
+										"asal_pengadilan_pengaju" 		=>(string)$result[$j]->asal_pengadilan_pengaju,
+										"klasifikasi" 		=>(string)$result[$j]->klasifikasi,
+										"tgl_surat_pengantar_pengadilan_pengaju" 			=>(string)$result[$j]->tgl_surat_pengantar_pengadilan_pengaju,
+										"status_perkara"   			=>(string)$result[$j]->status_perkara,
+										"pemohon_1"   			=>(string)$result[$j]->pemohon_1,
+										"termohon_1"   			=>(string)$result[$j]->termohon_1,
+										"tgl_kirim_ke_pengadilan_pengaju"  	=>(string)$result[$j]->tgl_kirim_ke_pengadilan_pengaju,
+										"tim_id"   			=>(string)$result[$j]->tim_id,
+										"amar"   			=>(string)$result[$j]->amar,
+										"panmud"   			=>(string)$result[$j]->panmud);
+					}
+			}							
+			return $data;			
+		} catch (Exception $e) 
+		{
+		    echo $e->getMessage().'<br>';
+			return 'Data tidak ada <br>';
+		}
+	}
+	//baru
+    public function panmudesc($spanmud)
+	{
+		    $registry = Zend_Registry::getInstance();
+		    $configku = $registry->get('dbku');
+      	$db = Zend_Db::factory('PDO_MYSQL', $configku);
+		$sql = "SELECT  sNamaPanmud FROM tm_panmud where sPanmud='".$spanmud."'";
+		try 
+		{
+			
+			$db->setFetchMode(Zend_Db::FETCH_OBJ);			
+			$result = $db->fetchOne($sql);					
+			return $result;
+		} catch (Exception $e) 
+		{
+		         	echo $e->getMessage().'<br>';
+			     	return 'Data tidak ada <br>';
+		}
+	}
+    public function listpanmud()
+	{
+		    $registry = Zend_Registry::getInstance();
+		    $configku = $registry->get('dbku');
+      	$db = Zend_Db::factory('PDO_MYSQL', $configku);
+		$sql = "SELECT  sPanmud,sNamaPanmud FROM tm_panmud ";
+		try 
+		{
+			
+			$db->setFetchMode(Zend_Db::FETCH_OBJ);			
+			$result = $db->fetchAll($sql);					
+			$jmlResult = count($result);
+			for ($j = 0; $j < $jmlResult; $j++) 
+			{ 								
+				$data[$j] = array("sPanmud" 		=>(string)$result[$j]->sPanmud,
+								 "sNamaPanmud" 		=>(string)$result[$j]->sNamaPanmud);
+			}
+			return $data;
+		} catch (Exception $e) 
+		{
+		         	echo $e->getMessage().'<br>';
+			     	return 'Data tidak ada <br>';
+		}
+	}
+    public function getDataPerkara($where)
+	{
+		    $registry = Zend_Registry::getInstance();
+		    $configku = $registry->get('dbku');
+      	$db = Zend_Db::factory('PDO_MYSQL', $configku);
+		$sql = "SELECT count(uId) FROM tt_perkara_ma";
+        if ($where != '') { $sql .= " where ".$where; }
+		//echo $sql."<br>";
+		try 
+		{
+			$db->setFetchMode(Zend_Db::FETCH_OBJ);			
+			$result = $db->fetchOne($sql);					
+			return $result;
+		} catch (Exception $e) 
+		{
+		         	echo $e->getMessage().'<br>';
+			     	return 'Data tidak ada <br>';
+		}
+	}
+	
+ 	public function getlistperkarakasasi($where) 
+	{
+		    $registry = Zend_Registry::getInstance();
+		    $configku = $registry->get('dbku');
+      			 $db = Zend_Db::factory('PDO_MYSQL', $configku);
+				 $sql = "SELECT  jenis_permohonan,no_registrasi,tgl_putusan_kasasi,klasifikasi,asal_pengadilan_pengaju,pemohon_1,termohon_1,status_perkara
+											FROM tt_perkara_ma
+											WHERE tgl_putusan_kasasi is NOT NULL ";
+                if ($where != '') { $sql .= " and ".$where; }
+			try 
+			{
+			
+				$db->setFetchMode(Zend_Db::FETCH_OBJ);			
+					$result = $db->fetchAll($sql);					
+											
+					$jmlResult = count($result);
+					for ($j = 0; $j < $jmlResult; $j++) 
+					{ 								
+						
+						$data[$j] = array("no_registrasi" 		=>(string)$result[$j]->no_registrasi,
+										"jenis_permohonan" 		=>(string)$result[$j]->jenis_permohonan,
+										"asal_pengadilan_pengaju" 		=>(string)$result[$j]->asal_pengadilan_pengaju,
+										"klasifikasi" 		=>(string)$result[$j]->klasifikasi,
+										"tgl_putusan_kasasi" 			=>(string)$result[$j]->tgl_putusan_kasasi,
+										"status_perkara"   			=>(string)$result[$j]->status_perkara,
+										"pemohon_1"   			=>(string)$result[$j]->pemohon_1,
+										"termohon_1"   			=>(string)$result[$j]->termohon_1);
+					}
+					
+					//var_dump($data);
+					return $data;
+			} catch (Exception $e) 
+			{
+		         	echo $e->getMessage().'<br>';
+			     	return 'Data tidak ada <br>';
+			}
+	}
+	
+	public function maintainData(array $data,$par) {
+		    $registry = Zend_Registry::getInstance();
+		    $configku = $registry->get('dbku');
+      			 $db = Zend_Db::factory('PDO_MYSQL', $configku);
+	   try {
+	     $db->beginTransaction();
+	     $maintain_data = array("no_registrasi"=>$data['no_registrasi'],
+							"jenis_permohonan"=>$data['jenis_permohonan'],
+							"asal_pengadilan_pengaju"=>$data['asal_pengadilan_pengaju'],
+							"klasifikasi"=>$data['klasifikasi'],
+							"tgl_putusan_kasasi"=>$data['tgl_putusan_kasasi'],
+							"status_perkara"=>$data['status_perkara'],
+							"pemohon_1"=>$data['pemohon_1'],
+							"termohon_1"=>$data['termohon_1']);
+		//var_dump($maintain_data);
+		if ($par=='insert'){$db->insert('tt_perkara_ma',$maintain_data);}
+		if ($par=='update'){$db->update('tt_perkara_ma',$maintain_data, "jenis_permohonan = '".trim($data['jenis_permohonan'])."' and no_registrasi = '".trim($data['no_registrasi'])."' and asal_pengadilan_pengaju = '".trim($data['asal_pengadilan_pengaju'])."' and tgl_putusan_kasasi = '".trim($data['tgl_putusan_kasasi'])."' and status_putusan = '".trim($data['status_putusan'])."' and pemohon_1 = '".trim($data['pemohon_1'])."' and termohon_1 = '".trim($data['termohon_1'])."'");}	 
+		if ($par=='delete'){$db->delete('tt_perkara_ma', "no_registrasi = '".trim($data['no_registrasi'])."'");}
+		$db->commit();
+	     return 'sukses';
+	   } catch (Exception $e) {
+         $db->rollBack();
+         echo $e->getMessage().'<br>';
+	     return 'gagal';
+	   }
+	}
+}
+?>

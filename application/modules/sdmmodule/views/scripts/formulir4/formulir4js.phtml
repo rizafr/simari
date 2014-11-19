@@ -1,0 +1,30 @@
+function tampilTaun(pross){
+	var tahuns= document.getElementById('tahun').value;
+	if(tahuns == ''){
+		alert('Pilih Tahun');
+	} else {
+		
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir4/listformulir4';
+	
+		var opt = {tahun:tahuns,proses:pross};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				
+			 });
+		
+	}	
+};
+var maintain_lain = {
+	target:'#tableview',
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formformasi4").ajaxForm(maintain_lain);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/formulir4/simpanformulir',
+	type: 'post',
+	resetForm: false
+};
+function insert_Formulir(){
+	jQuery("#formformasi4").ajaxForm(maintain_lain);
+}		

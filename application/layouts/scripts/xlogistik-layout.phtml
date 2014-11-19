@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><?php echo $this->render('partials/logistik/head.phtml'); ?></head>
+<body>
+<div id="main"><!--main start -->
+	<div id="header">
+<!--header start -->
+	</div><!--header end -->
+	<div id="cont-nav">
+	    <div id="nav-top">
+				<div class="username">Nama User : Administrator | <a href="">Logout</a></div>
+				<div class="crdate"><span id="servertime"></span></div>
+		</div>
+			<div id="nav">
+				<?php echo $this->render('partials/logistik/headMenu.phtml'); ?>
+			</div>
+	
+	</div>  
+
+
+	<div id="page">
+	 <div id="content">
+		<div id="tableview">
+			<div class="navlink">Halaman Utama</div>
+			
+			<div class="das2">
+
+				<div class="hd">Dashboard</div>
+					<div class="bd">
+					<center>
+					
+						<div class="space2"></div>
+						<div class="hr"></div>
+		
+						<div class="space2"></div>
+						
+					</center> 
+				</div>
+			<div class="ft"></div>
+	    </div>	
+
+			<div class="mod2">
+				<div class="hd">Reminder</div>
+				<div class="bd">
+						<ul>
+							<li> 
+							Jumlah Ajuan Barang tanggal <?=$this->tglreminder?> ada <?=$this->brgajuan?> item dengan total ajuan <?=$this->qtybrgajuan?> buah
+							&nbsp;dari <?=$this->qtysrtajuan?> surat pengajuan
+							</li>
+							<li> 
+							Stok Barang berdasarkan kelompok barang
+                            <br><?=$this->stokbrgperklmpk?><br>
+							</li>
+							<li>
+							Jumlah Barang Masuk berdasarkan kelompok barang
+                            <br><?=$this->mskbrgperklmpk?><br>
+							</li>
+							<li>
+							Jumlah Barang Keluar berdasarkan kelompok barang
+                            <br><?=$this->klrbrgperklmpk?>
+							</li>
+						</ul>
+				<div id="targetreminder"></div>		
+				</div>
+				
+				<div class="ft"></div>
+			</div>		
+
+		</div>
+</div>				 
+		<div class="space2"></div>
+	 </div>
+
+	</div>
+</DIV><!--main  end -->
+<div id="footer"><!--footer start -->
+<?php echo $this->render('partials/logistik/footer.phtml'); ?>
+</div><!--footer end -->
+</body>
+
+</html>

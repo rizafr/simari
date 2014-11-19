@@ -1,0 +1,91 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+   $thnskrg = date("Y");
+   $thnList = $thnskrg - 40;
+   $thnArrayList[''] = '--';
+   for ($i = 0; $i < 60; $i++) {
+     $thnList = $thnList + 1;
+     $thnArrayList[$thnList] = $thnList;
+   }
+
+?>
+
+
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Utama</a> 
+				<strong> &#8250; </strong><?=$this->jdl;?> Pendaftaran Online
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+
+	
+<form name="formdaftaronline" id="formdaftaronline" method="post" action="">
+<h2 class="title">Aktivasi Pendaftaran Online</h2>
+
+	<div class="panel">	
+
+		<div class="spacer"></div> 
+			<table border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Status Aktivasi Pendaftara Online</td>
+					<td>:</td> 
+					<td>					
+					<?php 
+						$active = array("-"=>"--Pilih--","A"=>"Aktif","T"=>"Tidak Aktif");	
+						echo $ctrlFrm->formSelect('c_status_aktivasi', $this->c_status_aktivasi, null, $active);
+					?>
+						&nbsp;<input type="submit" value="Simpan" onClick="insAktive()">
+					</td>
+				</tr>
+								
+			</table>
+	</div>		
+		
+
+</form>	
+
+<script type="text/javascript">
+function insAktive(){
+	jQuery("#formdaftaronline").ajaxForm(maintainaktivasi);
+}
+var maintainaktivasi = {
+	target:'#tableview',
+	beforeSubmit: function() {		
+		aobj= document.formdaftaronline;
+		astr= "document.formdaftaronline";
+		var cekVal="";
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+
+				if((!c_status_aktivasi.value)){cekVal = sdmValidasiData(astr,"c_status_aktivasi","Aktivasi harus dipilih....!");return false;break;}			
+				break;
+			}
+			
+		}
+		
+	
+	}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/pendaftaranonline/maintaindataaktivasi',
+	type: 'post',
+	resetForm: false
+};
+
+</script>

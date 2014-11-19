@@ -1,0 +1,265 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php';
+   require_once 'share/oa_page.php';
+
+   
+   $ctrlFrm = new Zend_View();
+   $convDate = new oa_date();
+   $halaman = new oa_page();
+   			  
+   $idOrg = $this->org;
+   
+   $jmlPegawaiList = count($this->absensiList);
+   $kategoriList = array("i_peg_nip"=>"N I P",
+						"n_peg"=>"N a m a  ");
+						
+    $jmlUnitKerjaList = count($this->unitKerjaList);
+	for ($i=0; $i<$jmlUnitKerjaList; $i++)
+	{
+	   $orgList[(string)$this->unitKerjaList[$i]['i_orgb']] = (string)$this->unitKerjaList[$i]['n_orgb'];
+	}
+	
+   for ($j = 0; $j < $jmlPegawaiList; $j++) {
+     $pegawai[$j] = array("i_peg_nip"  =>(string)$this->absensiList[$j]['i_peg_nip'],
+							"n_peg"  =>(string)$this->absensiList[$j]['n_peg']);
+   }
+   $totalData = $this->totAbsensiList;
+   $numToDisplay = $this->numToDisplay;
+   $currentPage = $this->currentPage;
+   $sKatagori = $this->sKatagori;
+   $sKatagoriVal = $this->sKatagoriVal;
+   $org = $this->org;
+   $ord = $this->ord;
+   $sitgls = $this->sitgls;
+   $siblns = $this->siblns;
+   $sithns = $this->sithns;
+   $sitglf = $this->sitglf;
+   $siblnf = $this->siblnf;
+   $sithnf = $this->sithnf;
+   /*
+   if ($sitgls=="#") $bsitgls = "00"; else $bsitgls = $sitgls;
+   if ($siblns=="#") $bsiblns = "00"; else $bsiblns = $siblns;
+   if ((int)$sithns<2000) $bsithns = "2000"; else $bsithns = $sithns;
+   if ($sitglf=="#") $bsitglf = "00"; else $bsitglf = $sitglf;
+   if ($siblnf=="#") $bsiblnf = "00"; else $bsiblnf = $siblnf;
+   if ((int)$sithnf<2000) $bsithnf = $this->yearNow; else $bsithnf = $sithnf;
+   */
+   $prmOrd = (string)$ord.(string)$sitgls.(string)$siblns.(string)$sithns.(string)$sitglf.(string)$siblnf.(string)$sithnf;
+   $tglAwal = $sithns.$siblns.$sitgls;
+   $tglAkhir = $sithnf.$siblnf.$sitglf;
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'absensi');
+   echo $this->render('absensijs.phtml'); 
+
+echo "
+<div class='contentdata-modul' id='modul'>
+	<div class='navlink'>
+		<a  href='".$this->basePath."/home/index/main'>Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Absensi
+		<strong> &#8250; </strong> Rekap Absensi Pegawai
+	</div>
+	<h3 class='title'>Rekap Absensi Pegawai</h3>
+	<div class='spacer'></div>
+	<a name='top'></a>
+	
+	<div class='search-panel'>
+		<fieldset class='panel-form4'>
+			<form id='fiCariAbsensiPeg' method='post' name='fnCariAbsensiPeg'>
+				<dl>
+					<dt>Unit Kerja</dt>
+					<dd class='dot2'>:</dd> 
+					<dd class='col-right3'>";
+						echo $ctrlFrm->formSelect('idORG', $idOrg, null, $orgList);
+echo "
+					</dd> 
+				</dl>
+				<dl>
+					<dt class='col-right2'>".$ctrlFrm->formSelect('sKatagori', $sKatagori, null, $kategoriList)."</dt>
+					<dd class='dot2'>:</dd> 
+					<dd class='col-right3'>";
+						echo $ctrlFrm->formText('sKatagoriVal', $sKatagoriVal, null);
+echo "
+					</dd> 
+				</dl>";
+echo "
+				<dl>
+					<dt>Periode</dt>
+					<dd class='dot2'>:</dd> 
+					<dd class='col-right4'>";
+			        //echo $convDate->formTanggal_oa('sitgls',$sitgls,'siblns',$siblns,'sithns',$sithns).			        
+					echo $convDate->formTanggal_oa1('sitgls',$sitgls,'siblns',$siblns,'sithns',$sithns)."<b>s/d</b>&nbsp";
+		            echo $convDate->formTanggal_oa1('sitglf',$sitglf,'siblnf',$siblnf,'sithnf',$sithnf);
+echo "
+					</dd> 
+				</dl>
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd class='dot2'>&nbsp;</dd> 
+					<dd class='col-right3'>
+				    <input type='submit' id='iiCariPegAbsensi' class='isCariPegAbsensi' value='Cari' onClick='ioCariPegAbsensi()'>
+					</dd> 
+				</dl>
+			</form>
+		</fieldset>
+	</div> 
+	
+	<div class='space-line'></div>
+	
+	<fieldset class='fields'>
+		<div class='title2'>Rekap Absensi Pegawai</div>
+		<div align='right'><img src='".$this->basePath."/images/excel.gif' id='iiCetakRkpXcl' class='link'></div>";
+		if($jmlPegawaiList == 0)
+		{
+			echo '<font color=\'red\'>Data tidak ada</font>';
+echo "
+			<div class='blank'></div>
+			<table align='center' width='90%' border='0' cellspacing='1' cellpadding='2' class='tbl'>
+				<tr>
+					<th>No</th>			
+					<th id='thisortNama' class='link'>Nama</th>
+					<th id='thisortNip' class='link'>NIP</th>";
+					$jmlAbsensiDescList = count($this->absensiDescList);
+					for ($j=0; $j<$jmlAbsensiDescList; $j++)
+					{
+echo "
+                    <th>".$this->absensiDescList[$j]['c_absensi']."</th>";
+					}
+echo "
+				</tr>
+			</table>";
+		}
+		else
+		{
+echo "
+			<div class='blank'></div>
+			<table align='center' width='90%' border='0' cellspacing='1' cellpadding='2' class='tbl'>
+				<tr>
+					<th>No</th>			
+					<th id='thisortNama' class='link'>Nama</th>
+					<th id='thisortNip' class='link'>NIP</th>";
+					$jmlAbsensiDescList = count($this->absensiDescList);
+					for ($j=0; $j<$jmlAbsensiDescList; $j++)
+					{
+echo "
+                    <th>".$this->absensiDescList[$j]['c_absensi']."</th>";
+					}
+echo "
+				</tr>";
+				foreach ($pegawai as $key => $val): 
+				if ($key%2==0) 
+				{
+echo "
+				<tr class='event'>";
+				} 
+				else if ($key%2==1) 
+				{ 
+echo "
+				<tr class='event2'>";
+				} 
+				$noUrut = (($currentPage -1)* $numToDisplay) + $key +1; 
+echo "
+					<td class='clright'>&nbsp;".$noUrut."</td>
+					<td class='clleft'>&nbsp;".$this->escape($val['n_peg'])."</td>
+					<td class='clleft'>".$this->escape($val['i_peg_nip'])."</td>";
+					for ($j=0; $j<$jmlAbsensiDescList; $j++)
+					{
+echo "
+                    <td class='clcenter'>";
+					if ($this->absensiDescList[$j]['c_absensi']=='TL')
+					{
+                       $dataAbsen = $this->serviceE->hitungRekapAbsensi($val['i_peg_nip'],$tglAwal,$tglAkhir);
+	                   $jmlDataAbsen = count($dataAbsen);
+					   $tl = 0;
+	                   for ($i=0; $i<$jmlDataAbsen; $i++)
+	                   {
+	                      $tglkerja = $dataAbsen[$i]['d_peg_absensi'];
+		                  $tgl = substr($tglkerja,8,2);
+		                  $bln = substr($tglkerja,5,2);
+		                  $thn = substr($tglkerja,0,4);
+		                  $kodeabsensi=$dataAbsen[$i]['c_absensi_peg'];
+	                      if (trim($kodeabsensi)=='01')
+		                  {
+                             $kdhari = date("w", mktime(0, 0, 0, $bln, $tgl, $thn));
+			                 $jamMe = $this->serviceE->cekJamKerja($kdhari);
+							 $batasJamMasuk = (int)substr($jamMe['d_jamkerja_mulai'],0,2)*1;
+							 $batasMntMasuk = (int)substr($jamMe['d_jamkerja_mulai'],3,2)*1;
+						     $jamMasuk = (int)substr($dataAbsen[$i]['d_peg_jam'],0,2);
+						     $mntMasuk = (int)substr($dataAbsen[$i]['d_peg_jam'],3,2);
+							 $selisih = (($jamMasuk*1)-($batasJamMasuk*1));
+							 $masukTelat = (mktime($jamMasuk, $mntMasuk, 0, $bln, $tgl, $thn) - mktime($batasJamMasuk+1, $batasMntMasuk, 0, $bln, $tgl, $thn))/60;
+							 if ($masukTelat>0) $tl++;
+		                  }
+	                   }
+					   echo $tl;
+					}
+					else if ($this->absensiDescList[$j]['c_absensi']=='PSW')
+					{
+                       $dataAbsen = $this->serviceE->hitungRekapAbsensi($val['i_peg_nip'],$tglAwal,$tglAkhir);
+	                   $jmlDataAbsen = count($dataAbsen);
+					   $tl = 0;
+	                   for ($i=0; $i<$jmlDataAbsen; $i++)
+	                   {
+	                      $tglkerja = $dataAbsen[$i]['d_peg_absensi'];
+		                  $tgl = substr($tglkerja,8,2);
+		                  $bln = substr($tglkerja,5,2);
+		                  $thn = substr($tglkerja,0,4);
+		                  $kodeabsensi=$dataAbsen[$i]['c_absensi_peg'];
+                             $kdhari = date("w", mktime(0, 0, 0, $bln, $tgl, $thn));
+			                 $jamMe = $this->serviceE->cekJamKerja($kdhari);
+							 $batasJamMasuk = (int)substr($jamMe['d_jamkerja_mulai'],0,2)*1;
+							 $batasMntMasuk = (int)substr($jamMe['d_jamkerja_mulai'],3,2)*1;
+							 $batasJamPulang = (int)substr($jamMe['d_jamkerja_selesai'],0,2)*1;
+							 $batasMntPulang = (int)substr($jamMe['d_jamkerja_selesai'],3,2)*1;
+							 $mlJamIstirahat = (int)substr($jamMe['d_jamistrht_mulai'],0,2)*1;
+							 $mlMntIstirahat = (int)substr($jamMe['d_jamistrht_mulai'],3,2)*1;
+							 $slJamIstirahat = (int)substr($jamMe['d_jamistrht_selesai'],0,2)*1;
+							 $slMntIstirahat = (int)substr($jamMe['d_jamistrht_selesai'],3,2)*1;
+	                      if (trim($kodeabsensi)=='01')
+						  {
+						     $jamMasuk = (int)substr($dataAbsen[$i]['d_peg_jam'],0,2);
+						     $mntMasuk = (int)substr($dataAbsen[$i]['d_peg_jam'],3,2);
+							 $masukTelat = (mktime($jamMasuk, $mntMasuk, 0, $bln, $tgl, $thn) - mktime($batasJamMasuk+1, $batasMntMasuk, 0, $bln, $tgl, $thn))/60;
+						  }	 
+	                      if (trim($kodeabsensi)=='03')
+		                  {
+							 
+						     $jamPulang = (int)substr($dataAbsen[$i]['d_peg_jam'],0,2);
+						     $mntPulang = (int)substr($dataAbsen[$i]['d_peg_jam'],3,2);
+                             $jmlJamIstirahat = (mktime($slJamIstirahat, $slMntIstirahat, 0, $bln, $tgl, $thn) - mktime($mlJamIstirahat, $mlMntIstirahat, 0, $bln, $tgl, $thn))/60;
+							 $jmlJamKerja = (mktime($batasJamPulang, $batasMntPulang, 0, $bln, $tgl, $thn) - mktime($batasJamMasuk, $batasMntMasuk, 0, $bln, $tgl, $thn))/60;
+							 $wajibhadir = $jmlJamKerja - $jmlJamIstirahat;
+							 if ($masukTelat>0)
+							 { 
+							    $jamPulangHrs = (mktime($jamPulang, $mntPulang, 0, $bln, $tgl, $thn) - mktime($batasJamPulang+1, $batasMntPulang, 0, $bln, $tgl, $thn))/60;
+								if ($jamPulangHrs<0) $tl++;
+							 }
+		                   }
+	                   }
+					   echo $tl;
+					}
+					else if ($this->absensiDescList[$j]['c_absensi']=='A')
+					{
+                       $dataAbsen = $this->serviceE->hitungRekapAbsensiAlpa($val['i_peg_nip'],$tglAwal,$tglAkhir);
+					   echo $dataAbsen;
+					}   
+					else
+echo 
+					$this->serviceE->getAbsensiVal($val['i_peg_nip'],$this->absensiDescList[$j]['c_absensi'],$tglAwal,$tglAkhir)."</td>";
+					}
+echo "
+				</tr>";
+				endforeach;
+echo "
+			</table>
+			<a name='pageCursor'></a>";
+			$modul = $this->basePath.'/sdm/absensi/listpegabsensi';
+			$fungsi = $this->basePath.'/sdm/absensi/absensijs';
+			echo $halaman->showPage($totalData, $numToDisplay, $currentPage, $modul, $fungsi, $sKatagori, $sKatagoriVal, $org, $prmOrd);
+		}
+echo "
+	</fieldset>
+    <div class='blank'></div>
+</div>";
+	
+	

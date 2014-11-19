@@ -1,0 +1,15 @@
+<tr>
+	<td>NIP Baru<span class="hightlight">*</span></td>
+	<td>:</td>
+	<td>
+		<input type="text" size="35" maxlength="18" name="i_peg_nip_new" id="i_peg_nip_new"  value="<?=$this->i_peg_nip_new?>" onKeyup="isNumber('i_peg_nip_new');">
+	</td>
+</tr>
+<tr>
+	<td width="25%">NIP Lama</td>
+	<td width="2%">:</td>
+	<td>
+		<input type="text" size="25" maxlength="21" name="i_peg_nip" id="i_peg_nip"  value="<?=$this->i_peg_nip?>" onKeyup="isNumber('i_peg_nip');">
+		<input type="hidden" size="25" maxlength="21" name="i_peg_nrp" id="i_peg_nrp" <?echo $readonly?> value="<?=$this->i_peg_nrp?>">
+	</td>
+</tr>

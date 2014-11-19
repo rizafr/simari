@@ -1,0 +1,196 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();   
+?>
+
+<table width="100%">
+	<tr>
+		<td width="45%">
+			<table width="100%">
+				<tr>
+					<td width="25%" align="left">NIP [Baru/Lama]</td>
+					<td width="2%" align="left">:</td>
+					<td align="left"><input type="text" size="25" name="nip_cari" id="nip_cari" value="<?=$this->nip_cari;?>"></td>
+				</tr>
+				<tr>
+					<td align="left">Nama</td>
+					<td align="left">:</td>
+					<td align="left"><input type="text" size="45" name="nama_cari" id="nama_cari" value="<?=$this->nama_cari;?>"></td>
+				</tr>	
+				<tr>
+					<td align="left">Tanggal Lahir</td>
+					<td align="left">:</td>
+					<td align="left">
+					
+					<?php 
+						$harilahirref[''] = '--Pilih--';
+						for ($i = 1; $i < 31; $i++) {
+							$n=strlen($i);
+							if($n==1){$dt="0".$i;}else{$dt=$i;}	
+							$harilahirref[$dt] = $dt;											   
+						}												 
+						 echo $ctrlFrm->formSelect('harilahir', $this->harilahir, null, $harilahirref)."-";
+						$blnlahirref[''] = '--Pilih--';
+						for ($i = 1; $i < 13; $i++) {
+							$n=strlen($i);
+							if($n==1){$db="0".$i;}else{$db=$i;}
+							if ($db=='01'){$dbn="Januari";}
+							if ($db=='02'){$dbn="Februari";}
+							if ($db=='03'){$dbn="Maret";}
+							if ($db=='04'){$dbn="April";}
+							if ($db=='05'){$dbn="Mei";}
+							if ($db=='06'){$dbn="Juni";}
+							if ($db=='07'){$dbn="Juli";}
+							if ($db=='08'){$dbn="Agustus";}
+							if ($db=='09'){$dbn="September";}
+							if ($db=='10'){$dbn="Oktober";}
+							if ($db=='11'){$dbn="Nopember";}
+							if ($db=='12'){$dbn="Desember";}
+							$blnlahirref[$db] = $dbn;											   
+						}												 
+						 echo $ctrlFrm->formSelect('bulanlahir', $this->bulanlahir, null, $blnlahirref)."-";
+						$tahun=date("Y")-17;
+						$thnlahirref[''] = '--Pilih--';
+						for ($i = 0; $i < 60; $i++) {
+							$tahunx=$tahun-$i;
+							$thnlahirref[$tahunx] = $tahunx;											   
+						}												 
+						 echo $ctrlFrm->formSelect('tahunlahir', $this->tahunlahir, null, $thnlahirref);
+							
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left">TMT CPNS</td>
+					<td align="left">:</td>
+					<td align="left">
+<?php 
+						$haricpnsref[''] = '--Pilih--';
+						for ($i = 1; $i < 31; $i++) {
+							$n=strlen($i);
+							if($n==1){$dt="0".$i;}else{$dt=$i;}	
+							$haricpnsref[$dt] = $dt;											   
+						}												 
+						 echo $ctrlFrm->formSelect('haricpns', $this->haricpns, null, $haricpnsref)."-";
+						$blncpnsref[''] = '--Pilih--';
+						for ($i = 1; $i < 13; $i++) {
+							$n=strlen($i);
+							if($n==1){$db="0".$i;}else{$db=$i;}
+							if ($db=='01'){$dbn="Januari";}
+							if ($db=='02'){$dbn="Februari";}
+							if ($db=='03'){$dbn="Maret";}
+							if ($db=='04'){$dbn="April";}
+							if ($db=='05'){$dbn="Mei";}
+							if ($db=='06'){$dbn="Juni";}
+							if ($db=='07'){$dbn="Juli";}
+							if ($db=='08'){$dbn="Agustus";}
+							if ($db=='09'){$dbn="September";}
+							if ($db=='10'){$dbn="Oktober";}
+							if ($db=='11'){$dbn="Nopember";}
+							if ($db=='12'){$dbn="Desember";}
+							$blncpnsref[$db] = $dbn;											   
+						}												 
+						 echo $ctrlFrm->formSelect('bulancpns', $this->bulancpns, null, $blncpnsref)."-";
+						$tahun=date("Y");
+						$thncpnsref[''] = '--Pilih--';
+						for ($i = 0; $i < 60; $i++) {
+							$tahunx=$tahun-$i;
+							$thncpnsref[$tahunx] = $tahunx;											   
+						}												 
+						 echo $ctrlFrm->formSelect('tahuncpns', $this->tahuncpns, null, $thncpnsref);
+?>			
+					</td>
+				</tr>
+			
+
+				<tr>
+					<td align="left">Pangkat</td>
+					<td align="left">:</td>
+					<td align="left">
+					<?
+						$jmlgolref = count($this->statusGolRef);												   
+						$golonganReff[''] = '--Pilih--';
+						for ($i = 0; $i < $jmlgolref; $i++) {
+								$n_peg_pangkat=trim($this->statusGolRef[$i]['n_peg_pangkat']);
+								$c_peg_golongan=trim($this->statusGolRef[$i]['c_peg_golongan']);
+								$n_peg_golongan=trim($this->statusGolRef[$i]['n_peg_golongan']);								
+								$golonganReff[trim((string)$this->statusGolRef[$i]['c_peg_golongan'])] = $n_peg_golongan." - ".$n_peg_pangkat;											   
+						}												 
+						 echo $ctrlFrm->formSelect('c_golongan_cari', $this->c_golongan_cari, null, $golonganReff);
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left">Jabatan (Query)</td>
+					<td align="left">:</td>
+					<td align="left">
+					<?php 
+						$jab = array(""=>"--Pilih--","S"=>"Sama Persis","AW"=>"Awalan","AK"=>"Akhiran","M"=>"Mengandung");	
+						echo $ctrlFrm->formSelect('c_query', $this->c_query, null, $jab);
+					?>
+					<input type="text" size="25" name="c_jab_query" id="c_jab_query" value="<?=$this->c_jab_query;?>">
+					</td>
+				</tr>				
+				
+			</table>		
+		</td>
+		<td width="65%">
+			<table width="100%">
+				<tr>
+					<td align="left" width="25%">Eselon</td>
+					<td align="left" width="2%">:</td>
+					<td align="left">
+					<?
+					$jmlEslList=count($this->eselonList);
+					$eslList[''] = '--Pilih--';
+					for ($i = 0; $i < $jmlEslList; $i++) {
+						$eslList[(string)$this->eselonList[$i]->c_eselon] = (string)$this->eselonList[$i]->n_eselon;			 
+					}		
+					echo $ctrlFrm->formSelect('c_eselon_cari',$this->c_eselon_cari,null, $eslList); 							
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td align="left">Jabatan</td>
+					<td align="left">:</td>
+					<td align="left">
+						<input type="hidden" name="c_jabatan" id="c_jabatan" value="<?=$this->c_jabatan?>">
+						<input type="text" name="n_jabatan" id="n_jabatan" value="<?=$this->n_jabatan?>" size="40">
+						<input type="button" value="Jabatan" onClick="CariJabatan()">
+					</td>
+				</tr>
+			</table>
+<?			
+if ($this->c_lokasi_unitkerja=='1'){
+include("listcombo.phtml");}
+else{include("listcombo2.phtml");}
+?>
+</table>
+<div id="targetdetil"></div>	
+<script>
+function CariJabatan(){
+var c_eselon =document.getElementById('c_eselon_cari').value;
+var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/listnamajabatan';
+var param = {c_eselon:c_eselon};
+jQuery.get(url,param,function(data) {
+jQuery("#targetdetil").html(data);
+centerPopup();
+loadPopup();});}
+
+function cariComboPns(){
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+	var eseloni=document.getElementById('c_eselon_i').value;
+	var eselonii=document.getElementById('c_eselon_ii').value;
+	var eseloniii=document.getElementById('c_eselon_iii').value;
+	var eseloniv=document.getElementById('c_eselon_iv').value;
+	
+	
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/pencarian/listcombo'; 
+	var param = {c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+	jQuery.get(url, param, function(data) {
+		jQuery("#listcombo").html(data);
+	});
+}
+</script>
+			

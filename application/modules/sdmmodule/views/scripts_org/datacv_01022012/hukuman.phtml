@@ -1,0 +1,57 @@
+<? require_once 'Zend/View.php';
+   
+$ctrlFrm = new Zend_View();
+	  
+$jumhukumanList = count($this->hukumanList);  
+	if ($jumhukumanList == 0) {
+		echo "<font color=\"red\">Data Hukuman Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+		<tr>
+		    <th width="10%">Tingkat Hukuman</th>
+			<th width="30%">Jenis Hukuman</th>
+			<th width="20%">Alasan Hukuman</th>
+			<th width="6%">Mulai</th>
+			<th width="6%">Akhir</th>
+			<th width="20%">Nomor SK / Tgl SK</th>
+			<th width="6%">Pejabat</th>
+		</tr>
+<?
+	if ($jumhukumanList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>		
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->hukumanList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					?>
+				<td>
+					<a href="#" onclick="detilhukuman('<?=$nip?>','<?=trim($this->escape($val['c_tingkat_sanksi']))?>','<?=trim($this->escape($val['c_jenis_sanksi']))?>','<?=trim($this->escape($val['d_mulai_sanksi']))?>')"><?php echo $this->escape($val['nsanksi']);?></a>
+				</td>
+				<td><?php  echo $this->escape($val['jnssanksi']);?></td>
+				<td class="clcenter"><?php  echo $this->escape($val['e_alasan_sanksi']);?></td>
+				<td class="clcenter"><?php  echo $this->escape($val['d_mulai_sanksi']);?></td>
+				<td class="clcenter"><?php  echo $this->escape($val['d_akhir_sanksi']);?></td>
+				<td class="clcenter">
+					<u><?php echo $this->escape($val['i_sk_sanksi']);?></u><br>
+					<?php echo $this->escape($val['d_sk_sanksi']);?>					
+				</td>
+				<td class="clcenter"><?php echo $this->escape($val['n_pejabat']);?></td>
+		  </tr>
+	<?php endforeach;?> 		  	  
+<?	}	?>
+	</table>									

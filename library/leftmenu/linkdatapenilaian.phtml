@@ -1,0 +1,15 @@
+			<? if ($this->statuspeg!='2CP'){?>
+                        | <a href="#Pns" class="<?=($opr=='duk' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapns/pns','<?php echo $this->basePath; ?>/sdmmodule/datapns/pnsjs');">PNS</a> |
+			<?} else{?>
+			| <a href="#Pns" class="<?=($opr=='duk' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datacpns/cpns','<?php echo $this->basePath; ?>/sdmmodule/datacpns/cpnsjs');">CPNS</a> |			
+			<?}?>
+				
+				<a href="#Pokok" class="<?=($opr=='duk' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pokok</a> |
+				<a href="#Riwayat" class="<?=($opr=='duk' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapangkat/listpangkat','<?php echo $this->basePath; ?>/sdmmodule/datapangkat/pangkatjs');">Data Riwayat</a> |
+				<a href="#Diklat" class="<?=($opr=='duk' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datadikpenjenjangan/listdiklat','<?php echo $this->basePath; ?>/sdmmodule/datadikpenjenjangan/dikpenjenjanganjs');">Diklat</a> |
+				<a href="#Kinerja" class="<?=($opr=='duk' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dptiga/listdptiga','<?php echo $this->basePath; ?>/sdmmodule/dptiga/dptigajs');">Kinerja</a> |
+				<a href="#Kinerja" class="<?=($opr=='duk' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/databahasa/listbahasa','<?php echo $this->basePath; ?>/sdmmodule/databahasa/bahasajs');">Penilaian</a> |
+<br>
+            <h3 class="<?=($opr=='pbhs' ? 'tab02':'tab')?>" title="Bahasa"><div class="tabtxt"><a href="#Bahasa" class="<?=($opr=='pbhs' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/databahasa/listbahasa','<?php echo $this->basePath; ?>/sdmmodule/databahasa/bahasajs');">Bahasa</a></div></h3>
+			<h3 class="<?=($opr=='ptpa' ? 'tab02':'tab')?>" title="TPA"><div class="tabtxt"><a href="#TPA" class="<?=($opr=='ptpa' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datatpa/listtpa','<?php echo $this->basePath; ?>/sdmmodule/datatpa/tpajs');">Potensi Akademik</a></div></h3>
+			<h3 class="<?=($opr=='ppkt' ? 'tab02':'tab')?>" title="Kepangkatan"><div class="tabtxt"><a href="#Kepangkatan" class="<?=($opr=='ppkt' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datakepangkatan/listkepangkatan','<?php echo $this->basePath; ?>/sdmmodule/datakepangkatan/kepangkatanjs');">Kepangkatan</a></div></h3>

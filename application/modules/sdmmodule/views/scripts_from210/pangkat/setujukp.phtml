@@ -1,0 +1,152 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php'; 
+   
+	$ctrlDate = new oa_date();   
+   
+   $ctrlFrm = new Zend_View();
+   $thnskrg = date("Y");
+
+
+	$nip = $_REQUEST['nip'];
+	$tglUsul = $_REQUEST['tglUsul'];
+	
+
+    $spath = $this->getScriptPaths();
+	$this->addScriptPath($spath[0] . 'pangkat');
+	echo $this->render('pangkatjs.phtml');
+
+/*Nama 		= Maman Sulaeman  (960326)
+TMT  		= 01-09-1996      (10 thn 2 bln)
+Gol  		= IIIa
+Tgl Usulan     	= 12-10-2006
+Jenis Kenaikan 	= Reguler */
+?>
+
+<html>
+  <head>
+    <title>..:: BUMN, Office Automation ::..</title>
+ </head>
+  <body>
+	<div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Pengembangan Karir
+		<strong> &#8250; </strong> Kenaikan Pangkat
+		<strong> &#8250; </strong> Persetujuan Usulan Kenaikan Pangkat
+	</div>
+<form id="frmSetujukp" action="/sdm/pangkat/setujukp" method="post" name="frmSetujukp">
+<fieldset class="fields1">
+<legend>PROSES PERSETUJUAN</legend>
+<table border="0" align="center" width="70%">
+	<tr>
+		<td><b>Nip</b></td>
+		<td>:
+		<?
+		$nip = $this->escape($this->nip);
+		echo $ctrlFrm->formHidden('nipH', $nip, null)."&nbsp;";
+		echo $nip;
+		?>
+		</td>
+		<td><b>TMT CPNS</b></td>
+		<td>:
+		<?
+		$tmtMasuk1 = $this->escape($this->tmtMasuk);
+		$thnMasuk= substr($tmtMasuk1,0,4);
+		$blnMasuk = substr($tmtMasuk1,5,2);
+		$hrMasuk = substr($tmtMasuk1,8,2);
+		$tmtMasuk = $hrMasuk."-".$blnMasuk."-".$thnMasuk;
+		echo $ctrlFrm->formHidden('tmtMasukH', $tmtMasuk, null)."&nbsp;";
+		echo $tmtMasuk;
+		?>
+		</td>
+	</tr>
+	<tr>
+		<td><b>Nama</b></td>
+		<td>:
+		<?
+		$nama = $this->escape($this->nama);
+		echo $ctrlFrm->formHidden('namaH', $nama, null)."&nbsp;";
+		echo $nama;
+		?>
+		</td>
+		<td><b>Masa Kerja</b></td>
+		<td>:
+		<?
+		$mkThn = $this->escape($this->mkThn);
+		echo $ctrlFrm->formHidden('mkThnH', $mkThn, null)."&nbsp;";
+		$mkBln = $this->escape($this->mkBln);
+		echo $ctrlFrm->formHidden('mkBlnH', $mkBln, null)."&nbsp;";
+		echo $mkThn." thn ".$mkBln." bln ";
+		?>
+		</td>
+	</tr>
+	<tr>
+		<td><b>Golongan</b></td>
+		<td>:
+		<?
+		$gol = $this->escape($this->gol);
+		echo $ctrlFrm->formHidden('golH', $gol, null)."&nbsp;";
+		echo $gol;
+		?>
+		</td>
+		<td><b>Tanggal Usulan</b></td>
+		<td>:
+		<?
+		$tglUsul = $ctrlDate->convertTglMachineToHuman($this->escape($this->tglUsul));
+		echo $ctrlFrm->formHidden('tglUsulH', $this->escape($this->tglUsul), null)."&nbsp;";
+	//	$ctrlDate->convertTglMachineToHuman($this->escape($val['tglUsul']));
+		echo $tglUsul;
+		?>
+		</td>
+	</tr>
+</table>
+<table border="0" align="center" width="100%">
+	
+	<tr align="center">
+		<td>
+			<?php 
+			$status = $this->escape($this->status);
+			//echo "status= ".$status;
+			$statusOpsi = array("2"=>"Setuju",
+								"3"=>"Tidak Setuju"); 
+			echo $ctrlFrm->formRadio('status', $status, null, $statusOpsi, "&nbsp;"); ?>			
+		 </td>
+	</tr>
+	<tr>
+		<td><b>Alasan</b></td>
+	</tr>
+	<tr>
+		<td>
+			<?php 
+			$alasan = $this->escape($this->alasan);
+			  if ($alasan == '') {
+			    $alasan = null;
+			  } 
+			  $alasanAtrib = array("rows"=>"3",
+									    "cols"=>"50",
+										"maxlength"=>"50",
+									    "class"=>""); 
+			  echo $ctrlFrm->formTextarea('alasan', $alasan, $alasanAtrib) ?>
+		  </td>
+	</tr>
+		
+		
+		<tr>
+		  <td colspan="2">&nbsp;</td>
+		</tr>
+		<tr>
+		  <td colspan="2" align="center">
+			<?php 
+			  $atribSimpanSetuju = array("onclick"=>"javascript:simpanSetuju();");
+			  echo $ctrlFrm->formSubmit('perintah', 'SIMPAN', $atribSimpanSetuju)."&nbsp;";?>
+		  </td>
+		</tr>
+	  </table>
+	  </fieldset>	 
+	</form>
+			<div class="back2">
+			  <a href="#" onClick="javascript:kembaliSetuju();" class="back" title="Kembali">Kembali</a>
+			  <!--<a href="#top" class="top" title="Kembali ke atas">Top</a>-->
+			</div>
+  </body>
+</html>

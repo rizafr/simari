@@ -1,0 +1,6 @@
+<?php 
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+$jenisKel = array("-"=>"--Pilih--","L"=>"Laki-laki","P"=>"Perempuan");	
+echo $ctrlFrm->formSelect('nCol', $this->nCol, null, $jenisKel);
+?>

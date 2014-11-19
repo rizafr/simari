@@ -1,0 +1,84 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/pesan.php';
+require_once 'share/halaman_list.php';
+
+   $ctrlFrm = new Zend_View();
+   $pesan = new pesan();
+   $halaman = new halaman_list();
+
+	  
+$jumkualifikasiList = count($this->listKualifikasi);     
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong>Referensi
+			</div>
+	        <a name="top"></a>
+<?
+$proses		= $this->proses;
+$keterangan	= $this->keterangan;
+$status		= $this->status;
+echo $pesan->show_message($proses, $keterangan, $status);
+?>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+	<h2 class="title">Referensi Diklat Kualifikasi</h2>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+  
+<div class="add" title="Tambah Data" onclick="openFormKualifikasi('insert','','');"></div>
+<?	if ($jumkualifikasiList == 0) {
+		echo "<font color=\"red\">Data Referensi Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center" width="50%">
+			<tr>
+		    <th width="10%">Kode Diklat Kualifikasi</th>
+			<th width="80%">Nama Diklat Kualifikasi</th>
+			<th colspan="2">&nbsp;</th>
+			</tr>		
+<?
+	if ($jumkualifikasiList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->listKualifikasi as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					?>
+				
+				<td><?php  echo $this->escape($val['c_kualifikasi']);?></td>
+				<td><?php  echo $this->escape($val['n_kualifikasi']);?></td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data"  onclick="openFormKualifikasi('update','<?=trim($this->escape($val['c_kualifikasi']))?>');"></div>	
+				</td>
+				<td class="clcenter">			
+					<div class="delete" title="Hapus Data"  onClick="HapusKualifikasi('kualifikasi','<?=trim($this->escape($val['c_kualifikasi']))?>','<?=trim($this->escape($val['n_kualifikasi']))?>')"></div>
+				</td>	
+		  </tr>
+	<?php endforeach; ?> 		  	  
+<?	}	?>
+	</table>									
+	<?php
+	$totalData = $this->totalData;
+	$numToDisplay = $this->numToDisplay;
+	$currentPage = $this->currentPage;
+	$modul	= $this->basePath.'/sdmmodule/refkualifikasi/listkualifikasi';
+	echo $halaman->halamanList($totalData, $numToDisplay, $currentPage, $modul);
+
+	?>					
+									
+	</fieldset>		 
+	</form>

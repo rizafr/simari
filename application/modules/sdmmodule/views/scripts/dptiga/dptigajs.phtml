@@ -1,0 +1,109 @@
+function DptigaL(par,nip){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/dptiga/listdptiga"	
+	var opt = {par:par,nip:nip};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#formdptiga").ajaxForm(maintain_dptiga);
+		});		
+} 
+function DptigaM(par,i_peg_nip,id){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/dptiga/dptiga"	
+	var opt = {par:par,i_peg_nip:i_peg_nip,id:id};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#formdptiga").ajaxForm(maintain_dptiga);
+		});		
+} 
+var maintain_dptiga = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formdptiga;
+		astr= "document.formdptiga";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/
+				if((!i_peg_nip.value)){cekVal = sdmValidasiData(astr,"i_peg_nip","Nip harus diisi....!");return false;break;}
+				if((!d_peg_pnilai.value)){cekVal = sdmValidasiData(astr,"d_peg_pnilai","Tahun Penilaian harus diisi....!");return false;break;}
+				if((!i_peg_nippnilai.value)){cekVal = sdmValidasiData(astr,"i_peg_nippnilai","Pejabat Penilai harus diisi....!");return false;break;}
+				if((!i_peg_nipatasanpnilai.value)){cekVal = sdmValidasiData(astr,"i_peg_nipatasanpnilai","Atas Pejabat Penilai harus diisi....!");return false;break;}
+				 break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formdptiga").ajaxForm(maintain_dptiga);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/dptiga/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+function insertDpTiga(){
+	jQuery("#formdptiga").ajaxForm(maintain_dptiga);
+}
+
+function HapusDatadptiga(i_peg_nip,id)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/dptiga/hapusdata"
+		var opt = {i_peg_nip:i_peg_nip,id:id};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}
+
+function SetNilai(field1,field2,field3){
+	var nilaiAngka = document.getElementById(field1).value;
+	//alert(nilaiAngka);
+	if(nilaiAngka != ''){
+		if ((nilaiAngka*1 >=90) && (nilaiAngka*1 <=100)){document.getElementById(field2).value="Amat Baik";}
+		if ((nilaiAngka*1 >=76) && (nilaiAngka*1 <=90)){document.getElementById(field2).value="Baik";}
+		if ((nilaiAngka*1 >=60) && (nilaiAngka*1 <=75)){document.getElementById(field2).value="Cukup";}
+		if ((nilaiAngka*1 >=51) && (nilaiAngka*1 <=60)){document.getElementById(field2).value="Sedang";}
+		if ((nilaiAngka*1 <=50)){document.getElementById(field2).value="Kurang";}	
+	} else {
+		document.getElementById(field2).value='';
+	}
+		q_peg_kesetiaan = document.getElementById('q_peg_kesetiaan').value*1;
+		q_peg_preskerja = document.getElementById('q_peg_preskerja').value*1;
+		q_peg_tggjawab = document.getElementById('q_peg_tggjawab').value*1;
+		q_peg_ketaatan = document.getElementById('q_peg_ketaatan').value*1;
+		q_peg_kejujuran = document.getElementById('q_peg_kejujuran').value*1;
+		q_peg_kerjasama = document.getElementById('q_peg_kerjasama').value*1;
+		q_peg_prakarsa = document.getElementById('q_peg_prakarsa').value*1;
+		q_peg_kpimpinan = document.getElementById('q_peg_kpimpinan').value*1;
+		
+		nilaiTotal = q_peg_kesetiaan + q_peg_preskerja + q_peg_tggjawab + q_peg_ketaatan +q_peg_kejujuran + q_peg_kerjasama + q_peg_prakarsa + q_peg_kpimpinan
+		document.getElementById('q_peg_totalnilai').value=nilaiTotal;	
+		
+		var bagi = 0*1;
+		if(q_peg_kesetiaan > 0)	{bagi = bagi+1;}if(q_peg_preskerja > 0){bagi = bagi+1;}if(q_peg_tggjawab > 0){bagi = bagi+1;}if(q_peg_ketaatan > 0){bagi = bagi+1;}if(q_peg_kejujuran > 0){bagi = bagi+1;}if(q_peg_kerjasama > 0){bagi = bagi+1;}if(q_peg_prakarsa > 0){bagi = bagi+1;}if(q_peg_kpimpinan > 0){bagi = bagi+1;}
+		
+		nilaiRata = nilaiTotal/bagi;		
+		var nilaiRataDisplay = ((Math.round(nilaiRata*100))/100);		
+		document.getElementById('q_peg_nilairata').value=nilaiRataDisplay;
+		var eNilaiTot
+		if ((nilaiRataDisplay*1 >=90) && (nilaiRataDisplay*1 <=100)){document.getElementById('e_peg_nilairata').value="Amat Baik";}
+		if ((nilaiRataDisplay*1 >=76) && (nilaiRataDisplay*1 <=90)){document.getElementById('e_peg_nilairata').value="Baik";}
+		if ((nilaiRataDisplay*1 >=60) && (nilaiRataDisplay*1 <=75)){document.getElementById('e_peg_nilairata').value="Cukup";}
+		if ((nilaiRataDisplay*1 >=51) && (nilaiRataDisplay*1 <=60)){document.getElementById('e_peg_nilairata').value="Sedang";}
+		if ((nilaiRataDisplay*1 <=50)){document.getElementById('e_peg_nilairata').value="Kurang";}		
+				
+}
+
+function CariDataPeg(par){
+var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/listpegawaidptiga';
+var param = {par:par};
+jQuery.get(url,param,function(data) {
+jQuery("#popupview").html(data);
+centerPopup();
+loadPopup();});}

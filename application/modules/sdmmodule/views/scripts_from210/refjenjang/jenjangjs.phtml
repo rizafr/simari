@@ -1,0 +1,56 @@
+function openFormJenjang(par,c_jenjang,n_jenjang,q_level){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refjenjang/jenjangolahdata";
+	var opt = {par:par, c_jenjang:c_jenjang, n_jenjang:n_jenjang,q_level:q_level};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formjenjang").ajaxForm(maintain_jenjang);
+		});		
+} 
+
+function insertJenjang(){
+	jQuery("#formjenjang").ajaxForm(maintain_jenjang);
+}
+
+var maintain_jenjang = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjenjang").ajaxForm(maintain_jenjang);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refjenjang/insertjenjang',
+	type: 'post',
+	resetForm: false
+};
+
+function updateJenjang(){
+	jQuery("#formjenjang").ajaxForm(update_jenjang);
+}
+
+var update_jenjang = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjenjang").ajaxForm(maintain_jenjang);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refjenjang/updatejenjang',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusJenjang(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refjenjang/deletejenjang';
+		var opt = {c_jenjang : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

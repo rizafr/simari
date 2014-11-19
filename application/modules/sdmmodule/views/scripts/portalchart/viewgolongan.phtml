@@ -1,0 +1,56 @@
+<div class="widget">	
+	<h4 class="widgettitle">Golongan/Pangkat <?=strtoupper($this->par)?></h4>	
+	<table width="100%">
+	<tr>
+	<td>
+	<?
+		require_once 'Zend/View.php';
+		require_once 'share/halaman_list.php';  
+		$ctrlFrm = new Zend_View();
+		$halaman = new halaman_list(); 
+	?>  	
+
+
+	<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+		<tr>
+			<th width="5%">No</th>
+			<th width="20%">NIP</th>
+			<th width="25%">Nama</th>
+			<th width="20%">Gol/Pangkat</th>
+		</tr>
+<?
+	if (count($this->dataList) == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->dataList as $key => $val): 
+		$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? }?>
+				<td><?php  echo $noUrut;?></td>	
+				<td>
+					<?php echo $this->escape($val['i_peg_nip_new']);?>
+				</td>
+				<td><?php  echo $this->escape($val['n_peg']);?></td>
+				<td><?php  echo $this->escape($val['n_golongan'])."/".$this->escape($val['n_pangkat']);?></td>
+		  </tr>
+	<?php endforeach;?> 		  	  
+<?	}	?>
+	</table>
+		<?
+		
+		$modul = $this->basePath."/sdmmodule/portalchart/view?mod=".$this->mod."&par=".$this->par;
+		echo $halaman->halamanListReminder($this->totalpegawaiList, $this->numToDisplay, $this->currentPage, $modul)
+		?>	
+	</tr>
+	</td>
+	</table>		
+</div>

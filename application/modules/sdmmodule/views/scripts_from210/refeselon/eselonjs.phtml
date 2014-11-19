@@ -1,0 +1,56 @@
+function openFormEselon(par,c_eselon,n_eselon,n_eselonb){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refeselon/eselonolahdata";
+	var opt = {par:par, c_eselon:c_eselon, n_eselon:n_eselon,n_eselonb:n_eselonb};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formeselon").ajaxForm(maintain_eselon);
+		});		
+} 
+
+function insertEselon(){
+	jQuery("#formeselon").ajaxForm(maintain_eselon);
+}
+
+var maintain_eselon = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formeselon").ajaxForm(maintain_eselon);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refeselon/inserteselon',
+	type: 'post',
+	resetForm: false
+};
+
+function updateEselon(){
+	jQuery("#formeselon").ajaxForm(update_eselon);
+}
+
+var update_eselon = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formeselon").ajaxForm(maintain_eselon);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refeselon/updateeselon',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusEselon(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refeselon/deleteeselon';
+		var opt = {c_eselon : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

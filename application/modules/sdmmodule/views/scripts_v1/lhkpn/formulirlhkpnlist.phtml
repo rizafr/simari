@@ -1,0 +1,50 @@
+<fieldset class="panel-form2" id="targetformulirpopup">	
+<div class="right">
+	<img src="../../images/add.gif" title="tambah data" onclick="addDataForm();">
+</div>
+	<table align="center" border="0" cellspacing="1" cellpadding="2" class="tbl2" width="100%">
+		<th width="90%">Jenis Formulir LHKPN</th>
+		<th width="5%">Pilih</th>
+		<?
+				if (count($this->formulirlist) == 0){ 
+		?>
+		<tr class="event">
+			<td><font color=\"red\">-</font></td>
+			<td>&nbsp;</td>
+		</tr>
+				<?} else {					
+			foreach ($this->formulirlist as $key => $val): 
+			$countf=$countf+1;
+				if ($key%2==0) { ?>
+					<tr class="event">
+				<? } else if ($key%2==1) { ?>
+					<tr class="event2">
+						<? } 
+						$i_formulir = $this->escape($val['i_formulir']);
+						$n_formulir = $this->escape($val['n_formulir']);						
+						$checked="";
+						$arr = explode(";",$this->formcountid);
+						$countx = count($arr);
+						for($i=0; $i<$countx; $i++)
+							{
+								$cformulir=$arr[$i];
+								if ($i_formulir==$cformulir){$checked="checked disabled";}
+							}
+						?>						
+						<td class="clleft"><? echo $n_formulir;?></td>
+						<td class="clcenter">
+							<input type="checkbox"  readonly="false" <?=$checked?> name="check_formulir" id="check_formulir" value="<?=$i_formulir?>">
+							<input type="hidden" name="check_nformulir" id="check_nformulir" value="<?=$n_formulir?>">
+						</td>
+						
+<?
+endforeach;
+}?>
+	</table>
+	<div class="spacer"></div>	
+	<div class="right">
+	<input type="button" class="button2" value="Tutup" onclick="formulirClosePopup();"> 
+	<input   name="perintah" id="perintah" type="button" style="font-weight: bold;" class="button2" value="Proses" onClick="PilihanData()">
+	</div>
+</fieldset>
+<div class="spacer"></div>

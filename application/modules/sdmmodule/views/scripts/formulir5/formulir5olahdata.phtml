@@ -1,0 +1,452 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+	
+	//var_dump($this->detailAgama);
+$jumpegEselon1IVE = count($this->listJumPegEselon1IVE);	
+$jumpegEselon2IVE = count($this->listJumPegEselon2IVE);
+$jumpegEselon3IVE = count($this->listJumPegEselon3IVE);
+
+$jumpegEselon1IVD = count($this->listJumPegEselon1IVD);	
+$jumpegEselon2IVD = count($this->listJumPegEselon2IVD);
+$jumpegEselon3IVD = count($this->listJumPegEselon3IVD);
+
+$jumpegEselon1IVC = count($this->listJumPegEselon1IVC);	
+$jumpegEselon2IVC = count($this->listJumPegEselon2IVC);
+$jumpegEselon3IVC = count($this->listJumPegEselon3IVC);
+
+$jumpegEselon1IVB = count($this->listJumPegEselon1IVB);	
+$jumpegEselon2IVB = count($this->listJumPegEselon2IVB);
+$jumpegEselon3IVB = count($this->listJumPegEselon3IVB);
+
+$jumpegEselon1IVA = count($this->listJumPegEselon1IVA);	
+$jumpegEselon2IVA = count($this->listJumPegEselon2IVA);
+$jumpegEselon3IVA = count($this->listJumPegEselon3IVA);
+?>
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong>Formasi Kepegawaian<!--a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a-->
+				<strong> &#8250; </strong><?//=$this->jdl;?> Formulir 5
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Formulir 5</h2>	
+		
+<form id="formformulir5" method="post" name="formformulir5">	
+		<div align="center">SUSUNAN JABATAN UTAMA<br>(GOLONGAN IV) <span class="thn_skr" style="display:none"></span></div>
+	<div class="panel">
+		<div class="spacer"></div> 
+			
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<!--tr>
+					<td width="40%">UNIT ORGANISASI
+					</td>
+					<td width="1%">:</td> 
+					<td width="59%">	
+						<select name="unit_organisasi" id="unit_organisasi" onchange="AmbilUnit('<? echo $this->par; ?>',this.value);">
+						<?if($this->unit_organisasi != ""){
+							echo "<option value='".$this->unit_organisasi."'>".$this->unit_organisasi."</option>";?>
+						 <option>Unit Kerja</option>
+						<? 
+						foreach ($this->listUnit as $key => $val):
+							echo "<option value='".$this->escape($val['nama_satker'])."'>".$this->escape($val['nama_satker'])."</option>";
+						endforeach;
+						}else{
+						?>
+						<option>Unit Kerja</option>
+						<? 
+						foreach ($this->listUnit as $key => $val):
+							echo "<option value='".$this->escape($val['nama_satker'])."'>".$this->escape($val['nama_satker'])."</option>";
+						endforeach;
+						}
+						?> 
+						 </select>
+					</td>
+				</tr--><tr><td colspan="3"><u>UNIT KERJA</u></td></tr><tr>
+					<td>Lokasi
+					</td>
+					<td>:</td> 
+					<td>	<input type="hidden" name="id" id="id" value="<? echo $this->id ?>">				
+						<select name="lokasi" id="lokasi" onchange="AmbilLokasi('<?=$this->par; ?>');">
+						<?if($this->c_lokasi != "" && $this->n_lokasi != ""){
+							echo "<option value='".$this->c_lokasi.",".$this->n_lokasi."'>".$this->n_lokasi."</option>";?>
+						 <option>--Pilih--</option>
+						<? 
+						foreach ($this->listLokasi as $key => $val):
+							echo "<option value='".$this->escape($val['c_lokasi']).",".$this->escape($val['n_lokasi'])."'>".$this->escape($val['n_lokasi'])."</option>";
+						endforeach;
+						}else{
+						?>
+						<option>--Pilih--</option>
+						<? 
+						foreach ($this->listLokasi as $key => $val):
+							echo "<option value='".$this->escape($val['c_lokasi']).",".$this->escape($val['n_lokasi'])."'>".$this->escape($val['n_lokasi'])."</option>";
+						endforeach;
+						}
+						?> 
+						 </select>
+					</td>
+				</tr><tr>
+					<td>Eselon I
+					</td>
+					<td>:</td> 
+					<td>	
+						<select name="eselon1" id="eselon1" width="150" onchange="AmbilEselon1('<?=$this->par; ?>');">
+						<?if($this->c_eselon1 != ""){
+							echo "<option value='".$this->c_eselon1.",".$this->n_eselon1."'>".$this->n_eselon1."</option>";?>
+						 <option>--Pilih--</option>
+						<? 
+						foreach ($this->listEselon1 as $key => $val):
+							echo "<option value='".$this->escape($val['c_eselon_i']).",".$this->escape($val['n_unitkerja'])."'>".$this->escape($val['n_unitkerja'])."</option>";
+						endforeach;
+						}else{
+						?>
+						<option>--Pilih--</option>
+						<? 
+						foreach ($this->listEselon1 as $key => $val):
+							echo "<option value='".$this->escape($val['c_eselon_i']).",".$this->escape($val['n_unitkerja'])."'>".$this->escape($val['n_unitkerja'])."</option>";
+						endforeach;
+						}
+						?> 
+						 </select>
+					</td>
+				</tr><tr>
+					<td>Eselon II
+					</td>
+					<td>:</td> 
+					<td>	
+						<select name="eselon2" id="eselon2" width="150" onchange="AmbilEselon2('<?=$this->par; ?>')">
+						<?if($this->c_eselon2 != ""){
+							echo "<option value='".$this->c_eselon2.",".$this->c_eselon22.",".$this->n_eselon2."'>".$this->n_eselon2."</option>";?>
+						 <option>--Pilih--</option>
+						<? 
+						foreach ($this->listEselon2 as $key => $val):
+							echo "<option value='".$this->escape($val['c_eselon_ii']).",".$this->listEselon2[$key+1]['c_eselon_ii'].",".$this->escape($val['n_unitkerja'])."'>".$this->escape($val['n_unitkerja'])."</option>";
+						endforeach;
+						}else{
+						?>
+						<option>--Pilih--</option>
+						<? foreach ($this->listEselon2 as $key => $val):
+							echo "<option value='".$this->listEselon2[$key+1]['c_eselon_ii'].",".$this->escape($val['c_eselon_ii']).",".$this->escape($val['n_unitkerja'])."'>".$this->escape($val['n_unitkerja'])."</option>";
+						   endforeach;
+						 } ?>
+						 </select>
+					</td>
+				</tr><tr>
+					<td>Eselon III
+					</td>
+					<td>:</td> 
+					<td>			
+						<select name="eselon3" id="eselon3" width="150" onchange="AmbilEselon3('<?=$this->par; ?>')">
+						<?if($this->c_eselon23 != ""){
+							echo "<option value='".$this->c_eselon23.",".$this->c_eselon3.",".$this->n_eselon3."'>".$this->n_eselon3."</option>";?>
+						 <option>--Pilih--</option>
+						<? 
+						foreach ($this->listEselon3 as $key => $val):
+							echo "<option value='".$this->escape($val['c_eselon_ii']).",".$this->escape($val['c_eselon_iii']).",".$this->escape($val['n_unitkerja'])."'>".$this->escape($val['n_unitkerja'])."</option>";
+						endforeach;
+						}else{
+						?>
+						<option>--Pilih--</option>
+						<? 
+						foreach ($this->listEselon3 as $key => $val):
+							echo "<option value='".$this->escape($val['c_eselon_ii']).",".$this->escape($val['c_eselon_iii']).",".$this->escape($val['n_unitkerja'])."'>".$this->escape($val['n_unitkerja'])."</option>";
+						endforeach;
+						}
+						?> 
+						 </select>
+					</td>
+				</tr><!--tr>
+					<td>NAMA JABATAN
+					</td>
+					<td>:</td> 
+					<td>					
+						<select name="nm_jabatan" id="nm_jabatan" >
+						<?if($this->nm_jabatan != ""){
+							echo "<option value='".$this->c_jabatan.",".$this->nm_jabatan."'>".$this->nm_jabatan."</option>";?>
+						 <option>Nama Jabatan</option>
+						<? 
+						foreach ($this->listNamaJabatan as $key => $val):
+							echo "<option value='".$this->escape($val['c_jabatan']).",".$this->escape($val['n_jabatan'])."'>".$this->escape($val['n_jabatan'])."</option>";
+						endforeach;
+						}else{
+						?>
+						<option>Nama Jabatan</option>
+						<? 
+						foreach ($this->listNamaJabatan as $key => $val):
+							echo "<option value='".$this->escape($val['c_jabatan']).",".$this->escape($val['n_jabatan'])."'>".$this->escape($val['n_jabatan'])."</option>";
+						endforeach;
+						}
+						?> 
+						 </select>
+					</td>
+				</tr--><tr><td colspan="3">&nbsp;</td></tr>
+				<tr><td colspan="3">GOLONGAN RUANG GAJI :</td></tr>
+				<tr><td colspan="3">IV/a</td></tr>
+				<tr>
+					<td>BEZETTING
+					</td>
+					<td>:</td> 
+					<td>	Eselon 1 				
+						<input type="text" name="iv_a_b_eselon1" id="iv_a_b_eselon1" value="<? if($jumpegEselon1IVA != ""){
+														foreach($this->listJumPegEselon1IVA as $key => $val):
+														echo $this->escape($val['jumlah']);
+														
+														endforeach;
+														}else{
+														//if($this->detailFormulir3['jum_pegawai'] != ""){
+															echo $this->detailFormulir5['iv_a_b_eselon1'];
+														//}else{
+														}?>" size="5" readonly>
+						&nbsp;&nbsp; Eselon 2 
+						<input type="text" name="iv_a_b_eselon2" id="iv_a_b_eselon2" value="<? if($jumpegEselon2IVA != ""){
+														foreach($this->listJumPegEselon2IVA as $key => $val):
+														echo $this->escape($val['jumlah']);
+														
+														endforeach;
+														}else{
+														//if($this->detailFormulir3['jum_pegawai'] != ""){
+															echo $this->detailFormulir5['iv_a_b_eselon2'];
+														//}else{
+														}?>" size="5" readonly>
+						&nbsp;&nbsp; Eselon 3
+						<input type="text" name="iv_a_b_eselon3" id="iv_a_b_eselon3" value="<? if($jumpegEselon3IVA != ""){
+														foreach($this->listJumPegEselon3IVA as $key => $val):
+														echo $this->escape($val['jumlah']);
+														
+														endforeach;
+														}else{
+														//if($this->detailFormulir3['jum_pegawai'] != ""){
+															echo $this->detailFormulir5['iv_a_b_eselon3'];
+														//}else{
+														}?>" size="5" readonly>
+						<input type="hidden" name="thn_skrg" id="thn_skrg2">
+						<input type="hidden" name="thn_sblm" id="thn_sblm2">
+						<input type="hidden" name="tahun" id="tahun">
+					</td>
+				</tr><tr>
+					<td>FORMASI<span id="thn_sblm" style="display:none"></span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="iv_a_f" id="iv_a_f" value="<?=$this->detailFormulir5['iv_a_f'];?>" size="10" onkeyup="<? if(!is_numeric(this.value)){ ?> enterNumber(this.id);<?}; ?>">
+					</td>
+				</tr>
+				<tr><td colspan="3">IV/b</td></tr>
+				<tr>
+					<td>BEZETTING <span class="thn_skr" style="display:none"></span>
+					</td>
+					<td>:</td> 
+					<td>	Eselon 1				
+						<input type="text" name="iv_b_b_eselon1" id="iv_b_b_eselon1" value="<? if($jumpegEselon1IVB != ""){
+														foreach($this->listJumPegEselon1IVB as $key => $val):
+														echo $this->escape($val['jumlah']);
+														
+														endforeach;
+														}else{
+														//if($this->detailFormulir3['jum_pegawai'] != ""){
+															echo $this->detailFormulir5['iv_b_b_eselon1'];
+														//}else{
+														}?>" size="5" readonly>
+						&nbsp;&nbsp; Eselon 2
+						<input type="text" name="iv_b_b_eselon2" id="iv_b_b_eselon2" value="<? if($jumpegEselon2IVB != ""){
+														foreach($this->listJumPegEselon2IVB as $key => $val):
+														echo $this->escape($val['jumlah']);
+														
+														endforeach;
+														}else{
+														//if($this->detailFormulir3['jum_pegawai'] != ""){
+															echo $this->detailFormulir5['iv_b_b_eselon2'];
+														//}else{
+														}?>" size="5" readonly>
+						&nbsp;&nbsp; Eselon 3
+						<input type="text" name="iv_b_b_eselon3" id="iv_b_b_eselon3" value="<? if($jumpegEselon3IVB != ""){
+														foreach($this->listJumPegEselon3IVB as $key => $val):
+														echo $this->escape($val['jumlah']);
+														
+														endforeach;
+														}else{
+														//if($this->detailFormulir3['jum_pegawai'] != ""){
+															echo $this->detailFormulir5['iv_b_b_eselon3'];
+														//}else{
+														}?>" size="5" readonly>
+					</td>
+				</tr><tr>
+					<td>FORMASI<span id="thn_sblm" style="display:none"></span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="iv_b_f" id="iv_b_f" value="<?=$this->detailFormulir5['iv_b_f'];?>" size="10" onkeyup="<? if(!is_numeric(this.value)){ ?> enterNumber(this.id);<?}; ?>">
+					</td>
+				</tr>
+				<tr><td colspan="3">IV/c</td></tr>
+				<tr>
+					<td>BEZETTING
+					</td>
+					<td>:</td> 
+					<td>	Eselon 1				
+						<input type="text" name="iv_c_b_eselon1" id="iv_c_b_eselon1" value="<? if($jumpegEselon1IVC != ""){
+														foreach($this->listJumPegEselon1IVC as $key => $val):
+														echo $this->escape($val['jumlah']);
+														
+														endforeach;
+														}else{
+														//if($this->detailFormulir3['jum_pegawai'] != ""){
+															echo $this->detailFormulir5['iv_c_b_eselon1'];
+														//}else{
+														}?>" size="5" readonly>
+						&nbsp;&nbsp; Eselon 2
+						<input type="text" name="iv_c_b_eselon2" id="iv_c_b_eselon2" value="<? if($jumpegEselon2IVC != ""){
+														foreach($this->listJumPegEselon2IVC as $key => $val):
+														echo $this->escape($val['jumlah']);
+														
+														endforeach;
+														}else{
+														//if($this->detailFormulir3['jum_pegawai'] != ""){
+															echo $this->detailFormulir5['iv_c_b_eselon2'];
+														//}else{
+														}?>" size="5" readonly>
+						&nbsp;&nbsp; Eselon 3
+						<input type="text" name="iv_c_b_eselon3" id="iv_c_b_eselon3" value="<? if($jumpegEselon3IVC != ""){
+														foreach($this->listJumPegEselon3IVC as $key => $val):
+														echo $this->escape($val['jumlah']);
+														
+														endforeach;
+														}else{
+														//if($this->detailFormulir3['jum_pegawai'] != ""){
+															echo $this->detailFormulir5['iv_c_b_eselon3'];
+														//}else{
+														}?>" size="5" readonly>
+					</td>
+				</tr><tr>
+					<td>FORMASI<span id="thn_sblm" style="display:none"></span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="iv_c_f" id="iv_c_f" value="<?=$this->detailFormulir5['iv_c_f'];?>" size="10" onkeyup="<? if(!is_numeric(this.value)){ ?> enterNumber(this.id);<?}; ?>">
+					</td>
+				</tr>
+				<tr><td colspan="3">IV/d</td></tr>
+				<tr>
+					<td>BEZETTING
+					</td>
+					<td>:</td> 
+					<td>	Eselon 1				
+						<input type="text" name="iv_d_b_eselon1" id="iv_d_b_eselon1" value="<? if($jumpegEselon1IVD != ""){
+														foreach($this->listJumPegEselon1IVD as $key => $val):
+														echo $this->escape($val['jumlah']);
+														
+														endforeach;
+														}else{
+														//if($this->detailFormulir3['jum_pegawai'] != ""){
+															echo $this->detailFormulir5['iv_d_b_eselon1'];
+														//}else{
+														}?>" size="5" readonly>
+						&nbsp;&nbsp; Eselon 2
+						<input type="text" name="iv_d_b_eselon2" id="iv_d_b_eselon2" value="<? if($jumpegEselon2IVD != ""){
+														foreach($this->listJumPegEselon2IVD as $key => $val):
+														echo $this->escape($val['jumlah']);
+														
+														endforeach;
+														}else{
+														//if($this->detailFormulir3['jum_pegawai'] != ""){
+															echo $this->detailFormulir5['iv_d_b_eselon2'];
+														//}else{
+														}?>" size="5" readonly>
+						&nbsp;&nbsp; Eselon 3
+						<input type="text" name="iv_d_b_eselon3" id="iv_d_b_eselon3" value="<? if($jumpegEselon3IVD != ""){
+														foreach($this->listJumPegEselon3IVD as $key => $val):
+														echo $this->escape($val['jumlah']);
+														
+														endforeach;
+														}else{
+														//if($this->detailFormulir3['jum_pegawai'] != ""){
+															echo $this->detailFormulir5['iv_d_b_eselon3'];
+														//}else{
+														}?>" size="5" readonly>
+					</td>
+				</tr><tr>
+					<td>FORMASI<span id="thn_sblm" style="display:none"></span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="iv_d_f" id="iv_d_f" value="<?=$this->detailFormulir5['iv_d_f'];?>" size="10" onkeyup="<? if(!is_numeric(this.value)){ ?> enterNumber(this.id);<?}; ?>">
+					</td>
+				</tr>
+				<tr><td colspan="3">IV/e</td></tr>
+				<tr>
+					<td>BEZETTING
+					</td>
+					<td>:</td> 
+					<td>	Eselon 1				
+						<input type="text" name="iv_e_b_eselon1" id="iv_e_b_eselon1" value="<? if($jumpegEselon1IVE != ""){
+														foreach($this->listJumPegEselon1IVE as $key => $val):
+														echo $this->escape($val['jumlah']);
+														
+														endforeach;
+														}else{
+														//if($this->detailFormulir3['jum_pegawai'] != ""){
+															echo $this->detailFormulir5['iv_e_b_eselon1'];
+														//}else{
+														}?>" size="5" readonly>
+						&nbsp;&nbsp; Eselon 2
+						<input type="text" name="iv_e_b_eselon2" id="iv_e_b_eselon2" value="<? if($jumpegEselon2IVE != ""){
+														foreach($this->listJumPegEselon2IVE as $key => $val):
+														echo $this->escape($val['jumlah']);
+														
+														endforeach;
+														}else{
+														//if($this->detailFormulir3['jum_pegawai'] != ""){
+															echo $this->detailFormulir5['iv_e_b_eselon2'];
+														//}else{
+														}?>" size="5" readonly>
+						&nbsp;&nbsp; Eselon 3
+						<input type="text" name="iv_e_b_eselon3" id="iv_e_b_eselon3" value="<? if($jumpegEselon3IVE != ""){
+														foreach($this->listJumPegEselon3IVE as $key => $val):
+														echo $this->escape($val['jumlah']);
+														
+														endforeach;
+														}else{
+														//if($this->detailFormulir3['jum_pegawai'] != ""){
+															echo $this->detailFormulir5['iv_e_b_eselon3'];
+														//}else{
+														}?>" size="5" readonly>
+					</td>
+				</tr><tr>
+					<td>FORMASI<span id="thn_sblm" style="display:none"></span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="iv_e_f" id="iv_e_f" value="<?=$this->detailFormulir5['iv_e_f'];?>" size="10" onkeyup="<? if(!is_numeric(this.value)){ ?> enterNumber(this.id);<?}; ?>">
+					</td>
+				</tr><tr><td colspan="3">&nbsp;</td></tr><tr>
+					<td>KET.</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="ket" id="ket" value="<?=$this->detailFormulir5['ket'];?>" size="25" >
+					</td>
+				</tr>
+				<tr>
+					<td align="left"></td>
+					<td></td>
+					<td>
+						<div class="center">
+							<input type="button" value="Batal" onclick="OpenFormulir5();"> 
+							<?if ($this->par == 'Insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertFormulir5()">
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updateFormulir5()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>

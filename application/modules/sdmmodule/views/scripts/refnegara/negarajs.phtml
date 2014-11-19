@@ -1,0 +1,56 @@
+function openFormNegara(par,c_negara,n_negara){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refnegara/negaraolahdata";
+	var opt = {par:par, c_negara:c_negara, n_negara:n_negara};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formnegara").ajaxForm(maintain_negara);
+		});		
+} 
+
+function insertNegara(){
+	jQuery("#formnegara").ajaxForm(maintain_negara);
+}
+
+var maintain_negara = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formnegara").ajaxForm(maintain_negara);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refnegara/insertnegara',
+	type: 'post',
+	resetForm: false
+};
+
+function updateNegara(){
+	jQuery("#formnegara").ajaxForm(update_negara);
+}
+
+var update_negara = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formnegara").ajaxForm(maintain_negara);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refnegara/updatenegara',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusNegara(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refnegara/deletenegara';
+		var opt = {c_negara : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

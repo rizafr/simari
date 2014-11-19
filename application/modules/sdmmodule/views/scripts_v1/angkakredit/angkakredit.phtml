@@ -1,0 +1,187 @@
+<? 	
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {		
+		jQuery("#d_sk").datepicker();
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datadptiga/listdptiga','<?php echo $this->basePath; ?>/sdmmodule/datadptiga/dptigajs');">Kinerja</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Angka Kredit
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+	<h2 class="title"><?=$this->jdl;?> Angka Kredit</h2>	
+					
+<div class="boxholder">					
+	<div class="panel">
+		<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<br>
+				<form id="formangkakredit" method="post" name="formangkakredit">	
+	<div class="panel">
+		<div class="spacer"></div> 
+						
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+					<tr>
+						<td width="50%">
+							<table width="100%">
+								<tr>
+									<td width="30%">NIP  <span class="hightlight">*</span></td>
+									<td width="2%">:</td>
+									<td>
+										<input type="text" name="i_peg_nip" id="i_peg_nip" value="<?=$this->i_peg_nip?>" readonly="true"  size="15">
+									</td>
+								</tr>
+<!--							
+								<tr>
+									<td>Jabatan  </td>
+									<td>:</td>
+									<td>
+										<input type="text" name="n_jabatan" id="n_jabatan" value="<?//=$this->n_jabatan?>" readonly="true"  size="40">
+									</td>
+								</tr>
+-->								
+								<tr>
+									<td>Tahun Penilaian  <span class="hightlight">*</span></td>
+									<td>:</td>
+									<td>
+										<input type="text" name="d_peg_pnilai" id="d_peg_pnilai" value="<?=$this->d_peg_pnilai?>" size="10" onkeyup="isNumber('d_peg_pnilai')">
+									</td>
+								</tr>									
+							</table>							
+						</td>
+						<td width="50%">
+							<table width="100%">
+								<tr>
+									<td width="30%">Nama Pegawai  </td>
+									<td width="2%">:</td>
+									<td>
+										<input type="text" name="n_peg" id="n_peg" value="<?=$this->nama?>" readonly="true"  size="40">
+									</td>
+								</tr>
+								<tr>
+									<td>Golongan / Pangkat  </td>
+									<td>:</td>
+									<td>
+										<input type="text" name="n_gol" id="n_gol" value="<?=$this->golongan?>" readonly="true" size="5">/
+										<input type="text" name="n_pangkat" id="n_pangkat" value="<?=$this->pangkat?>" readonly="true"  size="28">										
+									</td>
+								</tr>
+							
+							</table>							
+						</td>
+					</tr>
+				</table>
+<br>				
+				<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+					<tr>
+						<td colspan="2"><h3 class="title"><b>Materi Penilaian</b><h3></td>
+					</tr>
+
+				<table>
+				<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+					<tr>
+						<td width="20%"><b>Utama</b></td>
+						<td width="2">:</td>
+						<td><input type="text" name="q_utama" id="q_utama" value="<?=$this->q_utama?>" size="25"></td>						
+					</tr>
+					<tr>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pendidikan</td>
+						<td>:</td>
+						<td><input type="text" name="q_pendidikan" id="q_pendidikan" value="<?=$this->q_pendidikan?>" size="25"></td>
+					</tr>
+					<tr>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kegiatan Teknis</td>
+						<td>:</td>
+						<td><input type="text" name="q_keg_teknis" id="q_keg_teknis" value="<?=$this->q_keg_teknis?>"size="25"></td>
+					</tr>
+					<tr>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pengembangan Profesi</td>
+						<td>:</td>
+						<td><input type="text" name="q_profesi" id="q_profesi" value="<?=$this->q_profesi?>" size="25"></td>
+					</tr>
+					<tr>
+						<td><b>Penunjang</b></td>
+						<td>:</td>
+						<td><input type="text" name="q_penunjang" id="q_penunjang" value="<?=$this->q_penunjang?>" size="25"></td>						
+					</tr>
+					<tr>
+						<td>Jumlah Total</td>
+						<td>:</td>
+						<td><input type="text" name="q_totalnilai" id="q_totalnilai" value="<?=$this->q_totalnilai?>" size="25"></td>
+					</tr>
+				<table>
+				<br>
+				<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+							<tr>
+								<td width="15%">Lembaga</td>
+								<td width="2">:</td> 
+								<td>					
+									<textarea id="a_lembaga" name="a_lembaga" rows="1"><?=$this->a_lembaga?></textarea>
+								</td>
+							</tr>
+					
+				<table>				
+				<br>
+				<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+						<tr>
+								<td colspan="3"><h3 class="title"><b>Surat Keputusan</b><h3></td>
+							</tr>
+							<tr>
+								<td width="15%">Nomor</td>
+								<td width="2">:</td> 
+								<td>					
+									<input type="text" name="i_sk" id="i_sk" value="<?=$this->i_sk?>" size="30">
+								</td>
+							</tr>
+							<tr>
+								<td>Tanggal</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="d_sk" id="d_sk" value="<?=$this->d_sk?>" size="10">
+									<span class="hightlight">tgl-bln-thn</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Pejabat</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="n_sk_pejabat" id="n_sk_pejabat" value="<?=$this->n_sk_pejabat?>" size="50">
+								</td>
+							</tr>
+					
+				<table>
+				
+	</table>
+	</div>
+	<br>
+	<div class="panel">
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+						<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+							<tr>
+								<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+								<td>
+									<div class="right">
+										<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/angkakredit/listangkakredit?nip=<?=$this->i_peg_nip?>','');"> 
+										<input type="submit" value="<?=$this->par;?>" onClick="insertDpTiga()">
+										<input type="hidden" name="proses" value="<?=$this->par;?>">
+									</div>
+								</td>
+							</tr>							
+						</table>
+						
+			</form>
+</div>
+</div>
+<div id="targetdetil"></div>

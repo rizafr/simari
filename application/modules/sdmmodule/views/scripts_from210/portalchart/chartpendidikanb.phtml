@@ -1,0 +1,158 @@
+			<div id="targetchart">
+					<table border="0" width="100%" align="center">
+						<tr>
+						<td width="50%">
+						<div class="hideshow">
+							<table border="0" width="100%" align="center">
+							<tr>
+								<td align="left">
+									
+										<h2 class="title">Komposisi Pegawai Berdasarkan Pendidikan</h2>
+										<?echo $this->chartpend;?>
+														
+								</td>
+							</tr>
+							</table>			
+						</div>	
+						</td>
+						<td width="50%">
+							<table border="0" width="100%" align="center">
+							<tr>
+								<td align="left">
+									<table>
+										<tr>
+										<td>
+											<a onclick="showChart('usia');" class="icon-pie" href="#">Usia</a>&nbsp;
+											<a onclick="showChart('golongan');" class="icon-pie" href="#">Golongan</a>
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Kategori
+										</td>
+										</tr>
+									</table>
+									<table border="0" width="100%" align="center" class="tbl" cellspacing="1">
+										<th>Tingkat Pendidikan</th>
+										<th>Jumlah</th>
+						
+										<tr class="event">
+											<td>SD</td>
+											<td align="right">											
+											<?if ($this->jmlsd!=0){?>
+											<a href="#" onclick="viewData('pendidikan','sd')"><?=$this->jmlsd?></a>
+											<?} else{
+											?>
+											<?=$this->jmlsd; }
+											?>											
+											</td>
+										</tr>
+										<tr class="event">		
+											<td>SMP</td>
+											<td align="right">
+											<?if ($this->jmlsmp!=0){?>
+											<a href="#" onclick="viewData('pendidikan','smp')"><?=$this->jmlsmp?></a>
+											<?} else{
+											?>
+											<?=$this->jmlsmp; }
+											?>
+											
+											</td>
+										</tr>
+										<tr class="event">	
+											<td>SMA</td>
+											<td align="right">
+											<?if ($this->jmlsma!=0){?>
+											<a href="#" onclick="viewData('pendidikan','sma')"><?=$this->jmlsma?></a>
+											<?} else{
+											?>
+											<?=$this->jmlsma; }
+											?>											
+											</td>
+										</tr>
+										<tr class="event">	
+											<td>D1</td>
+											<td align="right">
+											<?if ($this->jmld1!=0){?>
+											<a href="#" onclick="viewData('pendidikan','d1')"><?=$this->jmld1?></a>
+											<?} else{
+											?>
+											<?=$this->jmld1; }
+											?>											
+											</td>
+										</tr>
+										<tr class="event">	
+											<td>D2</td>
+											<td align="right">
+											<?if ($this->jmld2!=0){?>
+											<a href="#" onclick="viewData('pendidikan','d2')"><?=$this->jmld2?></a>
+											<?} else{
+											?>
+											<?=$this->jmld2; }
+											?>											
+											</td>
+										</tr>
+										<tr class="event">	
+											<td>D3</td>
+											<td align="right">
+											<?if ($this->jmld3!=0){?>
+											<a href="#" onclick="viewData('pendidikan','d3')"><?=$this->jmld3?></a>
+											<?} else{
+											?>
+											<?=$this->jmld3; }
+											?>											
+											</td>
+										</tr>
+										<tr class="event">	
+											<td>S1</td>
+											<td align="right">
+											<?if ($this->jmls1!=0){?>
+											<a href="#" onclick="viewData('pendidikan','s1')"><?=$this->jmls1?></a>
+											<?} else{
+											?>
+											<?=$this->jmls1; }
+											?>											
+											</td>
+										</tr>
+										<tr class="event">	
+											<td>S2</td>
+											<td align="right">
+											<?if ($this->jmls2!=0){?>
+											<a href="#" onclick="viewData('pendidikan','s2')"><?=$this->jmls2?></a>
+											<?} else{
+											?>
+											<?=$this->jmls2; }
+											?>											
+											</td>
+										</tr>
+										<tr class="event">	
+											<td>S3</td>
+											<td align="right">
+											<?if ($this->jmls3!=0){?>
+											<a href="#" onclick="viewData('pendidikan','s3')"><?=$this->jmls3?></a>
+											<?} else{
+											?>
+											<?=$this->jmls3; }
+											?>											
+											</td>
+										</tr>
+										<tr class="event2">	
+											<td><b>Total</b></td>
+											<td align="right"><b>
+											<?if ($this->totalpend!=0){?>
+											<?=$this->totalpend?>
+											<?} else{
+											?>
+											<?=$this->totalpend; }
+											?></b>											
+											</td>
+										</tr>											
+									</table>								
+								</td>
+							</tr>
+							</table>						
+						</td>						
+						</tr>
+					</table>	
+						
+				</div>	

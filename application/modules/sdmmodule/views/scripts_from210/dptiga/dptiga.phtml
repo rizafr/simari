@@ -1,0 +1,393 @@
+<? 	
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tmt_golongan").datepicker();
+		jQuery("#d_sk_golongan").datepicker();
+	});
+</script>
+		   <div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dptiga/listdptiga','');">DP3</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Penilaian DP3
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+	<h2 class="title"><?=$this->jdl;?> Penilaian DP3</h2>	
+<div class="boxholder">					
+	<div class="panel">
+		<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<br>	
+<form id="formdptiga" method="post" name="formdptiga">	
+	<div class="panel">
+		<div class="spacer"></div> 
+						
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+					<tr>
+						<td width="50%">
+							<table width="100%">
+								<tr>
+									<td width="30%">NIP  <span class="hightlight">*</span></td>
+									<td width="2%">:</td>
+									<td>
+										<input type="text" name="i_peg_nip" id="i_peg_nip" value="<?=$this->i_peg_nip?>" readonly="true"  size="35">
+									</td>
+								</tr>
+<!--							
+								<tr>
+									<td>Jabatan  </td>
+									<td>:</td>
+									<td>
+										<input type="text" name="n_jabatan" id="n_jabatan" value="<?//=$this->n_jabatan?>" readonly="true"  size="40">
+									</td>
+								</tr>
+-->								
+								<tr>
+									<td>Tahun Penilaian  <span class="hightlight">*</span></td>
+									<td>:</td>
+									<td>
+										<input type="text" name="d_peg_pnilai" id="d_peg_pnilai" value="<?=$this->d_peg_pnilai?>" size="10" onkeyup="isNumber('d_peg_pnilai')">
+									</td>
+								</tr>									
+							</table>							
+						</td>
+						<td width="50%">
+							<table width="100%">
+								<tr>
+									<td width="30%">Nama Pegawai  </td>
+									<td width="2%">:</td>
+									<td>
+										<input type="text" name="n_peg" id="n_peg" value="<?=$this->nama?>" readonly="true"  size="40">
+									</td>
+								</tr>
+								<tr>
+									<td>Golongan / Pangkat  </td>
+									<td>:</td>
+									<td>
+									<?
+									$jmlgolref = count($this->statusGolRef);												   
+									$golonganReff[''] = '--Pilih--';
+									for ($i = 0; $i < $jmlgolref; $i++) {
+											$n_peg_pangkat=trim($this->statusGolRef[$i]['n_peg_pangkat']);
+											$c_peg_golongan=trim($this->statusGolRef[$i]['c_peg_golongan']);
+											$n_peg_golongan=trim($this->statusGolRef[$i]['n_peg_golongan']);											
+											$golonganReff[trim($c_peg_golongan)] =  $n_peg_golongan." - ".$n_peg_pangkat;										   
+									}												 
+									 echo $ctrlFrm->formSelect('c_peg_golongan', $this->c_peg_golongan, null, $golonganReff);
+									?>										
+									</td>
+								</tr>
+							
+							</table>							
+						</td>
+					</tr>
+				</table>
+<br>				
+				<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+					<tr>
+						<td colspan="2"><h3 class="title"><b>Materi Penilaian</b><h3></td>
+					</tr>
+				<table>
+
+						<table width="70%" align="left" border="1" cellspacing="1" cellpadding="2" class="tbl2">
+							<tr>
+								<th rowspan="2" colspan="2">Unsur yang dinilai</th>
+								<th colspan="2" class="clcenter">Nilai</th>	
+								<!--<th rowspan="2" class="clcenter">Keterangan</th>-->
+							</tr>
+							<tr>
+								<th class="clcenter">Angka</th>
+								<th class="clcenter">Sebutan</th>
+							</tr>
+							<tr class="event">
+								<td width="2%">a.</td>			
+								<td width="35%">Kesetiaan</td>
+								<td width="10%" class="clleft">
+									<input  type="text" name="q_peg_kesetiaan" id="q_peg_kesetiaan" value="<?=$this->q_peg_kesetiaan?>" size="25" onkeyup="isNumber('q_peg_kesetiaan')"  onChange="javascript:SetNilai('q_peg_kesetiaan','e_peg_kesetiaan','q_peg_preskerja');">
+								</td>
+								<td width="10%" class="clleft">
+									<input type="text" name="e_peg_kesetiaan" id="e_peg_kesetiaan" value="<?=$this->e_peg_kesetiaan?>" size="25" readonly="true">
+								</td>
+								<!--
+								<td>
+								<?
+									//echo $this->listSebutanNilai[0]['e_peg_sebutannilai']." = ".$this->listSebutanNilai[0]['q_peg_batasawal']." - ".$this->listSebutanNilai[0]['q_peg_batasakhir'];									
+								?>
+								</td>
+								-->
+							</tr>
+							<tr class="event2">
+								<td>b.</td>
+								<td>Prestasi Kerja</td>
+								<td class="clleft">
+									<input type="text" name="q_peg_preskerja" id="q_peg_preskerja" value="<?=$this->q_peg_preskerja?>" size="25" onkeyup="isNumber('q_peg_preskerja')"  onChange="javascript:SetNilai('q_peg_preskerja','e_peg_preskerja','q_peg_tggjawab');" >
+								</td>
+								<td>
+									<input type="text" name="e_peg_preskerja" id="e_peg_preskerja" value="<?=$this->e_peg_preskerja?>" size="25" readonly="true">
+								</td>
+								<!--
+								<td>
+								<?
+									//echo $this->listSebutanNilai[1]['e_peg_sebutannilai']." = ".$this->listSebutanNilai[1]['q_peg_batasawal']." - ".$this->listSebutanNilai[1]['q_peg_batasakhir'];									
+								?>
+								</td>
+								-->
+							</tr>
+							<tr class="event">
+								<td>c.</td>
+								<td>Tanggung Jawab</td>
+								<td class="clleft">
+									<input onkeyup="isNumber('q_peg_tggjawab')"  onChange="javascript:SetNilai('q_peg_tggjawab','e_peg_tggjawab','q_peg_ketaatan');" type="text" name="q_peg_tggjawab" id="q_peg_tggjawab" value="<?=$this->q_peg_tggjawab?>" size="25">
+								</td>
+								<td>
+									<input type="text" name="e_peg_tggjawab" id="e_peg_tggjawab" value="<?=$this->e_peg_tggjawab?>" size="25" readonly="true">
+								</td>
+								<!--
+								<td>
+								<?
+									//echo $this->listSebutanNilai[2]['e_peg_sebutannilai']." = ".$this->listSebutanNilai[2]['q_peg_batasawal']." - ".$this->listSebutanNilai[2]['q_peg_batasakhir'];									
+								?>
+								</td>
+								-->
+							</tr>
+							<tr class="event2">
+								<td>d.</td>		
+								<td>Ketaatan</td>
+								<td class="clleft">
+									<input onkeyup="isNumber('q_peg_ketaatan')"  onChange="javascript:SetNilai('q_peg_ketaatan','e_peg_ketaatan','q_peg_kejujuran');" type="text" name="q_peg_ketaatan" id="q_peg_ketaatan" value="<?=$this->q_peg_ketaatan?>" size="25">
+								</td>
+								<td>
+									<input type="text" name="e_peg_ketaatan" id="e_peg_ketaatan" value="<?=$this->e_peg_ketaatan?>" size="25" readonly="true">
+								</td>
+								<!--
+								<td>
+								<?
+									//echo $this->listSebutanNilai[3]['e_peg_sebutannilai']." = ".$this->listSebutanNilai[3]['q_peg_batasawal']." - ".$this->listSebutanNilai[3]['q_peg_batasakhir'];									
+								?>
+								</td>
+								-->
+							</tr>
+							<tr class="event">
+								<td>e.</td>	
+								<td>Kejujuran</td>
+								<td class="clleft">
+									<input onkeyup="isNumber('q_peg_kejujuran')"  onChange="javascript:SetNilai('q_peg_kejujuran','e_peg_kejujuran','q_peg_kerjasama');" type="text" name="q_peg_kejujuran" id="q_peg_kejujuran" value="<?=$this->q_peg_kejujuran?>" size="25">
+								</td>
+								<td>
+									<input type="text" name="e_peg_kejujuran" id="e_peg_kejujuran" value="<?=$this->e_peg_kejujuran?>" size="25" readonly="true">
+								</td>
+								<!--
+								<td>
+								<?
+									//echo $this->listSebutanNilai[4]['e_peg_sebutannilai']." = ".$this->listSebutanNilai[4]['q_peg_batasawal']." - ".$this->listSebutanNilai[4]['q_peg_batasakhir'];									
+								?>
+								</td>
+								-->
+							</tr>
+							<tr class="event2">
+								<td>f.</td>			
+								<td>Kerjasama</td>
+								<td class="clleft">
+									<input onkeyup="isNumber('q_peg_kerjasama')"  onChange="javascript:SetNilai('q_peg_kerjasama','e_peg_kerjasama','q_peg_prakarsa');" type="text" name="q_peg_kerjasama" id="q_peg_kerjasama" value="<?=$this->q_peg_kerjasama?>" size="25">
+								</td>
+								<td>
+									<input type="text" name="e_peg_kerjasama" id="e_peg_kerjasama" value="<?=$this->e_peg_kerjasama?>" size="25" readonly="true">
+								</td>
+								<!--<td>&nbsp;</td>-->
+							</tr>
+							<tr class="event">
+								<td>g.</td>			
+								<td>Prakarsa</td>
+								<td class="clleft">
+									<input onkeyup="isNumber('q_peg_prakarsa')"  onChange="javascript:SetNilai('q_peg_prakarsa','e_peg_prakarsa','q_peg_kpimpinan');" type="text" name="q_peg_prakarsa" id="q_peg_prakarsa" value="<?=$this->q_peg_prakarsa?>" size="25">
+								</td>
+								<td>
+									<input type="text" name="e_peg_prakarsa" id="e_peg_prakarsa" value="<?=$this->e_peg_prakarsa?>" size="25" readonly="true">
+								</td>
+								<!--<td>&nbsp;</td>-->
+							</tr>
+<?if ($this->ceselon=='15'){?>
+							<tr class="event2">
+								<td>h.</td>			
+								<td>JUMLAH</td>
+								<td class="clleft">
+									<input type="text" name="q_peg_totalnilai" id="q_peg_totalnilai" value="<?=$this->q_peg_totalnilai?>" size="25" readonly="true">
+								</td>
+								<td>
+									&nbsp;
+								</td>
+								<!--<td>&nbsp;</td>-->
+							</tr>
+							<tr class="event">
+								<td>i.</td>			
+								<td>NILAI RATA-RATA</td>
+								<td class="clleft">
+									<input type="text" name="q_peg_nilairata" id="q_peg_nilairata" value="<?=$this->q_peg_nilairata?>" size="25">
+								</td>
+								<td>
+									<input type="text" name="e_peg_nilairata" id="e_peg_nilairata" value="<?=$this->e_peg_nilairata?>" size="25" readonly="true">
+								</td>
+								<!--<td>&nbsp;</td>-->
+							</tr>
+
+<?} else {?>							
+							<tr class="event2">
+								<td>h.</td>			
+								<td>Kepemimpinan</td>
+								<td class="clleft">
+									<input onkeyup="isNumber('q_peg_kpimpinan')"  onChange="javascript:SetNilai('q_peg_kpimpinan','e_peg_kpimpinan','q_peg_totalnilai');" type="text" name="q_peg_kpimpinan" id="q_peg_kpimpinan" value="<?=$this->q_peg_kpimpinan?>" size="25">
+								</td>
+								<td>
+									<input type="text" name="e_peg_kpimpinan" id="e_peg_kpimpinan" value="<?=$this->e_peg_kpimpinan?>" size="25" readonly="true">
+								</td>
+								<!--<td>&nbsp;</td>-->
+							</tr>
+							<tr class="event">
+								<td>i.</td>			
+								<td>JUMLAH</td>
+								<td class="clleft">
+									<input type="text" name="q_peg_totalnilai" id="q_peg_totalnilai" value="<?=$this->q_peg_totalnilai?>" size="25" readonly="true">
+								</td>
+								<td>
+									&nbsp;
+								</td>
+								<!--<td>&nbsp;</td>-->
+							</tr>
+							<tr class="event2">
+								<td>j.</td>			
+								<td>NILAI RATA-RATA</td>
+								<td class="clleft">
+									<input type="text" name="q_peg_nilairata" id="q_peg_nilairata" value="<?=$this->q_peg_nilairata?>" size="25">
+								</td>
+								<td>
+									<input type="text" name="e_peg_nilairata" id="e_peg_nilairata" value="<?=$this->e_peg_nilairata?>" size="25" readonly="true">
+								</td>
+								<!--<td>&nbsp;</td>-->
+							</tr>
+<?}?>							
+						</table>
+						<br>
+						<table width="100%" align="center" border="0" cellspacing="1" cellpadding="2" >
+							<tr>
+								<td width="20%">Keberatan </td>
+								<td width="2%">:</td>
+								<td>
+									<textarea rows="1" name="e_peg_keberatan" id="e_peg_keberatan"><?=$this->e_peg_keberatan?></textarea>
+								</td>
+							</tr>
+							<tr>
+								<td>Pertimbangan Atasan Penilai </td>
+								<td>:</td>
+								<td>
+									<textarea rows="1" name="e_peg_tgpanpnilai" id="e_peg_tgpanpnilai"><?=$this->e_peg_tgpanpnilai?></textarea>
+								</td>
+							</tr>	
+							<tr>
+								<td>Keputusan Atasan</td>
+								<td>:</td>
+								<td>
+									<textarea rows="1" name="e_peg_kputusanatasan" id="e_peg_kputusanatasan"><?=$this->e_peg_kputusanatasan?></textarea>
+								</td>
+							</tr>							
+						</table>
+						<br>
+						<table width="100%" align="center" border="0" cellspacing="1" cellpadding="2" >
+							<tr>
+								<td width="50%">
+									<table width="100%">
+										<tr>
+											<td colspan="3">
+												<h3 class="title"><b>Pejabat Penilaian</b><h3>
+											</td>
+										</tr>
+										<tr>
+											<td>NIP  </td>
+											<td>:</td>
+											<td>
+												<input type="text" readonly="true"  name="i_peg_nippnilai" id="i_peg_nippnilai" value="<?=$this->i_peg_nippnilai?>" size="25">
+												&nbsp;<input type="button" value="Cari" onclick="CariDataPeg('a')"> 
+											</td>
+										</tr>
+										<tr>
+											<td>Nama  </td>
+											<td>:</td>
+											<td>
+											  <input type="text" readonly="true"  name="n_peg_nippnilai" id="n_peg_nippnilai" value="<?=$this->n_peg_nippnilai?>" size="40">
+											</td>
+										</tr>
+								
+										<tr>
+											<td>Jabatan  </td>
+											<td>:</td>
+											<td>
+											  <input type="text" readonly="true" name="n_jabatan_pnilai" id="n_jabatan_pnilai" value="<?=$this->n_jabatan_pnilai?>" size="40">
+											</td>
+										</tr>
+									</table>
+								</td>
+								<td width="50%">
+									<table width="100%">
+										<tr>
+											<td colspan="3">
+												<h3 class="title"><b>Atasan Pejabat Penilaian</b><h3>
+											</td>
+										</tr>
+										<tr>
+											<td>NIP  </td>
+											<td>:</dd>
+											<td>
+												<input readonly="true" type="text" name="i_peg_nipatasanpnilai" id="i_peg_nipatasanpnilai" value="<?=$this->i_peg_nipatasanpnilai?>" size="25">
+												&nbsp;<input type="button" value="Cari" onclick="CariDataPeg('b')"> 
+											</dd>
+										</tr>
+										<tr>
+											<td>Nama  </td>
+											<td>:</dd>
+											<td>
+												<input readonly="true" type="text" name="n_peg_nipatasanpnilai" id="n_peg_nipatasanpnilai" value="<?=$this->n_peg_nipatasanpnilai?>" size="40">
+											</dd>
+										</tr>
+									
+										<tr>
+											<td>Jabatan  </td>
+											<td>:</dd>
+											<td>
+												<input readonly="true" type="text" name="n_jabatan_atasanpnilai" id="n_jabatan_atasanpnilai" value="<?=$this->n_jabatan_atasanpnilai?>" size="40">
+											</dd>
+										</tr>										
+									</table>								
+								</td>								
+							</tr>
+	</table>
+	</div>
+	<br>
+	<div class="panel">
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">							
+							<tr>
+								<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+								<td>
+									<div class="right">
+										<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dptiga/listdptiga?nip=<?=$this->i_peg_nip?>','');"> 
+										<input type="submit" value="<?=$this->par;?>" onClick="insertDpTiga()">
+										<input type="hidden" name="proses" value="<?=$this->par;?>">
+									</div>
+								</td>
+							</tr>							
+						</table>
+						
+			</form>
+</div>
+</div>
+<div id="popupview"></div>

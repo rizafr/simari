@@ -1,0 +1,219 @@
+<?php 
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+
+?>
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%"  id="listcombo">
+				<tr>
+					<td>
+						<table width="100%">							
+							<tr>
+								<td align="left" width="30%">Lokasi<span class="hightlight">*</span></td>
+								<td>					
+									<?
+										$jmlLokList=count($this->lokasiList);
+										$lokList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmlLokList; $i++) {
+												$lokList[(string)$this->lokasiList[$i]->c_lokasi] = (string)$this->lokasiList[$i]->n_lokasi;			 
+											}
+										$lokAtrib = array("style"=>"width: 275px",
+														  "id"=>"c_lokasi_unitkerja");
+										if ($this->jenisForm == "insert"){
+											$lokAtrib["onChange"] = "javascript:cariCombo('targetesli')"; 
+										} else if ($this->jenisForm == "ubah") {
+											$lokAtrib["disabled"] = "true"; 
+										}
+										echo $ctrlFrm->formSelect('c_lokasi_unitkerja',$this->c_lokasi_unitkerja,$lokAtrib,$lokList); 
+										echo $ctrlFrm->formHidden('c_lokasi_unitkerjaH',$this->c_lokasi_unitkerja,null,null); 
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td align="left" width="30%">Lingkungan Peradilan</td>
+								<td>					
+									<?
+									//echo "c_eselon_i = ".$this->c_eselon_i;
+										$jmleseloniList=count($this->eseloniList);
+										
+										$eseloniList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniList; $i++) {
+												$eseloniList[trim((string)$this->eseloniList[$i][c_eselon_i].";".(string)$this->eseloniList[$i][n_unitkerja])] = (string)$this->eseloniList[$i][n_unitkerja];			 
+											}
+										$eslAtrib = array("style"=>"width: 275px",
+														  "id"=>"c_eselon_i");
+														  
+									   // if ($this->jenisForm == "insert"){
+											$eslAtrib["onChange"] = "javascript:cariCombo('targeteslii')";
+										//} else 
+										if ($this->jenisForm == "ubah"){
+											$eslAtrib["disabled"] = "true"; 
+										}	
+										echo $ctrlFrm->formSelect('c_eselon_i',$this->c_eselon_i,$eslAtrib,$eseloniList); 
+										echo $ctrlFrm->formHidden('c_eselon_iH',$this->c_eselon_i,null,null); 
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td align="left" width="30%">Pengadilan Tk Banding</td>
+								<td>				
+									<?
+										//echo "c_eselon_ii = ".$this->c_eselon_ii;
+									
+										$jmleseloniiList=count($this->eseloniiList);
+										$eseloniiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiList; $i++) {
+												//$eseloniiList[(string)$this->eseloniiList[$i]->c_eselon_ii." ".(string)$this->eseloniiList[$i]->n_unitkerja] = (string)$this->eseloniiList[$i]->n_unitkerja;
+												$eseloniiList[trim((string)$this->eseloniiList[$i]->c_eselon_ii.";".(string)$this->eseloniiList[$i]->c_parent.";".(string)$this->eseloniiList[$i]->n_unitkerja)] = (string)$this->eseloniiList[$i]->n_unitkerja;
+											}
+										if ($ceseloncpns>=3){
+											$eslAtrib = array("style"=>"width: 275px",
+															  "id"=>"c_eselon_ii");
+															  //"onChange"=>"javascript:cariCombo('targetesliii')");
+										} else {
+											$eslAtrib = array("style"=>"width: 275px",
+															  "id"=>"c_eselon_ii");
+										}
+										
+										//if ($this->jenisForm == "insert"){
+											$eslAtrib["onChange"] = "javascript:cariCombo('targetesliii')";
+										//} else 
+										if ($this->jenisForm == "ubah"){
+											$eslAtrib["disabled"] = "true";
+										}
+										
+										echo $ctrlFrm->formSelect('c_eselon_ii',$this->c_eselon_ii,$eslAtrib,$eseloniiList);
+										echo $ctrlFrm->formHidden('c_eselon_iiH',$this->c_eselon_ii,null,null); 										
+									?>
+								</td>
+							</tr>						
+							<tr>
+								<td align="left" width="30%">Pengadilan Tk I</td>
+								<td>					
+									<?
+										//echo "c_eselon_iii = ".$this->c_eselon_iii;
+										$jmleseloniiiList=count($this->eseloniiiList);
+										$eseloniiiList[''] = '--Pilih--';
+										
+											for ($i = 0; $i < $jmleseloniiiList; $i++) {
+												//$eseloniiiList[(string)$this->eseloniiiList[$i]->c_eselon_iii." ".(string)$this->eseloniiiList[$i]->n_unitkerja] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+												$eseloniiiList[trim((string)$this->eseloniiiList[$i]->c_eselon_ii.";".(string)$this->eseloniiiList[$i]->c_eselon_iii.";".(string)$this->eseloniiiList[$i]->c_satker.";".(string)$this->eseloniiiList[$i]->n_unitkerja)] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+												
+											}										
+										if ($ceseloncpns>=5){
+											$eslAtrib = array("style"=>"width: 275px",
+															  "id"=>"c_eselon_iii");
+															  //"onChange"=>"javascript:cariCombo('targetesliv')");  	
+										} else{
+											$eslAtrib = array("style"=>"width: 275px",
+															  "id"=>"c_eselon_iii");
+															  //"onChange"=>"javascript:cariCombo('targetesliv')");
+										}					
+
+										//if ($this->jenisForm == "insert"){
+											$eslAtrib["onChange"] = "javascript:cariCombo('targetesliv')";
+										//} else 
+										if ($this->jenisForm == "ubah"){
+											$eslAtrib["disabled"] = "true";
+										}
+											
+										echo $ctrlFrm->formSelect('c_eselon_iii',$this->c_eselon_iii, $eslAtrib, $eseloniiiList); 							
+										echo $ctrlFrm->formHidden('c_eselon_iiiH',$this->c_eselon_iii,null,null);
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td align="left" width="30%">Unit Kerja</td>
+								<td>				
+									<?
+									//echo "c_eselon_iv = ".$this->c_eselon_iv;
+										$jmleselonivList=count($this->eselonivList);
+										$eselonivList[' '] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonivList; $i++) {
+												$eselonivList[trim((string)$this->eselonivList[$i]->c_eselon_iv.";".(string)$this->eselonivList[$i]->c_eselon_v.";".trim((string)$this->eselonivList[$i]->n_unitkerja))] = (string)$this->eselonivList[$i]->n_unitkerja;	
+											}
+										$eslAtrib = array("style"=>"width: 275px",
+														  "id"=>"c_eselon_iv");
+														  //"onChange"=>"javascript:cariCombo('targeteslv')"); 
+										//if ($this->jenisForm == "insert"){
+											$eslAtrib["onChange"] = "javascript:cariCombo('targeteslv')";
+										//} else 
+										if ($this->jenisForm == "ubah"){
+											$eslAtrib["disabled"] = "true";
+										}
+										echo $ctrlFrm->formSelect('c_eselon_iv',$this->c_eselon_iv,$eslAtrib,$eselonivList); 		
+										echo $ctrlFrm->formHidden('c_eselon_ivH',$this->c_eselon_iv,null,null);
+								 
+									?>
+								</td>
+							</tr>
+							<tr>
+							    <td align="right"><span class="highlight">*</span> Nama Group :</td>
+								<td>
+									<?php
+									//var_dump($this->detailGroupMenu);
+									$iGroup = $this->detailGroup['iGroup'];
+									
+									?>
+									<textarea id="n_group" name="n_group" rows="7"><?=$this->n_group?></textarea>
+								</td>
+							</tr>
+							<tr>
+							    <td align="right">Wewenang :</td>
+								<td>
+									<?
+									if($this->detailGroup['c_wewenang'] == 'O'){
+										$checkO = 'checked';
+										$checkE = '';
+										$checkA = '';
+										
+									} else if($this->detailGroup['c_wewenang'] == 'A') {
+										$checkO = '';
+										$checkE = '';
+										$checkA = 'checked';
+									}else {
+										$checkO = '';
+										$checkE = 'checked';
+										$checkA = '';
+									} 
+									?>
+									<input type="radio" id="c_wewenang" name="c_wewenang" value="E" <?echo "$checkE"; ?>>&nbsp;Eksekutif<br>
+									<input type="radio" id="c_wewenang" name="c_wewenang" value="O" <?echo "$checkO"; ?>>&nbsp;Operator<br>
+									<input type="radio" id="c_wewenang" name="c_wewenang" value="A" <?echo "$checkA"; ?>>&nbsp;Administrator Absensi
+								</td>
+							</tr>
+							<tr>
+							    <td align="right">Sektoral :</td>
+								<td>
+									<?
+									if($this->detailGroup['c_sektoral'] == 'L'){
+										$checkD = '';
+										$checkL = 'checked';
+										$checkS = '';
+										$checkW = '';
+									} else if($this->detailGroup['c_sektoral'] == 'S'){
+										$checkD = '';
+										$checkL = '';
+										$checkS = 'checked';
+										$checkW = '';
+									} else if($this->detailGroup['c_sektoral'] == 'W'){
+										$checkD = '';
+										$checkL = '';
+										$checkS = '';
+										$checkW = 'checked';
+									} else{
+										$checkD = 'checked';
+										$checkL = '';
+										$checkS = '';
+										$checkW = '';
+									}
+									?>
+									<input type="radio" id="c_sektoral" name="c_sektoral" value="D" <?echo "$checkD"; ?>>&nbsp;Dalam Sektoral<br>
+									<input type="radio" id="c_sektoral" name="c_sektoral" value="L" <?echo "$checkL"; ?>>&nbsp;Lintas Sektoral<br>
+									<input type="radio" id="c_sektoral" name="c_sektoral" value="S" <?echo "$checkS"; ?>>&nbsp;Semua Sektoral<br>
+									<input type="radio" id="c_sektoral" name="c_sektoral" value="W" <?echo "$checkW"; ?>>&nbsp;Bawas
+								</td>
+							</tr>
+						</table>
+					</td>			
+				</tr>
+			</table>

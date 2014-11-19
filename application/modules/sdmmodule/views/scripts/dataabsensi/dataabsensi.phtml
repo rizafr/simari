@@ -1,0 +1,454 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+require_once "share/halaman.php";  
+
+$tanggal = new tanggal();
+$halaman = new halaman();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$jmllokasilist = count($this->lokasilist);
+for ($i=0; $i<$jmllokasilist; $i++)
+{
+	$datalokasilist[(string)$this->lokasilist[$i]['c_lokasi']] = (string)$this->lokasilist[$i]['n_lokasi'];
+}
+$jmleselon1lst = count($this->eselon1lst);
+for ($i=0; $i<$jmleselon1lst; $i++)
+{
+	$dataeselon1lst[(string)$this->eselon1lst[$i]['c_eselon_i']] = (string)$this->eselon1lst[$i]['n_unitkerja'];
+}
+$jmleselon2lst = count($this->eselon2lst);
+for ($i=0; $i<$jmleselon2lst; $i++)
+{
+	$dataeselon2lst[(string)$this->eselon2lst[$i]['c_eselon_ii']] = (string)$this->eselon2lst[$i]['n_unitkerja'];
+}
+$jmlLokasiList = count($this->LokasiList);
+for ($i=0; $i<$jmlLokasiList; $i++)
+{
+	$kdLokasiList[(string)$this->LokasiList[$i]['kd_lokasi']] = (string)$this->LokasiList[$i]['kd_lokasi'].". ".(string)$this->LokasiList[$i]['ur_upb'];
+}
+	   $harilst = array("Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu");
+	   $bulanLst = array("01"=>"Januari","02"=>"Februari","03"=>"Maret","04"=>"April","05"=>"Mei","06"=>"Juni","07"=>"Juli",
+	   "08"=>"Agustus","09"=>"September","10"=>"Oktober","11"=>"November","12"=>"Desember");
+$absensilst = $this->absensilst;				  
+$thnSekarang = $this->tahunabsen;
+$blnSekarang = $this->bulanabsen;
+$nipE = explode('.',$this->nippegawai);
+$terminal = 'BUA0000001';
+?>
+<div class="navlink">
+	<a  href="<? echo $this->baseUrl; ?>/main">Halaman Utama</a> 
+	<strong> &#8250; </strong> Absensi 
+	<strong> &#8250; </strong> Entri Data Absensi
+</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<?=$this->wewenang?>		
+</div>
+
+<div class="search-panel">
+<? 
+            if ($this->c_lokasi_unitkerja=='1') {?>		
+	           <table border="0" cellpadding="0" cellspacing="1" class="tbl2" id="listcombo"  width="100%">
+                  <tr>
+			         <td width="25%">Lokasi</td>
+			         <td width="2%">:</td> 
+			         <td>					
+					<?
+					$jmlLokList=count($this->lokasiList);
+					//$lokList[''] = '--Pilih--';
+					for ($i = 0; $i < $jmlLokList; $i++) {
+						$lokList[(string)$this->lokasiList[$i]->c_lokasi] = (string)$this->lokasiList[$i]->n_lokasi;			 
+					}
+					if ($this->c_eselon_i=='01'){
+						$lokAtrib = array("style"=>"width: 300px","id"=>"c_lokasi_unitkerja","onChange"=>"javascript:cariCombo('targetesli')"); 
+					}else{
+						$lokAtrib = array("style"=>"width: 300px","id"=>"c_lokasi_unitkerja"); }
+                                  if ($this->wewenang=='A')
+					{ 
+                                      echo $ctrlFrm->formSelect('c_lokasi_unitkerja',$this->c_lokasi_unitkerja,$lokAtrib,$lokList); 
+                                   }							
+					else 
+                                  { 
+                                      echo $ctrlFrm->formHidden('c_lokasi_unitkerja',$this->c_lokasi_unitkerja); 
+                                      echo $lokList[$this->c_lokasi_unitkerja]; 
+                                  }							
+					?>
+			        </td>
+		          </tr>
+		          <tr>
+			         <td>Eselon I</td>
+			         <td>:</td> 
+			         <td>					
+					<?
+					$jmleseloniList=count($this->eseloniList);
+					$eseloniList[''] = '--Pilih--';
+					for ($i = 0; $i < $jmleseloniList; $i++) {
+						$eseloniList[(string)$this->eseloniList[$i]->c_eselon_i." ".(string)$this->eseloniList[$i]->n_unitkerja] = (string)$this->eseloniList[$i]->n_unitkerja;			 
+					}
+					$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_i","onChange"=>"javascript:cariCombo('targeteslii')");  	
+                                  if ($this->wewenang=='A')
+					{ 
+                                    echo $ctrlFrm->formSelect('c_eselon_i',$this->c_eselon_i,$eslAtrib,$eseloniList); 
+                                  }							
+					else 
+                                  {  
+                                     echo $ctrlFrm->formHidden('c_eselon_i',$this->c_eselon_i." ".$this->n_eselon_i); 
+                                     echo $this->c_eselon_i.". ".$this->n_eselon_i; 
+                                  }							
+					?>
+			         </td>
+		          </tr>
+		          <tr>   
+			         <td>Eselon II</td>
+			         <td>:</td> 
+			         <td>				
+									<?
+					$jmleseloniiList=count($this->eseloniiList);
+					$eseloniiList[''] = '--Pilih--';
+					for ($i = 0; $i < $jmleseloniiList; $i++) {
+						$eseloniiList[(string)$this->eseloniiList[$i]->c_eselon_ii." ".(string)$this->eseloniiList[$i]->n_unitkerja] = (string)$this->eseloniiList[$i]->n_unitkerja;
+					}
+					if ($ceseloncpns>=3){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_ii","onChange"=>"javascript:cariCombo('targetesliii')");}
+					else {$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_ii","onChange"=>"javascript:cariCombo('targetesliii')");}
+                                  if ($this->wewenang=='A')
+					{ 
+					   echo $ctrlFrm->formSelect('c_eselon_ii',$this->c_eselon_ii,$eslAtrib,$eseloniiList); 							
+                                   } 
+                                   else
+                                   {
+					    echo $ctrlFrm->formHidden('c_eselon_ii',$this->c_eselon_ii." ".$this->n_eselon_ii); 							
+                                      echo $this->c_eselon_ii.". ".$this->n_eselon_ii; 
+                                   }
+					?>
+			         </td>
+			      </tr>						
+		          <tr>
+			         <td>Eselon III</td>
+			         <td>:</td> 
+			         <td>					
+									<?
+					$jmleseloniiiList=count($this->eseloniiiList);
+					$eseloniiiList[''] = '--Pilih--';
+					for ($i = 0; $i < $jmleseloniiiList; $i++) {
+						$eseloniiiList[(string)$this->eseloniiiList[$i]->c_eselon_iii." ".(string)$this->eseloniiiList[$i]->n_unitkerja] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+					}
+					if ($ceseloncpns>=5){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii","onChange"=>"javascript:cariCombo('targetesliv')");  	}										
+					else{	$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii","onChange"=>"javascript:cariCombo('targetesliv')");}
+                                  if ($this->wewenang=='A')
+					{ 
+					   echo $ctrlFrm->formSelect('c_eselon_iii',$this->c_eselon_iii, $eslAtrib, $eseloniiiList); 							
+                                   }
+                                   else
+                                   {
+					   echo $ctrlFrm->formHidden('c_eselon_iii',$this->c_eselon_iii." ".$this->n_eselon_iii); 							
+                                     echo $this->c_eselon_iii.". ".$this->n_eselon_iii; 
+                                   }
+					?>
+			         </td>
+		          </tr>
+		          <tr>
+			         <td>Eselon IV</td>
+			         <td>:</td> 
+			         <td>				
+									<?
+					$jmleselonivList=count($this->eselonivList);
+					$eselonivList[''] = '--Pilih--';
+					for ($i = 0; $i < $jmleselonivList; $i++) {
+						$eselonivList[(string)$this->eselonivList[$i]->c_eselon_iv." ".(string)$this->eselonivList[$i]->n_unitkerja] = (string)$this->eselonivList[$i]->n_unitkerja;			 
+					}
+					if ($ceseloncpns>=7){
+					    $eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iv","onChange"=>"javascript:cariCombo('targeteslv')"); 
+					}
+					else{
+					    $eslAtrib = array("style"=>"width: 300px", "id"=>"c_eselon_iv","onChange"=>"javascript:cariCombo('targeteslv')"); 
+					}
+                                  if ($this->wewenang=='A')
+					{ 
+					   echo $ctrlFrm->formSelect('c_eselon_iv',$this->c_eselon_iv,$eslAtrib,$eselonivList); 						
+                                  }
+                                  else	
+                                  {	
+					   echo $ctrlFrm->formHidden('c_eselon_iv',$this->c_eselon_iv." ".$this->n_eselon_iv); 						
+                                     echo $this->c_eselon_iv.". ".$this->n_eselon_iv; 
+                                  }	
+					?>
+			         </td>
+		          </tr>
+		          <tr>
+			         <td>Eselon V</td>
+			         <td>:</td> 
+			         <td>				
+									<?
+					$jmleselonvList=count($this->eselonvList);
+					$eselonvList[''] = '--Pilih--';
+					for ($i = 0; $i < $jmleselonvList; $i++) {
+						$eselonvList[(string)$this->eselonvList[$i]->c_eselon_v." ".(string)$this->eselonvList[$i]->n_unitkerja] = (string)$this->eselonvList[$i]->n_unitkerja;			 
+					}
+					if ($ceseloncpns>=9){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_v");}										
+					else{$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_v");}
+                                  if ($this->wewenang=='A')
+					{ 
+					   echo $ctrlFrm->formSelect('c_eselon_v',$this->c_eselon_v, $eslAtrib, $eselonvList); 							
+					} 
+                                  else
+					{ 
+					   echo $ctrlFrm->formHidden('c_eselon_v',$this->c_eselon_v." ".$this->n_eselon_v); 							
+                                     echo $this->c_eselon_v.". ".$this->n_eselon_v; 
+					} 
+?>
+			         </td>
+		          </tr>							
+	           </table>
+<?}         
+            else {?>
+			   <table border="0" cellpadding="0" cellspacing="1" class="std" id="listcombo"  width="100%">
+			      <tr>
+					  <td width="25%">Lokasi</td>
+					  <td width="2%">:</td> 
+					  <td>					
+									<?
+					$jmlLokList=count($this->lokasiList);
+					//$lokList[''] = '--Pilih--';
+					for ($i = 0; $i < $jmlLokList; $i++) {
+						$lokList[(string)$this->lokasiList[$i]->c_lokasi] = (string)$this->lokasiList[$i]->n_lokasi;			 
+					}
+					$lokAtrib = array("style"=>"width: 320px","id"=>"c_lokasi_unitkerja","onChange"=>"javascript:cariCombo('targetesli')"); 
+                                  if ($this->wewenang=='A')
+					{ 
+					    echo $ctrlFrm->formSelect('c_lokasi_unitkerja',$this->c_lokasi_unitkerja,$lokAtrib,$lokList); 							
+                                   }							
+					else 
+                                  { 
+                                      echo $ctrlFrm->formHidden('c_lokasi_unitkerja',$this->c_lokasi_unitkerja); 
+                                      echo $lokList[$this->c_lokasi_unitkerja]; 
+                                  }							
+									
+
+?>
+					  </td>
+				   </tr>
+				   <tr>
+					  <td>Eselon I</td>
+					  <td>:</td> 
+					  <td>					
+									<?
+					$jmleseloniList=count($this->eseloniList);
+					$eseloniList[''] = '--Pilih--';
+					for ($i = 0; $i < $jmleseloniList; $i++) {
+						$eseloniList[trim((string)$this->eseloniList[$i][c_eselon_i].";".(string)$this->eseloniList[$i][n_unitkerja])] = (string)$this->eseloniList[$i][n_unitkerja];			 
+					}
+					$eslAtrib = array("style"=>"width: 320px","id"=>"c_eselon_i","onChange"=>"javascript:cariCombo('targeteslii')");  	
+					echo $ctrlFrm->formSelect('c_eselon_i',$this->c_eselon_i,$eslAtrib,$eseloniList); 							
+									?>
+					  </td>
+				   </tr>
+				   <tr>
+		              <td align="left">Pengadilan Tk Banding</td>
+		              <td align="left">:</td> 
+		              <td align="left">							
+									<?
+					$jmleseloniiList=count($this->eseloniiList);
+					$eseloniiList[''] = '--Pilih--';
+					for ($i = 0; $i < $jmleseloniiList; $i++) {
+						$eseloniiList[trim((string)$this->eseloniiList[$i]->c_eselon_ii.";".(string)$this->eseloniiList[$i]->c_parent.";".(string)$this->eseloniiList[$i]->n_unitkerja)] = (string)$this->eseloniiList[$i]->n_unitkerja;
+					}
+					if ($ceseloncpns>=3){$eslAtrib = array("style"=>"width: 320px","id"=>"c_eselon_ii","onChange"=>"javascript:cariCombo('targetesliii')");}
+					else {$eslAtrib = array("style"=>"width: 320px","id"=>"c_eselon_ii","onChange"=>"javascript:cariCombo('targetesliii')");}
+					echo $ctrlFrm->formSelect('c_eselon_ii',$this->c_eselon_ii,$eslAtrib,$eseloniiList); 							
+									?>
+					   </td>
+				   </tr>						
+				   <tr>
+		              <td align="left">Pengadilan Tingkat I</td>
+		              <td align="left">:</td> 
+		              <td align="left">								
+									<?
+					$jmleseloniiiList=count($this->eseloniiiList);
+					$eseloniiiList[''] = '--Pilih--';
+					for ($i = 0; $i < $jmleseloniiiList; $i++) {
+						$eseloniiiList[trim((string)$this->eseloniiiList[$i]->c_eselon_ii.";".(string)$this->eseloniiiList[$i]->c_eselon_iii.";".(string)$this->eseloniiiList[$i]->c_satker.";".(string)$this->eseloniiiList[$i]->n_unitkerja)] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+					}										
+					if ($ceseloncpns>=5){$eslAtrib = array("style"=>"width: 320px","id"=>"c_eselon_iii","onChange"=>"javascript:cariCombo('targetesliv')");  	}										
+					else{$eslAtrib = array("style"=>"width: 320px","id"=>"c_eselon_iii","onChange"=>"javascript:cariCombo('targetesliv')");}										
+					echo $ctrlFrm->formSelect('c_eselon_iii',$this->c_eselon_iii, $eslAtrib, $eseloniiiList); 							
+									?>
+					   </td>
+				   </tr>
+				   <tr>
+		               <td align="left">Unit Kerja</td>
+		               <td align="left">:</td> 
+		               <td align="left">			
+									<?
+					$jmleselonivList=count($this->eselonivList);
+					$eselonivList[''] = '--Pilih--';
+					for ($i = 0; $i < $jmleselonivList; $i++) {
+						$eselonivList[trim((string)$this->eselonivList[$i]->c_eselon_iv.";".(string)$this->eselonivList[$i]->n_unitkerja)] = (string)$this->eselonivList[$i]->n_unitkerja;			 
+					}
+					$eslAtrib = array("style"=>"width: 320px", "id"=>"c_eselon_iv","onChange"=>"javascript:cariCombo('targeteslv')"); 
+					echo $ctrlFrm->formSelect('c_eselon_iv',$this->c_eselon_iv,$eslAtrib,$eselonivList); 
+									?>
+					   </td>
+				   </tr>						
+			   </table>
+<?          }?>	
+	     <table width="100%" class="tbl2">
+			<tr>
+		               <td align="left">Pegawai</td>
+		               <td align="left">:</td> 
+		               <td align="left">			
+				<?
+
+				$i_peg_nipatr = array("style"=>"width:450px");
+				echo $ctrlFrm->formHidden('nip', $nipE[0]);
+				echo $ctrlFrm->formText('i_peg_nip', $this->i_peg_nip, $i_peg_nipatr);
+				$nikpegatr = array("style"=>"width:40px","onclick"=>"funcCaripegawai()");
+				$prosespegatr= array("style"=>"width:200px","onclick"=>"funcprosespegawaiall()");
+                            if ($this->wewenang=='A') 
+                            {  
+				     echo $ctrlFrm->formButton('nikpeg', '...', $nikpegatr);
+                                echo $ctrlFrm->formButton('prosespeg', 'Proses semua pegawai', $prosespegatr);  
+                            }
+				?>
+				</td>
+			</tr>
+			<tr>
+		               <td align="left">Periode Absensi</td>
+		               <td align="left">:</td> 
+		               <td align="left">			
+				<?
+
+				$blnatr = array("style"=>"width:100px");
+				$thnatr = array("style"=>"width:40px");
+				echo $ctrlFrm->formSelect('bulanabsen', $blnSekarang, $blnatr, $bulanLst)." ";
+				echo $ctrlFrm->formText('tahunabsen', $thnSekarang, $thnatr);
+				echo $ctrlFrm->formButton('pnlcariabsen', ' Pencarian ', $blnatr);
+				?> 
+				</td>
+			</tr>
+			</table>
+
+
+</div>
+
+<div class="panel" id='pentry'>
+   <input type='hidden' id='mode' name='mode' value='0'>
+	<table width="100%" class="tbl">
+		<tbody>
+			<tr>
+				<th>No</th>
+				<th>Tanggal</th>
+				<th>Hari</th>
+				<th>Jam Masuk</th>
+				<th>Jam Pulang</th>
+				<th>Absensi</th>
+				<th>Nomor Surat</th>
+<?
+                           if ($this->wewenang=='A')
+                           {  echo "<th>Persetujuan</th>"; }
+?>
+			</tr>
+			<?php
+	    $bln=$blnSekarang;
+	    $noUrut=0;
+        for ($i=1; $i<32; $i++)
+        {
+          $tahunE = date("Y", mktime(0, 0, 0, $bln, $i, $thnSekarang));
+          $bulanE = date("m", mktime(0, 0, 0, $bln, $i, $thnSekarang));
+          $tglE = date("d", mktime(0, 0, 0, $bln, $i, $thnSekarang));
+          $hariE = date("w", mktime(0, 0, 0, $bln, $i, $thnSekarang));
+		  if ($nipE[0]!='') 
+		  { 
+		     $nipabsen = $this->absensi_serv->getNipAbsenfromMesin($terminal,$nipE[0]);
+		     $jammasuk = $this->absensi_serv->getAbsnMasukPegawai($terminal,$nipabsen,$tahunE.$bulanE.$tglE); 
+		  }
+		  else { $jammasuk = ''; }
+		  if ($nipE[0]!='') 
+		  { 
+		     $nipabsen = $this->absensi_serv->getNipAbsenfromMesin($terminal,$nipE[0]);
+		     $jamkeluar = $this->absensi_serv->getAbsnPulangPegawai($terminal,$nipabsen,$tahunE.$bulanE.$tglE);  
+		  }
+		  else { $jamkeluar = ''; }
+		  if ($bulanE==$bln)
+          { 
+		     $noUrut++;
+		     if ($i%2==0)
+			 { 
+			    if (($hariE=="0") || ($hariE=="6"))
+				{ 
+				   $chCkd = "Checked"; 
+				   $dSbld = "disabled";
+				   $valStatus = "Libur";
+			       echo "<tr class='event' id='triHariKe$i' style='color:red'>"; 
+				}   
+				else
+				{
+				   $chCkd = ""; 
+				   $dSbld = "";
+				   $valStatus = "Masuk";
+			       echo "<tr class='event' id='triHariKe$i'>"; 
+				}
+			 }
+			 else
+			 { 
+			    if (($hariE=="0") || ($hariE=="6"))
+				{ 
+				   $chCkd = "Checked"; 
+				   $dSbld = "disabled";
+				   $valStatus = "Libur";
+			       echo "<tr class='event2' id='triHariKe$i' style='color:red'>"; 
+				}   
+				else
+				{
+				   $chCkd = ""; 
+				   $dSbld = "";
+				   $valStatus = "Masuk";
+			       echo "<tr class='event2' id='triHariKe$i'>"; 
+				}
+			 }
+echo "				
+					<td class='clcenter'>".$noUrut."</td>			
+					<td class='clcenter'>".$tglE."</td>			
+					<td class='clleft'>&nbsp;".$harilst[$hariE]."</td>			
+					<td class='clcenter'>".$jammasuk."
+					</td>			
+					<td class='clcenter'>".$jamkeluar."
+					</td>";
+					$nip = explode('.',$this->i_peg_nip);
+					$where = "i_peg_nip='".$nip[0]."' and to_char(d_peg_ijin,'yyyy-mm-dd')='".
+					$this->tahunabsen.'-'.$this->bulanabsen.'-'.$tglE."'"; // and d_jam_mulai
+				    $kdijin = $this->absensimsn_serv->getdataIjin($where);
+//var_dump($kdijin);
+					$absenatr = array("style"=>"width:200px");
+				//$absenatr = array("style"=>"width:200px","onChange"=>"funcChangeKdIjin(this.value)");
+				$ijinatr = array("style"=>"width:200px");
+				$setujuatr = array("onclick"=>"funcSetuju($i)");
+                           if ($this->wewenang=='A')
+                           {
+				  echo "<td class='clleft'>".$ctrlFrm->formSelect('kdijin'.$i, $kdijin[0]['c_ijin'], $absenatr, $absensilst)."</td>";
+				  echo "<td class='clleft'>".$ctrlFrm->formText('suratijin'.$i, $kdijin[0]['i_no_surat_ijin'], $ijinatr)."</td>";
+                             //if (($kdijin[0]['i_peg_nip']!='') || ($this->nippegawai=='')) { $setujuatr = array("disabled"=>"true"); }
+				  echo "<td class='clcenter'>".$ctrlFrm->formButton('setuju'.$i, 'Proses', $setujuatr)."</td>";
+                           }
+				else 
+                           { 
+				   echo "<td class='clleft'>".$absensilst[$kdijin[0]['c_ijin']]."</td>";
+                              echo "<td class='clleft'>".$kdijin[0]['i_no_surat_ijin']."</td>"; 
+                           }
+echo "					
+				</tr>";
+		  }
+	    }
+			?>
+		</tbody>
+	</table>
+   <div class="panel">
+   <div class="right">
+
+   </div>
+   <br>
+   </div>
+</div>
+

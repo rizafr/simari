@@ -1,0 +1,57 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+?>
+
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong> SDM 
+				<strong> &#8250; </strong> Laporan
+				<strong> &#8250; </strong> Monitoring Daftar Riwayat Hidup
+			</div>
+<div id="top"></div>
+
+<h2 class="title">Daftar Riwayat Hidup</h2>
+<?php include "$this->leftMenu/laporanlink.phtml";?>
+<form id="formresult" method="post" action="" name="formresult">
+	<div class="boxholder">				
+	<div class="panel">			
+		<div class="spacer"></div>
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+				<tr>
+				<td colspan="4" align="center">
+					Status Pegawai : <select id="statpeg" name="statpeg">
+										<option selected="" value="">--Pilih--</option>
+										<option value="0" <? if ($this->statpeg=='0'){ echo "selected";}?>>Aktif</option>
+										<option value="1" <? if ($this->statpeg=='1'){ echo "selected";}?>>Pensiun</option>
+									 </select>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					Filter :&nbsp;&nbsp;
+						<select name="ncol" id="ncol">      
+						   <option value="i_peg_nip" <? if ($this->ncol=='i_peg_nip'){ echo "selected";}?>>NIP</option>
+						   <option value="n_peg" <? if ($this->ncol=='n_peg'){ echo "selected";}?>>Nama</option>
+						</select>&nbsp;&nbsp;
+					<input size="55" name="ncari" id="ncari" value="<?=$this->ncari?>" type="text"> &nbsp;
+					<input type="button" value="Cari" onclick="viewCv();">
+				</td>
+				</tr>
+			</table>				
+	</div>
+</form>
+
+<br>
+<? include("view.phtml");
+$ncol=$this->ncol;
+$ncari=$this->ncari;
+$statpeg=$this->statpeg;
+$orderBy=$this->orderBy;
+$modul = $this->basePath."/sdmmodule/monitoringcv/monitoringcv?orderBy=$orderBy&order=$this->orderbya&ncol=$ncol&ncari=$ncari&statpeg=$statpeg";
+echo $halaman->halamanList($this->totalpegawaiList, $this->numToDisplay, $this->currentPage, $modul)
+?>	
+</div>	
+<div id="targetlaporan"></div>
+
+

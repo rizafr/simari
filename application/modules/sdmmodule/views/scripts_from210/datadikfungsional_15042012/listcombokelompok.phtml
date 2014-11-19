@@ -1,0 +1,12 @@
+<?
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+
+	$jmlliskellatih = count($this->liskellatih);
+	$lisliskellatih[''] = '--Pilih--';
+	for ($i = 0; $i < $jmlliskellatih; $i++) {	 
+		$lisliskellatih[(string)$this->liskellatih[$i]->c_kelfungsional ]= (string)$this->liskellatih[$i]->n_kelfungsional;			 
+	} 
+ 	$parlisliskellatih= array("onChange"=>"getJenis()");
+	echo $ctrlFrm->formSelect('c_kel_pelatihan', $this->c_kel_pelatihan, $parlisliskellatih, $lisliskellatih);	
+?>

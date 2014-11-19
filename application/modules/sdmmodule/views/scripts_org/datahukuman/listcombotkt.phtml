@@ -1,0 +1,28 @@
+<?php 
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+
+							
+?>
+	<input type="hidden" name="c_jenis_sanksi" id="c_jenis_sanksi" value="<?=$this->c_jenis_sanksi?>" size="10">
+	
+
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" id="listcomboa">	
+				<tr>
+					<td width="30%">Tingkat Hukuman<span class="hightlight">*</span></td>
+					<td width="2%">:</td> 
+					<td>					
+						<?
+								$tingkat = array(""=>"--Pilih--",
+										"1"=>"Peringatan Tertulis I",
+										"2"=>"Peringatan Tertulis II",
+										"3"=>"Peringatan Tertulis III");								
+								echo $ctrlFrm->formSelect('c_tingkat_sanksi', $this->c_tingkat_sanksi,$jnsHuk, $tingkat); 							
+						?>
+						<input type="hidden" name="c_tingkat_sanksib" id="c_tingkat_sanksib" value="<?=$this->c_tingkat_sanksi?>" size="10">
+					</td>
+				</tr>
+
+			</table>	
+	
+	

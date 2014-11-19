@@ -1,0 +1,121 @@
+jQuery("input[@class=icSetStatus]").bind("click",swtStatus);
+jQuery("#ibiBuat").bind("click",funcBuatHariKerja);
+jQuery("#blnHariKerja").bind("change",funcBuatHariKerja);
+jQuery("#ibiUbhBuat").bind("click",funcBuatUbhHariKerja);
+jQuery("#blnUbhHariKerja").bind("change",funcBuatUbhHariKerja);
+jQuery("#iiCetakAbsHarianXL").bind("click",funcCetakAbsenHarianXL);
+var optProsesSimpanHariKerja = 
+{
+		target: '#tableview',
+		beforeSubmit: function() {},
+		success: harikerjadisplay,
+		url: '<?php echo $this->basePath; ?>/sdm/absensi/buatharikerja',
+		type: 'post',
+		resetForm: false };
+var optProsesUbahHariKerja = 
+{
+		target: '#tableview',
+		beforeSubmit: function() {},
+		success: harikerjadisplay,
+		url: '<?php echo $this->basePath; ?>/sdm/absensi/buatubahharikerja',
+		type: 'post',
+		resetForm: false };
+jQuery("#fIBuatHariKerja").ajaxForm(optProsesSimpanHariKerja);
+jQuery("#fIBuatUbhHariKerja").ajaxForm(optProsesUbahHariKerja);
+var optProsesBuatAbsensiHarian = 
+{
+		target: '#tableview',
+		beforeSubmit: function() {},
+		success: harikerjadisplay,
+		url: '<?php echo $this->basePath; ?>/sdm/absensi/absensiharian',
+		type: 'post',
+		resetForm: false };
+jQuery("#fiCariAbsensigHarian").ajaxForm(optProsesBuatAbsensiHarian);
+
+function harikerjadisplay()
+{
+   jQuery.getScript('<?php echo $this->basePath; ?>/sdm/absensi/harikerjajs');
+}
+function funcCetakAbsenHarianXL()
+{
+   var unitkerja = document.getElementById('idORG').value;
+   var katagori = document.getElementById('sKatagori').value;
+   var katagorival = document.getElementById('sKatagoriVal').value;
+   var tgl = document.getElementById('sitgls').value;
+   var bln = document.getElementById('siblns').value;
+   var thn = document.getElementById('sithns').value;
+   var prm = "?idORG="+unitkerja+"&sitgls="+tgl+"&siblns="+bln+"&sithns="+thn+
+   "&katagori="+katagori+"&katagorival="+katagorival;
+   var url = "<?php echo $this->basePath; ?>/sdm/absensi/absensiharianxl";
+   window.open(url+prm,"Selection","width=900,height=600,resizable=yes,scrollbars=yes"); 
+}
+
+/*
+		beforeSubmit: function()
+		{
+		   tahun = document.getElementById('thnHariKerja').value;
+		   bulan = document.getElementById('blnHariKerja').value;
+		   var hasilCek = validasiDataHariKerja(tahun,bulan);
+		   alert('hasilCek : '+hasilCek);
+		   if (hasilCek>0) 
+		   { 
+		     alert('data tidak bisa disimpan (sudah ada)'); 
+			 return false;
+		   }
+		   else { return true; }
+		}, 
+function validasiDataHariKerja(th,bl)
+{
+   var url = '<?php echo $this->basePath; ?>/sdm/absensi/cekstatusharikerja';
+   var par = { th:th, bl:bl };
+   jQuery.get(url, par, function(data) {
+	 return 2;
+   });
+}
+*/
+function swtStatus()
+{
+   var noHari = jQuery(this).attr('noHari');
+   if (document.getElementById('iiStatus'+noHari).checked)
+   { 
+      jQuery("#triHariKe"+noHari).css("color","red");
+	  document.getElementById("siStatusHari"+noHari).innerHTML = "Libur";
+	  document.getElementById("itMskMulai"+noHari).disabled = true;
+	  document.getElementById("itMskSelesai"+noHari).disabled = true;
+	  document.getElementById("itBreakMulai"+noHari).disabled = true;
+	  document.getElementById("itBreakSelesai"+noHari).disabled = true;
+	  document.getElementById("ihiStatus"+noHari).value = "Libur";
+   }
+   else   
+   { 
+      jQuery("#triHariKe"+noHari).css("color","");
+	  document.getElementById("siStatusHari"+noHari).innerHTML = "Masuk";
+	  document.getElementById("itMskMulai"+noHari).disabled = false;
+	  document.getElementById("itMskSelesai"+noHari).disabled = false;
+	  document.getElementById("itBreakMulai"+noHari).disabled = false;
+	  document.getElementById("itBreakSelesai"+noHari).disabled = false;
+	  document.getElementById("ihiStatus"+noHari).value = "Masuk";
+   }
+}
+function funcBuatUbhHariKerja()
+{
+   var url = '<?php echo $this->basePath; ?>/sdm/absensi/ubahharikerja';
+   var bln = document.getElementById('blnUbhHariKerja').value;
+   var thn = document.getElementById('thnUbhHariKerja').value;
+   var par = { thnHariKerja:thn, blnHariKerja:bln };
+   jQuery.get(url, par, function(data) {
+	 jQuery("div#tableview").html(data);
+     jQuery.getScript('<?php echo $this->basePath; ?>/sdm/absensi/harikerjajs');
+   });
+}
+function funcBuatHariKerja()
+{
+   var url = '<?php echo $this->basePath; ?>/sdm/absensi/harikerja';
+   var bln = document.getElementById('blnHariKerja').value;
+   var thn = document.getElementById('thnHariKerja').value;
+   var par = { thnHariKerja:thn, blnHariKerja:bln };
+   jQuery.get(url, par, function(data) {
+	 jQuery("div#tableview").html(data);
+     jQuery.getScript('<?php echo $this->basePath; ?>/sdm/absensi/harikerjajs');
+   });
+}

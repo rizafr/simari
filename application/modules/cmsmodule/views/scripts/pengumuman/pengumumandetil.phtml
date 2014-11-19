@@ -1,0 +1,11 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+require_once 'share/Portalconf.php'; 
+
+$idberita = $_REQUEST['idberita'];
+
+?>
+<h2><?=$this->jdlpengumuman?></h2>
+Tanggal : <span class="date"><?=$this->tglpengumuman?></span>
+Isi Pengumuman : <?=$this->detilpengumuman?><br>

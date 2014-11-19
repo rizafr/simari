@@ -1,0 +1,82 @@
+
+function hukumanM(par,tingkat,jenis,dmulai){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datahukuman/hukuman"	
+	var opt = {par:par,tingkat:tingkat,jenis:jenis,dmulai:dmulai};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#formhukuman").ajaxForm(maintain_hukuman);
+		});		
+} 
+var maintain_hukuman = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formhukuman;
+		astr= "document.formhukuman";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/				
+				if (c_jns_pelanggaran.value != 'MT'){
+					if((!c_tingkat_sanksi.value)){cekVal = sdmValidasiData(astr,"c_tingkat_sanksi","Tingkat hukuman harus diisi....!");return false;break;}
+					if((!c_jns_pelanggaran.value)){cekVal = sdmValidasiData(astr,"c_jns_pelanggaran","Jenis Pelanggaran harus diisi....!");return false;break;}
+				}
+				if((!d_mulai_sanksi.value)){cekVal = sdmValidasiData(astr,"d_mulai_sanksi","Tanggal Mulai harus diisi....!");return false;break;}
+				//if((!d_akhir_sanksi.value)){cekVal = sdmValidasiData(astr,"d_akhir_sanksi","Tanggal Akhir harus diisi....!");return false;break;}
+				if (d_akhir_sanksi.value && d_mulai_sanksi.value){
+					cekVal = compareDate(d_mulai_sanksi.value,d_akhir_sanksi.value);
+					if (cekVal == false) {return false;break;}						
+				}
+				
+				 break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formhukuman").ajaxForm(maintain_hukuman);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datahukuman/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+function insertHukuman(){
+	jQuery("#formhukuman").ajaxForm(maintain_hukuman);
+}
+
+function HapusDatahukuman(nip,tingkat,jenis,dmulai)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/datahukuman/hapusdata"
+		var opt = {nip:nip,tingkat:tingkat,jenis:jenis,dmulai:dmulai};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}
+
+function setvalueuplfile(v,n,f) { 
+	  if (f!="") {
+	    var pass=false;
+	    var af=f.split("/");
+        var nval=eval("document.forms[0]."+n);
+		var ext=v.substring(v.lastIndexOf(".")+1,v.length);
+		ext=ext.toLowerCase();
+		if ((ext=='pdf')||(ext=='docx')||(ext=='doc')){ 
+		document.forms[0].a_file.value=v; 
+		}
+		else{
+		  alert ("Hanya untuk file berekstensi pdf,doc atau docx ");
+		  nval.value="";
+		  document.forms[0].a_file.value=""; 
+		  document.forms[0].e_file_sk.value=""; 		  
+		  return;	  
+		}
+	  }
+}

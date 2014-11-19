@@ -1,0 +1,67 @@
+function diklatLainL(par,nip){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datadiklain/listdiklat"	
+	var opt = {par:par,nip:nip};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+} 
+
+function diklatLainM(par,nip,id){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datadiklain/lain"	
+	var opt = {par:par,nip:nip,id:id};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+} 
+
+
+var maintain_lain = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formlain;
+		astr= "document.formlain";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/								
+					if((!n_diklat.value)){cekVal = sdmValidasiData(astr,"n_diklat","Nama Diklat harus diisi....!");return false;break;}
+					if((!d_diklat.value)){cekVal = sdmValidasiData(astr,"d_diklat","Tanggal Mulai Diklat harus diisi....!");return false;break;}
+					if((!c_negara.value)){cekVal = sdmValidasiData(astr,"c_negara","Negara harus diisi....!");return false;break;}					
+					if((!i_sertifikat.value)){cekVal = sdmValidasiData(astr,"i_sertifikat","Nomor Sertifikat harus diisi....!");return false;break;}					
+					if((!d_sertifikat.value)){cekVal = sdmValidasiData(astr,"d_sertifikat","Tanggal Sertifikat harus diisi....!");return false;break;}					
+				
+				 break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formlain").ajaxForm(maintain_lain);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datadiklain/maintaindatalain',
+	type: 'post',
+	resetForm: false
+};
+function insertLain(){
+	jQuery("#formlain").ajaxForm(maintain_lain);
+}
+
+function HapusDataPelatihan(nip,id)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/datadiklain/hapusdata"
+		var opt = {nip:nip,id:id};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}
+
+

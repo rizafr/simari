@@ -1,0 +1,99 @@
+<? require_once 'Zend/View.php';
+   
+   $ctrlFrm = new Zend_View();
+
+	  
+$jumjabatanList = count($this->jabatanList);     
+$pesan = $this->pesan;
+$spath = $this->getScriptPaths();
+$this->addScriptPath($spath[0] . 'pegawai');
+$pesancek=$this->pesancek;
+if ($pesancek=='gagal'){$confirm ='confirmfail';}
+else {$confirm ='confirm';}	  
+
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datariwayatpegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datariwayatpegawai/pegawaijs');">Data Riwayat</a>
+				<strong> &#8250; </strong>Jabatan
+			</div>
+	        <a name="top"></a>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+	<h2 class="title">Jabatan</h2>
+			<ul class="tabZ">
+						<? if ($this->statuspeg!='2CP'){?>
+                        <li><a href="#Pns" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapns/pns?par=pns','<?php echo $this->basePath; ?>/sdmmodule/datapns/pnsjs');">PNS</a></li>
+						<?} else{?>
+						<li><a href="#Cpns" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datacpns/cpns','<?php echo $this->basePath; ?>/sdmmodule/datacpns/cpnsjs');">CPNS</a></li>
+						<?}?>
+				<li><a href="#RiwayatPendidikan" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapendidikan/listpendidikan','<?php echo $this->basePath; ?>/sdmmodule/datapendidikan/pendidikanjs');">Pendidikan</a></li>
+				<li><a href="#Seminar" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataseminar/listseminar','<?php echo $this->basePath; ?>/sdmmodule/dataseminar/seminarjs');">Seminar</a></li>
+				<li><a href="#Kepangkatan" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapangkat/listpangkat','<?php echo $this->basePath; ?>/sdmmodule/datapangkat/pangkatjs');">Kepangkatan</a></li>
+				<li class="selected"><a href="#Jabatan" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datajabatan/listjabatan','<?php echo $this->basePath; ?>/sdmmodule/datajabatan/jabatanjs');">Jabatan</a></li>				
+				<li><a href="#Organisasi" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataorganisasi/listorganisasi','<?php echo $this->basePath; ?>/sdmmodule/dataorganisasi/organisasijs');">Organisasi</a></li>
+				<li><a href="#Penghargaan" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapenghargaan/listpenghargaan','<?php echo $this->basePath; ?>/sdmmodule/datapenghargaan/penghargaanjs');">Penghargaan</a></li>
+				<li><a href="#Hukuman" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datahukuman/listhukuman','<?php echo $this->basePath; ?>/sdmmodule/datahukuman/hukumanjs');">Hukuman</a></li>
+				<li><a href="#Luarnegeri" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataluarnegeri/listluarnegeri','<?php echo $this->basePath; ?>/sdmmodule/dataluarnegeri/luarnegerijs');">Ke Luar Negeri</a></li>
+				<li><a href="#Kesehatan" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datakesehatan/listkesehatan','<?php echo $this->basePath; ?>/sdmmodule/datakesehatan/kesehatanjs');">Kesehatan</a></li>
+			</ul>		
+	<div class="panel">
+	<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>			
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+  
+<div class="add" title="Tambah Data" onclick="jabatanM('insert','','');"></div>
+<?	if ($jumjabatanList == 0) {
+		echo "<font color=\"red\">Data Jabatan Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+			<tr>
+		    <th width="10%">Eselon / TMT Eselon</th>
+			<th width="20%">Nama Jabatan / TMT Jabatan</th>
+			<th width="20%">No SK / Tgl. SK</th>
+			<th width="16%">Tgl Pelantikan</th>
+			<th width="6%" colspan="2">&nbsp;</th>
+			</tr>		
+<?
+	if ($jumjabatanList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { 
+
+		  foreach ($this->jabatanList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					?>
+				<td class="clcenter">
+					<a href="#" onclick="detiljabatan('<?=$nip?>','<?=trim($this->escape($val['c_jabatan']))?>','<?=trim($this->escape($val['n_nama']))?>')"><?php echo $this->escape($val['n_eselon']);?> <br> <?php echo $this->escape($val['d_tmt_eselon']);?></a>
+				</td>
+				<td><?php  echo $this->escape($val['n_jabatan']);?><br><?php  echo $this->escape($val['d_mulai_jabat']);?></td>
+				<td class="clcenter"><u><?php  echo $this->escape($val['i_sk_jabat']);?></u><br><?php  echo $this->escape($val['d_sk_jabat']);?></td>
+				<td class="clcenter"><?php echo $this->escape($val['d_tmt_lantik']);?></td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data"  onclick="jabatanM('update','<?=trim($this->escape($val['c_eselon']))?>','<?=trim($this->escape($val['c_jabatan']))?>','<?=trim($this->escape($val['d_mulai_jabat']))?>');"></div>	
+				</td>
+				<td class="clcenter">			
+					<div class="delete" title="Hapus Data"  onClick="jabatanM('delete','<?=trim($this->escape($val['c_eselon']))?>','<?=trim($this->escape($val['c_jabatan']))?>','<?=trim($this->escape($val['d_mulai_jabat']))?>')"></div>
+				</td>	
+		  </tr>
+	<?php endforeach;?> 		  	  
+<?	}	?>
+	</table>									
+						
+									
+	</fieldset>		 
+	</form>

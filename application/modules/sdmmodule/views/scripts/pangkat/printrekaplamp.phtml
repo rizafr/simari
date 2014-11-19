@@ -1,0 +1,171 @@
+<? 
+	require_once 'Zend/View.php';
+	require_once 'share/oa_date.php';
+	$today=date("Y-m-d");
+	switch (substr($today,5,2) * 1) {
+	case 1:
+	    $theMonth="Januari";
+	    break;
+	case 2:
+	    $theMonth="Februari";
+	    break;
+	case 3:
+	    $theMonth="Maret";
+	    break;
+	case 4:
+	    $theMonth="April";
+	    break;
+	case 5:
+	    $theMonth="Mei";
+	    break;
+	case 6:
+	    $theMonth="Juni";
+	    break;
+	case 7:
+	    $theMonth="Juli";
+	    break;
+	case 8:
+	    $theMonth="Agustus";
+	    break;
+	case 9:
+	    $theMonth="September";
+	    break;
+	case 10:
+	    $theMonth="Oktober";
+	    break;
+	case 11:
+	    $theMonth="November";
+	    break;
+	case 12:
+	    $theMonth="Desember";
+	    break;
+	default:
+	    $theMonth="Desember";
+	}
+	$kaBiro=$this->kaBiroSDM;
+	$kaBiroNIP=$this->kaBiroNIP;
+		//"Karyono Supomo  060041858";
+
+
+	//$tgl = substr($today,8,2)."-".substr($today,5,2)."-".substr($today,0,4);
+	$tgl = substr($today,8,2)."-".$theMonth."-".substr($today,0,4);
+
+	$n_srt_kepada = "Den Baguse Ngarso";
+	$n_srt_tembus1 = "Sekretaris Kementerian Negara BUMN"; 
+	$n_srt_tembus2 = "Kasubag TU di Lingkungan Kementerian Negara BUMN"; 
+
+
+
+$html = <<<EOD
+<html>
+<head>
+<title>KEMENTERIAN NEGARA</title>
+</head>
+<body>
+  <div align="center">
+    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="90%" id="AutoNumber1" height="100%">
+    <tr>
+       <td valign="top" align="center" height=60%>
+	<h3>KEMENTERIAN NEGARA</h3>
+	<h3>BADAN USAHA MILIK NEGARA</h3>
+	<br>
+	<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber1">
+	<tr>
+	  <td width="10%"><b>Nomor </b></td>
+	  <td width="1%">:</td>
+	  <td width="89%" align="right">$tgl</td>
+	</tr>
+	<tr>
+	  <td width="10%"><b>Lampiran </b></td>
+	  <td width="1%">:</td>
+	  <td width="89%">1 (satu) Berkas</td>
+	</tr>
+	<tr>
+	  <td width="10%" valign="top"><b>Hal </b></td>
+	  <td width="1%" valign="top">:</td>
+	  <td width="89%" valign="top">Usulan Kenaikan Pangkat<br>Kementerian Negara BUMN</td>
+	</tr>
+	</table>
+	<br>
+	<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber1">
+	<tr>
+	  <td width="10%" valign="top"><b>Yth. <b></td>
+	  <td width="90%" valign="top"><b>Sekretaris Jendral Departemen Keuangan<br>u.p. Kepala Biro Sumber Daya Manusia<br>Jakarta</b></td>	
+	</tr>	
+	</table>
+	<br>
+	<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber1">
+	<tr>
+	  <td align="justify">	
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sehubungan dengan hal tersebut diatas, bersama ini kami sampaikan usulan kenaikan pangkat Pegawai Negeri Sipil Departemen Keuangan dipekerjakan pada Kementerian Negara BUMN, 
+		   yang berdasarkan data dan ketentuan yang berlaku telah memenuhi persyaratan untuk naik Pangkat.</p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sebagai bahan pertimbangan, terlampir kami sampaikan data pegawai yang dimaksud.</p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atas perhatian dan kerjasama saudara, kami ucapkan terima kasih.</p>
+	  </td>
+	</tr>
+	</table>
+	<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber1">
+	<tr>
+	  <td width="60%"></td>
+	  <td width="40%"> <br><br><br>
+		<b>
+		a.n. Sekretaris Kementerian Negara BUMN<br>
+		Kepala Biro Perencanaan dan SDM<br>
+
+		<br><br><br>
+		$kaBiro<br>
+		NIP.$kaBiroNIP<br><br>
+		</b>
+	  </td>
+	</tr>  
+	</table>
+      </td>
+    </tr>
+    <tr>
+      <td valign="bottom" height=30%>	
+       <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="100%" id="AutoNumber1">
+	<tr>
+	  <td width="90%"> 
+		Tembusan:
+		<ol>
+		  <li>$n_srt_tembus1</li>
+		  <li>$n_srt_tembus2</li>
+		</ol>
+	  </td>
+	</tr>
+	</table>
+      </td>
+    </tr>
+    </table>
+  </div>
+</body>
+</html>
+EOD;
+
+
+	$filename = "/tmp/test.html";
+	$filepdf = "/tmp/test.pdf";
+
+	
+	$ourFileHandle = fopen($filename, 'w+') or die("can't open file");
+	fclose($ourFileHandle);
+
+	$fh = fopen($filename, 'w+') or die("can't open file");
+	fwrite($fh, $html);
+	fclose($fh);
+	
+//WriteToFile($filename, $html);
+
+	$options="--footer . --continuous --duplex --portrait --header . --left margin 3cm --right margin 3cm";
+	# Tell HTMLDOC not to run in CGI mode...
+       putenv("HTMLDOC_NOCGI=1");
+
+	# Write the content type to the client...
+	header("Content-Type: application/pdf");
+	header("Content-Disposition: attachment; filename=$filepdf");
+	flush();
+
+	# Run HTMLDOC to provide the PDF file to the user...
+	passthru("htmldoc -t pdf --quiet --jpeg --webpage $options '$filename'");
+
+?>

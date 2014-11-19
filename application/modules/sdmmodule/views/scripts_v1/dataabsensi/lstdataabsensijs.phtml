@@ -1,0 +1,28 @@
+jQuery("#bulanabsen").bind("change",funcChangeBulan);
+jQuery("#c_eselon_i").bind("change",funcChangeBulan);
+jQuery("#c_eselon_ii").bind("change",funcChangeBulan);
+
+function funcChangeBulan()
+{
+   var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/listdataabsensi';
+   var kd_lokasi = document.getElementById('kd_lokasi').value;
+   var c_eselon_i = document.getElementById('c_eselon_i').value;
+   var c_eselon_ii = document.getElementById('c_eselon_ii').value;
+   //var i_peg_nip = document.getElementById('i_peg_nip').value;
+   
+   var bulanabsen = document.getElementById('bulanabsen').value;
+   var tahunabsen = document.getElementById('tahunabsen').value;
+   var par = { kd_lokasi:kd_lokasi, c_eselon_i:c_eselon_i, c_eselon_ii:c_eselon_ii, bulanabsen:bulanabsen, tahunabsen:tahunabsen };
+   jQuery.get(url, par, function(data) {
+	 $("#tableview").html(data);
+     jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/lstdataabsensijs');
+   });
+}
+function gantinewPagebr(divId, modul, js, currentPage, param1, param2, param3, param4)
+{
+	var opt = {currentPage : currentPage, param1 : param1, param2 : param2, param3 : param3 , param4 : param4};
+	jQuery.get(modul,opt,function(data) {
+		jQuery("#"+divId).html(data);
+        jQuery.getScript(js);
+	});
+}

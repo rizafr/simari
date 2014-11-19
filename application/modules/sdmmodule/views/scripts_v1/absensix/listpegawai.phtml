@@ -1,0 +1,178 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php';
+   require_once 'share/oa_page.php';
+
+   
+   $ctrlFrm = new Zend_View();
+   $convDate = new oa_date();
+   $halaman = new oa_page();
+   /* $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'dp3');
+   echo $this->render('module_sdmDp3js.phtml'); */
+   			  
+   /*  Untuk mengeluarkan list kelompok */
+   /*=============================*/
+   $kategoriList = array(""=>"-",
+						"i_peg_nip"=>"NIP",
+						"n_peg"=>"Nama Pegawai",
+						"i_orgb"=>"Bagian");
+	  
+   $jmlPegawaiList = count($this->pegawaiList);
+ 
+   for ($j = 0; $j < $jmlPegawaiList; $j++) {
+     $pegawai[$j] = array("i_peg_nip"  =>(string)$this->pegawaiList[$j]['i_peg_nip'],
+							"n_peg"  =>(string)$this->pegawaiList[$j]['n_peg'],
+							"n_jabatan"  =>(string)$this->pegawaiList[$j]['n_jabatan'],
+							"i_orgb"  =>(string)$this->pegawaiList[$j]['i_orgb'],
+							"unitKerja"         =>(string)$this->pegawaiList[$j]['unitKerja'],
+							"d_peg_pnilaiakhir"  =>(string)$this->pegawaiList[$j]['d_peg_pnilaiakhir']);
+   }
+
+$numToDisplay = $this->numToDisplay;
+$currentPage = $this->currentPage;
+$i_peg_nip = $this->iPegNip;
+$n_peg = $this->nPeg;
+?>
+	<br>
+	
+<div class="contentdata-modul" id="modul">
+	<div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Penilaian Kinerja Pegawai
+	</div>
+	<h3 class="title">Pengajuan DP3</h3>
+	&nbsp;&nbsp;&nbsp;&nbsp;Menu ini digunakan untuk memasukkan data hasil penilaian pelaksanaan pekerjaan PNS 
+	yang dituangkan dalam Daftar Penilaian Pelaksanaan Pekerjaan (DP3). 
+	DP3 ini bersifat rahasia dan pejabat penilai baru dapat melakukan penilaian pelaksanaan pekerjaan, 
+	apabila ia telah membawahi PNS yang bersangkutan sekurang-kurangnya 6 bulan.
+	<div class="spacer"></div>
+	<a name="top"></a>
+	
+	<div class="search-panel">
+		<fieldset class="panel-form3">
+			<form method="post" name="frmCariPeg" id="frmCariPeg">
+				<dl>
+					<dt>NIP</dt>
+					<dd class="dot2">:</dd> 
+					<dd class="col-right3">
+						<?php 
+						$nipAtrib = array("size"=>"10",
+							"maxlength"=>"9",
+							"class"=>""
+						);
+							echo $ctrlFrm->formText('i_peg_nip', $i_peg_nip, $nipAtrib);
+						?>
+					</dd> 
+				</dl>
+				<dl>
+					<dt>Nama</dt>
+					<dd class="dot2">:</dd> 
+					<dd class="col-right3">
+						<?php 
+							$npegAtrib = array("size"=>"31",
+							"maxlength"=>"30",
+							"class"=>""
+							);
+							echo $ctrlFrm->formText('n_peg', $n_peg, $npegAtrib);
+						?>
+					</dd> 
+				</dl>
+				<div class="center">
+					<? 
+					$buttonAtrib = array("onClick"=>"javascript:prosesDp3Cari();");
+					echo $ctrlFrm->formSubmit('cari', 'Cari', $buttonAtrib); 
+					?>
+				</div>
+			</form>
+		</fieldset>
+	</div> <!--end div Search Panel-->
+	
+	<div class="space-line"></div>
+	
+	<fieldset class="fields">
+		<div class="title2">Pengajuan DP3</div>
+		<?
+		if($jmlPegawaiList == 0)
+		{
+			echo "<font color=\"red\">Data tidak ada</font>";
+		}
+		else
+		{
+		?>
+			<div class="blank"></div>
+		
+			<table align="center" width="90%" border="0" cellspacing="1" cellpadding="2" class="tbl">
+		
+				<tr>
+					<th>No</th>			
+					<th>Nama</th>
+					<th>NIP</th>
+					<th>Jabatan</th>
+					<th>Bagian</th>		
+					<th>Tanggal Penilaian Akhir</th>
+				</tr>
+
+				<?php foreach ($pegawai as $key => $val): 
+				if ($key%2==0) 
+				{?>
+					<tr class="event">
+				<? } else if ($key%2==1) { ?>
+					<tr class="event2">
+				<? } 
+				$noUrut = (($currentPage -1)* $numToDisplay) + $key +1;
+				?>
+					<td align="center">&nbsp;<?php echo $noUrut;?></td>
+					<td align="center">&nbsp;<?php echo $this->escape($val['n_peg']);?></td>
+					<td align="center">
+						<a href="#" class="detailPegawai" iPegNip="<? echo $this->escape($val['i_peg_nip']); ?>" perintah="<? echo $this->perintah;?>">
+							&nbsp;<?php echo $this->escape($val['i_peg_nip']);?>
+						</a>
+					</td>
+					<td align="center">&nbsp;<?php echo $this->escape($val['n_jabatan']);?></td>
+					<td align="center">&nbsp;<?php echo $this->escape($val['unitKerja']);?></td>
+					<? 
+					$dPegPnilaiAkhir = $this->escape($val['d_peg_pnilaiakhir']);
+					if ($dPegPnilaiAkhir) 
+					{
+						$dPegPnilaiAkhir = $convDate->formatTglLengkap($dPegPnilaiAkhir);
+					}
+					else
+					{
+						$dPegPnilaiAkhir = "";
+					}
+					?>
+						<td align="center">&nbsp;<?php echo $dPegPnilaiAkhir;?></td>					
+				</tr>
+				<?php endforeach; ?>
+			</table>
+			<a name="pageCursor"></a>
+			<?
+			
+			$totalData = $this->totPegawai;
+			
+			
+			if($this->perintah == "cari")
+			{
+				$modul = $this->basePath."/sdm/dp3/caripegawai";
+				//$fungsi = 'cariPegawai2';
+				$fungsi = $this->basePath.'/sdm/dp3/sdmdp3js';
+				echo $halaman->showPage($totalData, $numToDisplay, $currentPage, $modul, $fungsi, $i_peg_nip, $n_peg,'','');
+			}
+			else
+			{
+				$modul = $this->basePath."/sdm/dp3/listpegawai";
+				//$fungsi = 'listPegawai';
+				$fungsi = $this->basePath.'/sdm/dp3/sdmdp3js';
+				echo $halaman->showPage($totalData, $numToDisplay, $currentPage, $modul, $fungsi, '', '','','');
+			}
+			
+			//echo $hal;
+			?>
+		<?
+		}
+		?>
+	</fieldset>
+</div>
+	
+	

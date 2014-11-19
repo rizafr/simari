@@ -1,0 +1,55 @@
+<?  require_once 'Zend/View.php';
+ 
+   $ctrlFrm = new Zend_View();
+
+?>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+
+<?	if ($this->dataList == 0) {
+		echo "<font color=\"red\">Data Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+		<tr>
+			<th width="5%">No</th>
+			<th width="30%">Nama</th>
+			<th width="15%">Nomor KTP</th>
+			<th width="15%">Nomor Pendaftaran</th>
+			<th width="15%">Pilihan Jabatan</th>
+			<th width="30%">Wilayah</th>
+		</tr>
+<?
+	if ($this->dataList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->dataList as $key => $val): 
+		$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? }?>
+				<td><?php echo $noUrut;?></td>	
+				<td>
+				<a href="#" onclick="viewData('<?=$this->escape($val['i_ktp']);?>','<?=$this->escape($val['q_nomor_daftar'])?>')"><?php echo $this->escape($val['n_pendaftar']);?></a>
+				</td>
+				<td><?php  echo $this->escape($val['i_ktp']);?></td>
+				<td><?php  echo $this->escape($val['q_nomor_daftar']);?></td>
+				<td><?php echo $this->escape($val['n_posisi_jabatan']);?></td>
+				<td><?php  echo $this->escape($val['n_wilayah'])." - ".$this->escape($val['n_pengadilan']);?></td>
+
+		  </tr>
+	<?php endforeach;?> 		  	  
+<?	}	?>
+	</table>
+

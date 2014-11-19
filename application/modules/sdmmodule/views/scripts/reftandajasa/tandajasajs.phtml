@@ -1,0 +1,56 @@
+function openFormTandajasa(par,c_tandajasa,n_tandajasa,e_penerbit,e_jnama){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/reftandajasa/tandajasaolahdata";
+	var opt = {par:par, c_tandajasa:c_tandajasa, n_tandajasa:n_tandajasa,e_penerbit:e_penerbit,e_jnama:e_jnama};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formtandajasa").ajaxForm(maintain_tandajasa);
+		});		
+} 
+
+function insertTandajasa(){
+	jQuery("#formtandajasa").ajaxForm(maintain_tandajasa);
+}
+
+var maintain_tandajasa = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formtandajasa").ajaxForm(maintain_tandajasa);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/reftandajasa/inserttandajasa',
+	type: 'post',
+	resetForm: false
+};
+
+function updateTandajasa(){
+	jQuery("#formtandajasa").ajaxForm(update_tandajasa);
+}
+
+var update_tandajasa = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formtandajasa").ajaxForm(maintain_tandajasa);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/reftandajasa/updatetandajasa',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusTandajasa(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/reftandajasa/deletetandajasa';
+		var opt = {c_tandajasa : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

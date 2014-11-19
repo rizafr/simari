@@ -1,0 +1,205 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/pesan.php';
+   require_once 'share/formatangka.php';
+   require_once 'share/halaman_list.php';
+
+   $ctrlFrm = new Zend_View();
+   $pesan = new pesan();
+   $formatangka = new formatangka();
+   $halaman = new halaman_list();
+
+	  
+$jumformulir1List = count($this->listFormulir1); 
+$jumgolList = count($this->listGol);
+$totalnilai=0;  
+
+
+			
+?>
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong>Formasi Kepegawaian <!--a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Maintain Data Pegawai</a-->
+				<strong> &#8250; </strong>Formulir 2
+			</div>
+	        <a name="top"></a>
+<?
+$proses		= $this->proses;
+$keterangan	= $this->keterangan;
+$status		= $this->status;
+echo $pesan->show_message($proses, $keterangan, $status);
+?>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+	<h2 class="title">Formulir 2</h2>
+	<form method="post" name="tampil" id="tampil" >
+	<table width="50%" border="0" cellpadding="0" cellspacing="0">
+	<tr><td size="20%">
+	
+	Tahun  </td><td size="1%">  :</td><td size="79%"> 
+	<select name="tahun" id="tahun">
+				
+					 <option value=''>Tahun</option>
+				 <? for($i=date('Y');$i>=date('Y')-5;$i--){
+						 $sel='';
+						 if($i == $this->tahun)  $sel='selected';
+						echo "<option value='$i' $sel>$i</option>";
+				    }
+				 ?>
+				 </select></td></tr>
+	<tr><td>&nbsp;</td><td>&nbsp;</td><td>
+	<input type="button" value="Cek Data Sebelumnya" name="tampil" onclick="tampilTaun('upd')">
+	<input type="button" value="Proses Ulang" name="btns" onclick="tampilTaun('prs')">
+	</td></tr>
+	</table>
+	</form><br><br>
+	<?
+	if($this->proses){
+		?>
+		<h2><div align="center">PENYUSUNAN BEZETTING <span class="thn_skr"><?  //echo $this->tahun; ?></span></div></h2>
+
+		<form method="post" name="formformasi" id="formformasi" >
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center" width="50%">
+			
+			<tr>
+		    <th width="5%">No</th>
+			<th width="5%">GOL. RUANG GAJI</th>
+			<th width="10%">BEZETING 31-12-<span id="thn_sblm"><? echo $this->thn_sblm; ?></span> </th>
+			<th width="10%">KENAIKAN PANGKT TA. <span class="thn_skr"><? echo $this->tahun; ?></span></th>
+			<th width="10%">SETELAH KENAIKAN PANGKAT TA. <span class="thn_skr"><? echo $this->tahun; ?></span></th>
+			<th width="12%">PERBANTUAN, PENARIKAN KEMBALI, PENGALIHAN JENIS KEPEG, PINDAH INST. DARI INST.LAIN TA. <span class="thn_skr"><? echo $this->tahun; ?></span></th>
+			<th width="10%">PERBANTUAN, PENARIKAN KEMBALI, PINDAH INST. KE INST.LAIN TA. <span class="thn_skr"><? echo $this->tahun; ?></span></th>
+			<th width="10%">PENGANGKATAN PEGAWAI BARU TA.  <span class="thn_skr"><? echo $this->tahun; ?></span></th>
+			<th width="10%">FORMASI TA. LAJUR ( 5+8 )<span class="thn_skr"><? echo $this->tahun; ?></span> LAJUR 5+8</th>
+			<th width="10%">KETERANGAN</th>
+			</tr>
+			<tr>
+			<th>1</th>
+			<th>2</th>
+			<th>3</th>
+			<th>4</th>
+			<th>5</th>
+			<th>6</th>
+			<th>7</th>
+			<th>8</th>
+			<th>9</th>
+			<th>10</th>
+			</tr>
+		
+		<? 
+		$i=1;
+		$totbezeting=0;$totkpcurent=0;$totpegnew=0;$totpegout=0;$totpegmasuk=0;$totpegpensiun=0;
+		
+		if($this->proses == 'prs'){
+			$this->par = 'Insert';
+			foreach ($this->listGol as $datapkt):
+			$n_peg_golongan = $datapkt->n_peg_golongan;
+			$c_peg_golongan = $datapkt->c_peg_golongan;
+				if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+				$pegnew ='0';$pegout ='0';$pegmasuk ='0';$pegpensiun ='0';
+				$bezeting = $this->formasi_serv->getBezeting($c_peg_golongan,$this->thn_sblm);
+				$kpcurent = $this->formasi_serv->getBezeting($c_peg_golongan,$this->tahun);
+				$totkeadaan = $bezeting + $kpcurent; 	
+				if($this->formasi_serv->getpegawainew($c_peg_golongan,$this->tahun) > 0) $pegnew = $this->formasi_serv->getpegawainew($c_peg_golongan,$this->tahun);
+				if($this->formasi_serv->getpegawaiin($c_peg_golongan,$this->tahun) > 0) $pegmasuk = $this->formasi_serv->getpegawaiin($c_peg_golongan,$this->tahun);
+				if($this->formasi_serv->getpegawaiout($c_peg_golongan,$this->tahun) > 0) $pegout = $this->formasi_serv->getpegawaiout($c_peg_golongan,$this->tahun);
+				if($this->formasi_serv->getpegawaipensiun($c_peg_golongan,$this->tahun) > 0) $pegpensiun = $this->formasi_serv->getpegawaipensiun($c_peg_golongan,$this->tahun);
+				$bezetingcurent = $totkeadaan + $pegnew + $pegmasuk - $pegout - $pegpensiun;
+				$totbezeting +=$bezeting;
+				$totkpcurent +=$kpcurent;
+				$totpegnew +=$pegnew;
+				$totpegout +=$pegout;
+				$totpegmasuk +=$pegmasuk;
+				$totpegpensiun +=$pegpensiun;
+				?>
+				
+			<td><?php echo $i++; ?></td>
+			<td><?php echo $n_peg_golongan;?></td>
+			<td align="right"><input type=text name="bez<?=$c_peg_golongan?>" id="bez<?=$c_peg_golongan?>" size=5 value="<?=$bezeting?>" onKeypress="return justnumber(event)"></td>
+			<td align="right"><input type=text name="kpcrt<?=$c_peg_golongan?>" id="kpcrt<?=$c_peg_golongan?>" size=5 value="<?=$kpcurent?>" onKeypress="return justnumber(event)"></td>
+			<td align="right"><input type=text name="tott<?=$c_peg_golongan?>" id="tott<?=$c_peg_golongan?>" size=5 value="<?=$totkeadaan?>" onKeypress="return justnumber(event)"></td>
+			<td align="right"><input type=text name="pegmasuk<?=$c_peg_golongan?>" id="pegmasuk<?=$c_peg_golongan?>" size=5 value="<?=$pegmasuk?>" onKeypress="return justnumber(event)"></td>
+			<td align="right"><input type=text name="pegout<?=$c_peg_golongan?>" id="pegout<?=$c_peg_golongan?>" size=5 value="<?=$pegout?>" onKeypress="return justnumber(event)"></td>
+			<td align="right"><input type=text name="pegnew<?=$c_peg_golongan?>" id="pegnew<?=$c_peg_golongan?>" size=5 value="<?=$pegnew?>" onKeypress="return justnumber(event)"></td>
+			<td align="right"><input type=text name="bezetingcurent<?=$c_peg_golongan?>" id="bezetingcurent<?=$c_peg_golongan?>" size=5 value="<?=$bezetingcurent?>" onKeypress="return justnumber(event)"></td>
+			<td><input type=text name="ket<?=$c_peg_golongan?>" id="ket<?=$c_peg_golongan?>" size=20></td>	
+			
+			</tr>
+		<? endforeach; ?>
+		<?} else if($this->proses == 'upd'){
+			$this->par = 'Update';
+			foreach ($this->listGol as $datapkt):
+			$n_peg_golongan = $datapkt->n_peg_golongan;
+			$c_peg_golongan = $datapkt->c_golongan;
+				if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+				$bezeting 	= $datapkt->bezetting;
+				$kpcurent 	= $datapkt->knaikn_pngkt;
+				$pegnew 	= $datapkt->pengangkt_pgwai_br;
+				$pegout 	= $datapkt->pndah_ke_instasi_lain;
+				$pegmasuk 	= $datapkt->pndah_dr_instasi_lain;
+				$ket 		= $datapkt->ket;
+				$totkeadaan = $bezeting + $kpcurent; 	
+				
+				$bezetingcurent = $totkeadaan + $pegnew + $pegmasuk;
+				$totbezeting +=$bezeting;
+				$totkpcurent +=$kpcurent;
+				$totpegnew +=$pegnew;
+				$totpegout +=$pegout;
+				$totpegmasuk +=$pegmasuk;
+				?>
+				
+			<td><?php echo $i++; ?></td>
+			<td><?php echo $n_peg_golongan;?>;<?=$c_peg_golongan?></td>
+			<td align="right"><input type=text name="bez<?=$c_peg_golongan?>" id="bez<?=$c_peg_golongan?>" size=5 value="<?=$bezeting?>" onKeypress="return justnumber(event)"></td>
+			<td align="right"><input type=text name="kpcrt<?=$c_peg_golongan?>" id="kpcrt<?=$c_peg_golongan?>" size=5 value="<?=$kpcurent?>" onKeypress="return justnumber(event)"></td>
+			<td align="right"><input type=text name="tott<?=$c_peg_golongan?>" id="tott<?=$c_peg_golongan?>" size=5 value="<?=$totkeadaan?>" onKeypress="return justnumber(event)"></td>
+			<td align="right"><input type=text name="pegmasuk<?=$c_peg_golongan?>" id="pegmasuk<?=$c_peg_golongan?>" size=5 value="<?=$pegmasuk?>" onKeypress="return justnumber(event)"></td>
+			<td align="right"><input type=text name="pegout<?=$c_peg_golongan?>" id="pegout<?=$c_peg_golongan?>" size=5 value="<?=$pegout?>" onKeypress="return justnumber(event)"></td>
+			<td align="right"><input type=text name="pegnew<?=$c_peg_golongan?>" id="pegnew<?=$c_peg_golongan?>" size=5 value="<?=$pegnew?>" onKeypress="return justnumber(event)"></td>
+			<td align="right"><input type=text name="bezetingcurent<?=$c_peg_golongan?>" id="bezetingcurent<?=$c_peg_golongan?>" size=5 value="<?=$bezetingcurent?>" onKeypress="return justnumber(event)"></td>
+			<td><input type=text name="ket<?=$c_peg_golongan?>" id="ket<?=$c_peg_golongan?>" size=20 value="<?=$ket?>"></td>	
+			
+			</tr>
+		<? endforeach;
+		
+		}?>
+	<tr class="event">
+	<td colspan="2"><div align="center" style="font-weight:bold">JUMLAH</div></td>
+	<td><? echo $totbezeting; ?></td>
+	<td><? echo $totkpcurent ?></td>
+	<td><? echo ($totbezeting+$totkpcurent) ?></td>
+	<td><? echo $totpegmasuk ?></td>
+	<td><? echo $totpegout ?></td>
+	<td><? echo $totpegnew ?></td>
+	
+	<td><? echo ($totbezeting+$totkpcurent+$totpegnew) ?></td>
+	<td>&nbsp;</td>
+	</tr>
+	<tr class="event1"><td colspan="10">
+		<div class="center">
+							<?if ($this->par == 'Insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insert_Formulir()">
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insert_Formulir()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+							<input type="hidden" name="tahun" value="<?=$this->tahun;?>">
+						</div>
+	</td>
+	</tr>
+	</table>
+	
+	</form>
+	<?}?>
+	</fieldset>		 
+	

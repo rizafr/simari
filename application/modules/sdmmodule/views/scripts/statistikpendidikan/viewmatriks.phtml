@@ -1,0 +1,351 @@
+<?
+if($this->tipe == 'xls'){
+	$laporan='statistikpendidikan.xls';
+		header("Content-type: application/vnd.ms-excel"); 
+		header("Content-Disposition: attachment; filename=$laporan" ); 
+		header("Expires: 0"); 
+		header("Cache-Control: must-revalidate, post-check=0,pre-check=0"); 
+		header("Pragma: public"); 
+}
+require_once "service/sdm/Sdm_Statistik_Service.php";
+$statistik_serv = Sdm_Statistik_Service::getInstance();
+?>
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<title>SIMPEG</title>
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 11">
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Lesmono</o:Author>
+  <o:LastAuthor>Lesmono</o:LastAuthor>
+  <o:Created>2009-05-13T07:57:56Z</o:Created>
+  <o:LastSaved>2009-05-13T08:01:27Z</o:LastSaved>
+  <o:Company>Microsoft Corporation</o:Company>
+  <o:Version>11.6360</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]-->
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:1.0in .25in 1.0in .28in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-page-orientation:landscape;}
+tr
+	{mso-height-source:auto;}
+col
+	{mso-width-source:auto;}
+br
+	{mso-data-placement:same-cell;}
+.style0
+	{mso-number-format:General;
+	text-align:general;
+	vertical-align:bottom;
+	white-space:nowrap;
+	mso-rotate:0;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Arial;
+	mso-generic-font-family:auto;
+	mso-font-charset:0;
+	border:none;
+	mso-protection:locked visible;
+	mso-style-name:Normal;
+	mso-style-id:0;}
+td
+	{mso-style-parent:style0;
+	padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Arial;
+	mso-generic-font-family:auto;
+	mso-font-charset:0;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:bottom;
+	border:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	mso-protection:locked visible;
+	white-space:nowrap;
+	mso-rotate:0;}
+.xl24
+	{mso-style-parent:style0;
+	font-size:8.0pt;
+	text-align:right;
+	vertical-align:top;}
+.xl25
+	{mso-style-parent:style0;
+	vertical-align:middle;
+	white-space:normal;}
+.xl26
+	{mso-style-parent:style0;
+	font-size:9.0pt;
+	text-align:center;
+	vertical-align:middle;
+	border:.5pt solid windowtext;
+	white-space:normal;}
+.xl27
+	{mso-style-parent:style0;
+	font-size:9.0pt;
+	text-align:center;
+	vertical-align:middle;
+	border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:.5pt solid windowtext;
+	border-left:none;
+	white-space:normal;}
+.xl28
+	{mso-style-parent:style0;
+	vertical-align:top;
+	white-space:normal;}
+.xl29
+	{mso-style-parent:style0;
+	font-size:8.0pt;
+	text-align:center;
+	vertical-align:top;
+	border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	white-space:normal;}
+.xl30
+	{mso-style-parent:style0;
+	text-align:center;
+	vertical-align:top;
+	white-space:normal;}
+.xl31
+	{mso-style-parent:style0;
+	vertical-align:top;
+	border-top:.5pt solid windowtext;
+	border-right:none;
+	border-bottom:none;
+	border-left:none;}
+.xl32
+	{mso-style-parent:style0;
+	font-size:8.0pt;
+	text-align:center;
+	vertical-align:top;
+	border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	white-space:normal;}
+.xl33
+	{mso-style-parent:style0;
+	font-size:8.0pt;
+	text-align:left;
+	vertical-align:top;
+	border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	white-space:normal;}
+.xl34
+	{mso-style-parent:style0;
+	font-size:8.0pt;
+	vertical-align:top;
+	border-top:.5pt solid windowtext;
+	border-right:.5pt solid windowtext;
+	border-bottom:none;
+	border-left:.5pt solid windowtext;
+	white-space:normal;}
+a.linkp{COLOR: #0E033C;text-decoration: none;}
+a.linkp:hover{COLOR: #000000;text-decoration: none;}
+-->
+</style>		
+	</head>
+   
+    <body   leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" link=blue vlink=purple class=xl24>
+	<table align=center x:str border=0 cellpadding=0 cellspacing=0 width=938 style='border-collapse:
+ collapse;table-layout:fixed;width:731t'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:1389; width:29pt'>
+ <col class=xl24 width=300 style='mso-width-source:userset;mso-width-alt:6546; width:227pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ <col class=xl24 width=38 style='mso-width-source:userset;mso-width-alt:2267; width:29pt'>
+ 
+ <tr height=17 style='height:12.75pt'>
+
+  <td colspan=19 height=17 class=xl30 width=996 style='height:12.75pt;'>SEBARAN PEGAWAI <br><?=strtoupper($this->nmunit)?><br>MAHKAMAH AGUNG TAHUN <?=date(Y)?><br>
+  MENURUT PENDIDIKAN PER <?=strtoupper($this->judul)?></td>
+ </tr>
+ 
+ <tr height=17 style='height:12.75pt'>
+  <td height=17 colspan=19 class=xl24 style='height:12.75pt;mso-ignore:colspan'></td>
+ </tr>
+
+ <tr class=xl25 height=22 style='background:silver;mso-height-source:userset;height:17pt'>
+	<td rowspan=2 height=44 class=xl26 width=38 style='height:34pt;width:29pt'>NO</td>
+	<td rowspan=2 class=xl27 width=300 style='width:227pt'><?=$this->judul?></td>
+	<td class=xl27 colspan=2 width=124 style='width:94pt'>S3</td>
+	<td class=xl27 colspan=2 width=124 style='width:94pt'>S2</td>
+	<td class=xl27 colspan=2 width=124 style='width:94pt'>S1/D4</td>
+	<td class=xl27 colspan=2 width=124 style='width:94pt'>D3</td>
+	<td class=xl27 colspan=2 width=124 style='width:94pt'>SLTA/D1/D2</td>
+	<td class=xl27 colspan=2 width=124 style='width:94pt'>SLTP</td>
+	<td class=xl27 colspan=2 width=124 style='width:94pt'>SD</td>
+	<td class=xl27 colspan=3 width=186 style='width:141pt'>Jumlah</td>
+</tr>
+ <tr class=xl25 height=22 style='background:silver;mso-height-source:userset;height:17pt'>
+	<td class=xl27 width=38 style='width:29pt'>(L)</td>
+	<td class=xl27 width=38 style='width:29pt'>(P)</td>
+	<td class=xl27 width=38 style='width:29pt'>(L)</td>
+	<td class=xl27 width=38 style='width:29pt'>(P)</td>
+	<td class=xl27 width=38 style='width:29pt'>(L)</td>
+	<td class=xl27 width=38 style='width:29pt'>(P)</td>
+	<td class=xl27 width=38 style='width:29pt'>(L)</td>
+	<td class=xl27 width=38 style='width:29pt'>(P)</td>
+	<td class=xl27 width=38 style='width:29pt'>(P)</td>
+	<td class=xl27 width=38 style='width:29pt'>(L)</td>
+	<td class=xl27 width=38 style='width:29pt'>(L)</td>
+	<td class=xl27 width=38 style='width:29pt'>(P)</td>
+	<td class=xl27 width=38 style='width:29pt'>(L)</td>
+	<td class=xl27 width=38 style='width:29pt'>(P)</td>
+	<td class=xl27 width=38 style='width:29pt'>(L)</td>
+	<td class=xl27 width=38 style='width:29pt'>(P)</td>
+	<td class=xl27 width=38 style='width:29pt'>Total</td>
+
+ </tr>
+<?
+	$sqlunit = $this->sqlunit;
+	$s=1;
+	$jumlahtot4p=0; $jumlahtot4l=0;$jumlahtot3p=0; $jumlahtot3l=0;$jumlahtot3p=0;$jumlahtot2l=0;$jumlahtot2p=0;
+	$jumlahtot0p=0; $jumlahtot0l=0;$jumlahtot1p=0; $jumlahtot1l=0;$jumlahtot0p=0; $jumlahtot0l=0;
+	$jumlahtotp=0;$jumlahtotl=0;$jumlahtot=0;
+	foreach($this->jenjangpdk as $key => $value){
+		$jumlah4p = $statistik_serv->getStatistikData(" $sqlunit $key and  trim(c_pend)='10'  and c_peg_jeniskelamin='P'"); //S3
+		$jumlah4l = $statistik_serv->getStatistikData(" $sqlunit $key and trim(c_pend)='10' and c_peg_jeniskelamin='L'");
+		$jumlah3p = $statistik_serv->getStatistikData(" $sqlunit $key and  trim(c_pend)='09'  and c_peg_jeniskelamin='P'"); //S2
+		$jumlah3l = $statistik_serv->getStatistikData(" $sqlunit $key and trim(c_pend)='09'  and c_peg_jeniskelamin='L'");
+		$jumlah2p = $statistik_serv->getStatistikData(" $sqlunit $key and (trim(c_pend)='36' OR trim(c_pend)='07')  and c_peg_jeniskelamin='P'"); //S1/D4
+		$jumlah2l = $statistik_serv->getStatistikData(" $sqlunit $key and (trim(c_pend)='36' OR trim(c_pend)='07')  and c_peg_jeniskelamin='L'");
+		$jumlah21p = $statistik_serv->getStatistikData(" $sqlunit $key and (trim(c_pend)='32')  and c_peg_jeniskelamin='P'"); //D3
+		$jumlah21l = $statistik_serv->getStatistikData(" $sqlunit $key and (trim(c_pend)='32')  and c_peg_jeniskelamin='L'");
+		$jumlah1p = $statistik_serv->getStatistikData(" $sqlunit $key and (trim(c_pend)='40' OR trim(c_pend)='05' OR trim(c_pend)='04')  and c_peg_jeniskelamin='P'"); // SLTA - D2
+		$jumlah1l = $statistik_serv->getStatistikData(" $sqlunit $key and (trim(c_pend)='40' OR trim(c_pend)='05' OR trim(c_pend)='04')  and c_peg_jeniskelamin='L'");
+		$jumlah0p = $statistik_serv->getStatistikData(" $sqlunit $key and trim(c_pend)='41'  and c_peg_jeniskelamin='P'"); // SLTP
+		$jumlah0l = $statistik_serv->getStatistikData(" $sqlunit $key and trim(c_pend)='41'  and c_peg_jeniskelamin='L'");
+		$jumlahsp = $statistik_serv->getStatistikData(" $sqlunit $key and trim(c_pend)='29'  and c_peg_jeniskelamin='P'"); // Sd
+		$jumlahsl = $statistik_serv->getStatistikData(" $sqlunit $key and trim(c_pend)='29'  and c_peg_jeniskelamin='L'");
+	
+	$jumlahp = $jumlah4p + $jumlah3p + $jumlah2p + $jumlah21p + $jumlah1p + $jumlah0p + $jumlahsp;
+	$jumlahl = $jumlah4l + $jumlah3l + $jumlah2l + $jumlah21l + $jumlah1l + $jumlah0l + $jumlahsl;
+	$jumlah	 = $jumlahp + $jumlahl;
+	
+	$jumlahtot4p += $jumlah4p;
+	$jumlahtot4l += $jumlah4l;
+	$jumlahtot3p += $jumlah3p;
+	$jumlahtot3l += $jumlah3l;
+	$jumlahtot2p += $jumlah2p;
+	$jumlahtot2l += $jumlah2l;
+	$jumlahtot21p += $jumlah21p;
+	$jumlahtot21l += $jumlah21l;
+	$jumlahtot1p += $jumlah1p;
+	$jumlahtot1l += $jumlah1l;
+	$jumlahtot0p += $jumlah0p;
+	$jumlahtot0l += $jumlah0l;
+	$jumlahtotsp += $jumlahsp;
+	$jumlahtotsl += $jumlahsl;
+	
+	$jumlahtotp	 += $jumlahp;
+	$jumlahtotl	 += $jumlahl;
+	$jumlahtot	 +=	$jumlah;
+	?>	
+	<tr class=xl28 style='mso-height-source:userset;'>
+	<td height=22 class=xl29 width=38 style='height:17pt;width:29pt' x:num><?=$s?>.&nbsp;</td>
+	<td class=xl33 width=300 style='border-left:none;width:227pt'><?=$value?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlah4p?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlah4l?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlah3p?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlah3l?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlah2p?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlah2l?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlah21p?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlah21l?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlah1p?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlah1l?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlah0p?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlah0l?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahsp?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahsl?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahp?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahl?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlah?></td>
+					</tr>
+	<?
+	$s++;
+	}?>
+	<tr class=xl28 style='background:silver;font-style:bold;mso-height-source:userset;'>
+	<td height=22 class=xl29 width=38 style='height:17pt;width:29pt' x:num></td>
+	<td class=xl33 width=300 style='border-left:none;width:227pt'>Jumlah Keseluruhan</td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtot4p?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtot4l?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtot3p?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtot3l?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtot2p?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtot2l?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtot21p?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtot21l?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtot1p?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtot1l?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtot0p?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtot0l?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtotsp?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtotsl?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtotp?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtotl?></td>
+	<td class=xl29 width=38 style='border-left:none;width:29pt'><?=$jumlahtot?></td>
+	</tr>
+				
+		<tr height=17 style='height:12.75pt'>
+		  <td height=17 class=xl31 style='height:12.75pt'>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		  <td class=xl31>&nbsp;</td>
+		 </tr>
+		
+  </table>

@@ -1,0 +1,124 @@
+jQuery("#bulanabsen").bind("change",funcChangeBulan);
+jQuery("#bulanabsen2").bind("change",funcChangeBulan);
+jQuery("#cari_rekap").bind("click",funcChangeBulan);
+
+function rekapabsenpeg(v1,v2)
+{
+   var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/viewabsensipeg';
+   var kd_lokasi = document.getElementById('c_lokasi_unitkerja').value;
+   var c_eselon_i = document.getElementById('c_eselon_i').value;
+   var c_eselon_ii = document.getElementById('c_eselon_ii').value;
+   var c_eselon_iii = document.getElementById('c_eselon_iii').value;
+   var c_eselon_iv = document.getElementById('c_eselon_iv').value;
+   var bl = document.getElementById('bulanabsen').value;
+   var th = document.getElementById('tahunabsen').value;
+   var bl2 = document.getElementById('bulanabsen2').value;
+   var th2 = document.getElementById('tahunabsen2').value;
+   var w = 0; 
+   var h = 0;
+   w = screen.availWidth;
+   h = screen.availHeight;
+   var popW = 800, popH = 550;
+   var leftc = (w-popW)/2;
+   var topc = (h-popH)/2;
+   var selectWindow = window.open(url+'?v1='+v1+'&v2='+v2+'&kd_lokasi='+kd_lokasi+'&c_eselon_i='+c_eselon_i+'&c_eselon_ii='+c_eselon_ii+'&c_eselon_iii='+c_eselon_iii+'&c_eselon_iv='+c_eselon_iv+'&bl='+bl+'&th='+th+'&bl2='+bl2+'&th2='+th2
+  ,'Selection', 'left=' + leftc + ',top=' + topc + ', width='+popW+',height='+popH+',resizable=0,scrollbars=yes');
+}
+function funcChangeBulan()
+{
+   var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/listdataabsensiku';  
+   var kd_lokasi = document.getElementById('c_lokasi_unitkerja').value;
+   var c_eselon_i = document.getElementById('c_eselon_i').value;
+   var c_eselon_ii = document.getElementById('c_eselon_ii').value;
+   var c_eselon_iii = document.getElementById('c_eselon_iii').value;
+   var c_eselon_iv = document.getElementById('c_eselon_iv').value;
+   
+   var bulanabsen = document.getElementById('bulanabsen').value;
+   var tahunabsen = document.getElementById('tahunabsen').value;
+   var bulanabsen2 = document.getElementById('bulanabsen2').value;
+   var tahunabsen2 = document.getElementById('tahunabsen2').value;
+   if (tahunabsen2<tahunabsen) { document.getElementById('tahunabsen2').value = tahunabsen; }
+   if (bulanabsen2<bulanabsen) 
+   { if (tahunabsen2<=tahunabsen) { document.getElementById('bulanabsen2').value = bulanabsen; }  }
+   var par = { c_lokasi_unitkerja:kd_lokasi, c_eselon_i:c_eselon_i, c_eselon_ii:c_eselon_ii, c_eselon_iii:c_eselon_iii, c_eselon_iv:c_eselon_iv, bulanabsen:bulanabsen, tahunabsen:tahunabsen, bulanabsen2:bulanabsen2, tahunabsen2:tahunabsen2 };
+   jQuery.get(url, par, function(data) {
+	 $("#pentry").html(data);
+     jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/lstdataabsensijs');
+   });
+}
+function funcChangeBulan1()
+{
+   var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/listdataabsensi';
+   var kd_lokasi = document.getElementById('kd_lokasi').value;
+   var c_eselon_i = document.getElementById('c_eselon_i').value;
+   var c_eselon_ii = document.getElementById('c_eselon_ii').value;
+   //var i_peg_nip = document.getElementById('i_peg_nip').value;
+   
+   var bulanabsen = document.getElementById('bulanabsen').value;
+   var tahunabsen = document.getElementById('tahunabsen').value;
+   var par = { kd_lokasi:kd_lokasi, c_eselon_i:c_eselon_i, c_eselon_ii:c_eselon_ii, bulanabsen:bulanabsen, tahunabsen:tahunabsen };
+   jQuery.get(url, par, function(data) {
+	 $("#tableview").html(data);
+     jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/lstdataabsensijs');
+   });
+}
+function gantinewPagebr(divId, modul, js, currentPage, param1, param2, param3, param4)
+{
+	var opt = {currentPage : currentPage, param1 : param1, param2 : param2, param3 : param3 , param4 : param4};
+	jQuery.get(modul,opt,function(data) {
+		jQuery("#"+divId).html(data);
+        jQuery.getScript(js);
+	});
+}
+/*
+function cariCombo(){
+	var url1 = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensiku'; 
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+	var eseloni=document.getElementById('c_eselon_i').value;
+	var eselonii=document.getElementById('c_eselon_ii').value;
+	var eseloniii=document.getElementById('c_eselon_iii').value;
+	var eseloniv=document.getElementById('c_eselon_iv').value;	
+       if (c_lokasi_unitkerja=='1')
+       { var url = '<?php echo $this->basePath; ?>/sdmmodule/listcombolaporan/listcomboabsensi';  }
+       else{
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/listcombolaporan/listcomboabsensi2'; 
+      }   
+	var param = {c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+	       jQuery.get(url, param, function(data) {
+		jQuery("#listcombo").html(data);  //getEselon();
+              document.getElementById('i_peg_nip').value = "";
+              var i_peg_nip = document.getElementById('i_peg_nip').value;
+	       var param1 = {c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv,i_peg_nip:i_peg_nip};
+	       jQuery.get(url1, param1, function(data1) {
+	          $("#pentry").html(data1);
+                 jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensijs');
+	       });
+	});
+}
+*/
+
+function cariCombo(){
+	var url1 = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/listdataabsensiku'; 
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+	var eseloni=document.getElementById('c_eselon_i').value;
+	var eselonii=document.getElementById('c_eselon_ii').value;
+	var eseloniii=document.getElementById('c_eselon_iii').value;
+	var eseloniv=document.getElementById('c_eselon_iv').value;	
+       if (c_lokasi_unitkerja=='1')
+       { var url = '<?php echo $this->basePath; ?>/sdmmodule/listcombolaporan/listcomboabsensi';  }
+       else{
+	  var url = '<?php echo $this->basePath; ?>/sdmmodule/listcombolaporan/listcomboabsensi2'; 
+       }   
+	var param = {c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+	//var param = {c_lokasi_unitkerja:c_lokasi_unitkerja,c_eselon_i:eseloni,c_eselon_ii:eselonii,c_eselon_iii:eseloniii,c_eselon_iv:eseloniv};
+	       jQuery.get(url, param, function(data) {
+		jQuery("#listcombo").html(data);  //getEselon();
+              var tahunabsen = document.getElementById('tahunabsen').value;
+              var bulanabsen = document.getElementById('bulanabsen').value;
+	       var param1 = {c_lokasi_unitkerja:c_lokasi_unitkerja,c_eselon_i:eseloni,c_eselon_ii:eselonii,c_eselon_iii:eseloniii,c_eselon_iv:eseloniv,tahunabsen:tahunabsen,bulanabsen:bulanabsen};
+	       jQuery.get(url1, param1, function(data1) {
+	          $("#pentry").html(data1);
+                 jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/lstdataabsensijs');
+	       });
+	});
+}

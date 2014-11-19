@@ -1,0 +1,153 @@
+<? 
+$file_type = "vnd.ms-excel";
+$file_ending = "xls";
+header("Content-Type: application/$file_type");
+header("Content-Disposition: attachment; filename=rekap.$file_ending");
+header("Pragma: no-cache");
+header("Expires: 0");
+
+$html ='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<style type="text/css">
+</style></head>
+<body>';
+
+$html .='
+		<table border="1">
+		<tr>
+			
+			<td rowspan="2" align="center" valign="middle">Nomor KTP</td>
+			<td rowspan="2" align="center" valign="middle">Posisi Jabatan</td>
+			<td rowspan="2" align="center" valign="middle">Wilayah Pengadilan Tinggi</td>
+			<td rowspan="2" align="center" valign="middle">Nama Lengkap</td>
+			<td rowspan="2" align="center" valign="middle">Gol. Darah</td>
+			<td rowspan="2" align="center" valign="middle">Status Menikah</td>
+			<td rowspan="2" align="center" valign="middle">Jenis Kelamin</td>
+			<td rowspan="2" align="center" valign="middle">Agama</td>
+			<td rowspan="2" align="center" valign="middle">Hobi</td>
+			<td colspan="9" align="center">Pendidikan</td>
+			<td colspan="3" align="center">Kelahiran</td>
+			<td colspan="6" align="center">Ciri-ciri Fisik</td>			
+			<td colspan="8" align="center">Alamat</td>
+		</tr>
+		<tr>
+			<td align="center">Tingkat Pendidikan</td>
+			<td align="center">Perguruan Tinggi</td>
+			<td align="center">Jurusan</td>
+			<td align="center">Akreditasi</td>
+			<td align="center">Tahun Mulai</td>
+			<td align="center">Tahun Selesai</td>
+			<td align="center">IPK / Nilai Ijazah</td>
+			<td align="center">Nomor Ijazah</td>
+			<td align="center">Tanggal Ijazah</td>			
+			<td align="center">Propinsi Kelahiran</td>
+			<td align="center">Kabupaten / Kota Kelahiran</td>
+			<td align="center">Tanggal Kelahiran</td>
+			<td align="center">Tinggi Badan</td>
+			<td align="center">Berat Badan</td>
+			<td align="center">Rambut</td>
+			<td align="center">Bentuk Muka</td>
+			<td align="center">Warna Kulit</td>
+			<td align="center">Ciri Khas</td>
+			<td align="center">Jalan</td>		
+			<td align="center">RT</td>
+			<td align="center">RW</td>
+			<td align="center">Kecamatan</td>
+			<td align="center">Desa/Kelurahan</td>
+			<td align="center">Propinsi</td>
+			<td align="center">Kabupaten</td>
+			<td align="center">Kode Pos</td>
+		';
+
+	if ($this->dataList == 0) {
+		
+$html .='		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>	
+	
+		</tr>';
+	}	else { 
+		foreach ($this->dataList as $key => $val):
+		if ($this->escape($val['c_statusnikah'])=="M"){$statmen="Menikah";}
+		if ($this->escape($val['c_statusnikah'])=="B"){$statmen="Belum Menikah";}
+		if ($this->escape($val['c_statusnikah'])=="J"){$statmen="Janda";}
+		if ($this->escape($val['c_statusnikah'])=="D"){$statmen="Duda";}
+		
+$vFoto = $this->basePath."/upld/Uploaddata/getphotool?f=".trim($this->escape($val['e_file_photo']));
+$html .=' 
+	<tr>
+		
+		<td>'.$this->escape($val['i_ktp']).'</td>
+		<td>'.$this->escape($val['c_posisi_jabatan']).'</td>
+		<td>'.$this->escape($val['n_wilayah']).' '.$this->escape($val['n_pengadilan']).'</td>
+		<td>'.$this->escape($val['n_pendaftar']).'</td>
+		<td>'.$this->escape($val['c_golongan_darah']).'</td>
+		<td>'.$statmen.'</td>
+		<td>'.$this->escape($val['c_jeniskelamin']).'</td>
+		<td>'.$this->escape($val['n_agama']).'</td>
+		<td>'.$this->escape($val['n_hobi']).'</td>
+		<td>'.$this->escape($val['n_pendidikan']).'</td>
+		<td>'.$this->escape($val['n_pend_lembaga']).'</td>
+		<td>'.$this->escape($val['n_pend_jurusan']).'</td>
+		<td>'.$this->escape($val['c_pend_akreditasi']).'</td>
+		<td>'.$this->escape($val['d_pend_mulai']).'</td>
+		<td>'.$this->escape($val['d_pend_akhir']).'</td>
+		<td>'.$this->escape($val['i_pend_ipk']).'</td>
+		<td>'.$this->escape($val['i_pend_ijazah']).'</td>
+		<td>'.$this->escape($val['d_pend_ijazah']).'</td>		
+		<td>'.$this->escape($val['n_propinsi_lahir']).'</td>
+		<td>'.$this->escape($val['n_kota_lahir']).'</td>
+		<td>'.$this->escape($val['d_lahir']).'</td>		
+		<td>'.$this->escape($val['q_tinggibdn']).'</td>
+		<td>'.$this->escape($val['q_beratbdn']).'</td>
+		<td>'.$this->escape($val['n_rambut']).'</td>
+		<td>'.$this->escape($val['n_btkmuka']).'</td>
+		<td>'.$this->escape($val['n_warnakulit']).'</td>
+		<td>'.$this->escape($val['n_cirikhas']).'</td>	
+		<td>'.$this->escape($val['a_rumah']).'</td>
+		<td>'.$this->escape($val['a_rt']).'</td>
+		<td>'.$this->escape($val['a_rw']).'</td>
+		<td>'.$this->escape($val['a_kecamatan']).'</td>
+		<td>'.$this->escape($val['a_kelurahan']).'</td>	
+		<td>'.$this->escape($val['n_propinsi']).'</td>	
+		<td>'.$this->escape($val['n_kota']).'</td>		
+		<td>'.$this->escape($val['a_kodepos']).'</td>
+	</tr>';
+ endforeach; 		  	  
+	}	
+$html .='</table>';
+echo $html;
+?>

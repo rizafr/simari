@@ -1,0 +1,154 @@
+/*  
+Created: 01/10/2009
+Modified: 06/10/2009
+Author: Irwan Setiawan
+*/
+body {
+	background: #eee url(../images/bg_body.png) repeat-x;
+}
+a {
+	color: #371c01;
+	text-decoration: none;
+}
+
+a:hover {
+	color: green;
+}
+#header{
+	WIDTH: 996px;HEIGHT: 77px;BACKGROUND: url(../images/header_admin.jpg) top no-repeat;
+}
+#cont-nav{
+	BACKGROUND: url(../images/bg_nav.png) top no-repeat;
+	}
+#page {
+	BACKGROUND: url(../images/bg_content.png) repeat-y;
+}
+.main-content {
+	background:url(../images/bg_main_cont.gif) no-repeat top;
+}
+/* Content */
+
+#content {
+}
+#leftbar .mod .hd {	
+	color:#FFF;
+	background: url(../images/head_mod_fitri.gif) top no-repeat ;
+}
+#leftbar .mod .bd {	
+	background:#EEE;
+	border:1px solid #CCC;
+}
+
+#rightbar .mod .hd {	
+	background: url(../images/hd_box.gif) bottom no-repeat ;
+}
+#rightbar .mod .bd {	
+	background:#FADA63;
+}
+#rightbar .mod .ft {	
+	background: url(../images/box_bot.gif) no-repeat;
+}
+#footer  .top {
+	background: #eee url(../images/bg_footer.png) top no-repeat;
+}
+#footer .bd {
+	color: #777;
+	background: #eee
+}
+
+#footer a {
+	color: green;
+	text-decoration:underline;
+}
+.date {color:#D27D02}
+/*pagination*/
+.pagination2, .alphabet {
+	height:1%;
+	margin:0px;
+	text-align:right;
+	width:auto;
+	font-family:Verdana,Helvetica,Arial,sans-serif;
+	font-size:0.85em;
+	text-decoration:none;
+	} 			 
+.pagination2 strong {
+	background-color:#D45657;
+	border:1px solid #D45657;
+	color:#FFFFFF;
+	font-weight:normal;
+    line-height:1.5em;
+	margin:0 1px 0 5px;
+	padding:0 3px;
+	}
+.alphabet strong {
+	background-color:#444;
+	border:1px solid #D45657;
+	color:#FFFFFF;
+	font-weight:normal;
+	font-size:1.5em;
+	margin:0 1px 0 5px;
+	padding:0 3px;
+	}
+
+.pagination2 a, .alphabet a  {border:none;text-decoration:none;}
+.pagination2 span a, .pagination2 span a:link, .pagination2 span a:visited, .pagination2 span a:active, .alphabet span a, .alphabet span a:link, .alphabet span a:visited, .alphabet span a:active {
+	background-color:#EEEEEE;
+	border:1px solid #BABABA;
+	color:#555;
+	font-weight:normal;
+	line-height:1.5em;
+	margin:0 1px;
+	padding:0 3px;
+	text-decoration:none;
+	}
+
+.pagination2 span a:hover {
+	background-color:#B13736;
+	border-color:#B13736;
+	color:#FFFFFF;
+	text-decoration:none;
+	}
+.alphabet span a:hover {
+	background-color:#444;
+	border-color:#B13736;
+	color:#FFFFFF;
+	text-decoration:none;
+	}	
+	
+.pagination2 span .page-sep, .alphabet span .page-sep {
+	display:none;
+	}
+div.pagination {
+	padding: 3px 0;
+	margin: 5px 0;
+	font-size:11px;
+}
+
+div.pagination a {
+	padding: 1px 4px;
+	margin: 2px;
+	border: 1px solid #DDDDDD;
+	
+	text-decoration: none; /* no underline */
+	color: #044203;
+}
+div.pagination a:hover, div.pagination a:active {
+	border: 1px solid #044203;
+
+	color: #000;
+}
+div.pagination span.current {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #044203;
+	font-weight: bold;
+	background-color: #044203;
+	color: #FFF;
+	}
+div.pagination span.disabled {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #EEE;
+	color: #DDD;
+	}
+span.highlight{color:red}

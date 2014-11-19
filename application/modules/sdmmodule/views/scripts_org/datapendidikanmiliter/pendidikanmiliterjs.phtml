@@ -1,0 +1,59 @@
+function diklatMilM(par,nip,c_jenjang,c_sekolahmil,d_tahun_masuk){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datapendidikanmiliter/pendidikanmiliter"	
+	var opt = {par:par,nip:nip,c_jenjang:c_jenjang,c_sekolahmil:c_sekolahmil,d_tahun_masuk:d_tahun_masuk};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+} 
+
+function insertDikMil(){
+	jQuery("#formdikmil").ajaxForm(maintain_dikmail);
+}
+
+var maintain_dikmail = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formdikmil;
+		astr= "document.formdikmil";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/								
+					if((!c_jenjang.value)){cekVal = sdmValidasiData(astr,"c_jenjang","Jenjang Diklat harus diisi....!");return false;break;}
+					if((!c_sekolahmil.value)){cekVal = sdmValidasiData(astr,"c_sekolahmil","Sekolah Diklat harus diisi....!");return false;break;}
+					if((!d_tahun_masuk.value)){cekVal = sdmValidasiData(astr,"d_tahun_masuk","Tahun Masuk harus diisi....!");return false;break;}
+				
+				 break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formdikmil").ajaxForm(maintain_dikmail);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datapendidikanmiliter/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+
+
+
+function HapusDataPelatihan(nip,c_pelatihan,dmulaipelatihan)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/datapelatihan/hapusdata"
+		var opt = {nip:nip,c_pelatihan:c_pelatihan,dmulaipelatihan:dmulaipelatihan};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}
+
+

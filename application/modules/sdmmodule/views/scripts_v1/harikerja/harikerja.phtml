@@ -1,0 +1,54 @@
+<? 
+require_once 'Zend/View.php';
+require_once 'share/tanggal.php'; 
+require_once 'share/halaman_list.php';
+$ctrlFrm = new Zend_View();
+   $bulanDesc = array("01"=>"Januari",
+                      "02"=>"Februari",
+                      "03"=>"Maret",
+                      "04"=>"April",
+                      "05"=>"Mei",
+                      "06"=>"Juni",
+                      "07"=>"Juli",
+                      "08"=>"Agustus",
+                      "09"=>"September",
+                      "10"=>"Oktober",
+                      "11"=>"November",
+                      "12"=>"Desember");
+$thnSekarang = $this->thnSekarang;
+$blnSekarang = $this->blnSekarang;
+
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM
+				<strong> &#8250; </strong>Hari Kerja
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+	
+	<h2 class="title">Hari Kerja</h2>
+
+<form method="post" name="frmajuancuti" id="frmajuancuti">		
+<div class="boxholder">		
+	<div class="search-panel">
+		Periode :
+					<?										
+						$thn_atr = array("style"=>"width:40px","maxlength"=>"4");
+						echo $ctrlFrm->formSelect('blnHariKerja', $blnSekarang, null,$bulanDesc)."&nbsp;";
+						echo $ctrlFrm->formText('thnHariKerja', $thnSekarang, $thn_atr)."&nbsp;";
+				    ?>
+					<input type='button' id='iiCariPegAbsensi' value='Buat' onClick='ioCariPegAbsensi()'>
+					<input type='button' id='iiCariPegAbsensi' value='Simpan' onClick='ioCariPegAbsensi()'>
+				
+	</div>
+<br>		
+
+	<div class="panel">
+		<div class="spacer"></div>
+			<?echo $this->html;?>
+		</div>
+	</div>	

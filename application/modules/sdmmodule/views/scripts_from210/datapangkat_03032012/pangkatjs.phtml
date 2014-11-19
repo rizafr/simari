@@ -1,0 +1,72 @@
+function PangkatM(par,nip,nGol,tmt,jns){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datapangkat/pangkat"	
+	var opt = {par:par,nip:nip,nGol:nGol,tmt:tmt,jns:jns};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#frmpangkat").ajaxForm(maintain_pangkat);
+		});		
+}
+var maintain_pangkat = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.frmpangkat;
+		astr= "document.frmpangkat";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+					/*sdmValidasiData (navigation.js)*/
+					if((!c_golongan.value)){cekVal = sdmValidasiData(astr,"c_golongan","Pangkat harus diisi....!");return false;break;}				
+					if((!d_tmt_golongan.value)){cekVal = sdmValidasiData(astr,"d_tmt_golongan","TMT Golongan harus diisi....!");return false;break;}
+					if((!c_jenis_naik.value)){cekVal = sdmValidasiData(astr,"c_jenis_naik","Jenis Kenaikan harus diisi....!");return false;break;}
+					break;
+			}
+		}
+	}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#frmpangkat").ajaxForm(maintain_pangkat);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datapangkat/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+function insertPangkat(){
+	jQuery("#frmpangkat").ajaxForm(maintain_pangkat);
+}
+function HapusDataPangkat(nip,nGol,tmt,jns)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/datapangkat/hapusdata"
+		var opt = {nip:nip,nGol:nGol,tmt:tmt,jns:jns};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}
+
+function setvalueuplfile(v,n,f) { 
+	  if (f!="") {
+	    var pass=false;
+	    var af=f.split("/");
+        var nval=eval("document.forms[0]."+n);
+		var ext=v.substring(v.lastIndexOf(".")+1,v.length);
+		ext=ext.toLowerCase();
+		if ((ext=='pdf')||(ext=='docx')||(ext=='doc')){ 
+		document.forms[0].a_file.value=v; 
+		}
+		else{
+		  alert ("Hanya untuk file berekstensi pdf,doc atau docx ");
+		  nval.value="";
+		  document.forms[0].a_file.value=""; 
+		  document.forms[0].e_file_sk.value=""; 		  
+		  return;	  
+		}
+	  }
+}

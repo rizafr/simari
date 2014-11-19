@@ -1,0 +1,253 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+require_once 'share/halaman_list.php'; 
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$jmlnmPegList = count($this->PegawaiList);  
+$halaman = new halaman_list();
+$nom =$this->nom;
+?>
+<div id="backgroundPopup">
+	<div id="popupContact">
+	
+	<div class="search-panel">
+	<form method="post" id="frmCariUnitkerja" name="frmCariUnitkerja">
+	<!--form id="frmunitkerjacari" name="frmunitkerjacari" method="post"-->
+		<table width="100%" class="std" cellpadding="0" cellspacing="0">
+			<tbody>
+				<tr>
+					<td align="left" colspan="6"><b>Pencarian</b></td>
+				</tr>
+
+<tr>
+				    <td align="right">Lokasi :</td>
+					<td colspan="5" align="left">
+					<?
+						$jmlLokList=count($this->lokasiList);
+						$lokList[''] = '--Pilih--';
+							for ($i = 0; $i < $jmlLokList; $i++) {
+								$lokList[(string)$this->lokasiList[$i]->c_lokasi] = (string)$this->lokasiList[$i]->n_lokasi;			 
+							}
+						$lokAtrib = array("style"=>"width: 300px","id"=>"lokasi","onchange"=>"javascript:unitkerjalist();"); 
+						echo $ctrlFrm->formSelect('lokasi',$this->lokasi,$lokAtrib,$lokList); 	
+						if($this->lokasi=='3'){
+							$labeleselon2 = "Pengadilan Tingkat Banding";
+							$labeleselon3 = "Pengadilan Tingkat I";
+						}else{
+							$labeleselon2 = "Eselon II";
+							$labeleselon3 = "Eselon III";
+						}
+					?>
+					</td>
+					<td width="35%">&nbsp;</td>
+				</tr>
+				<tr>
+				    <td align="right">Eselon I :</td>
+					<td colspan="5" align="left">
+					<?
+						$jmleseloniList=count($this->eseloniList);
+						$eseloniList[''] = '--Pilih--';
+							for ($i = 0; $i < $jmleseloniList; $i++) {
+								$eseloniList[(string)$this->eseloniList[$i]->c_eselon_i] = (string)$this->eseloniList[$i]->n_unitkerja." - ".(string)$this->eseloniList[$i]->c_eselon_i." - ".(string)$this->eseloniList[$i]->c_satker;			 
+							}
+						$eslAtrib = array("style"=>"width: 420px","id"=>"eselon_i","onchange"=>"javascript:unitkerjalist();");  	
+						echo $ctrlFrm->formSelect('eselon_i',$this->eselon_i,$eslAtrib,$eseloniList); 							
+					?>
+					</td>
+				</tr>
+				<tr>
+				    <td align="right"><?=$labeleselon2?> :</td>
+					<td colspan="5" align="left">
+					<?
+						$jmleseloniiList=count($this->eseloniiList);
+						$eseloniiList[''] = '--Pilih--';
+							for ($i = 0; $i < $jmleseloniiList; $i++) {
+								$eseloniiList[(string)$this->eseloniiList[$i]->c_eselon_ii."~".(string)$this->eseloniiList[$i]->kode] = (string)$this->eseloniiList[$i]->n_unitkerja." - ".(string)$this->eseloniiList[$i]->kode ." - ".(string)$this->eseloniiList[$i]->c_satker." -- ".(string)$this->eseloniiList[$i]->c_eselon_ii;
+							}
+						$es2Atrib = array("style"=>"width: 420px","id"=>"eselon_ii","onchange"=>"javascript:unitkerjalist();");
+						
+						echo $ctrlFrm->formSelect('eselon_ii',$this->eselon_ii,$es2Atrib,$eseloniiList); 							
+					?>
+					</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+				    <td align="right"><?=$labeleselon3?> :</td>
+					<td colspan="5" align="left">
+					<?
+						$jmleseloniiiList=count($this->eseloniiiList);
+						$eseloniiiList[''] = '--Pilih--';
+							for ($i = 0; $i < $jmleseloniiiList; $i++) {
+								$eseloniiiList[(string)$this->eseloniiiList[$i]->c_eselon_ii."~".(string)$this->eseloniiiList[$i]->kode] = (string)$this->eseloniiiList[$i]->n_unitkerja." - ".(string)$this->eseloniiiList[$i]->kode." - ".(string)$this->eseloniiiList[$i]->c_satker." -- ".(string)$this->eseloniiiList[$i]->c_eselon_ii;			 
+							}
+						
+						$es3Atrib = array("style"=>"width: 420px","id"=>"eselon_iii","onchange"=>"javascript:unitkerjalist();");  		
+						
+						echo $ctrlFrm->formSelect('eselon_iii',$this->eselon_iii, $es3Atrib, $eseloniiiList); 							
+					?>
+					</td>
+					<td>&nbsp;</td>
+				</tr>
+				
+				<tr>
+				    <td align="right">Bagian :</td>
+					<td colspan="5" align="left">
+					<?
+						$jmleselonivList=count($this->eselonivList);
+						$eselonivList[''] = '--Pilih--';
+							for ($i = 0; $i < $jmleselonivList; $i++) {
+								$eselonivList[(string)$this->eselonivList[$i]->c_eselon_iv]= (string)$this->eselonivList[$i]->n_unitkerja." - ".(string)$this->eselonivList[$i]->c_satker." -- ".(string)$this->eselonivList[$i]->c_eselon_iv;			 
+							}
+						
+						$es4Atrib = array("style"=>"width: 420px","id"=>"eselon_iv","onchange"=>"javascript:unitkerjalist();");  		
+						
+						echo $ctrlFrm->formSelect('eselon_iv',$this->eselon_iv, $es4Atrib, $eselonivList); 							
+					?>
+					</td>
+					<td>&nbsp;</td>
+				</tr>
+
+				
+
+				
+			</tbody>
+		</table>
+<BR>
+<table width="100%" border="0" cellpadding="0" cellspacing="1" align="center">
+<?
+	$kategoriCari = array(""=>"--Pilih--",
+						"i_peg_nip"=>"NIP",
+						"n_peg"=>"Nama");
+	echo $ctrlFrm->formSelect('kategoriCari', $this->kategoriCari, null, $kategoriCari);						
+?>
+	<input type="text" id="carii" name="carii" align="center" value ="<? echo $this->katakunciCari;?>">
+	<input type="button" name="cari" value ="Search" onclick="javascript:unitkerjalist();">
+	
+				<?
+			         //$atribSubmit = array("onclick"=>"javascript:unitkerjalist();");
+			         //echo $ctrlFrm->formSubmit('cari', 'Search', $atribSubmit)."&nbsp;";
+				?>
+</table>
+
+
+</form>
+</div>
+
+
+
+
+
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+		<tr>
+		<td>
+			&nbsp;		
+		</td>
+		<td><div class="delete" title="Close" onclick="closeDetil()"></div></td>
+		</tr>
+		</table>
+		<div style="overflow: hidden;">
+			<div class="wrap">
+				<div class="panel" style="height: 500px;overflow: auto;border: solid 1px #000;padding: 5px;" >
+					<h2 class="title">Daftar Pegawai</h2>					
+					<div class="inner" id="targettbl">					
+						<span class="corners-top"><span></span></span>
+						<div class="spacer"></div> 
+						   <table align="center" border="0" cellspacing="1" cellpadding="2" class="tbl">
+								<tr>
+									<th width="4%">No.</th>
+									<th width="10%">NIP</th>
+									<th width="30%">Nama</th>
+									<th width="15%">Jenis Kelamin</th>
+									<th width="15%">Gol/Pangkat</th>
+								</tr> 
+<? 		if (count($this->PegawaiList) == 0) {?>
+								<tr class="event">
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>	
+<?		}else{
+				foreach ($this->PegawaiList as $key => $val):
+				$jk = '';
+				if($this->escape($val['c_peg_jeniskelamin'])=='L'){
+				$jk = 'Laki-Laki';
+				}
+				else{
+				$jk = 'Perempuan';
+				}
+										if ($key%2==0) { ?>
+										<tr class="event">
+										<? } else if ($key%2==1) { ?>
+										<tr class="event2">
+										<? } 
+										$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
+										?>
+											<td class="clcenter"><?php echo $noUrut;?></td>
+											<td><a href="#" onclick="pilihData('<?php echo $this->escape($val['i_peg_nip_new']);?>','<?php echo $this->escape($val['n_peg']);?>','<?php echo $this->escape($val['n_pangkat']);?>','<?php echo $this->escape($val['c_golongan']);?>','<?php echo $this->escape($val['c_peg_jeniskelamin']);?>','<? echo $nom;?>')"><?php echo $this->escape($val['i_peg_nip_new']);?></a></td>
+											<td><?php echo $this->escape($val['n_peg']);?></td>
+											<td><?php echo $jk;?></td>
+											<td><?php echo $this->escape($val['n_golongan'])."/".$this->escape($val['n_pangkat']);?></td>
+											
+										</tr>
+<?php 
+				endforeach;}
+?>
+							
+							</table>
+<?
+$orderBy=$this->orderBy;
+$modul = $this->basePath."/sdmmodule/detil/listnamapejabatan?orderBy=$orderBy&order=$this->orderbya&cCol=$this->cCol&nCol=$this->nCol&nom=$this->nom";
+echo $halaman->halamanListPopup($this->totalpegawaiList, $this->numToDisplay, $this->currentPage, $modul)
+?>							
+						<span class="corners-bottom"><span></span></span>
+					</div>
+				</div>
+			</div><!-- wrap -->	
+		</div>
+		</div>
+	</div>
+</div>	
+<script>
+function pilihData(nip,nama,pangkat,golongan,jnkel,nom){
+	document.getElementById('i_peg_nip_'+nom).value=nip;
+	document.getElementById('n_peg_'+nom).value=nama;	
+	document.getElementById('n_pangkat_'+nom).value=pangkat;
+	document.getElementById('c_golongan_'+nom).value=golongan;
+	closeDetil();
+}
+
+
+function cariListPegawai(nom){
+var cCol=document.getElementById('cCol').value;
+var nCol=document.getElementById('nCol').value;
+var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/listnamapejabatan';
+var param = {cCol:cCol,nCol:nCol,nom:nom};
+jQuery.get(url,param,function(data) {
+jQuery("#popupview").html(data);
+centerPopup();
+loadPopup();
+});}
+
+function unitkerjalist()
+{
+	lokasi = document.getElementById('lokasi').value;
+	eselon_i = document.getElementById('eselon_i').value;
+	eselon_ii = document.getElementById('eselon_ii').value;
+	eselon_iii = document.getElementById('eselon_iii').value;
+	eselon_iv = document.getElementById('eselon_iv').value;
+	kategoriCari = document.getElementById('kategoriCari').value;
+	carii = document.getElementById('carii').value;
+	nom =  '<?php echo $nom; ?>';
+	var param = {nom:nom,kategoriCari:kategoriCari,carii:carii,lokasi:lokasi,eselon_i:eselon_i,eselon_ii:eselon_ii,eselon_iii:eselon_iii,eselon_iv:eselon_iv};
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/listnamapejabatan';
+	jQuery.get(url,param,function(data) {
+	jQuery("#popupview").html(data);
+	centerPopup();
+	loadPopup();
+	});
+}
+
+</script>

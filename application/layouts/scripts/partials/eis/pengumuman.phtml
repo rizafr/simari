@@ -1,0 +1,22 @@
+<?php
+$jumpengumumanPubList = count($this->pengumumanPubList); 
+if ($jumpengumumanPubList!=0) {
+echo" 		<ul class=\"media\">\n";
+ foreach ($this->pengumumanPubList as $val2): 
+$dat = $listtmpengumuman[$j];
+$objtmpengumuman = unserialize($dat); 
+$idpengumuman=trim($this->escape($val2['c_pengumuman']));
+$jdlpengumuman=trim($this->escape($val2['n_judul']));
+$detilpengumuman=trim($this->escape($val2['n_detil']));
+$tglpengumuman=formatDate(trim($this->escape($val2['d_pengumuman'])));
+
+ ?>
+	               <li><h3><a href="#" onclick="showDetilmed('<?php echo $this->basePath; ?>/portalmodule/pengumuman/pengumumandetil','<?=$idpengumuman?>','<?php echo $this->basePath; ?>/portalmodule/pengumuman/indekspengumuman','<?php echo $this->basePath; ?>/portalmodule/pengumuman/pengumumanjs','Pengumuman');"><?php echo $jdlpengumuman; ?></a></h3></li>
+
+
+	<?php endforeach;?> 	
+	             </ul>	
+		<div class="all">
+		<a class="viewall" href="#indekspengumuman" onclick="goExec_Script('<?php echo $this->basePath; ?>/portalmodule/pengumuman/indekspengumuman','<?php echo $this->basePath; ?>/portalmodule/pengumuman/pengumumanjs', 'pengumuman')">Lihat Arsip Pengumuman</a>				 
+		</div>
+<?php } else echo "<center class=\"highlight\">Tidak ada pengumuman</center>\n"; ?>

@@ -1,0 +1,314 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+?>
+<script>
+jQuery(function() {
+	jQuery("#tmt_jabatan").datepicker();
+});
+</script>
+<div id="backgroundPopup" >
+	<center>
+	<div id="popupContact" style="height:450px; width:550px;" >	
+
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+			<tr class="event">
+				<td align="left">
+					<h3>JABATAN TERAKHIR</h3>
+				</td>
+				<td align="right">
+					<div class="delete" title="Close" onclick="closeDetil()"></div>
+				</td>
+			</tr>
+		</table>
+<form id="formresult" method="post" action="" name="formresult">		
+			<table border="0" width="100%" class="table">
+				<tr>
+					<td width="30%">Eselon</td>
+					<td width="2%">:</td> 
+					<td>					
+						<?
+							$jmlEslList=count($this->eselonList);
+							$eslList[''] = '--Pilih--';
+							for ($i = 0; $i < $jmlEslList; $i++) {
+								$eslList[(string)$this->eselonList[$i]->c_eselon] = (string)$this->eselonList[$i]->n_eselon;			 
+							}
+							$eslAtrib = array("style"=>"width: 240px","onChange"=>"javascript:getEselon()"); 		
+							echo $ctrlFrm->formSelect('c_eselon',$this->c_eselon, $eslAtrib, $eslList); 							
+						?>
+					</td>							
+				</tr>
+				<tr>
+					<td width="30%">Nama Jabatan</td>
+					<td width="2%">:</td> 
+					<td id="targetjbt">					
+						<?
+							$jmlnmJabatanList=count($this->nmJabatanList);
+							$nmJabatanList[''] = '--Pilih--';
+							foreach ($this->nmJabatanList as $key => $val): 
+								$nmJabatanList[$this->escape($val['c_jabatan'])] = $this->escape($val['n_jabatan']);			 
+							endforeach;	
+							echo $ctrlFrm->formSelect('esl_jabatan',$this->esl_jabatan, null, $nmJabatanList); 								
+						?>
+						<input type="text" name="nm_jabatan" id="nm_jabatan" value="<?=$this->nm_jabatan?>" size="60">
+					</td>								
+				</tr>
+				<tr>
+					<td>TMT. Jabatan</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="tmt_jabatan" id="tmt_jabatan" value="<?=$this->tmt_jabatan?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+					</td>								
+				</tr>					
+	
+			</table>
+	<table border="0" cellpadding="0" cellspacing="1" class="std" id="listcombo"  width="100%">
+
+		<tr>
+			<td width="25%">Lokasi</td>
+			<td width="2%">:</td> 
+			<td>					
+									<?
+										$jmlLokList=count($this->lokasiList);
+										$lokList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmlLokList; $i++) {
+												$lokList[(string)$this->lokasiList[$i]->c_lokasi] = (string)$this->lokasiList[$i]->n_lokasi;			 
+											}
+										$lokAtrib = array("style"=>"width: 300px","id"=>"c_lokasi_unitkerja","onChange"=>"javascript:cariCombo('targetesli')"); 
+										echo $ctrlFrm->formSelect('c_lokasi_unitkerja',$this->c_lokasi_unitkerja,$lokAtrib,$lokList); 							
+									?>
+			</td>
+		</tr>
+		<tr>
+			<td>Eselon I</td>
+			<td>:</td> 
+			<td>					
+									<?
+										$jmleseloniList=count($this->eseloniList);
+										$eseloniList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniList; $i++) {
+												$eseloniList[(string)$this->eseloniList[$i]->c_eselon_i." ".(string)$this->eseloniList[$i]->n_unitkerja] = (string)$this->eseloniList[$i]->n_unitkerja;			 
+											}
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_i","onChange"=>"javascript:cariCombo('targeteslii')");  	
+										echo $ctrlFrm->formSelect('c_eselon_i',$this->c_eselon_i,$eslAtrib,$eseloniList); 							
+									?>
+			</td>
+		</tr>
+		<tr>
+			<td>Eselon II</td>
+			<td>:</td> 
+			<td>				
+									<?
+										$jmleseloniiList=count($this->eseloniiList);
+										$eseloniiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiList; $i++) {
+												$eseloniiList[(string)$this->eseloniiList[$i]->c_eselon_ii." ".(string)$this->eseloniiList[$i]->n_unitkerja] = (string)$this->eseloniiList[$i]->n_unitkerja;
+											}
+										if ($ceseloncpns>=3){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_ii","onChange"=>"javascript:cariCombo('targetesliii')");}
+										else {$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_ii","onChange"=>"javascript:cariCombo('targetesliii')");}
+										echo $ctrlFrm->formSelect('c_eselon_ii',$this->c_eselon_ii,$eslAtrib,$eseloniiList); 							
+									?>
+			</td>
+			</tr>						
+		<tr>
+			<td>Eselon III</td>
+			<td>:</td> 
+			<td>					
+									<?
+										$jmleseloniiiList=count($this->eseloniiiList);
+										$eseloniiiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiiList; $i++) {
+												$eseloniiiList[(string)$this->eseloniiiList[$i]->c_eselon_iii." ".(string)$this->eseloniiiList[$i]->n_unitkerja] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+											}
+										
+										if ($ceseloncpns>=5){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii","onChange"=>"javascript:cariCombo('targetesliv')");  	}										
+										else{	$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii","onChange"=>"javascript:cariCombo('targetesliv')");}
+										
+										echo $ctrlFrm->formSelect('c_eselon_iii',$this->c_eselon_iii, $eslAtrib, $eseloniiiList); 							
+									?>
+			</td>
+		</tr>
+		<tr>
+			<td>Eselon IV</td>
+			<td>:</td> 
+			<td>				
+									<?
+										$jmleselonivList=count($this->eselonivList);
+										$eselonivList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonivList; $i++) {
+												$eselonivList[(string)$this->eselonivList[$i]->c_eselon_iv." ".(string)$this->eselonivList[$i]->n_unitkerja] = (string)$this->eselonivList[$i]->n_unitkerja;			 
+											}
+										if ($ceseloncpns>=7){
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iv","onChange"=>"javascript:cariCombo('targeteslv')"); 
+										}
+										else{
+										$eslAtrib = array("style"=>"width: 300px", "id"=>"c_eselon_iv","onChange"=>"javascript:cariCombo('targeteslv')"); 
+										}
+										
+										
+										echo $ctrlFrm->formSelect('c_eselon_iv',$this->c_eselon_iv,$eslAtrib,$eselonivList); 							
+									?>
+			</td>
+		</tr>
+		<tr>
+			<td>Eselon V</td>
+			<td>:</td> 
+			<td>				
+									<?
+										$jmleselonvList=count($this->eselonvList);
+										$eselonvList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonvList; $i++) {
+												$eselonvList[(string)$this->eselonvList[$i]->c_eselon_v." ".(string)$this->eselonvList[$i]->n_unitkerja] = (string)$this->eselonvList[$i]->n_unitkerja;			 
+											}
+										if ($ceseloncpns>=9){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_v");}										
+										else{$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_v");}
+										echo $ctrlFrm->formSelect('c_eselon_v',$this->c_eselon_v, $eslAtrib, $eselonvList); 							
+									?>
+			</td>
+		</tr>							
+	</table>			
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+		<tr class="row1">
+			<td align="center" colspan="3">
+				<input type="button" onclick="var strg = document.getElementById('query_nip').value; 
+				if (strg == 'AND (' || strg == 'OR (') {var vassambungan = '';} else {var vassambungan = ' AND ';} 
+				var strsql= ''; var sbgnmjabatan=''; if (document.getElementById('c_eselon').value != '') {
+				var varesl = document.getElementById('esl_jabatan').value; 
+				strsql = strsql + vassambungan + 'c_eselon = \'' + varesl + '\''; sbgnmjabatan = ' AND ';} 
+				if (document.getElementById('esl_jabatan').value != '') {
+				var varkjabatan = document.getElementById('esl_jabatan').value; 
+				strsql = strsql + ' AND ' + 'a.esl_jabatan = \'' + varkjabatan + '\'';} 
+				if (document.getElementById('nm_jabatan').value != '') {
+				var varnjabatan = document.getElementById('nm_jabatan').value;
+				strsql = strsql + sbgnmjabatan + ' upper(n_jabatan) like \'%' + varnjabatan.toUpperCase() + '%\'';} 
+				if(document.getElementById('tmt_jabatan').value != ''){
+				var tmtjabatan = document.getElementById('tmt_jabatan').value;
+				strsql = strsql + sbgnmjabatan + ' to_char(a.TMT_JABATAN,\'yyyy-mm-dd\') like \'' + tmtjabatan + '\'%';} 
+				if (document.getElementById('c_lokasi_unitkerja').value != '') {
+				var sbgeselon = '';if (varesl != '' || varnjabatan !='' || varnjabatan !='' || tmtjabatan !='') {
+				sbgeselon = ' AND ';}
+				var varlok = document.getElementById('c_lokasi_unitkerja').value; 
+				var strsql = strsql + sbgeselon + ' c_lokasi_unitkerja = \'' + varlok + '\'';}  
+				if (document.getElementById('c_eselon_i').value !='') {
+				vareselon1 = document.getElementById('c_eselon_i').value;  
+				strsql =  strsql + ' AND c_eseloan_i = \'' + vareselon1.substr(0,2) + '\''; } 
+				if (document.getElementById('c_eselon_ii').value !='') {
+				vareselon2 = document.getElementById('c_eselon_ii').value; 
+				strsql =  strsql + ' AND c_eselon_ii = \'' + vareselon2.substr(0,2) + '\''; } 
+				if (document.getElementById('c_eselon_iii').value !='') {
+				vareselon3 = document.getElementById('c_eselon_iii').value;  
+				strsql =  strsql + ' AND c_eselon_iii = \'' + vareselon3.substr(0,2) + '\''; } 
+				if (document.getElementById('c_eselon_iv').value !='') {
+				vareselon4 = document.getElementById('c_eselon_iv').value;  
+				strsql =  strsql + ' AND c_eselon_iv = \'' + vareselon4.substr(0,2) + '\''; } 
+				if (document.getElementById('c_eselon_v').value !='') {
+				vareselon5 = document.getElementById('c_eselon_v').value;  
+				strsql =  strsql + ' AND c_eselon_v = \'' + vareselon5.substr(0,2) + '\''; }  
+				strsql = strsql + ''; 
+				document.getElementById('query_nip').value = strg + strsql;" 
+				value="Masukan!" tabindex="55" name="bt_input" id="bt_input">
+			</td>
+		</tr>	
+			 
+ 		<tr>
+			<td align="center" colspan="3" class="row1">
+				<textarea cols="70" rows="5" id="query_nip" name="query_nip"></textarea>
+			</td>
+		</tr>
+		<tr class="row1">
+			<td align="left" nowrap="" colspan="3">
+			&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = document.getElementById('query_nip').value + '(';" value=" ( " tabindex="55" name="bt1">
+			&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg == '') {  document.getElementById('query_nip').value = 'OR ';} else {document.getElementById('query_nip').value = strg + ' OR ';}" value=" OR " tabindex="56" name="bt0">
+			&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg == '') {  document.getElementById('query_nip').value = 'AND ';} else  {document.getElementById('query_nip').value = strg + ' AND ';}" value=" AND " tabindex="57" name="bt2">
+			&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = document.getElementById('query_nip').value + ')';" value=" ) " tabindex="57" name="bt2">
+			&nbsp;<input type="button" onclick="document.getElementById('query_nip').value= ''" value=" Clear " tabindex="57" name="bt3">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg != '') {document.getElementById('query_result').value = document.getElementById('query_result').value + ' ' + strg;  closeDetil()}" value="OK !" tabindex="58" name="bt3">
+			</td>
+		</tr>
+		<tr>
+			<td align="center" colspan="3" class="row">&nbsp;</td>
+		</tr>        
+		</tbody>
+</table> 
+</form>
+
+	</div>
+	</center>
+</div>	
+
+<script>
+
+function cariCombo(){
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+	var eseloni=document.getElementById('c_eselon_i').value;
+	var eselonii=document.getElementById('c_eselon_ii').value;
+	var eseloniii=document.getElementById('c_eselon_iii').value;
+	var eseloniv=document.getElementById('c_eselon_iv').value;		
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/listcombolaporan/listcombolaporan2'; 
+	var param = {c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+	jQuery.get(url, param, function(data) {
+		jQuery("#listcombo").html(data);
+		getEselon('x');
+	});
+}
+
+function getEselon(par){
+
+var esl =document.getElementById('c_eselon').value;
+if (par=='x'){
+if (esl=='01' || esl=='02')
+	{
+		document.getElementById('c_eselon_ii').disabled = "disabled" ;
+		document.getElementById('c_eselon_iii').disabled = "disabled" ;
+		document.getElementById('c_eselon_iv').disabled = "disabled" ;
+		document.getElementById('c_eselon_v').disabled = "disabled" ;
+
+	}
+ else if (esl=='03' || esl=='04')
+	{
+		document.getElementById('c_eselon_ii').disabled = false ;
+		document.getElementById('c_eselon_iii').disabled = "disabled" ;
+		document.getElementById('c_eselon_iv').disabled = "disabled" ;
+		document.getElementById('c_eselon_v').disabled = "disabled" ;
+	}
+	
+else if (esl=='05' || esl=='06')
+	{
+		document.getElementById('c_eselon_ii').disabled = false ;
+		document.getElementById('c_eselon_iii').disabled = false ;
+		document.getElementById('c_eselon_iv').disabled = "disabled" ;
+		document.getElementById('c_eselon_v').disabled = "disabled" ;
+	}
+else if (esl=='07' || esl=='08')
+	{
+		document.getElementById('c_eselon_ii').disabled = false ;
+		document.getElementById('c_eselon_iii').disabled = false ;
+		document.getElementById('c_eselon_iv').disabled = false ;
+		document.getElementById('c_eselon_v').disabled = "disabled" ;
+	}
+else if (esl=='09')
+	{
+		document.getElementById('c_eselon_ii').disabled = false ;
+		document.getElementById('c_eselon_iii').disabled = false ;
+		document.getElementById('c_eselon_iv').disabled = false ;
+		document.getElementById('c_eselon_v').disabled = false ;
+	}
+else	
+	{
+		document.getElementById('c_eselon_ii').disabled = false ;
+		document.getElementById('c_eselon_iii').disabled = false ;
+		document.getElementById('c_eselon_iv').disabled = false ;
+		document.getElementById('c_eselon_v').disabled = false ;
+	} 
+}
+else{	
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/listcombolaporan/listcombojabatan'; 
+	var param = {c_eselon:esl};
+	jQuery.get(url, param, function(data) {
+		jQuery("#targetjbt").html(data);
+	});
+}	
+}
+
+
+</script>	

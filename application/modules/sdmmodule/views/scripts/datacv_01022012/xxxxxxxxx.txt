@@ -1,0 +1,347 @@
+<? 
+//$file_type = "vnd.ms-word";
+//$file_ending = "doc";
+// header("Content-Type: application/$file_type");
+// header("Content-Disposition: attachment; filename=cv.$file_ending");
+// header("Pragma: no-cache");
+// header("Expires: 0");
+
+$html ='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<style type="text/css">
+</style></head>
+<body>
+<table border="0" align="center" width="100%">
+	<tr>
+		<td align="center" >
+			<h2><font size="4" face="arial"><b>DAFTAR RIWAYAT HIDUP</b></font></h2>
+		</td>
+	</tr>
+
+</table>
+<h3 class="title"><b><u><font size="3" face="arial">I. KETERANGAN PERORANGAN</font></u></b></h3>
+
+<table border="0" align="center" width="100%">	
+		<tr>
+			<td width="2%"><font size="2" face="arial">1.</font></td>
+			<td width="20%"><font size="2" face="arial">Nama Lengkap</font></td>
+			<td width="15%">&nbsp;</td>
+			<td width="50%"><font size="2" face="arial">: '.$this->n_peg.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">2.</font></td>
+			<td><font size="2" face="arial">NIP / KARPEG</font></td>
+			<td>&nbsp;</td>
+			<td><font size="2" face="arial">: '.$this->i_peg_nip.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">4.</td>
+			<td><font size="2" face="arial">Eselon</td>
+			<td>&nbsp;</td>
+			<td><font size="2" face="arial">: '.$this->n_eselon.'</td>
+		</tr>
+		<tr>			
+		    <td><font size="2" face="arial">5.</font></td>
+			<td><font size="2" face="arial">TMT Eselon</font></td>
+			<td>&nbsp;</td>
+			<td><font size="2" face="arial">: '.$this->d_tmt_eselon.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">6.</font></td>
+			<td><font size="2" face="arial">Unit Kerja</font></td>
+			<td>&nbsp;</td>
+			<td><font size="2" face="arial">: '.$this->n_unit_kerja.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">7.</font></td>
+			<td><font size="2" face="arial">TMT CPNS</font></td>
+			<td>&nbsp;</td>
+			<td><font size="2" face="arial">: '.$this->d_tmt_cpns.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">8.</font></td>
+			<td><font size="2" face="arial">Status Pegawai</font></td>
+			<td>&nbsp;</td>
+			<td><font size="2" face="arial">: '.$this->c_peg_status.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">9.</font></td>
+		  <td><font size="2" face="arial">Pangkat dan Golongan</font></td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">: '.$this->pangkat.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">10.</font></td>
+		  <td><font size="2" face="arial">Tempat/Tanggal Lahir</font></td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">: '.$this->a_peg_kota_lahir.' / '.$this->d_peg_lahir.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">11.</font></td>
+		  <td><font size="2" face="arial">Jenis Kelamin</font></td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">: '.$this->c_peg_jeniskelamin.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">12.</font></td>
+		  <td><font size="2" face="arial">Status Perkawinan</font></td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">: '.$this->c_peg_statusnikah.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">13.</font></td>
+		  <td><font size="2" face="arial">Alamat Rumah :</font></td>
+		  <td><font size="2" face="arial">a. Jalan </font></td>		  
+		  <td><font size="2" face="arial">: '.$this->a_peg_rumah.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">b. RT / RW</font></td>
+		  <td><font size="2" face="arial">: '.$this->a_peg_rt.'/ '.$this->a_peg_rw.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">c. Kelurahan</font></td>
+		  <td><font size="2" face="arial">: '.$this->a_peg_kelurahan.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">d. Kecamatan</font></td>
+		  <td><font size="2" face="arial">: '.$this->a_peg_kecamatan.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">e. Kabupaten</font></td>
+		  <td><font size="2" face="arial">: '.$this->a_peg_kota.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">f. Propinsi</font></td>
+		  <td><font size="2" face="arial">: '.$this->a_peg_propinsi.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">g. Kode Pos</font></td>
+		  <td><font size="2" face="arial">: '.$this->a_peg_kodepos.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">h. Telepon Rumah</font></td>
+		  <td><font size="2" face="arial">: '.$this->i_peg_telponrumah.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">i. Telepon Genggam</font></td>
+		  <td><font size="2" face="arial">: '.$this->i_peg_telponhp.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">14.</font></td>
+		  <td><font size="2" face="arial">Keterangan :</font></td>
+		  <td><font size="2" face="arial">a. Tinggi </font></td>		  
+		  <td><font size="2" face="arial">: '.$this->q_peg_tinggibdn.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">b. Berat Badan</font></td>
+		  <td><font size="2" face="arial">: '.$this->q_peg_beratbdn.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">c. Rambut</font></td>
+		  <td><font size="2" face="arial">: '.$this->n_peg_rambut.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">d. Bentuk muka</font></td>
+		  <td><font size="2" face="arial">: '.$this->n_peg_btkmuka.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">e. Warna Kulit</font></td>
+		  <td><font size="2" face="arial">: '.$this->n_peg_warnakulit.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">f. Ciri Khas</font></td>
+		  <td><font size="2" face="arial">: '.$this->n_peg_cirikhas.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">g. Cacat Tubuh</font></td>
+		  <td><font size="2" face="arial">: '.$this->n_peg_cirikhas.'</font></td>
+		</tr>
+		<tr>
+		  <td><font size="2" face="arial">15.</font></td>
+		  <td><font size="2" face="arial">Golongan Darah</font></td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">: '.$this->c_golongan_darah.'</font></td>
+		</tr>
+		<tr>
+		  <td><font size="2" face="arial">16.</font></td>
+		  <td><font size="2" face="arial">Jumlah Anak</font></td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">: '.$this->n_peg_cirikhas.'</font></td>
+		</tr>
+		<tr>
+		  <td><font size="2" face="arial">17.</font></td>
+		  <td><font size="2" face="arial">Kegemaran (hoby)</font></td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">: '.$this->n_peg_hobi.'</font></td>
+		</tr>
+
+</table>
+<br>
+
+<h3 class="title"><b><u><font size="3" face="arial">II. PENDIDIKAN</font></u></b></h3>
+<br>
+<b><font size="2" face="arial">1. Pendidikan di Dalam dan di Luar Negeri</font></b>
+<br>
+<br>
+		<table border="1px" cellspacing="1" cellpadding="2" align="center">
+				<tr>
+			    <th><font size="2" face="arial">Jenjang</font></th>
+				<th><font size="2" face="arial">Nama Sekolah</font></th>
+				<th><font size="2" face="arial">Jurusan</font></th>
+				<th><font size="2" face="arial">Alamat Sekolah</font></th>
+				<th><font size="2" face="arial">Nama Pimpinan</font></th>
+				<th><font size="2" face="arial">Tahun Masuk</font></th>
+				<th><font size="2" face="arial">Tahun Lulus</font></th>
+				<th><font size="2" face="arial">IPK / Nilai Ijazah</font></th>
+				<th><font size="2" face="arial">Nomor Ijazah / Tgl Ijazah</font></th>
+				<th><font size="2" face="arial">Sumber Biaya</font></th>
+				<th><font size="2" face="arial">Judul Skripsi</font></th>
+				</tr>';
+$jumPendList = count($this->pendList); 				
+	if ($jumPendList == 0) {
+$html =$html.'	
+				<tr class="event">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				</tr>';
+ } else { 
+	foreach ($this->pendList as $key => $val): 
+$html =$html.'		
+				<td class="clcenter">'.$this->escape($val['n_pend']).'</td>
+				<td>'.ucwords(strtolower($this->escape($val['n_pend_lembaga']))).'</td>
+				<td>'.ucwords(strtolower($this->escape($val['n_pend_jurusan']))).'</td>
+				<td>'.ucwords(strtolower($this->escape($val['a_pend_alamat']))).'</td>
+				<td>'.ucwords(strtolower($this->escape($val['n_pend_kepsek']))).'</td>
+				<td class="clcenter">'.$this->escape($val['d_pend_mulai']).'</td>
+				<td class="clcenter">'.$this->escape($val['d_pend_akhir']).'</td>
+				<td class="clcenter">'.$this->escape($val['i_pend_ipk']).'</td>
+				<td class="clcenter">'.$this->escape($val['i_pend_ijazah']).'<br>'.$this->escape($val['d_pend_ijazah']).'</td>
+				<td class="clcenter">'.$this->escape($val['n_pend_sumberdana']).'</td>
+				<td class="clcenter">'.$this->escape($val['e_pend_skripsi']).'</td>
+				
+		  </tr>';
+	endforeach;
+	}
+$html =$html.'			
+	</table>
+
+
+<br>
+<br>
+<b><font size="2" face="arial">2. Diklat</font></b>
+<br>
+<br>
+<b><font size="2" face="arial">2.a. Penjenjangan</font></b>
+<br>
+<?include ("dikjenjang.phtml")?>
+<br>
+<b><font size="2" face="arial">2.b. Fungsional</font></b>
+<br>
+<?include ("dikfungsional.phtml")?>
+<br>
+<b><font size="2" face="arial">2.c. Teknis</font></b>
+<br>
+<?include ("dikteknis.phtml")?>
+<br>
+<b><font size="2" face="arial">2.d. Lainnya</font></b>
+<br>
+<?include ("diklainnya.phtml")?>
+<br>
+<br>
+<b><font size="2" face="arial">3. Seminar</font></b>
+<br>
+<br>
+<?include ("seminar.phtml")?>
+<br>
+<br>
+<h3 class="title"><b><u><font size="3" face="arial">III. RIWAYAT KEPANGKATAN</font></u></b></h3>
+<br>
+<?include ("pangkat.phtml")?>
+<br>
+<br>
+<h3 class="title"><b><u><font size="3" face="arial">IV. RIWAYAT JABATAN</font></u></b></h3>
+<br>
+<?include ("jabatan.phtml")?>
+<br>
+<br>
+<h3 class="title"><b><u><font size="3" face="arial">V. PENGHARGAAN</font></u></b></h3>
+<br>
+<?include ("penghargaan.phtml")?>
+<br>
+<br>
+<h3 class="title"><b><u><font size="3" face="arial">VI. SANKSI ATAU HUKUMAN</font></u></b></h3>
+<br>
+<?include ("hukuman.phtml")?>
+<br>
+<br>
+<h3 class="title"><b><u><font size="3" face="arial">VII. ORGANISASI</font></u></b></h3>
+<br>
+<?include ("organisasi.phtml")?>
+<br>
+<br>
+<h3 class="title"><b><u><font size="3" face="arial">VIII. KE LUAR NEGERI</font></u></b></h3>
+<br>
+<?include ("luarnegeri.phtml")?>
+<br>
+<br>
+<h3 class="title"><b><u><font size="3" face="arial">IX. KESEHATAN</font></u></b></h3>
+<br>
+<?include ("kesehatan.phtml")?>
+
+';
+//echo $html;
+
+  	$filename =$this->photoPath."/sdm/riwayathidup.html";
+	$filepdf = 'riwayathidup.pdf';	
+	$ourFileHandle = fopen($filename, 'w+') or die("can't open file");
+	fclose($ourFileHandle);
+	$fh = fopen($filename, 'w+') or die("can't open file");
+	fwrite($fh, $html);
+	fclose($fh);
+	$options="--footer --header --size A4 --landscape --left 1cm --right 1cm --top 1.5cm --bottom 1.5cm";
+    putenv("HTMLDOC_NOCGI=1");
+	header("Content-Type: application/pdf");
+	header("Content-Disposition: attachment; filename=$filepdf");
+	flush();
+	passthru("htmldoc -t pdf --quiet --jpeg --webpage $options '$filename'"); 	 
+	
+?>

@@ -1,0 +1,114 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/pesan.php';
+//require_once 'share/halaman_list.php';
+
+   $ctrlFrm = new Zend_View();
+   $pesan = new pesan();
+  // $halaman = new halaman_list();
+
+	  
+$jumrekonsiliasiList = count($this->listRekonsiliasi); 
+$jumrekon = count($this->listRekonsiliasii);    
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>Aset 
+				<strong> &#8250; </strong> <a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Maintain Data Pegawai</a>
+				<strong> &#8250; </strong>Aset 
+			</div>
+	        <a name="top"></a>
+<?
+$proses		= $this->proses;
+$keterangan	= $this->keterangan;
+$status		= $this->status;
+echo $pesan->show_message($proses, $keterangan, $status);
+?>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+	<h2 class="title">Rekonsiliasi Data Aset</h2>
+	<form method="post" name="tampil" id="tampil">
+	<table width="40%" border="0" cellpadding="0" cellspacing="0">
+	<tr><td>
+	<?// echo "tahunnn = ".$this->tahun; ?>
+	Tahun Anggaran</td><td>  :</td><td> <select name="tahun" id="tahun">
+				 <option>Tahun</option>
+				 <? for($i=date('Y');$i>=2006;$i--){
+					echo "<option value=$i>$i</option>";
+				    }
+				 ?>
+				 </select></td></tr>
+	<tr><td>
+	<? //echo "Unit = ".$this->unit; ?>
+	Unit Kerja</td> <td>	:</td><td><select name="unit" id="unit">
+				 <option>Unit Kerja</option>
+				<? 
+				foreach ($this->listRekonsiliasi as $key): 
+					foreach($key as $b => $val):
+				echo "<option value=$val>$val</option>";
+					endforeach;
+				   endforeach;
+				?> 
+				 </select><?// echo $jumrekon;echo "<br>"+print_r($this->listRekonsiliasii); ?></td></tr>
+	<tr><td>&nbsp;</td><td>&nbsp;</td><td><input type="button" value="Tampil" name="tampil" onclick="tampilRekonsiliasi('tampil')"></td></tr>
+	</table>
+	</form>
+		
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+  
+<?	if ($jumrekonsiliasiList == 0) {
+		echo "<font color=\"red\">Data Rekonsiliasi Tidak Ditemukan</font>";
+}
+?>		
+		<tr><td width="10%"></td></tr>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center" width="50%">
+			
+			<tr>
+		    <th width="10%">No</th>
+			<th width="10%">Kode</th>
+			<th width="60%">Uraian</th>
+			<th width="10%">Nilai Aset</th>
+			<th width="10%">Nilai Apraisal</th>
+			<th colspan="2">&nbsp;</th>
+			</tr>		
+<?
+	if ($jumrekonsiliasiList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php 	if($jumrekon != 0){
+			$i=1;
+			foreach ($this->listRekonsiliasii as $key => $val):
+				if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					//$nip=trim($this->escape($val['i_peg_nip']));*/
+					?>
+				<td><?php echo $i++; ?></td>	
+				<td><?php echo $this->escape($val['perksai']);?></td>
+				<td><?php echo $this->escape($val['nmperk6']);?></td>
+				<td><?php echo $this->escape($val['rphreal']);?></td>
+				
+			</tr>
+	<?php endforeach;?> 		  	  
+<?	}}?>
+	</table>									
+	<?php/*
+	$totalData = $this->totalData;
+	$numToDisplay = $this->numToDisplay;
+	$currentPage = $this->currentPage;
+	$modul	= $this->basePath.'/sdmmodule/refrekonsiliasi/listrekonsiliasi';
+	echo $halaman->halamanList($totalData, $numToDisplay, $currentPage, $modul);
+	*/
+	?>					
+									
+	</fieldset>		 
+	</form>

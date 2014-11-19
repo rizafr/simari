@@ -1,0 +1,10 @@
+<?
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+		$jmlUnitKerjaList = count($this->unitKList);
+		   $unitKList['-'] = '--Pilih--';
+		    for ($i = 0; $i < $jmlUnitKerjaList; $i++) {
+		    $unitKList[(string)$this->unitKList[$i]->i_orgb] = (string)$this->unitKList[$i]->n_orgb;			 
+		   }		
+		echo $ctrlFrm->formSelect('c_unit_kerja', $this->c_unit_kerja, $unitKerjaAtrib, $unitKList);
+?>

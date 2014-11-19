@@ -1,0 +1,280 @@
+<? 
+   require_once 'Zend/View.php';
+   
+   $ctrlFrm = new Zend_View();
+   /*
+   require_once 'share/oa_date.php';
+   require_once 'share/oa_page.php';
+   require_once 'share/oa_message.php';
+   
+   $message = new oa_message();
+
+   
+   
+   $convDate = new oa_date();
+   $halaman = new oa_page();
+*/
+?>
+
+<div class="navlink">
+	<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+	<strong> &#8250; </strong> Perencanaan 
+	<strong> &#8250; </strong> Administrasi</a>
+	<strong> &#8250; </strong><?=$this->jdl;?> Admin Menu
+</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+
+	
+<h2 class="title"><?=$this->jdl;?>Mengelola Menu</h2>
+
+<div class="panel">
+	<div class="inner">
+		<span class="corners-top"><span></span></span>
+	    <div class="space2"></div>  	
+		<a name="top"></a>
+	
+		<?php
+		if($this->jenisForm == "ubah")
+		{
+			?>
+			<form method="post" name="frmadmmenuedit" id="frmadmmenuedit">
+			<?
+			$formName = "frmadmmenuedit";
+		}
+		else
+		{
+			?>
+			<form method="post" name="frmadmmenuinsert" id="frmadmmenuinsert">
+			<?
+			$formName = "frmadmmenuinsert";
+		}
+		?>
+			<table border="0" cellpadding="2" cellspacing="1" class="std">
+				<tr>
+				    <td align="right" width="200"><span class="highlight">*</span> Kode Aplikasi :</td>
+					<td>
+						<?php
+						//var_dump($this->detailAplikasi);
+						$iAplikasi 	= $this->detailAplikasi['i_aplikasi'];
+						$nAplikasi	= $this->detailAplikasi['n_aplikasi'];
+						
+						$iAplikasiAtrib = array("size"=>"100",
+												 "maxlength"=>"50",
+												 "readonly"=>"true");
+						
+						echo $ctrlFrm->formHidden('iAplikasi', $iAplikasi, null);
+						echo $ctrlFrm->formText('nAplikasi', $nAplikasi, $iAplikasiAtrib); 
+						?>
+					</td>
+				</tr>
+				<tr>
+				    <td align="right" width="200"><span class="highlight">*</span> Level Menu 1 :</td>
+					<td>
+						<?php
+						$nMenuLevel1Atrib = array("size"=>"50",
+												 "maxlength"=>"100");
+						if($this->levelInduk >= 1){
+							$nMenuLevel1Atrib[readonly] = "true";
+						}
+						
+						$cMenuLevel1Atrib = array("size"=>"10",
+												 "maxlength"=>"8");
+												 
+						if($this->jenisForm == 'tambah'){
+							$cMenuLevel1Atrib['readOnly'] = 'true';
+							$cMenuLevel1 = $this->levelMenuBaru;
+							
+						} else if($this->jenisForm == 'ubah'){
+							$cMenuLevel1Atrib['readOnly'] = 'true';
+							if($this->levelInduk >= 1){
+								$nMenuLevel1Atrib['readOnly'] = 'true';
+								
+							}
+							$cMenuLevel1 = $this->detailAplikasi['c_menu_level1'];
+						}
+						$cMenuLevel1 = substr($cMenuLevel1,0,2);
+   					    echo $ctrlFrm->formText('cMenuLevel1', $cMenuLevel1, $cMenuLevel1Atrib);
+						
+						if($this->jenisForm == 'tambah'){
+							$nMenulevel1 = $this->nMenulevel1;
+							
+						} else if($this->jenisForm == 'ubah'){
+							$nMenulevel1 = $this->detailAplikasi['n_menu1'];
+						}
+						echo $ctrlFrm->formText('nMenuLevel1', $nMenulevel1, $nMenuLevel1Atrib);
+						?>
+					</td>
+				</tr>
+				<?php
+				//echo "level induk = ".$this->levelInduk;
+				if ($this->levelInduk >= 1){
+				?>
+					<tr>
+					    <td align="right" width="200"><span class="highlight">*</span> Level Menu 2 :</td>
+						<td>
+							<?php
+							$nMenuLevel2Atrib = array("size"=>"50",
+													 "maxlength"=>"100");
+													 
+							$cMenuLevel2Atrib = array("size"=>"10",
+													 "maxlength"=>"8");
+							
+							if($this->jenisForm == 'tambah'){
+								if ($this->levelInduk >= 2){
+									$nMenuLevel2Atrib[readonly] = "true";
+								}
+								$cMenuLevel2Atrib[readonly] = "true";
+								$cLevelMenu2 = $this->levelMenuBaru;
+								$cLevelMenu2 = substr($cLevelMenu2,2,2);
+								$nMenulevel2 = $this->nMenulevel2;
+							} else if($this->jenisForm == 'ubah'){
+								if ($this->levelInduk >= 2){
+									$cMenuLevel2Atrib[readonly] = "true";
+									$nMenuLevel2Atrib[readonly] = "true";
+								}
+								$nMenulevel2 = $this->detailAplikasi['n_menu2'];
+								$cLevelMenu2 = $this->detailAplikasi['c_menu_level2'];
+							}
+							echo $ctrlFrm->formText('cMenuLevel2', $cLevelMenu2, $cMenuLevel2Atrib);
+							echo $ctrlFrm->formText('nMenuLevel2', $nMenulevel2, $nMenuLevel2Atrib);
+							?>
+						</td>
+					</tr>
+					<?php
+					if($this->levelInduk >= 2){
+					?>
+						<tr>
+						    <td align="right" width="200"><span class="highlight">*</span> Level Menu 3 :</td>
+							<td>
+								<?php
+								$nMenuLevel3Atrib = array("size"=>"50",
+														 "maxlength"=>"100");
+														 
+								$cMenuLevel3Atrib = array("size"=>"10",
+														 "maxlength"=>"8");
+								// if($this->levelInduk >= 3){
+									// $nMenuLevel3Atrib[readonly] = "true";
+								// }
+								if($this->jenisForm == 'tambah'){
+									if ($this->levelInduk >= 3){
+										$nMenuLevel3Atrib[readonly] = "true";
+									}
+									$cMenuLevel3Atrib[readonly] = "true";
+									$cLevelMenu3 = $this->levelMenuBaru;
+									$cLevelMenu3 = substr($cLevelMenu3,4,2);
+									$nMenulevel3 = $this->nMenulevel3;
+								} else if($this->jenisForm == 'ubah'){
+									if ($this->levelInduk >= 3){
+										$cMenuLevel3Atrib[readonly] = "true";
+										$nMenuLevel3Atrib[readonly] = "true";
+									}
+									$nMenulevel3 = $this->detailAplikasi['n_menu3'];
+									$cLevelMenu3 = $this->detailAplikasi['c_menu_level3'];
+								}
+								
+								echo $ctrlFrm->formText('cMenuLevel3', $cLevelMenu3, $cMenuLevel3Atrib);
+								echo $ctrlFrm->formText('nMenuLevel3', $nMenulevel3, $nMenuLevel3Atrib);
+								?>
+							</td>
+						</tr>
+					<?php
+					}
+					if($this->levelInduk ==3){
+					?>
+						<tr>
+						    <td align="right" width="200"><span class="highlight">*</span> Level Menu 4 :</td>
+							<td>
+								<?php
+								$nMenuLevel4Atrib = array("size"=>"50",
+														 "maxlength"=>"100");
+								/* if($this->levelInduk >= 3){
+									$nMenuLevel3Atrib[readonly] = "true";
+								}
+								
+								if($this->levelInduk == 2){
+									$cLevelMenu4 = $this->levelMenuBaru;
+								} else {
+									$cLevelMenu4 = $this->detailAplikasi['c_menu_level3'];
+								} */
+								if($this->jenisForm == 'tambah'){
+									if ($this->levelInduk >= 3){
+										//$nMenuLevel4Atrib[readonly] = "true";
+									}
+									//
+									$cMenuLevel4Atrib[readonly] = "true";
+									$cLevelMenu4 = $this->levelMenuBaru;
+									$cLevelMenu4 = substr($cLevelMenu4,6,2);		
+								} else if($this->jenisForm == 'ubah'){
+									/* if ($this->levelInduk >= 3){
+										$cMenuLevel4Atrib[readonly] = "true";
+										$nMenuLevel4Atrib[readonly] = "true";
+									} */
+									$cMenuLevel4Atrib[readonly] = "true";
+									$nMenulevel4 = $this->detailAplikasi['n_menu4'];
+									$cLevelMenu4 = $this->detailAplikasi['c_menu_level4'];
+								}
+								$cMenuLevel4Atrib = array("size"=>"10",
+														 "maxlength"=>"8");
+																 
+								echo $ctrlFrm->formText('cMenuLevel4', $cLevelMenu4, $cMenuLevel4Atrib);
+								echo $ctrlFrm->formText('nMenuLevel4', $nMenulevel4, $nMenuLevel4Atrib);
+								?>
+							</td>
+						</tr>
+					<?php
+					}
+					?>
+				<?php
+				}
+				?>
+				<tr>
+					<td align="right" width="200"><span class="highlight">*</span> Keterangan Menu :</td>
+					<td>
+						<?php
+						$eMenuAtrib = array("size"=>"75",
+													 "maxlength"=>"250");
+						echo $ctrlFrm->formText('eMenu', $this->detailAplikasi['e_menu'], $eMenuAtrib);
+						?>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" width="200"><span class="highlight">*</span> Action :</td>
+					<td>
+						<?php
+						$nActionAtrib = array("size"=>"100",
+													 "maxlength"=>"250");
+						if($this->detailAplikasi['c_menu_statuscb'] == 'N'){
+							$nActionAtrib['readOnly'] = 'true';
+						}
+						echo $ctrlFrm->formText('n_action', $this->detailAplikasi['n_action'], $nActionAtrib);
+						?>
+					</td>
+					
+				</tr>
+				<?php
+				if($this->detailAplikasi['c_menu_statuscb'] == 'N'){
+				?>
+					<tr>
+						<td align="left" colspan="2"><span class="highlight"> Menu Ini Mempunyai Sub Menu Dibawahnya</span></td>
+					</tr>
+				<?php
+				}
+				?>
+				<tr>
+					<td colspan="2">
+						<div class="right">
+							<input type="button"    value="Batal" onClick="kembaliDaftarMenu()"> 
+							<input type="reset"   value="Ulangi"> 
+							<input   type="submit" value="Simpan">
+						</div>
+					</td>
+				</tr>
+			</table>
+			<div class="space2"></div>
+		</form>
+	</div>
+	<span class="corners-bottom"><span></span></span>
+</div>

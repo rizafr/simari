@@ -1,0 +1,56 @@
+function openFormJamkerja(par,c_hari,d_jamkerja_mulai,d_jamkerja_selesai,d_jamistrht_mulai,d_jamistrht_selesai){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refjamkerja/jamkerjaolahdata";
+	var opt = {par:par, c_hari:c_hari, d_jamkerja_mulai:d_jamkerja_mulai, d_jamkerja_selesai:d_jamkerja_selesai, d_jamistrht_mulai:d_jamistrht_mulai, d_jamistrht_selesai:d_jamistrht_selesai};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formjamkerja").ajaxForm(maintain_jamkerja);
+		});		
+} 
+
+function insertJamkerja(){
+	jQuery("#formjamkerja").ajaxForm(maintain_jamkerja);
+}
+
+var maintain_jamkerja = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjamkerja").ajaxForm(maintain_jamkerja);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refjamkerja/insertjamkerja',
+	type: 'post',
+	resetForm: false
+};
+
+function updateJamkerja(){
+	jQuery("#formjamkerja").ajaxForm(update_jamkerja);
+}
+
+var update_jamkerja = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjamkerja").ajaxForm(maintain_jamkerja);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refjamkerja/updatejamkerja',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusJamkerja(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refjamkerja/deletejamkerja';
+		var opt = {c_hari : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

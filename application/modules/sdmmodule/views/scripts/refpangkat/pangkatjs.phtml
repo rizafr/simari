@@ -1,0 +1,56 @@
+function openFormPangkat(par,c_jns_kepangkatan,n_jns_kepangkatan){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refpangkat/pangkatolahdata";
+	var opt = {par:par, c_jns_kepangkatan:c_jns_kepangkatan, n_jns_kepangkatan:n_jns_kepangkatan};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formpangkat").ajaxForm(maintain_pangkat);
+		});		
+} 
+
+function insertPangkat(){
+	jQuery("#formpangkat").ajaxForm(maintain_pangkat);
+}
+
+var maintain_pangkat = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpangkat").ajaxForm(maintain_pangkat);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refpangkat/insertpangkat',
+	type: 'post',
+	resetForm: false
+};
+
+function updatePangkat(){
+	jQuery("#formpangkat").ajaxForm(update_pangkat);
+}
+
+var update_pangkat = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpangkat").ajaxForm(maintain_pangkat);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refpangkat/updatepangkat',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusPangkat(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refpangkat/deletepangkat';
+		var opt = {c_jns_kepangkatan : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

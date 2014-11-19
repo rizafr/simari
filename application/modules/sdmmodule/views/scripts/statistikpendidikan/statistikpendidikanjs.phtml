@@ -1,0 +1,91 @@
+
+function viewStatPend(par)
+{
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+	var eseloni=document.getElementById('c_eselon_i').value;
+	var eselonii=document.getElementById('c_eselon_ii').value;
+	var eseloniii=document.getElementById('c_eselon_iii').value;
+	var eseloniv=document.getElementById('c_eselon_iv').value;		
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/statistikpendidikan/view'; 
+	//var param = {par:par,c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+	var param = {par:par,c_lokasi_unitkerja:c_lokasi_unitkerja,c_eselon_i:eseloni,c_eselon_ii:eselonii,c_eselon_iii:eseloniii,c_eselon_iv:eseloniv};
+	jQuery.get(url, param, function(data) {
+		jQuery("#popupview").html(data);
+		//getEselon();
+		centerPopup();
+		loadPopup();
+	});
+
+}	
+
+function cariCombo(){
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+	var eseloni=document.getElementById('c_eselon_i').value;
+	var eselonii=document.getElementById('c_eselon_ii').value;
+	var eseloniii=document.getElementById('c_eselon_iii').value;
+	var eseloniv=document.getElementById('c_eselon_iv').value;		
+if (c_lokasi_unitkerja=='1'){var url = '<?php echo $this->basePath; ?>/sdmmodule/listcombolaporan/listcombolaporan'; 
+}
+else{
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/listcombolaporan/listcombolaporan2'; 
+ } 
+	var param = {c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+	jQuery.get(url, param, function(data) {
+		jQuery("#listcombo").html(data);
+	});
+}
+function getEselon(){
+	var esl =document.getElementById('c_eselon').value;
+	if (esl=='01' || esl=='02')
+		{
+			document.getElementById('c_eselon_ii').value="";
+			document.getElementById('c_eselon_iii').value="";
+			document.getElementById('c_eselon_iv').value="";
+			document.getElementById('c_eselon_v').value="";
+			document.forms[0].c_eselon_ii.disabled = "disabled" ;
+			document.forms[0].c_eselon_iii.disabled = "disabled" ;
+			document.forms[0].c_eselon_iv.disabled = "disabled" ;
+			document.forms[0].c_eselon_v.disabled = "disabled" ;
+		}
+	else if (esl=='03' || esl=='04')
+		{
+			document.getElementById('c_eselon_iii').value="";
+			document.getElementById('c_eselon_iv').value="";
+			document.getElementById('c_eselon_v').value="";
+			document.forms[0].c_eselon_ii.disabled = false ;
+			document.forms[0].c_eselon_iii.disabled = "disabled" ;
+			document.forms[0].c_eselon_iv.disabled = "disabled" ;
+			document.forms[0].c_eselon_v.disabled = "disabled" ;
+		}
+	else if (esl=='05' || esl=='06')
+		{
+			document.getElementById('c_eselon_iv').value="";
+			document.getElementById('c_eselon_v').value="";	
+			document.forms[0].c_eselon_ii.disabled = false ;
+			document.forms[0].c_eselon_iii.disabled = false ;
+			document.forms[0].c_eselon_iv.disabled = "disabled" ;
+			document.forms[0].c_eselon_v.disabled = "disabled" ;
+		}
+	else if (esl=='07' || esl=='08')
+		{
+			document.getElementById('c_eselon_v').value="";	
+			document.forms[0].c_eselon_ii.disabled = false ;
+			document.forms[0].c_eselon_iii.disabled = false ;
+			document.forms[0].c_eselon_iv.disabled = false ;
+			document.forms[0].c_eselon_v.disabled = "disabled" ;
+		}
+	else if (esl=='09')
+		{
+			document.forms[0].c_eselon_ii.disabled = false ;
+			document.forms[0].c_eselon_iii.disabled = false ;
+			document.forms[0].c_eselon_iv.disabled = false ;
+			document.forms[0].c_eselon_v.disabled = false ;
+		}
+	else	
+		{
+			document.forms[0].c_eselon_ii.disabled = false ;
+			document.forms[0].c_eselon_iii.disabled = false ;
+			document.forms[0].c_eselon_iv.disabled = false ;
+			document.forms[0].c_eselon_v.disabled = false ;
+		} 	
+}

@@ -1,0 +1,103 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/pesan.php';
+require_once 'share/halaman_list.php';
+
+   $ctrlFrm = new Zend_View();
+   $pesan = new pesan();
+   $halaman = new halaman_list();
+
+	  
+$jumjabatanList = count($this->listJabatan);     
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong>Referensi
+			</div>
+	        <a name="top"></a>
+<?
+$proses		= $this->proses;
+$keterangan	= $this->keterangan;
+$status		= $this->status;
+echo $pesan->show_message($proses, $keterangan, $status);
+?>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>					
+</div>
+	<h2 class="title">Referensi Jabatan</h2>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+  <tr>
+  <td>
+<div class="add" title="Tambah Data" onclick="openFormJabatan('insert','','');"></div>
+<?	if ($jumjabatanList == 0) {
+		echo "<font color=\"red\">Data Referensi Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center" width="50%">
+			<tr>
+		   <th >Nama Jabatan</th>
+			<th width="12%">Tingkat<br>Fungsional</th>
+			<th width="12%">Kelompok<br>Fungsional</th>
+			<th width="8%">Pangkat<br> Terendah</th>
+			<th width="8%">Pangkat<br> Tertinggi</th>
+			<th width="10%">Eselon</th>
+			<th width="8%">Pendidikan</th>
+			<th width="10%">Besar Tunjangan (Rp)</th>
+			<th width="8%">Umur Pensiun</th>
+			<th width="5%">Angka Kredit Minimal</th>
+			<th width="4%">&nbsp;</th>
+			</tr>		
+<?
+	if ($jumjabatanList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->listJabatan as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$c_jabatan=trim($this->escape($val['c_jabatan']));
+					?>
+				
+				<td><?php  echo $this->escape($val['n_jabatan']);?></td>
+				<td><?php  echo $this->escape($val['n_tkfgs']);?></td>
+				<td><?php  echo $this->escape($val['n_kelfgs']);?></td>
+				<td><?php  echo $this->escape($val['n_golr']);?></td>
+				<td><?php  echo $this->escape($val['n_golt']);?></td>
+				<td><?php  echo $this->escape($val['n_eselon']);?></td>
+				<td><?php  echo $this->escape($val['n_strata']);?></td>
+				<td><?php  echo $this->escape($val['q_tunjangan']);?></td>
+				<td><?php  echo $this->escape($val['q_usia_pens']);?></td>
+				<td><?php  echo $this->escape($val['q_ak_minimal']);?></td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data"  onclick="openFormJabatan('update','<?=trim($this->escape($val['c_jabatan']))?>');"></div>	
+						
+					<div class="delete" title="Hapus Data"  onClick="HapusJabatan('Jabatan','<?=trim($this->escape($val['c_jabatan']))?>','<?=trim($this->escape($val['n_jabatan']))?>')"></div>
+				</td>	
+		  </tr>
+	<?php endforeach; ?> 		  	  
+<?	}	?>
+	</table>
+	</td>
+	</tr>
+	</table>	
+	<?php
+	$totalData = $this->totalData;
+	$numToDisplay = $this->numToDisplay;
+	$currentPage = $this->currentPage;
+	$modul	= $this->basePath.'/sdmmodule/refjabatan/listjabatan';
+	echo $halaman->halamanList($totalData, $numToDisplay, $currentPage, $modul);
+
+	?>					
+									
+	</fieldset>		 
+	</form>

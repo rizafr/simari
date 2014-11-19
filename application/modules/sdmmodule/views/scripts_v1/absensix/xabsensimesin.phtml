@@ -1,0 +1,45 @@
+<? require_once 'Zend/View.php';
+
+   $ctrlFrm = new Zend_View();
+
+   echo "<div class='contentdata-modul' id='modul'>
+	<div class='navlink'>
+		<a  href='".$this->basePath."/home/index/main'>Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Absensi
+	</div>
+	<h3 class='title'>Buat Hari Kerja</h3>
+	<div class='spacer'></div>
+	<a name='top'></a>
+	<form method='post' name='fNBuatHariKerja' id='fIBuatHariKerja' action='insabsensimesin'>
+	<div class='search-panel'>
+		<fieldset class='panel-form3'>
+		<table>
+		   <tr>
+		      <td>nip</td><td><input type='text' id='nip' name='nip' value='060035132'></td>
+		   </tr>
+		   <tr>
+		      <td>tanggal</td><td><input type='text' id='tanggal' name='tanggal' value='20080310'></td>
+		   </tr>
+		   <tr>
+		      <td>jam</td><td><input type='text' id='jam' name='jam' value='1520'></td>
+		   </tr>
+		   <tr>
+		      <td>kodeabsen</td><td><input type='text' id='kodeabsen' name='kodeabsen' value='01'></td>
+		   </tr>
+		   <tr>
+		      <td>kodemnjmn</td><td><input type='text' id='kodemnjmn' name='kodemnjmn' value='00'></td>
+		   </tr>
+		   <tr>
+		      <td>terminal</td><td><input type='text' id='terminal' name='terminal' value='01'></td>
+		   </tr>
+		   <tr>
+		      <td>&nbsp;</td><td><input type='submit' id='proses' name='proses' value='proses'></td>
+		   </tr>
+		</table>
+		</fieldset>
+	</div> 
+	</form>
+</div>";
+	
+	

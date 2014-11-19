@@ -1,0 +1,258 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php'; 
+   
+	$ctrlDate = new oa_date();     
+	$ctrlFrm = new Zend_View();
+	
+	$thnskrg = date("Y");
+
+	$jamArr = array("-"=>"-","00"=>"00","01"=>"01","02"=>"02","03"=>"03","04"=>"04","05"=>"05","06"=>"06","07"=>"07",
+					"08"=>"08","09"=>"09","10"=>"10","11"=>"11","12"=>"12","13"=>"13","14"=>"14","15"=>"15",
+					"16"=>"16","17"=>"17","18"=>"18","19"=>"19","20"=>"20","21"=>"21","22"=>"22","23"=>"23");
+						
+	$mntArr = array("00"=>"00","01"=>"01","02"=>"02","03"=>"03","04"=>"04","05"=>"05","06"=>"06","07"=>"07",
+					"08"=>"08","09"=>"09","10"=>"10","11"=>"11","12"=>"12","13"=>"13","14"=>"14","15"=>"15",
+					"16"=>"16","17"=>"17","18"=>"18","19"=>"19","20"=>"20","21"=>"21","22"=>"22","23"=>"23",
+					"24"=>"24","25"=>"25","26"=>"26","27"=>"27","28"=>"28","29"=>"29","30"=>"30","31"=>"31",
+					"32"=>"32","33"=>"33","34"=>"34","35"=>"35","36"=>"36","37"=>"37","38"=>"38","39"=>"39",
+					"40"=>"40","41"=>"41","42"=>"42","43"=>"44","45"=>"46","47"=>"47","48"=>"48","49"=>"49",
+					"50"=>"50","51"=>"51","52"=>"52","53"=>"53","54"=>"54","55"=>"55","56"=>"56","57"=>"57",
+					"58"=>"58","59"=>"59");
+	  
+	$dtkArr = array("00"=>"00","01"=>"01","02"=>"02","03"=>"03","04"=>"04","05"=>"05","06"=>"06","07"=>"07",
+					"08"=>"08","09"=>"09","10"=>"10","11"=>"11","12"=>"12","13"=>"13","14"=>"14","15"=>"15",
+					"16"=>"16","17"=>"17","18"=>"18","19"=>"19","20"=>"20","21"=>"21","22"=>"22","23"=>"23",
+					"24"=>"24","25"=>"25","26"=>"26","27"=>"27","28"=>"28","29"=>"29","30"=>"30","31"=>"31",
+					"32"=>"32","33"=>"33","34"=>"34","35"=>"35","36"=>"36","37"=>"37","38"=>"38","39"=>"39",
+					"40"=>"40","41"=>"41","42"=>"42","43"=>"44","45"=>"46","47"=>"47","48"=>"48","49"=>"49",
+					"50"=>"50","51"=>"51","52"=>"52","53"=>"53","54"=>"54","55"=>"55","56"=>"56","57"=>"57",
+					"58"=>"58","59"=>"59");
+   
+    //$jnsAktList = array("-"=>"--Pilih--",
+    $jnsAktList = array("S"=>"Struktural",
+				  "F"=>"Fungsional");	
+  
+    //$klaAktList = array("-"=>"--Pilih--",
+    $klaAktList = array("TP"=>"Tugas Pokok",
+                  "TT"=>"Tugas Tambahan",
+				  "TL"=>"Tugas Lainnya");	
+   
+    
+	$pesan = $this->pesan;
+
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'absensi');
+   echo $this->render('aktifitasjs.phtml'); 
+   
+   $catatan = $this->catatan;
+?>
+<div class="contentdata-modul" id="modul">
+	 <div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Absensi
+		<strong> &#8250; </strong> Pencatatan Akifitas
+	
+	</div>
+	<h3 class="title">PENCATATAN AKTIFITAS HARIAN PEGAWAI</h3>
+	&nbsp;&nbsp;&nbsp;&nbsp;Menu ini digunakan untuk mencatat aktifitas harian pegawai.
+	Untuk menyimpan catatan aktifitas yang telah diisi tekan tombol 'Simpan' di kolom kanan bawah.
+	<div class="spacer"></div>
+	<a name="top"></a>	
+	
+	<form id="frmTambahAkt" action="<?php echo $this->basePath; ?>/sdm/absensi/tambahaktifitas" method="post" name="frmTambahAkt">
+		<? if (!$pesan == null) {
+		?>
+			<div class="spacer"> </div>
+			<fieldset id="message" class="confirm"><? echo $pesan; ?></fieldset>
+			<div class="spacer"> </div>	
+		<?}?>
+		<div class="search-panel">
+		<fieldset class="panel-form4">
+				<dl>
+					<dd class="col-left">NIP</dd>
+					<dd class="dot2">:</dd>
+					<dd class="col-right2">
+					<?php 
+						$nip = $this->escape($this->nip);
+						echo $nip;
+					?>
+					<dd class="col-left">&nbsp;</dd>
+					<dd class="dot2">&nbsp;</dd>
+				</dl>
+				<dl>
+					<dd class="col-left">Nama</dd>
+					<dd class="dot2">:</dd>
+					<dd class="col-right2">
+					<?php 
+						$nama = $this->escape($this->nama);
+						echo $nama;
+					?>
+					<dd class="col-left">&nbsp;</dd>
+					<dd class="dot2">&nbsp;</dd>
+				</dl>
+		</fieldset>
+		</div>
+		
+		<div class="space-line"></div>
+		<div class="title2">Aktifitas Harian Pegawai</div>
+		<fieldset  class="panel-form">	
+				<?
+				$nip = $this->escape($this->nip);
+				echo $ctrlFrm->formHidden('nip', $nip, null)."&nbsp;";
+				?>
+				<dl>
+					<dt>Tanggal Aktifitas
+					<span class="hightlight">*</span>
+					</dt>
+					<dd class="dot2">:</dd>
+					<dd class="col-right">
+					<?php 
+					$hrAkt= $_POST['hrAkt'];
+					$blnAkt = $_POST['blnAkt'];
+					$thnAkt = $_POST['thnAkt'];
+					echo $ctrlDate->formTanggal_oa('hrAkt',$hrAkt,'blnAkt',$blnAkt,'thnAkt',$thnAkt); 
+					?> &nbsp;
+				</dl>
+				<dl>
+					<dt>Jam Mulai
+					<span class="hightlight">*</span>
+					</dt>
+					<dd class="dot2">:</dd> 
+					<dd class="col-right">
+					<?php
+					echo $ctrlFrm->formSelect('jamMulai', $jamMulai, null, $jamArr);?>&nbsp;:
+					<?
+					echo $ctrlFrm->formSelect('menitMulai', $menitMulai, null, $mntArr);?>&nbsp;:
+					<?
+					echo $ctrlFrm->formSelect('detikMulai', $detikMulai, null, $dtkArr);?>&nbsp;
+					<?
+					echo "<font color=\"red\">hh:mm:ss</font>";
+					?>
+					</dd>
+				</dl>
+			
+				<dl>
+					<dt>Jam Selesai
+					<span class="hightlight">*</span>
+					</dt>
+					<dd class="dot2">:</dd> 
+					<dd class="col-right">
+					<?php 
+					echo $ctrlFrm->formSelect('jamSelesai', $jamSelesai, null, $jamArr);?>&nbsp;:
+					<?
+					echo $ctrlFrm->formSelect('menitSelesai', $menitSelesai, null, $mntArr);?>&nbsp;:
+					<?
+					echo $ctrlFrm->formSelect('detikSelesai', $detikSelesai, null, $dtkArr);?>&nbsp;
+					<?
+					echo "<font color=\"red\">hh:mm:ss</font>";
+					?>
+					</dd>
+				</dl>
+				<dl>
+					<dt>Jenis Aktifitas</dt>
+					<dd class="dot2">:</dd> 
+					<dd class="col-right">
+					<?php
+						echo $ctrlFrm->formSelect('jnsAkt', $jnsAkt, null, $jnsAktList) 
+					?>
+					</dd>
+				</dl>
+				<dl>
+					<dt>Klasifikasi Aktifitas</dt>
+					<dd class="dot2">:</dd> 
+					<dd class="col-right">
+					<?php
+						echo $ctrlFrm->formSelect('klaAkt', $klaAkt, null, $klaAktList) 
+					?>
+					</dd>
+				</dl>
+				<dl>
+					<dt>Aktifitas Harian</dt>
+					<dd class="dot2">:</dd> 
+					<dd class="col-right">
+					<?php 
+						//$aktifitas = $_POST['aktifitas'];
+							$aktifitas =  $this->escape($this->aktifitas);
+						if ($aktifitas == null) {
+							$aktifitas == ' ';
+						}
+						
+						//$aktifitasAtrib = array("readonly"=>"true",
+						// $aktifitasAtrib = array("disabled"=>"true",
+												// "rows"=>"8",
+						$aktifitasAtrib = array("rows"=>"6",
+											    "cols"=>"50",
+											    "class"=>"medium"); 
+						echo $ctrlFrm->formTextarea('aktifitas', $aktifitas, $aktifitasAtrib);
+					?>
+					</dd>
+				</dl>
+				<dl>
+					<dt>Output</dt>
+					<dd class="dot2">:</dd> 
+					<dd class="col-right">
+					<?php 
+							$output =  $this->escape($this->output);
+						if ($output == null) {
+							$output == ' ';
+						}
+						
+/* 						$keteranganAtrib = array("rows"=>"3",
+										    "cols"=>"5",
+										    "class"=>"medium",
+											"onkeypress"=>"limitlength(this, 99)",
+											"wrap"=>"true"
+											);
+ */						$outputAtrib = array("rows"=>"4",
+											    "cols"=>"5",
+												"maxLength"=>"3000",
+											    "class"=>"medium",
+												"onkeypress"=>"limitlength(this, 2999)",
+												"wrap"=>"true"); 
+						echo $ctrlFrm->formTextarea('output', $output, $outputAtrib);
+						echo "<font color=\"red\">max. 200 char</font>";
+					?>
+					</dd>
+				</dl>
+               <dl>
+					<div class="spacer"></div>
+		            <dt>Upload File Pendukung</dt>
+					<dd class="dot2">:</dd> 
+					<dt><input type="file" name="nmFile" size="30" />
+		            </dt>
+					<dt><input type="hidden" name="upload" value="1" /></dt>
+					<dt>&nbsp;</dt>
+		        </dl> 
+				  <div class="right">
+				<?	
+				echo $ctrlFrm->formHidden('nipH', $nip, null)."&nbsp;";
+				?> 
+				<?
+					$hr1 = $_POST['hr1'];
+					$bln1 = $_POST['bln1'];
+					$thn1 = $_POST['thn1'];
+					$tgl = $thn1."-".$bln1."-".$hr1;
+					$tanggal = $ctrlDate->convertTglMachineToHuman($tgl);
+					$namaTgl = $nama." Tanggal: ".$tanggal;
+				?>
+					<input type="button" value="Batal" onClick="javascript:kembaliCatatAkt();">
+					<input type="reset" value="Ulangi"> 
+					<input id="perintah" type="submit" value="Simpan" name="perintah" onClick="javascript:simpanAkt();">
+				<?
+/* 					$aForm = "document.frmCatatAkt";
+					$atribS = array("onclick"=>"javascript:simpanAkt();");
+					echo $ctrlFrm->formSubmit('perintah', 'Simpan', $atribS)."&nbsp;";
+ */				?>
+					
+				</div>
+		</fieldset>
+
+	</form>
+		  
+			<div class="space-line"></div>
+		  	<div><a href="#top" class="top" title="Kembali ke atas">Kembali ke atas</a></div>	  	
+			<span class="hightlight">* Harus diisi</span>	 
+
+</div>
+	

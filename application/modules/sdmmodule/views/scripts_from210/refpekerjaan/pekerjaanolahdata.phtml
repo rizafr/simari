@@ -1,0 +1,63 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+	
+	//var_dump($this->detailAgama);
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tanggal_lahir").datepicker();
+		jQuery("#d_tanggal_nikah").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Pekerjaan
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Referensi Pekerjaan</h2>	
+		
+<form id="formpekerjaan" method="post" name="formpekerjaan">		
+	<div class="panel">
+		<div class="spacer"></div> 
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Kode Pekerjaan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>	
+						<input type="text" name="c_pekerjaan" id="c_pekerjaan" value="<?=$this->detailPekerjaan['c_pekerjaan'];?>" size="70" maxlength="2">
+					</td>
+				</tr><tr>
+					<td>Nama Pekerjaan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_pekerjaan" id="n_pekerjaan" value="<?=$this->detailPekerjaan['n_pekerjaan'];?>" size="70">
+					</td>
+				</tr>
+				<tr>
+					<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/refpekerjaan/listpekerjaan','<?php echo $this->basePath; ?>/sdmmodule/refpekerjaan/pekerjaanjs');"> 
+							<?if ($this->par == 'insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertPekerjaan()">
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updatePekerjaan()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>

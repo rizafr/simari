@@ -1,0 +1,354 @@
+<?php
+require_once "service/adm/Adm_Admaplikasi_Service.php";
+require_once 'share/Portalconf.php'; 
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><?php echo $this->render('partials/main/head.phtml'); ?></head>
+<body onLoad='window.setInterval("reloadData()", 5000);window.setInterval("reloadDataUseronline()", 50000);'>
+<!--body-->
+<script language="javascript">
+function viewShout(str) {
+	document.getElementById("shoutboxdata").innerHTML = str;		
+}
+function reloadData(str) {
+	
+	jQuery.get("<?php echo $this->basePath; ?>/portalmodule/shoutbox/listshoutbox",viewShout);
+	//resetShout();	
+}
+function resetShout(){
+    document.getElementById("message").value= '';   	
+
+}
+function viewUseronline(str) {
+	document.getElementById("useronline").innerHTML = str;		
+}
+function reloadDataUseronline(str) {
+	
+	jQuery.get("<?php echo $this->basePath; ?>/portalmodule/useronline/listuseronline",viewUseronline);
+	//resetShout();	
+}
+function listdata(par){
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/reminder/pensiun?par='+par;
+	BukaWindows(url,'700','500');	
+}
+
+function BukaWindows(url,wid,heg){
+	var w = 0; 
+	var h = 0;
+	w = screen.availWidth;
+	h = screen.availHeight;
+	var popW = wid, popH = heg;
+	var leftc = (w-popW)/2;
+	var topc = (h-popH)/2;
+	var selectWindow = window.open(url,'Selection', 'left=' + leftc + ',top=' + topc + ', width='+popW+',height='+popH+',resizable=0,scrollbars=yes');
+	
+	
+}
+
+/* cdr , 20120408, ubah password masing-masing user */
+/*--------------------------------------------------*/
+function openFormUbahPassword(){
+	/* var url = "<?php echo $this->basePath; ?>/admmodule/admuser/admuserubahpassword";	
+	jQuery.get(url, function(data) {
+			jQuery("#targetPopup").html(data);
+			centerPopup();
+			loadPopup();}); */
+	var url = "<?php echo $this->basePath; ?>/admmodule/admuser/admuserubahpassword";			
+	var w = 0; 
+	var h = 0;
+	w = screen.availWidth;
+	h = screen.availHeight;
+	var popW = 500, popH = 250;
+	var leftc = (w-popW)/2;
+	var topc = (h-popH)/2;
+	var selectWindow = window.open(url,'Selection', 'left=' + leftc + ',top=' + topc + ', width='+popW+',height='+popH+',status=yes,toolbar=no,menubar=no,location=no,scrollbars=no');
+       selectWindow .focus();
+}
+
+</script>
+<DIV id="main"><!--main start -->
+	<DIV id="header">
+
+<!--header start -->
+	</DIV><!--header end -->
+<?php 
+	//echo "xx = ".$this->xx."<br>";
+	//echo "yy = ".$this->yy."<br>";
+	//var_dump($this->checkotoritas);
+	echo $this->render('partials/main/headMenu.phtml'); ?>
+	<div id="page">
+       <div class="navlink"><a href="main">Halaman Utama</a> <span id="breadcrumbs"></span> <span id="breadcrumbs2"></span></div>
+
+       <div id="leftside">
+	  <div class="widget">
+		<h4 class="widgettitle">Aplikasi</h4>
+		<ul  class="nostyle">
+		<?php
+			$admaplikasi_serv = Adm_Admaplikasi_Service::getInstance();
+			//var_dump($this->detailUser);
+			/*echo "<br>n_eselon_i = ".$this->xxx;
+			echo "<br>n_eselon_ii = ".$this->yyy;
+			echo "<br>n_eselon_iii = ".$this->aaa;
+			echo "<br>n_eselon_iv = ".$this->bbb;
+			echo "<br>n_eselon_v = ".$this->ccc;
+			
+			echo "<br>c_eselon_i = ".$this->dd;
+			echo "<br>c_eselon_ii = ".$this->ee;
+			echo "<br>c_eselon_iii = ".$this->ff;
+			echo "<br>c_eselon_iv = ".$this->gg;
+			echo "<br>c_eselon_v = ".$this->hh;  
+			echo "<br>wewenang = ".$this->wewenang;  
+			echo "<br>sektoral = ".$this->sektoral;  
+			*/
+		
+						
+			/* echo "<br>eseloni = ".$this->xxx;
+			echo "<br>eselonii = ".$this->xxx;
+			echo "<br>eseloniii = ".$this->xxx;
+			echo "<br>eseloniv = ".$this->xxx;
+			echo "<br>eselonv = ".$this->xxx; */
+			/*echo "<br>sektoral = ".$this->yy."<br>";
+			//var_dump($this->checklogin);*/
+			/* echo "<br>wewenang2 = ".$this->xxx;
+			echo "<br>sektoral2 = ".$this->yyy."<br>";
+			var_dump($this->checklogin); */ 
+			for($a=0;$a<count($this->aplikasiList); $a++){
+				$iAplikasi = $this->aplikasiList[$a]->i_aplikasi;
+				$cAplikasi = $this->aplikasiList[$a]->c_aplikasi;
+				$nAplikasi = $this->aplikasiList[$a]->n_aplikasi;
+				$eAplikasi = $this->aplikasiList[$a]->e_aplikasi;
+				
+				//$dataDetailAplikasi = array("i_aplikasi" => $iAplikasi);
+				//$detailAplikasi = $admaplikasi_serv->aplikasiDetail($dataDetailAplikasi);
+				//echo "$iAplikasi | $cAplikasi<br>";
+				if(($cAplikasi != 'adm') && ($cAplikasi != 'cms')){
+					//echo "bukan adm & cms<br>";
+					//echo "<br>$iAplikasi | $cAplikasi | ";
+					if(count($this->checkotoritas) > 0 && in_array($iAplikasi,$this->checkotoritas)){
+						//echo "$iAplikasi<br>";
+						?>
+						<li><a class="icon-<?php echo $cAplikasi;?>" href="/<?php echo $cAplikasi;?>">
+						<?php echo $nAplikasi;?> </a></li>
+						<?
+					}
+				}
+			}
+			//echo "====";
+			?>
+		  <!--li><a class="icon-siap" href="">Sistem Informasi SIAP</a></li>
+		  <li><a class="icon-rencana" href="rencana">Sistem Informasi Perencanaan dan Organisasi</a></li>
+		  <li><a class="icon-sdm" href="sdm">Sistem Informasi Kepegawaian</a></li>
+		  <li><a class="icon-keu" href="keuangan">Sistem Informasi Keuangan</a></li>
+		  <li><a class="icon-aset" href="aset">Sistem Informasi Aset</a></li>
+		  <li><a class="icon-log" href="logistik">Sistem Informasi Logistik</a></li-->
+		  <!--li><a class="icon-komdata" href="">Sistem Informasi Komunikasi Data</a></li-->
+		</ul>
+	  </div>
+	  <div class="widget">
+		<h4 class="widgettitle">Administrasi Perkara</h4>
+		<ul>
+			<li>Perkara Masuk <?=$this->tahunberjalan?> ( <?=$this->perkaramasuk?> )</li>
+			<li>Perkara Putus <?=$this->tahunberjalan?> ( <?=$this->perkaraputus?> )</li>
+			<li>Perkara Minutasi <?=$this->tahunberjalan?> ( <?=$this->perkaraminutasi?> )</li>
+			<?# <li><a href="">Perkara Tunggak 10 th kbelakang( <?=$this->perkaratunggak?><! )</a></li -> 
+		</ul>
+	  </div>
+	  <div class="widget" id="targetshoutbox">
+
+<?php echo $this->render('partials/main/shoutbox.phtml');?>
+	  </div>	
+	    
+
+	</div>
+
+	<div id="middle">
+	  <div class="widget" id="contentview">
+		<!--h4 class="widgettitle">Executive Information System (EIS)</h4-->
+		<h4 class="widgettitle">Dashboard</h4>
+		<div class="box-app" style="text-align:center">
+		  <a href="#" onclick="showPortalChart('<?php echo $this->basePath; ?>/siapmodule/portalchart/chartperkara','<?php echo $this->basePath; ?>/siapmodule/portalchart/chartjs');">SIAP</a> &bull; 
+		  <a href="#" onclick="showPortalChart('<?php echo $this->basePath; ?>/rencanamodule/portalchart/chartpagu','<?php echo $this->basePath; ?>/rencanamodule/portalchart/chartjs');">Perencanaan dan Organisasi</a> &bull; 
+		  <a href="#" onclick="showPortalChart('<?php echo $this->basePath; ?>/sdmmodule/portalchart/chartusia','<?php echo $this->basePath; ?>/sdmmodule/portalchart/chartjs');">Kepegawaian</a>
+		  <br> <a href="#" onclick="showPortalChart('<?php echo $this->basePath; ?>/keumodule/portalchart/chartpagu','')">Keuangan </a>&bull; 
+		  <a href="#" onclick="showPortalChart('<?php echo $this->basePath; ?>/asetmodule/portalchart/chartaset','<?php echo $this->basePath; ?>/asetmodule/portalchart/chartjs');">Aset</a>
+		</div>
+		
+		<div id="dashboard" style="text-align:center">
+		<h2>Kepegawaian</h2>
+				<div class="space2"></div>
+				<?echo $this->chartjmlpeg;?>
+<a href="#"  class="icon-pie" onclick="showPortalChart('<?php echo $this->basePath; ?>/sdmmodule/portalchart/chartpendidikan','');">Pendidikan</a>
+&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href="#"  class="icon-pie" onclick="showPortalChart('<?php echo $this->basePath; ?>/sdmmodule/portalchart/chartgolongan','');">Golongan</a>
+				
+		</div> 
+
+
+			
+	  </div>
+	  <div class="widget">
+
+		<h4 class="widgettitle">Berita</h4>
+<?php
+$jumberitaPubList = count($this->beritaPubList); 
+//echo "n=".$jumberitaPubList;    
+if ($jumberitaPubList!=0) {
+//  if ($jumberitaPubList > 10) $end=10; 
+//  else $end=$jumberitaPubList-1;
+echo" 		<ul class=\"nostyle\">\n";
+ foreach ($this->beritaPubList as $val): 
+$dat = $listtmberita[$i];
+	$objtmberita = unserialize($dat); 
+$idberita=trim($this->escape($val['c_berita']));
+$jdlberita=trim($this->escape($val['n_judul']));
+$detilberita=trim($this->escape($val['n_detil']));
+$tglberita=formatDate(trim($this->escape($val['d_berita'])));
+
+ ?>
+	               <li><span class="date"><?=$tglberita?></span>
+					<h3><a href="#" onclick="showDetilmed('<?php echo $this->basePath; ?>/portalmodule/berita/beritadetil','<?=$idberita?>','<?php echo $this->basePath; ?>/portalmodule/berita/indeksberita','<?php echo $this->basePath; ?>/portalmodule/berita/beritajs','Berita');"><?php echo $jdlberita;?></a></h3></li>
+
+	<?php endforeach;?> 	
+	             </ul>	
+		<div class="all">
+		<a class="viewall" href="#indeksberita" onclick="goExec_Script('<?php echo $this->basePath; ?>/portalmodule/berita/indeksberita','<?php echo $this->basePath; ?>/portalmodule/berita/beritajs', 'Berita')">Lihat Arsip Berita</a>				 
+		</div>
+<?php } else echo "<center class=\"highlight\">Tidak ada berita</center>\n"; ?>
+	  </div>
+	  <div class="widget">
+		<h4 class="widgettitle">Pengumuman</h4>
+<?php
+$jumpengumumanPubList = count($this->pengumumanPubList); 
+//echo "n=".$jumpengumumanPubList;    
+if ($jumpengumumanPubList!=0) {
+//  if ($jumpengumumanPubList > 10) $end=10; 
+//  else $end=$jumpengumumanPubList-1;
+echo" 		<ul class=\"media\">\n";
+ foreach ($this->pengumumanPubList as $val2): 
+$dat = $listtmpengumuman[$j];
+	$objtmpengumuman = unserialize($dat); 
+$idpengumuman=trim($this->escape($val2['c_pengumuman']));
+$jdlpengumuman=trim($this->escape($val2['n_judul']));
+$detilpengumuman=trim($this->escape($val2['n_detil']));
+$tglpengumuman=formatDate(trim($this->escape($val2['d_pengumuman'])));
+
+ ?>
+	               <li><h3><a href="#" onclick="showDetilmed('<?php echo $this->basePath; ?>/portalmodule/pengumuman/pengumumandetil','<?=$idpengumuman?>','<?php echo $this->basePath; ?>/portalmodule/pengumuman/indekspengumuman','<?php echo $this->basePath; ?>/portalmodule/pengumuman/pengumumanjs','Pengumuman');"><?php echo $jdlpengumuman; ?></a></h3></li>
+
+
+	<?php endforeach;?> 	
+	             </ul>	
+		<div class="all">
+		<a class="viewall" href="#indekspengumuman" onclick="goExec_Script('<?php echo $this->basePath; ?>/portalmodule/pengumuman/indekspengumuman','<?php echo $this->basePath; ?>/portalmodule/pengumuman/pengumumanjs', 'pengumuman')">Lihat Arsip Pengumuman</a>				 
+		</div>
+<?php } else echo "<center class=\"highlight\">Tidak ada pengumuman</center>\n"; ?>	
+	
+	  </div>
+	  
+	</div>
+	  
+	<div id="rightside">
+	  <div class="widget">
+		<h4 class="widgettitle">Notifikasi</h4>
+<?php echo $this->render('partials/main/notifikasi.phtml');?>
+	  </div>
+	  <div class="widget">
+		<h4 class="widgettitle">Agenda</h4>
+<?php
+$jumagendaPubList = count($this->agendaPubList);
+if ($jumagendaPubList!=0) {?>
+<ul class="boxmod">
+<?
+ foreach ($this->agendaPubList as $val3): 
+$idagenda=trim($this->escape($val3['c_agenda']));
+$jdlagenda=trim($this->escape($val3['n_judul']));
+$detilagenda=trim($this->escape($val3['n_detil']));
+$tempat=trim($this->escape($val3['n_tempat']));
+$tanggal=gettgl(trim($this->escape($val3['d_agenda'])));
+$bulan=getbln(trim($this->escape($val3['d_agenda'])));
+
+ ?>		
+	               <li class="bggrad">
+		         <div class="cont-date">
+		           <span class="mon"><?=$bulan?></span>
+		           <span class="day"><?=$tanggal?></span>
+			 </div>
+			 <div class="cont-title">
+			   <span class="title"><a href="#" onclick="showDetilmed('<?php echo $this->basePath; ?>/portalmodule/agenda/agendadetil','<?=$idagenda?>','<?php echo $this->basePath; ?>/portalmodule/agenda/indeksagenda','<?php echo $this->basePath; ?>/portalmodule/agenda/agendajs','Agenda');"><?php echo $jdlagenda; ?></a></span>
+			   <br><span class="place">Tempat : <?echo $tempat;?></a></span>
+			 </div>  
+		       </li>
+	<?php endforeach;?> 
+	             </ul>	
+<?php } else echo "<center class=\"highlight\"> Tidak ada Agenda</center>\n"; ?>	
+
+	    </div>
+	  <div class="widget">
+		<h4 class="widgettitle">Produk Hukum</h4>
+<?php
+$jumprodukhukumPubList = count($this->produkhukumPubList); 
+//echo "n=".$jumprodukhukumPubList;    
+if ($jumprodukhukumPubList!=0) {
+//  if ($jumprodukhukumPubList > 10) $end=10; 
+//  else $end=$jumprodukhukumPubList-1;
+echo" 		<ul class=\"media\">\n";
+ foreach ($this->produkhukumPubList as $val): 
+$dat = $listtmprodukhukum[$k];
+	$objtmprodukhukum = unserialize($dat); 
+$cpr=trim($this->escape($val['c_produkhukum']));
+$kategoripr=trim($this->escape($val['c_kategori']));
+$nomorpr=trim($this->escape($val['i_nomor_produkhukum']));
+$tahunpr=trim($this->escape($val['d_tahun_produkhukum']));
+$judulpr=trim($this->escape($val['n_judul']));
+
+ ?>
+	<li>
+      <h3><a href="#" onclick="showDetilmed('<?php echo $this->basePath; ?>/portalmodule/produkhukum/produkhukumdetil','<?=$cpr?>','<?php echo $this->basePath; ?>/portalmodule/produkhukum/indeksprodukhukum','<?php echo $this->basePath; ?>/portalmodule/produkhukum/produkhukumjs','produkhukum');">
+      <?php echo $kategoripr." No ".$nomorpr." Tahun ".$tahunpr." Perihal ".$judulpr;?></a></h3></li>
+
+	<?php endforeach;?> 	
+	             </ul>	
+		<div class="all">
+		<a class="viewall" href="#indeksprodukhukum" onclick="goExec_Script('<?php echo $this->basePath; ?>/portalmodule/produkhukum/indeksprodukhukum','<?php echo $this->basePath; ?>/portalmodule/produkhukum/produkhukumjs', 'produkhukum')">Lihat Arsip Produk Hukum</a>				 
+		</div>
+<?php } else echo "<center class=\"highlight\">Tidak ada Produk Hukum</center>\n"; ?>	
+	
+	  </div>	    
+	  <!--div class="widget">
+		<h4 class="widgettitle">Email</h4>
+		<fieldset class="login">							
+			<form action="" method="post" id="myForm" name="myForm" class="form-login">
+
+				<div style="display:none;" id="result"></div>
+				<label for="mod_login_username">Username</label><br style="clear:both">
+				<input type="text" name="username" id="mod_login_username" class="inputbox full" alt="Username">
+				<div class="clear"></div>
+				<label for="mod_login_password">Password</label><br style="clear:both">
+				<input type="password" id="mod_login_password" name="password" class="inputbox full" alt="Password">
+				<div class="space2"></div>
+				<input type="submit" name="Submit" value="Log in">
+				<input type="hidden" name="option" value="com_user">
+				<input type="hidden" name="task" value="login">
+
+		    </form>
+
+		</fieldset>	  
+           </div-->
+	    <div class="widget">
+		  <h4 class="widgettitle">User Online</h4>
+	      <div class="bd" id="useronline">
+		  <?php echo $this->render('partials/main/useronline.phtml');?>
+		  </div>
+        </div>		   
+	  </div>
+		<div class="space2"></div>
+		<div id="targetPopup"></div>
+	</div>
+</DIV><!--main  end -->
+<div id="footer"><!--footer start -->
+<?php echo $this->render('partials/main/footer.phtml'); ?>
+</div><!--footer end -->
+</body>
+
+</html>

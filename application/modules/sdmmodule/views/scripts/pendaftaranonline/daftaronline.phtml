@@ -1,0 +1,549 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+   $thnskrg = date("Y");
+   $thnList = $thnskrg - 40;
+   $thnArrayList[''] = '--';
+   for ($i = 0; $i < 60; $i++) {
+     $thnList = $thnList + 1;
+     $thnArrayList[$thnList] = $thnList;
+   }
+
+?>
+<script type="text/javascript">
+	$(function() {
+		//$("#d_lahir").datepicker();
+		$("#d_pend_ijazah").datepicker();
+		$( "#d_lahir" ).datepicker({
+			changeMonth: true,
+			changeYear: true
+		});		
+	
+	});
+	
+</script>
+
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Utama</a> 
+				<strong> &#8250; </strong><?=$this->jdl;?> Pendaftaran Online
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+
+	
+<form name="formdaftaronline" id="formdaftaronline" method="post" action=""  enctype="multipart/form-data">
+<h2 class="title"><?=$this->jdl;?> Pendaftaran Online</h2>
+
+	<div class="panel">	
+
+		<div class="spacer"></div> 
+			<table border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+						<table border="0" cellpadding="0" cellspacing="1" class="std">
+							<tr>
+								<td>Nomor KTP<span class="hightlight">*</span></td>
+								<td>:</td>
+								<td>
+									<input type="text" size="30" name="i_ktp" id="i_ktp" value="<?=$this->i_ktp?>" onchange="cariData()">
+								</td>
+							</tr>						
+							<tr>
+								<td>Posisi Jabatan<span class="hightlight">*</span></td>
+								<td>:</td>
+								<td>
+									<?php
+																							   
+										$jabatanList[''] = '--Pilih--';							
+										for ($i = 0; $i < count($this->jabatanList); $i++) {
+											$n_jabatan=trim($this->jabatanList[$i]['n_jabatan']);												   
+											$jabatanList[trim((string)$this->jabatanList[$i]['c_jabatan'])] = $n_jabatan;
+										}
+										echo $ctrlFrm->formSelect('c_posisi_jabatan',$this->c_posisi_jabatan,null,$jabatanList);
+									?>									
+								</td>
+							</tr>	
+							<tr>
+								<td>Wilayah Pengadilan Tinggi<span class="hightlight">*</span></td>
+								<td>:</td>
+								<td>
+									<?php
+																							   
+										$wilList[''] = '--Pilih--';							
+										for ($i = 0; $i < count($this->wilayahList); $i++) {
+											$n_pengadilan=trim($this->wilayahList[$i]['n_pengadilan']);												   
+											$wilList[trim((string)$this->wilayahList[$i]['c_pengadilan'])] = $n_pengadilan;
+										}
+										echo $ctrlFrm->formSelect('c_wil_pengadilan',$this->c_wil_pengadilan,null,$wilList);
+									?>									
+								</td>
+							</tr>								
+
+							<tr>
+								<td>Nama Lengkap<span class="hightlight">*</span></td>
+								<td>:</td>
+								<td>
+									<input type="text" size="40" maxlength="35" name="n_pendaftar" id="n_pendaftar" value="<?=$this->n_pendaftar?>" >
+								</td>
+							</tr>
+						
+							<tr>
+								<td>Gol. Darah / Status Nikah</td>
+								<td>:</td>
+								<td>
+										<?php
+											$darahList = array("-"=>"--Pilih--","A"=>"A","B"=>"B","AB"=>"AB","O"=>"O");	
+											echo $ctrlFrm->formSelect('c_golongan_darah', $this->c_golongan_darah,null, $darahList); 
+										?>	
+											&nbsp;/
+										<?php 
+											$stsNikah = $this->escape($this->stsNikah);
+											if (($stsNikah == '') || ($stsNikah == null)) {
+												$stsNikah = $_POST['stsNikah'];
+											} 
+											$stsNikahOpsi = array("-"=>"--Pilih--","M"=>"Menikah","B"=>"Belum Menikah","J"=>"Janda","D"=>"Duda"); 
+											echo $ctrlFrm->formSelect('c_statusnikah', $this->c_statusnikah, $stsNikah, $stsNikahOpsi, "&nbsp;"); 
+										?>	
+								</td>
+							</tr>
+							<tr>
+								<td>Jenis Kelamin</td>
+								<td>:</td> 
+								<td>					
+								<?php 
+									$jenisKel = array("-"=>"--Pilih--","L"=>"Laki-laki","P"=>"Perempuan");	
+									echo $ctrlFrm->formSelect('c_jeniskelamin', $this->c_jeniskelamin, null, $jenisKel);
+								?>
+								</td>
+							</tr>
+<!--							
+							<tr>
+								<td>Status Kewarganegaraan</td>
+								<td>:</td> 
+								<td>					
+								<?php 
+									// $jenisWn = array("-"=>"--Pilih--","WNA"=>"Warga Negara Asing","WNI"=>"Warga Negara Indonesia");	
+									// echo $ctrlFrm->formSelect('c_warganegara', $this->c_warganegara, null, $jenisWn);
+								?>
+								</td>
+-->								
+							</tr>
+						<tr>
+								<td>Agama</td>
+								<td>:</td>
+								<td>
+									<?php
+																							   
+										$agamaList[''] = '--Pilih--';							
+										for ($i = 0; $i < count($this->agamaList); $i++) {
+											$n_agama=trim($this->agamaList[$i]['n_agama']);												   
+											$agamaList[trim((string)$this->agamaList[$i]['c_agama'])] = $n_agama;
+										}
+										echo $ctrlFrm->formSelect('c_agama',$this->c_agama,null,$agamaList);
+									?>									
+								</td>
+							</tr>								
+							<tr>
+								<td>Hobi</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="60" name="n_hobi" id="n_hobi" value="<?=$this->n_hobi?>">
+								</td>
+							</tr>
+			<tr>
+				<td>File Foto</td>
+				<td>:</td>
+				<td valign="bottom">
+					<div class="fileinputs">
+						<input type="file" size=25 id="photo" name="photo"  value="<? echo $this->e_file_photo?>"onChange="setvalueuplfile(this.value,'photo','jpg')" />
+						<div class="fakefile">
+							<input type="text" size=24 name="a_file" id="a_file" value="<? echo $this->e_file_photo?>"/>
+						</div>
+					</div>
+					<input type="hidden" size=49 name="a_file2" id="a_file2"value="<? echo $this->e_file_photo?>"/>								
+				</td>		
+			</tr>							
+						</table>
+						
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%" id="targetpend">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b>Pendidikan</b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td width="16%">Pendidikan<span class="hightlight">*</span></td>
+								<td width="2%">:</td>
+								<td>
+									<?php
+										$jmljenjang = count($this->nmJenjangList);														   
+										$jenjangReff[''] = '--Pilih--';							
+										for ($i = 0; $i < $jmljenjang; $i++) {
+											$n_pend=trim($this->nmJenjangList[$i]['n_pend']);												   
+											$jenjangReff[trim((string)$this->nmJenjangList[$i]['c_pend'])] = $n_pend;
+										}
+										$pendAtrib = array("onChange"=>"javascript:cariPend()"); 
+										echo $ctrlFrm->formSelect('c_pend',$this->c_pend,$pendAtrib,$jenjangReff);
+									?>						
+								</td>
+							</tr>
+						<tr>
+							<td>Perguruan Tinggi</td>
+							<td>:</td> 
+							<td>
+							<?php 
+								$pendidikanAtrib = array("size"=>"70","class"=>""); 
+								echo $ctrlFrm->formText('n_pend_lembaga', $this->n_pend_lembaga, $pendidikanAtrib); 
+							?>
+							</td>
+						</tr>							
+						<tr id="idjur">
+							<td>Jurusan</td>
+							<td>:</td> 
+							<td>
+							<?php 
+								$jurusanAtrib = array("size"=>"70",
+												 "class"=>""); 
+								echo $ctrlFrm->formText('n_pend_jurusan', $this->n_pend_jurusan, $jurusanAtrib);
+							?>
+							</td>
+						</tr>
+						<tr>
+							<td>Akreditasi</td>
+							<td>:</td> 
+							<td>
+								<?php 
+									$akreditasi = array("-"=>"--Pilih--","1"=>"Terdaftar","2"=>"Diakui","3"=>"Disamakan");	
+									echo $ctrlFrm->formSelect('c_pend_akreditasi', $this->c_pend_akreditasi, null, $akreditasi);
+								?>							
+							</td>
+						</tr>						
+						<tr>
+							<td>Tahun Mulai</td>
+							<td>:</td> 
+							<td>
+							<?php 
+								echo $ctrlFrm->formSelect('d_pend_mulai', $this->d_pend_mulai, null, $thnArrayList);
+							?>
+							</td>
+						</tr>
+						<tr>
+							<td>Tahun Akhir</td>
+							<td>:</td> 
+							<td>
+							<?php 
+								echo $ctrlFrm->formSelect('d_pend_akhir', $this->d_pend_akhir, null, $thnArrayList);
+							?>
+							</td>
+						</tr>
+						<tr id="idipk">
+							<td>IPK / Nilai Ijazah</td>
+							<td>:</td> 
+							<td>
+							<?php 
+								$ipk = $_POST['ipk'];
+								if ($ipk == '') {
+									$ipk = 0.00;
+								} 			
+								$ipkAtrib = array("size"=>"10",
+												 "maxlength"=>"5",
+												 "class"=>"clright",
+												 "id" => "i_pend_ipk",
+												 "onKeyup" => "javascript:isNumber('i_pend_ipk');"); 
+								echo $ctrlFrm->formText('i_pend_ipk', $this->i_pend_ipk, $ipkAtrib);
+							 ?>
+						<?
+						echo "<font color=\"red\">00.00</font>";
+						?>
+							</td>
+						</tr>
+						<tr>
+							<td>Nomor Ijazah</td>
+							<td>:</td> 
+							<td>
+							<?php 
+								$noIjazahAtrib = array("size"=>"25",
+												 "maxlength"=>"30",
+												 "class"=>""); 
+								echo $ctrlFrm->formText('i_pend_ijazah', $this->i_pend_ijazah, $noIjazahAtrib);
+							 ?>
+							</td>
+						</tr>
+						<tr>
+							<td>Tanggal Ijazah</td>
+							<td>:</td> 
+							<td>
+								<input type="text" id="d_pend_ijazah" name="d_pend_ijazah" value="<?=$this->d_pend_ijazah?>" size = "15">
+								<span class="hightlight">dd-mm-yyyy</span>
+							</td>
+						</tr>							
+			</table>
+			
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+				<tr>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b>KELAHIRAN</b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td>Propinsi</td>
+								<td>:</td>
+								<td>
+								<?php 
+									   $jmlPropList = count($this->propinsiList);
+									   $propinsiList[''] = '--Pilih--';
+									   for ($i = 0; $i < $jmlPropList; $i++) {
+										$propinsiList[(string)$this->propinsiList[$i]->c_propinsi] = (string)$this->propinsiList[$i]->n_propinsi;			 
+									   }
+										$propAtrib = array("id"=>"propinsiLahir","onClick"=>"javascript:cariKabupaten('targetkablhr','propinsiLahir')"); 
+										echo $ctrlFrm->formSelect('c_propinsi_lahir', $this->c_propinsi_lahir, $propAtrib, $propinsiList)
+								?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Kabupaten</td>
+								<td>:</td>
+								<td id="targetkablhr">
+								<?php 
+									$jmlKabList = count($this->kabupatenListLahir);
+									$kabupatenListLahir[''] = '--Pilih--';
+									for ($i = 0; $i < $jmlKabList; $i++) {
+										$kabupatenListLahir[(string)$this->kabupatenListLahir[$i]->c_kabupaten] = (string)$this->kabupatenListLahir[$i]->n_kabupaten;			 
+									}
+									echo $ctrlFrm->formSelect('a_kota_lahir', $this->a_kota_lahir,null, $kabupatenListLahir);
+								?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Tanggal</td>
+								<td>:</td>
+								<td>
+									<input type="text" id="d_lahir" name="d_lahir" value="<?=$this->d_lahir?>" size="10"> <span class="hightlight">dd-mm-yyyy</span>
+								</td>
+							</tr>							
+						</table>
+					</td>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b>CIRI-CIRI FISIK</b><h3>
+								</td>								
+							</tr>
+							<tr>
+								<td>Tinggi (cm) / Berat (kg)</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="10" name="q_tinggibdn" id="q_tinggibdn" value="<?=$this->q_tinggibdn?>"  onkeyup="isNumber('q_tinggibdn')"> /
+									<input type="text" size="10" name="q_beratbdn" id="q_beratbdn" value="<?=$this->q_beratbdn?>"  onkeyup="isNumber('q_beratbdn')">
+								</td>
+							</tr>	
+							<tr>
+								<td>Rambut / Bentuk Muka</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="10" name="n_rambut" id="n_rambut" value="<?=$this->n_rambut?>"> /
+									<input type="text" size="10" name="n_btkmuka" id="n_btkmuka" value="<?=$this->n_btkmuka?>">
+								</td>
+							</tr>
+							<tr>
+								<td>Warna Kulit / Ciri Khas</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="10" name="n_warnakulit" id="n_warnakulit" value="<?=$this->n_warnakulit?>"> /
+									<input type="text" size="10" name="n_cirikhas" id="n_cirikhas" value="<?=$this->n_cirikhas?>">
+								</td>
+							</tr>	
+						</table>
+					</td>
+				</tr>
+			</table>	
+
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b>ALAMAT</b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td width="16%">Jalan</td>
+								<td width="2%">:</td>
+								<td>
+									<textarea rows="1" name="a_rumah" id="a_rumah"><?=$this->a_rumah?></textarea>
+								</td>
+							</tr>	
+							<tr>
+								<td>RT / RW</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="5" name="a_rt" id="a_rt" value="<?=$this->a_rt?>" onkeyup="isNumber('a_rt')" > /
+									<input type="text" size="5" name="a_rw" id="a_rw" value="<?=$this->a_rw?>" onkeyup="isNumber('a_rw')">
+								</td>
+							</tr>	
+							<tr>
+								<td>Desa/Keluarahan</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="55" name="a_kelurahan" id="a_kelurahan" value="<?=$this->a_kelurahan?>">
+								</td>
+							</tr>	
+							<tr>
+								<td>Kecamatan</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="55" name="a_kecamatan" id="a_kecamatan" value="<?=$this->a_kecamatan?>">
+								</td>
+							</tr>	
+							<tr>
+								<td>Propinsi</td>
+								<td>:</td>
+								<td>
+									<?php 
+									   $jmlPropList = count($this->propinsiList);
+									   $propinsiList[''] = '--Pilih--';
+									   for ($i = 0; $i < $jmlPropList; $i++) {
+									   $propinsiList[(string)$this->propinsiList[$i]->c_propinsi] = (string)$this->propinsiList[$i]->n_propinsi;			 
+									   }
+										$propAtrib = array("id"=>"propinsiSelect","onClick"=>"javascript:cariKabupaten('targetkabupaten','propinsiSelect')"); 
+										echo $ctrlFrm->formSelect('a_propinsi', $this->a_propinsi, $propAtrib, $propinsiList)
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Kabupaten</td>
+								<td>:</td>
+								<td id="targetkabupaten">
+									<?php 
+										$jmlKabList = count($this->kabupatenList);
+										$kabupatenList[''] = '--Pilih--';
+										for ($i = 0; $i < $jmlKabList; $i++) {
+											$kabupatenList[(string)$this->kabupatenList[$i]->c_kabupaten] = (string)$this->kabupatenList[$i]->n_kabupaten;			 
+										}
+										echo $ctrlFrm->formSelect('a_kota', $this->a_kota,null, $kabupatenList);
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Kode Pos</td>
+								<td>:</td>
+								<td>
+									<input type="text" maxlength="5"  size="10" name="a_kodepos" id="a_kodepos" value="<?=$this->a_kodepos?>" onkeyup="isNumber('a_kodepos')">
+								</td>
+							</tr>
+<!--							
+							<tr>
+								<td>Telp/HP</td>
+								<td>:</td>
+								<td>
+							<?
+								// $fieldId="i_telponrumah";
+								// $value=$this->i_telponrumah;
+								// $val = explode("-",$value);
+								// $size="10";
+								// if (!$size) $size = Array(5,10);
+								// $xsize = $size[0]+$size[1]+1;
+								// $event = "  onkeyup=javascript:isNumber(this); ";
+								// $h = $f."<input id='".$fieldId."1' name='".$fieldId."1' type='text' size='".$size[0]."' maxlength='3' title='".$title."' value='".$val[0]."' onkeyup=javascript:isNumber('".$fieldId."1');>";
+								// $h .= "<b>-</b>&nbsp;";
+								// $h .= "<input id='".$fieldId."2' name='".$fieldId."2' type='text' size='".$size[1]."' maxlength='10' title='".$title."' value='".$val[1]."' onkeyup=javascript:isNumber('".$fieldId."2')>".$d;
+								// $h .= "<input id='".$fieldId."' name='".$fieldId."' type='hidden' size='".$xsize."' maxlength='".$xsize."' class='".$c." validate-telp' title='".$title."' value='".$value."'>";
+								// echo $h;
+							?>
+							/ <input type="text" size="16" name="i_telponhp" id="i_telponhp" value="<?//=$this->i_telponhp?>" onkeyup="isNumber('i_telponhp')">
+							
+								</td>
+							</tr>
+							<tr>
+								<td>Alamat Email</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="a_email" id="a_email" value="<?//=$this->a_email?>" size="50">
+								</td>
+							</tr>	
+-->							
+							<tr>
+								<td colspan="3" align="left">
+									&nbsp;
+								</td>
+							</tr>								
+	
+								
+			</table>
+	</div>		
+<br>
+	<div class="panel">
+		<div class="spacer"></div>			
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td align="right">
+								<div class="right">
+									<input type="submit" value="<?=$this->par;?>" onClick="insertDaftarOl()">
+									<?if ($this->par=='Ubah'){?>
+									<input type="button" value="Cetak Nomor Pendaftaran" onClick="cetakDaftarx('<?=$this->i_ktp?>','<?=$this->d_tahun;?>')">
+									<?}?>
+									
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+									<input type="hidden" name="d_tahun"  id="d_tahun"value="<?=$this->d_tahun;?>">
+								</div>
+							</td>
+						</tr>
+			</table>	
+</div>			
+
+</form>	
+</div id="popupview"></div>
+<script type="text/javascript">
+
+
+function cariKabupaten(target,target2){
+	var c_propinsi=document.getElementById(target2).value;
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/pendaftaranonline/listcombokabupaten';	
+	var param = {c_propinsi:c_propinsi,target:target};
+	jQuery.get(url, param, function(data) {
+		jQuery("#"+target).html(data);
+
+	});
+}
+function cetakDaftarx(i_ktp,d_tahun)
+{
+	url = "<?php echo $this->basePath; ?>/sdmmodule/pendaftaranonline/cetakdaftar?i_ktp="+i_ktp+"&d_tahun="+d_tahun
+	BukaWindows('700','500');
+}
+function BukaWindows(wid,heg){
+	var w = 0; 
+	var h = 0;
+	w = screen.availWidth;
+	h = screen.availHeight;
+	var popW = wid, popH = heg;
+	var leftc = (w-popW)/2;
+	var topc = (h-popH)/2;
+	var selectWindow = window.open(url,'Selection', 'left=' + leftc + ',top=' + topc + ', width='+popW+',height='+popH+',resizable=no,scrollbars=yes,menubar=yes,toolbar=no,status=yes,location=no');
+}
+function cariPend(){
+	var c_pend=document.getElementById("c_pend").value;
+	if (c_pend=='01' || c_pend=='02' || c_pend=='03')
+	{var url = '<?php echo $this->basePath; ?>/sdmmodule/pendaftaranonline/pendidikansma';}
+	else
+	{var url = '<?php echo $this->basePath; ?>/sdmmodule/pendaftaranonline/pendidikanunv';}
+	var param = {c_pend:c_pend};
+	jQuery.get(url, param, function(data) {jQuery("#targetpend").html(data);});
+}
+</script>

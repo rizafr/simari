@@ -1,0 +1,741 @@
+<SCRIPT src="<? echo $this->basePath;?>/js/jquery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="<? echo $this->basePath;?>/js/jquery.form.js" type="text/javascript"></SCRIPT>
+<script type="text/javascript">
+//==========absensisearch=============
+function cariPegawai()
+{
+	$("#fnCariPegawai").ajaxForm(cariPegawai_opt);
+	
+}
+
+	var cariPegawai_opt = 
+   {
+		target : '#tableview',
+		beforeSubmit: function() {}, 
+		success:	swtStatus,
+		url: '<?php echo $this->basePath; ?>/sdm/absensi/pegawaibrowse',
+		type: 'post',
+		//dataType: 'script',
+		resetForm: false
+		//success:	updateFotoSukses,
+    };
+
+  var optCari = {target : '#tableview'};
+ jQuery('#frmAbsensiSearch').ajaxForm(optCari);
+
+ jQuery("#fIBuatHariKerja").ajaxForm(optBuatHariKerja);
+   var optBuatHariKerja = 
+   {
+		target : '#tableview',
+		beforeSubmit: function() {}, 
+		success:	swtStatus,
+		url: '<?php echo $this->basePath; ?>/sdm/absen/buatHariKerja',
+		type: 'post',
+		//dataType: 'script',
+		resetForm: false
+		//success:	updateFotoSukses,
+    };
+function swtStatus()
+{
+   //alert('aku disini');
+}
+
+ function cari() {
+   jQuery('#perintah').bind('click',function () {
+                                       jQuery("#frmAbsensiSearch").ajaxSubmit(optCari); 
+									   return false;
+									 });
+ } 
+
+
+ 
+ $("a[@class=newPage]").bind("click",searchabs); //coba paging
+
+ function searchabs() //coba paging
+{
+	var handler = '<?php echo $this->basePath; ?>/sdm/absensi/absensisearch?param1='+param1+'&param2='+param2;
+	var currentPage = $(this).attr("currentPage");
+	var param1 = $(this).attr("param1");
+	var param2 = $(this).attr("param2");
+	var param3 = $(this).attr("param3");
+	var param4 = $(this).attr("param4");
+		
+	var opt = {currentPage : currentPage, param1 : param1, param2 : param2, param3 : param3 , param4 : param4};
+	jQuery.get(handler,opt,function(data) {
+		$("#tableview").html(data);
+		$("a[@class=newPage]").bind("click",searchabs);
+	});
+
+}  
+ 
+ function kembaliSearch() {
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/pegawai/index';
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ }  
+
+ 
+ function viewAbsen(nip) {
+	//alert ("Test"+nip);
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/absensi/dataabsensi?nip='+nip;
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ }  
+
+ 
+//============dataabsensi==================
+ function kembaliAbsen() {
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/absensi/absensisearch';
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ }  
+
+ function tambahAbsen(perintah, nip) {
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/absensi/catatabsensi?perintah=TAMBAH&nip='+nip;
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ } 
+
+ function updateAbsen(perintah, nip, tglAbsen) {
+	//alert ("Test"+nip);
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/absensi/updateabsensi?perintah=UPDATE&nip='+nip+'&tglAbsen='+tglAbsen;
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ } 
+ 
+/*  function hapusAbsen(perintah, nip, tglAbsen) {
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/absensi/dataabsensi?perintah=DELETE&nip='+nip+'&tglAbsen='+tglAbsen;
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ } 
+ */ 
+
+function hapusAbsen(param1, param2, param3, param4)
+{ //alert("param4= "+param4);
+	
+	if(ConfirmDelete(param1, param4))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdm/absensi/hapusabsen';
+		var opt = {nip : param2, tglAbsen : param3};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+			 });
+	}
+}  
+  
+//============catatabsensi==================
+ function kembaliCatatAbsensi(nip) {
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/absensi/dataabsensi?nip='+nip;
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ } 
+
+ var optSimpanAbsensi = {target : '#tableview'};
+ jQuery('#frmCatatAbsensi').ajaxForm(optSimpanAbsensi);
+
+ function simpanAbsensi() {
+   jQuery('#perintah').bind('click',function () {
+                                       jQuery("#frmCatatAbsensi").ajaxSubmit(optSimpanAbsensi); 
+									   return false;
+									 });
+ }
+
+
+//============updateabsensi==================
+ function kembaliUpdateAbsensi(nip) {
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/absensi/dataabsensi?nip='+nip;
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ } 
+
+ var optUpdAbsensi = {target : '#tableview'};
+ jQuery('#frmUpdateAbsensi').ajaxForm(optUpdAbsensi);
+
+ function simpanUpdateAbsensi() {
+   jQuery('#perintah').bind('click',function () {
+                                       jQuery("#frmUpdateAbsensi").ajaxSubmit(optUpdAbsensi); 
+									   return false;
+									 });
+ }
+
+ var cariAbsensi = {target : '#tableview'};
+ jQuery('#frmAbsen').ajaxForm(cariAbsensi);
+
+ function cariDataAbsensi() {
+   jQuery('#perintah').bind('click',function () {
+                                       jQuery("#frmAbsen").ajaxSubmit(cariAbsensi); 
+									   return false;
+									 });
+ } 
+jQuery("#itBlawl").bind("change",funcChangeTglawal);
+jQuery("#itBlakr").bind("change",funcChangeTglakhir);
+$("#ibiCariPeg").bind("click",funcCariPegawai);
+//jQuery("#idORG").bind("change",funcChangeIdORG);
+//jQuery("#thisortNama").bind("click",funcSortNama);
+//jQuery("#thisortNip").bind("click",funcSortNip);
+jQuery("#iiCetakPdf").bind("click",funcCetakPDF);
+jQuery("#iiCetakXcl").bind("click",funcCetakXCL);
+jQuery("#iiCetakRkpXcl").bind("click",funcCetakRekapXCL);
+
+jQuery("#thisortnipPeg").bind("click",funcSortPegBynip);
+jQuery("#thisortnamaPeg").bind("click",funcSortPegBynama);
+// $("a[@class=acNamaPegawai]").bind("click",funcCariPegawaiBrws); 
+
+function funcCariPegawaiBrws(a)
+{
+   var url = '<?php echo $this->basePath; ?>/sdm/absensi/carinamapegawai';
+   var par = { nip:a }
+   jQuery.get(url, par, function(data) {
+	 var nm = data;
+	 opener.document.forms[0].itNip.value = a;
+	 opener.document.forms[0].itNama.value = nm;
+	 window.close();
+   });
+}
+//jQuery("#aiViewAbsen").bind("click",viewAbsen);
+function funcCariPegawai()
+{
+    var idORG = document.getElementById('idORG').value;
+    var c = document.getElementById('c').value;
+	var pos1 = (screen.width - 600) / 2;
+	var pos2 = (screen.height - 400) / 2;
+	panel = 'width=650,height=300,status=no,resizable=no,scrollBars=yes,top='+pos2+',left='+pos1;
+	winlist = window.open('<?php echo $this->basePath; ?>/sdm/absensi/pegawaibrowse?p='+idORG+
+	'&c='+c,'listpegawai',panel);
+	if (parseInt(navigator.appVersion) >= 4) { winlist.window.focus(); }
+}
+function funcChangeTglawal()
+{
+   var url = '<?php echo $this->basePath; ?>/sdm/absensi/listtanggal';
+   var ittgl = 'itTgawl';
+   var ittahun = document.getElementById('itThawl').value;
+   var itbulan = document.getElementById('itBlawl').value;
+   var par = { ittahun:ittahun, itbulan:itbulan, ittgl:ittgl }
+   jQuery.get(url, par, function(data) {
+	 $("#tdiTgAwl").html(data);
+   });
+}
+function funcChangeTglakhir()
+{
+   var url = '<?php echo $this->basePath; ?>/sdm/absensi/listtanggal';
+   var ittgl = 'itTgakr';
+   var ittahun = document.getElementById('itThakr').value;
+   var itbulan = document.getElementById('itBlakr').value;
+   var par = { ittahun:ittahun, itbulan:itbulan, ittgl:ittgl }
+   jQuery.get(url, par, function(data) {
+	 $("#tdiTgAkr").html(data);
+   });
+}
+function funcCetakRekapXCL()
+{
+   var idORG = document.getElementById('idORG').value;
+   var sitgls = document.getElementById('sitgls').value;
+   var siblns = document.getElementById('siblns').value;
+   var sithns = document.getElementById('sithns').value;
+   var sitglf = document.getElementById('sitglf').value;
+   var siblnf = document.getElementById('siblnf').value;
+   var sithnf = document.getElementById('sithnf').value;
+   var sKatagori = document.getElementById('sKatagori').value;
+   var sKatagoriVal = document.getElementById('sKatagoriVal').value;
+   var parm = "?idORG="+idORG+"&sitgls="+sitgls+"&siblns="+siblns+"&sithns="+sithns+
+   "&sitglf="+sitglf+"&siblnf="+siblnf+"&sithnf="+sithnf+"&ktgr="+sKatagori+"&ktgrval="+sKatagoriVal;
+   var url = "<?php echo $this->basePath; ?>/sdm/absensi/excelabsensirkp";
+//   alert(url+parm);
+   window.open(url+parm,"Selection","width=900,height=600,resizable=yes,scrollbars=yes");
+}
+function funcCetakXCL()
+{
+   var idORG = document.getElementById('idORG').value;
+   var sitgls = document.getElementById('itTgawl').value;
+   var siblns = document.getElementById('itBlawl').value;
+   var sithns = document.getElementById('itThawl').value;
+   var sitglf = document.getElementById('itTgakr').value;
+   var siblnf = document.getElementById('itBlakr').value;
+   var sithnf = document.getElementById('itThakr').value;
+   var nip = document.getElementById('itNip').value;
+   var nama = document.getElementById('itNama').value;
+   var parm = "?idORG="+idORG+"&sitgls="+sitgls+"&siblns="+siblns+"&sithns="+sithns+
+   "&sitglf="+sitglf+"&siblnf="+siblnf+"&sithnf="+sithnf+"&itNip="+nip+"&itNama="+nama;
+   var url = "<?php echo $this->basePath; ?>/sdm/absensi/excelabsensi";
+   if ((nip!="") && (nama!=""))
+   { window.open(url+parm,"Selection","width=900,height=600,resizable=yes,scrollbars=yes"); }
+   else { alert("Data pegwai tidak boleh kosong..."); }
+}
+function funcCetakPDF()
+{
+   var idORG = document.getElementById('idORG').value;
+   var sitgls = document.getElementById('itTgawl').value;
+   var siblns = document.getElementById('itBlawl').value;
+   var sithns = document.getElementById('itThawl').value;
+   var sitglf = document.getElementById('itTgakr').value;
+   var siblnf = document.getElementById('itBlakr').value;
+   var sithnf = document.getElementById('itThakr').value;
+   var nip = document.getElementById('itNip').value;
+   var nama = document.getElementById('itNama').value;
+   var parm = "?idORG="+idORG+"&sitgls="+sitgls+"&siblns="+siblns+"&sithns="+sithns+
+   "&sitglf="+sitglf+"&siblnf="+siblnf+"&sithnf="+sithnf+"&nip="+nip+"&nama="+nama;
+/*
+   var sitgls = document.getElementById('sitgls').value;
+   var siblns = document.getElementById('siblns').value;
+   var sithns = document.getElementById('sithns').value;
+   var sitglf = document.getElementById('sitglf').value;
+   var siblnf = document.getElementById('siblnf').value;
+   var sithnf = document.getElementById('sithnf').value;
+   var sKatagori = document.getElementById('sKatagori').value;
+   var sKatagoriVal = document.getElementById('sKatagoriVal').value;
+   var parm = "?idORG="+idORG+"&sitgls="+sitgls+"&siblns="+siblns+"&sithns="+sithns+
+   "&sitglf="+sitglf+"&siblnf="+siblnf+"&sithnf="+sithnf+"&ktg="+sKatagori+"&ktgval="+sKatagoriVal;
+   var url = "<?php echo $this->basePath; ?>/sdm/absensi/cetakabsensi";
+   if ((sKatagori!="") && (sKatagoriVal!=""))
+ */  
+   var url = "<?php echo $this->basePath; ?>/sdm/absensi/cetakabsensi";
+   if ((nip!="") && (nama!=""))
+   { window.open(url+parm,"Selection","width=900,height=600,resizable=yes,scrollbars=yes"); }
+   else { alert("Data pegwai tidak boleh kosong..."); }
+}
+function funcSortPegBynip()
+{ funcCgPegListByOrder("1"); }
+function funcSortPegBynama()
+{ funcCgPegListByOrder("2"); }
+function funcCgPegListByOrder(strOrder)
+{
+   var url = '<?php echo $this->basePath; ?>/sdm/absensi/absensisearch';
+   var idNIP = document.getElementById('nip').value;
+   var idNAMA = document.getElementById('nama').value;
+   var pars = { nip:idNIP, nama:idNAMA, ord:strOrder };
+   $.get(url,pars, function (data) {
+	    $("#tableview").html(data);
+   });
+}
+function funcSortNama()
+{ funcChangePegByOrder("2"); }
+function funcSortNip()
+{ funcChangePegByOrder("1"); }
+function funcChangePegByOrder(strOrder)
+{
+   var url = '<?php echo $this->basePath; ?>/sdm/absensi/listpegabsensi';
+   var idORG = document.getElementById('idORG').value;
+   //var idNIP = document.getElementById('idNIP').value;
+   //var idNAMA = document.getElementById('idNAMA').value;
+   var sKatagori = document.getElementById('sKatagori').value;
+   var sKatagoriVal = document.getElementById('sKatagoriVal').value;
+   var sitgls = document.getElementById('sitgls').value;
+   var siblns = document.getElementById('siblns').value;
+   var sithns = document.getElementById('sithns').value;
+   var sitglf = document.getElementById('sitglf').value;
+   var siblnf = document.getElementById('siblnf').value;
+   var sithnf = document.getElementById('sithnf').value;
+   var prmOrd = strOrder+sitgls+siblns+sithns+sitglf+siblnf+sithnf;
+   //var pars = { idORG:idORG, idNIP:idNIP, idNAMA:idNAMA, ord:prmOrd };
+   var pars = { idORG:idORG, sKatagori:sKatagori, sKatagoriVal:sKatagoriVal, ord:strOrder, sitgls:sitgls, siblns:siblns, sithns:sithns, sitglf:sitglf, siblnf:siblnf, sithnf:sithnf };
+   $.get(url,pars, function (data) {
+	    $("#tableview").html(data);
+   });
+}
+function funcChangeIdORG()
+{
+   var url = '<?php echo $this->basePath; ?>/sdm/absensi/listpegabsensi';
+   var idORG = document.getElementById('idORG').value;
+   //var idNIP = document.getElementById('idNIP').value;
+   //var idNAMA = document.getElementById('idNAMA').value;
+   var sKatagori = document.getElementById('sKatagori').value;
+   var sKatagoriVal = document.getElementById('sKatagoriVal').value;
+   var sitgls = document.getElementById('sitgls').value;
+   var siblns = document.getElementById('siblns').value;
+   var sithns = document.getElementById('sithns').value;
+   var sitglf = document.getElementById('sitglf').value;
+   var siblnf = document.getElementById('siblnf').value;
+   var sithnf = document.getElementById('sithnf').value;
+   var ord = '1';
+   var prmOrd = '1'+sitgls+siblns+sithns+sitglf+siblnf+sithnf;
+   //var pars = { idORG:idORG, idNIP:idNIP, idNAMA:idNAMA, ord:prmOrd };
+   var pars = { idORG:idORG, sKatagori:sKatagori, sKatagoriVal:sKatagoriVal, ord:ord, sitgls:sitgls, siblns:siblns, sithns:sithns, sitglf:sitglf, siblnf:siblnf, sithnf:sithnf };
+   $.get(url,pars, function (data) {
+	    $("#tableview").html(data);
+   });
+}
+function isoPegawaiListAbsn()
+{
+   $("#fiPegawaiListAbsn").ajaxForm(funcPegawaiListAbsn);
+}
+var funcPegawaiListAbsn = {
+		target : '#tableview',
+		beforeSubmit: function() {}, 
+		url: '<?php echo $this->basePath; ?>/sdm/absensi/absensisearch',
+		type: 'post',
+		resetForm: false
+};
+var optRekapPegAbsensi = {
+		target : '#tableview',
+		beforeSubmit: function() {}, 
+		url: '<?php echo $this->basePath; ?>/sdm/absensi/absensipegawai',
+		type: 'post',
+		resetForm: false
+};
+var optCariPegAbsensi = {
+		target : '#tableview',
+		beforeSubmit: function() {}, 
+		url: '<?php echo $this->basePath; ?>/sdm/absensi/listpegabsensi',
+		type: 'post',
+		resetForm: false
+};
+function ioCariPegAbsensi()
+{
+   $("#fiCariAbsensiPeg").ajaxForm(optCariPegAbsensi);
+   $("#fiRekapAbsensiPeg").ajaxForm(optRekapPegAbsensi);
+}
+ $("#iiCaristsPegAbs").bind("click",searchstsabsen);
+ $("button[@class=isCaristsPegAbs]").bind("click",searchstsabsen); 
+ function searchstsabsen()
+ {
+   var idNIP = document.getElementById('itNip').value;
+   var idNAMA = document.getElementById('itNama').value;
+   var idORG = document.getElementById('idORG').value;
+   var opt = { nip:idNIP, nama:idNAMA, org:idORG };
+   var url = '<?php echo $this->basePath; ?>/sdm/absensi/statusabsenpeg';
+   jQuery.get(url, opt, function(data) {
+	 $("#tableview").html(data);
+   });
+ }
+
+//=============================IJIN======================================
+////////=====dataijin======/////////
+ var cariIjin = {target : '#tableview'};
+ jQuery('#frmDataIjin').ajaxForm(cariIjin);
+
+ function cariDataIjin() {
+   jQuery('#perintah').bind('click',function () {
+                                       jQuery("#frmDataIjin").ajaxSubmit(cariIjin); 
+									   return false;
+									 });
+ } 
+
+ function tambahIjin(perintah) {
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/absensi/tambahijin?perintah=TAMBAH';
+   var hr1 = document.getElementById('hr1').value;
+   var bln1 = document.getElementById('bln1').value;
+   var thn1 = document.getElementById('thn1').value;
+   var hr2 = document.getElementById('hr2').value;
+   var bln2 = document.getElementById('bln2').value;
+   var thn2 = document.getElementById('thn2').value;
+   var prm = { hr1:hr1, bln1:bln1, thn1:thn1, hr2:hr2, bln2:bln2, thn2:thn2}
+   jQuery.get(urlDepan, prm, function(data) {
+	 $("div#tableview").html(data);
+	 eval("document.frmTambahIjin.noSurat.focus();");	
+	 // function () {}
+   });
+ } 
+
+ function ubahIjin(perintah,nip,tanggal,jamMulai) {
+ //alert("jam= "+jamMulai);
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/absensi/ubahijin?perintah=UBAH&nip='+nip+'&tanggal='+tanggal+'&jamMulai='+jamMulai;
+   var hr1 = document.getElementById('hr1').value;
+   var bln1 = document.getElementById('bln1').value;
+   var thn1 = document.getElementById('thn1').value;
+   var hr2 = document.getElementById('hr2').value;
+   var bln2 = document.getElementById('bln2').value;
+   var thn2 = document.getElementById('thn2').value;
+   var prm = { hr1:hr1, bln1:bln1, thn1:thn1, hr2:hr2, bln2:bln2, thn2:thn2}
+   jQuery.get(urlDepan, prm, function(data) {
+	 $("div#tableview").html(data);
+	 eval("document.frmUbahIjin.noSurat.focus();");	
+	 // function () {}
+   });
+ } 
+ 
+function hapusIjin(param1, param2, param3, param4, param5)
+{ //alert("param5"+param5);
+
+	
+	if(ConfirmDelete(param1, param5))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdm/absensi/hapusijin';
+		var opt = {nip : param2, tanggal : param3, mulai : param4, konf : param5};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+			 });
+	}
+}  
+ 
+ 
+////////=====tambahijin======/////////
+  function kembaliTambahIjin(nip) {
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/absensi/dataijin';
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ } 
+ 
+function windowListNama(){
+	//alert ("windowListNama");
+	url = "<?php echo $this->basePath; ?>/sdm/absensi/listnamanip";
+	var selectWindow = window.open(url,"Selection","menubar=no,toolbar=no,scrollbars=Yes,width=740,height=530");
+	
+
+} 
+ 
+function setNamaNip(nip,nama)
+{   
+	 opener.document.forms[0].nip.value=nip;
+	 opener.document.forms[0].nama.value=nama;		
+	 window.close();
+}
+ 
+ 
+
+ var optSimpanIjin = {
+              target : '#tableview',
+			  beforeSubmit : function() {
+							idform= document.frmTambahIjin;
+							nmform= "document.frmTambahIjin";
+			                    var cekVal = validasiIjin(idform,nmform);
+								            if (cekVal == false) {
+								              return false;
+											}
+										},
+			  success : function()
+              {
+   var url = '<?php echo $this->basePath; ?>/sdm/absensi/dataijin';
+   var hr1 = document.getElementById('hr1').value;
+   var bln1 = document.getElementById('bln1').value;
+   var thn1 = document.getElementById('thn1').value;
+   var hr2 = document.getElementById('hr2').value;
+   var bln2 = document.getElementById('bln2').value;
+   var thn2 = document.getElementById('thn2').value;
+   var prm = { hr1:hr1, bln1:bln1, thn1:thn1, hr2:hr2, bln2:bln2, thn2:thn2}
+   jQuery.get(url,prm,function(data) {
+	  $("#tableview").html(data);
+	});
+              },			  
+										};
+ jQuery('#frmTambahIjin').ajaxForm(optSimpanIjin);
+
+ function berhasil()
+ {
+   var url = '<?php echo $this->basePath; ?>/sdm/absensi/dataijin';
+   var hr1 = document.getElementById('hr1').value;
+   var bln1 = document.getElementById('bln1').value;
+   var thn1 = document.getElementById('thn1').value;
+   var hr2 = document.getElementById('hr2').value;
+   var bln2 = document.getElementById('bln2').value;
+   var thn2 = document.getElementById('thn2').value;
+   var prm = { hr1:hr1, bln1:bln1, thn1:thn1, hr2:hr2, bln2:bln2, thn2:thn2}
+   jQuery.get(url,prm,function(data) {
+	  $("#tableview").html(data);
+	});
+ }
+ function validasiIjin(a,b)
+{
+   with(a){
+      
+         var Proceed = 1;
+         var Message;
+         var FocusField;
+         while (Proceed == 1)
+         {   		           
+			if(!noSurat.value){
+               Message = "Nomor Surat harus diisi";
+               FocusField = "noSurat";
+               Proceed = 0;
+               break;
+            }
+			if(!nama.value){
+               Message = "Nama harus diisi";
+               FocusField = "nama";
+               Proceed = 0;
+               break;
+            }
+			if(!nip.value){
+               Message = "Nip harus diisi";
+               FocusField = "nip";
+               Proceed = 0;
+               break;
+            }
+ 			if(hrIjin.value == "#"){
+               Message = "Tanggal Ijin harus diisi";
+               FocusField = "hrIjin";
+               Proceed = 0;
+               break;
+            }
+ 			if(blnIjin.value == "#"){
+               Message = "Bulan Ijin harus diisi";
+               FocusField = "blnIjin";
+               Proceed = 0;
+               break;
+            }
+  			if(!thnIjin.value){
+               Message = "Tahun Ijin harus diisi";
+               FocusField = "thnIjin";
+               Proceed = 0;
+               break;
+            }
+  			if(!jamMulai.value){
+               Message = "Jam Mulai harus diisi";
+               FocusField = "jamMulai";
+               Proceed = 0;
+               break;
+            }
+   			if(!menitMulai.value){
+               Message = "Menit Mulai harus diisi";
+               FocusField = "menitMulai";
+               Proceed = 0;
+               break;
+            }
+   			if(!detikMulai.value){
+               Message = "Detik Mulai harus diisi";
+               FocusField = "detikMulai";
+               Proceed = 0;
+               break;
+            }
+            break;
+         }         
+         if (Proceed == 1){ 
+            return true;
+         }else{
+            alert( Message );
+            eval(b+"."+FocusField+".focus();");
+			//eval(b+"."+FocusField+".style.backgroundColor='lightyellow'");
+            return false;
+         }
+   }
+}
+ 
+ 
+ 
+ 
+ function simpanIjin() {
+   jQuery('#perintah').bind('click',function () {
+                                       jQuery("#frmTambahIjin").ajaxSubmit(optSimpanIjin); 
+									   return false;
+									 });
+ }
+
+ var optUbahIjin = {target : '#tableview',
+					beforeSubmit : function() {
+							idform= document.frmUbahIjin;
+							nmform= "document.frmUbahIjin";
+			                    var cekVal = valUbahIjin(idform,nmform);
+								            if (cekVal == false) {
+								              return false;
+											}
+										},
+			  success : function()
+              {
+   var url = '<?php echo $this->basePath; ?>/sdm/absensi/dataijin';
+   var hr1 = document.getElementById('hr1').value;
+   var bln1 = document.getElementById('bln1').value;
+   var thn1 = document.getElementById('thn1').value;
+   var hr2 = document.getElementById('hr2').value;
+   var bln2 = document.getElementById('bln2').value;
+   var thn2 = document.getElementById('thn2').value;
+   var prm = { hr1:hr1, bln1:bln1, thn1:thn1, hr2:hr2, bln2:bln2, thn2:thn2}
+   jQuery.get(url,prm,function(data) {
+	  $("#tableview").html(data);
+	});
+              },			  
+										};
+ jQuery('#frmUbahIjin').ajaxForm(optUbahIjin);
+
+ function valUbahIjin(a,b)
+{
+   with(a){
+      
+         var Proceed = 1;
+         var Message;
+         var FocusField;
+         while (Proceed == 1)
+         {   		           
+			if(!noSurat.value){
+               Message = "Nomor Surat harus diisi";
+               FocusField = "noSurat";
+               Proceed = 0;
+               break;
+            }
+			if(!nama.value){
+               Message = "Nama harus diisi";
+               FocusField = "nama";
+               Proceed = 0;
+               break;
+            }
+			if(!nip.value){
+               Message = "Nip harus diisi";
+               FocusField = "nip";
+               Proceed = 0;
+               break;
+            }
+ 			if(hrIjin.value == "#"){
+               Message = "Tanggal Ijin harus diisi";
+               FocusField = "hrIjin";
+               Proceed = 0;
+               break;
+            }
+ 			if(blnIjin.value == "#"){
+               Message = "Bulan Ijin harus diisi";
+               FocusField = "blnIjin";
+               Proceed = 0;
+               break;
+            }
+  			if(!thnIjin.value){
+               Message = "Tahun Ijin harus diisi";
+               FocusField = "thnIjin";
+               Proceed = 0;
+               break;
+            }
+  			if(!mulaiJam.value){
+               Message = "Jam Mulai harus diisi";
+               FocusField = "mulaiJam";
+               Proceed = 0;
+               break;
+            }
+   			if(!menitMulai.value){
+               Message = "Menit Mulai harus diisi";
+               FocusField = "menitMulai";
+               Proceed = 0;
+               break;
+            }
+   			if(!detikMulai.value){
+               Message = "Detik Mulai harus diisi";
+               FocusField = "detikMulai";
+               Proceed = 0;
+               break;
+            }
+           break;
+         }         
+         if (Proceed == 1){ 
+            return true;
+         }else{
+            alert( Message );
+            eval(b+"."+FocusField+".focus();");
+			//eval(b+"."+FocusField+".style.backgroundColor='lightyellow'");
+            return false;
+         }
+   }
+}
+ 
+ 
+ 
+ 
+ function updateIjin() {
+   jQuery('#perintah').bind('click',function () {
+                                       jQuery("#frmUbahIjin").ajaxSubmit(optUbahIjin); 
+									   return false;
+									 });
+ }
+</script>

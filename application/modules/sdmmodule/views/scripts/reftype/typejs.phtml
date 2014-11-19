@@ -1,0 +1,56 @@
+function openFormType(par,c_type,n_type){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/reftype/typeolahdata";
+	var opt = {par:par, c_type:c_type, n_type:n_type};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formtype").ajaxForm(maintain_type);
+		});		
+} 
+
+function insertType(){
+	jQuery("#formtype").ajaxForm(maintain_type);
+}
+
+var maintain_type = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formtype").ajaxForm(maintain_type);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/reftype/inserttype',
+	type: 'post',
+	resetForm: false
+};
+
+function updateType(){
+	jQuery("#formtype").ajaxForm(update_type);
+}
+
+var update_type = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formtype").ajaxForm(maintain_type);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/reftype/updatetype',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusType(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/reftype/deletetype';
+		var opt = {c_type : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

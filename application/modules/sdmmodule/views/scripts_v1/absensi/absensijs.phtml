@@ -1,0 +1,52 @@
+jQuery("#ibiBuat").bind("click",funcDispdataabsen);
+jQuery("#blnHariKerja").bind("change",funcDispdataabsen);
+
+ jQuery("#frmbuathrkerja").ajaxForm(varbuatharikerja);
+   var varbuatharikerja = 
+   {
+		target : '#tableview',
+		beforeSubmit: function() {}, 
+		success:	funcDispdataabsen,
+		url: '<?php echo $this->basePath; ?>/sdmmodule/absensi/buatHariKerja',
+		type: 'post',
+		//dataType: 'script',
+		resetForm: false
+		//success:	updateFotoSukses,
+    };
+function funcDispdataabsen()
+{
+   var url = '<?php echo $this->basePath; ?>/sdmmodule/absensi';
+   var bln1 = document.getElementById('blnHariKerja').value;
+   var thn1 = document.getElementById('thnHariKerja').value;
+   var par = { blnHariKerja:bln1, thnHariKerja:thn1 };
+   jQuery.get(url, par, function(data) {
+	 $("#tableview").html(data);
+     jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/absensi/absensijs');
+   });
+ 
+}	
+
+function swtStatus(vprm)
+{
+   var noHari = vprm; //jQuery(this).attr('noHari');
+   if (document.getElementById('iiStatus'+noHari).checked)
+   { 
+      jQuery("#triHariKe"+noHari).css("color","red");
+	  document.getElementById("siStatusHari"+noHari).innerHTML = "Libur";
+	  document.getElementById("itMskMulai"+noHari).disabled = true;
+	  document.getElementById("itMskSelesai"+noHari).disabled = true;
+	  document.getElementById("itBreakMulai"+noHari).disabled = true;
+	  document.getElementById("itBreakSelesai"+noHari).disabled = true;
+	  document.getElementById("ihiStatus"+noHari).value = "Libur";
+   }
+   else   
+   { 
+      jQuery("#triHariKe"+noHari).css("color","");
+	  document.getElementById("siStatusHari"+noHari).innerHTML = "Masuk";
+	  document.getElementById("itMskMulai"+noHari).disabled = false;
+	  document.getElementById("itMskSelesai"+noHari).disabled = false;
+	  document.getElementById("itBreakMulai"+noHari).disabled = false;
+	  document.getElementById("itBreakSelesai"+noHari).disabled = false;
+	  document.getElementById("ihiStatus"+noHari).value = "Masuk";
+   }
+}

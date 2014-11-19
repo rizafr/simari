@@ -1,0 +1,56 @@
+function openFormStatuspegawai(par,c_peg_status,n_peg_status){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refstatuspegawai/statuspegawaiolahdata";
+	var opt = {par:par, c_peg_status:c_peg_status, n_peg_status:n_peg_status};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formstatuspegawai").ajaxForm(maintain_peg_status);
+		});		
+} 
+
+function insertStatuspegawai(){
+	jQuery("#formstatuspegawai").ajaxForm(maintain_peg_status);
+}
+
+var maintain_peg_status = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formstatuspegawai").ajaxForm(maintain_peg_status);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refstatuspegawai/insertstatuspegawai',
+	type: 'post',
+	resetForm: false
+};
+
+function updateStatuspegawai(){
+	jQuery("#formstatuspegawai").ajaxForm(update_statuspegawai);
+}
+
+var update_statuspegawai = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formstatuspegawai").ajaxForm(maintain_peg_status);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refstatuspegawai/updatestatuspegawai',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusStatuspegawai(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refstatuspegawai/deletestatuspegawai';
+		var opt = {c_peg_status : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

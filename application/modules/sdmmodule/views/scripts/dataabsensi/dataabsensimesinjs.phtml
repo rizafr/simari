@@ -1,0 +1,79 @@
+jQuery("#tanggal").bind("change",funcSediaKelTh);
+jQuery("#refreshdata").bind("click",funcSediaKelTh);
+jQuery("#bulan").bind("change",funcCekTanggal);
+jQuery("#kd_lokasi").bind("change",funcSediaKelTh);
+ 
+function deleteabsen(x,y,z)
+{
+   var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/deldataabsensimesin';
+   var url2 = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensimesin';
+   var kd_lokasi = document.getElementById('kd_lokasi').value;
+   var tg = document.getElementById('tanggal').value;
+   var bl = document.getElementById('bulan').value;
+   var th = document.getElementById('tahun').value;
+   var tgl = th+'-'+bl+'-'+tg;
+   var tgl2 = tg+'-'+bl+'-'+th;
+   var cp = document.getElementById('currentPage').value;
+   var cek = confirm('benar data absensi : '+kd_lokasi+'. '+x+' tgl '+tgl+' jam '+z+' akan dihapus? ');
+   var par = { lokserver:kd_lokasi, nip:x, tgl:tgl, jam:z };
+   var par2 = { tglcek:tgl2, kd_lokasi:kd_lokasi, currentPage:cp };
+   if (cek) 
+   {  
+      jQuery.get(url, par, function(data2) {
+         jQuery.get(url2, par2, function(data) {
+	    $("#tableview").html(data);
+           jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensimesinjs');
+         });
+      });
+   }
+}
+function funcCekTanggal()
+{
+   var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensimesin';
+   var tgl = '';  //document.getElementById('tanggal').value;
+   var bln = document.getElementById('bulan').value;
+   var thn = document.getElementById('tahun').value;
+   var pil = document.getElementById('pil').value;
+   var pil_val = document.getElementById('pil_val').value;
+   var currentPage = document.getElementById('currentPage').value;
+   var tglcek = tgl+'-'+bln+'-'+thn;
+   var kd_lokasi = document.getElementById('kd_lokasi').value;
+   var par = { tglcek:tglcek, kd_lokasi:kd_lokasi, currentPage:currentPage, pil:pil, pil_val:pil_val };
+   jQuery.get(url, par, function(data) {
+	 $("#tableview").html(data);
+     jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensimesinjs');
+   });
+}
+function funcSediaKelTh()
+{
+   var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensimesin';
+   var tgl = document.getElementById('tanggal').value;
+   var bln = document.getElementById('bulan').value;
+   var thn = document.getElementById('tahun').value;
+   var pil = document.getElementById('pil').value;
+   var pil_val = document.getElementById('pil_val').value;
+   var currentPage = document.getElementById('currentPage').value;
+   var tglcek = tgl+'-'+bln+'-'+thn;
+   var kd_lokasi = document.getElementById('kd_lokasi').value;
+   var par = { tglcek:tglcek, kd_lokasi:kd_lokasi, currentPage:currentPage, pil:pil, pil_val:pil_val };
+   jQuery.get(url, par, function(data) {
+	 $("#tableview").html(data);
+     jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensimesinjs');
+   });
+}
+function gantinewPagebr(divId, modul, js, currentPage, param1, param2, param3, param4)
+{
+	var opt = {currentPage : currentPage, param1 : param1, param2 : param2, param3 : param3 , param4 : param4};
+	jQuery.get(modul,opt,function(data) {
+		jQuery("#"+divId).html(data);
+        jQuery.getScript(js);
+	});
+}
+function test()
+{
+   var url = '<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/insertabsensi';
+   jQuery.get(url, function(data) {
+	 $("#tableview").html(data);
+     jQuery.getScript('<?php echo $this->basePath; ?>/sdmmodule/dataabsensi/dataabsensi1js');
+   });
+}

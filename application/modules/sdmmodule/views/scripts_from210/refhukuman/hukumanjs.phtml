@@ -1,0 +1,56 @@
+function openFormHukuman(par,c_hukuman,n_hukuman,q_tingkat_hukuman){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refhukuman/hukumanolahdata";
+	var opt = {par:par, c_hukuman:c_hukuman, n_hukuman:n_hukuman,q_tingkat_hukuman:q_tingkat_hukuman};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formhukuman").ajaxForm(maintain_hukuman);
+		});		
+} 
+
+function insertHukuman(){
+	jQuery("#formhukuman").ajaxForm(maintain_hukuman);
+}
+
+var maintain_hukuman = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formhukuman").ajaxForm(maintain_hukuman);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refhukuman/inserthukuman',
+	type: 'post',
+	resetForm: false
+};
+
+function updateHukuman(){
+	jQuery("#formhukuman").ajaxForm(update_hukuman);
+}
+
+var update_hukuman = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formhukuman").ajaxForm(maintain_hukuman);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refhukuman/updatehukuman',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusHukuman(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refhukuman/deletehukuman';
+		var opt = {c_hukuman : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

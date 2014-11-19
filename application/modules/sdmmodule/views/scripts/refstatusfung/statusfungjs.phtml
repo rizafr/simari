@@ -1,0 +1,56 @@
+function openFormStatusfung(par,c_statusfung,n_statusfung,c_kelompok){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refstatusfung/statusfungolahdata";
+	var opt = {par:par, c_statusfung:c_statusfung, n_statusfung:n_statusfung,c_kelompok:c_kelompok};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formstatusfung").ajaxForm(maintain_statusfung);
+		});		
+} 
+
+function insertStatusfung(){
+	jQuery("#formstatusfung").ajaxForm(maintain_statusfung);
+}
+
+var maintain_statusfung = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formstatusfung").ajaxForm(maintain_statusfung);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refstatusfung/insertstatusfung',
+	type: 'post',
+	resetForm: false
+};
+
+function updateStatusfung(){
+	jQuery("#formstatusfung").ajaxForm(update_statusfung);
+}
+
+var update_statusfung = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formstatusfung").ajaxForm(maintain_statusfung);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refstatusfung/updatestatusfung',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusStatusfung(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refstatusfung/deletestatusfung';
+		var opt = {c_statusfung : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

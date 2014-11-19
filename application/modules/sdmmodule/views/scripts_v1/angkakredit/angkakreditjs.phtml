@@ -1,0 +1,61 @@
+function AngkaKreditL(par,nip){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/angkakredit/listangkakredit"	
+	var opt = {par:par,nip:nip};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#formangkakredit").ajaxForm(maintain_angkakredit);
+		});		
+} 
+function AngkaKreditM(par,i_peg_nip,d_peg_pnilai){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/angkakredit/angkakredit"	
+	var opt = {par:par,i_peg_nip:i_peg_nip,d_peg_pnilai:d_peg_pnilai};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#formangkakredit").ajaxForm(maintain_angkakredit);
+		});		
+} 
+var maintain_angkakredit = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formangkakredit;
+		astr= "document.formangkakredit";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/				
+				if((!i_peg_nip.value)){cekVal = sdmValidasiData(astr,"i_peg_nip","Nip Salah....!");return false;break;}	
+				if((!d_peg_pnilai.value)){cekVal = sdmValidasiData(astr,"d_peg_pnilai","Tahun Penilaian harus diisi....!");return false;break;}				
+				 break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formangkakredit").ajaxForm(maintain_angkakredit);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/angkakredit/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+function insertangkakredit(){
+	jQuery("#formangkakredit").ajaxForm(maintain_angkakredit);
+}
+
+function HapusDataangkakredit(i_peg_nip,d_peg_pnilai)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/angkakredit/hapusdata"
+		var opt = {i_peg_nip:i_peg_nip,d_peg_pnilai:d_peg_pnilai};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}
+

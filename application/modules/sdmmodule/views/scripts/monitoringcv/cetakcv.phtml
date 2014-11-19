@@ -1,0 +1,831 @@
+<? 
+$file_type = "vnd.ms-word";
+$file_ending = "doc";
+header("Content-Type: application/$file_type");
+header("Content-Disposition: attachment; filename=cv.$file_ending");
+header("Pragma: no-cache");
+header("Expires: 0");
+
+$html ='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<style type="text/css">
+</style></head>
+<body>
+<table border="0" align="center" width="100%">
+	<tr>
+		<td align="center" >
+			<h2><font size="4" face="arial"><b>DAFTAR RIWAYAT HIDUP</b></font></h2>
+		</td>
+	</tr>
+
+</table>
+<h3 class="title"><b><u><font size="3" face="arial">I. KETERANGAN PERORANGAN</font></u></b></h3>
+
+<table border="0" align="center" width="100%">	
+		<tr>
+			<td width="2%"><font size="2" face="arial">1.</font></td>
+			<td width="20%"><font size="2" face="arial">Nama Lengkap</font></td>
+			<td width="15%">&nbsp;</td>
+			<td width="50%"><font size="2" face="arial">: '.$this->n_peg.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">2.</font></td>
+			<td><font size="2" face="arial">NIP / KARPEG</font></td>
+			<td>&nbsp;</td>
+			<td><font size="2" face="arial">: '.$this->i_peg_nip.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">4.</td>
+			<td><font size="2" face="arial">Eselon</td>
+			<td>&nbsp;</td>
+			<td><font size="2" face="arial">: '.$this->n_eselon.'</td>
+		</tr>
+		<tr>			
+		    <td><font size="2" face="arial">5.</font></td>
+			<td><font size="2" face="arial">TMT Eselon</font></td>
+			<td>&nbsp;</td>
+			<td><font size="2" face="arial">: '.$this->d_tmt_eselon.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">6.</font></td>
+			<td><font size="2" face="arial">Unit Kerja</font></td>
+			<td>&nbsp;</td>
+			<td><font size="2" face="arial">: '.$this->n_unit_kerja.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">7.</font></td>
+			<td><font size="2" face="arial">TMT CPNS</font></td>
+			<td>&nbsp;</td>
+			<td><font size="2" face="arial">: '.$this->d_tmt_cpns.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">8.</font></td>
+			<td><font size="2" face="arial">Status Pegawai</font></td>
+			<td>&nbsp;</td>
+			<td><font size="2" face="arial">: '.$this->c_peg_status.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">9.</font></td>
+		  <td><font size="2" face="arial">Pangkat dan Golongan</font></td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">: '.$this->pangkat.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">10.</font></td>
+		  <td><font size="2" face="arial">Tempat/Tanggal Lahir</font></td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">: '.$this->n_peg_kota_lahir.' / '.$this->d_peg_lahir.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">11.</font></td>
+		  <td><font size="2" face="arial">Jenis Kelamin</font></td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">: '.$this->c_peg_jeniskelamin.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">12.</font></td>
+		  <td><font size="2" face="arial">Status Perkawinan</font></td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">: '.$this->c_peg_statusnikah.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">13.</font></td>
+		  <td><font size="2" face="arial">Alamat Rumah :</font></td>
+		  <td><font size="2" face="arial">a. Jalan </font></td>		  
+		  <td><font size="2" face="arial">: '.$this->a_peg_rumah.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">b. RT / RW</font></td>
+		  <td><font size="2" face="arial">: '.$this->a_peg_rt.'/ '.$this->a_peg_rw.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">c. Kelurahan</font></td>
+		  <td><font size="2" face="arial">: '.$this->a_peg_kelurahan.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">d. Kecamatan</font></td>
+		  <td><font size="2" face="arial">: '.$this->a_peg_kecamatan.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">e. Kabupaten</font></td>
+		  <td><font size="2" face="arial">: '.$this->a_peg_kota.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">f. Propinsi</font></td>
+		  <td><font size="2" face="arial">: '.$this->a_peg_propinsi.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">g. Kode Pos</font></td>
+		  <td><font size="2" face="arial">: '.$this->a_peg_kodepos.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">h. Telepon Rumah</font></td>
+		  <td><font size="2" face="arial">: '.$this->i_peg_telponrumah.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">i. Telepon Genggam</font></td>
+		  <td><font size="2" face="arial">: '.$this->i_peg_telponhp.'</font></td>
+		</tr>
+		<tr>
+			<td><font size="2" face="arial">14.</font></td>
+		  <td><font size="2" face="arial">Keterangan :</font></td>
+		  <td><font size="2" face="arial">a. Tinggi </font></td>		  
+		  <td><font size="2" face="arial">: '.$this->q_peg_tinggibdn.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">b. Berat Badan</font></td>
+		  <td><font size="2" face="arial">: '.$this->q_peg_beratbdn.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">c. Rambut</font></td>
+		  <td><font size="2" face="arial">: '.$this->n_peg_rambut.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">d. Bentuk muka</font></td>
+		  <td><font size="2" face="arial">: '.$this->n_peg_btkmuka.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">e. Warna Kulit</font></td>
+		  <td><font size="2" face="arial">: '.$this->n_peg_warnakulit.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">f. Ciri Khas</font></td>
+		  <td><font size="2" face="arial">: '.$this->n_peg_cirikhas.'</font></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">g. Cacat Tubuh</font></td>
+		  <td><font size="2" face="arial">: '.$this->n_peg_cirikhas.'</font></td>
+		</tr>
+		<tr>
+		  <td><font size="2" face="arial">15.</font></td>
+		  <td><font size="2" face="arial">Golongan Darah</font></td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">: '.$this->c_golongan_darah.'</font></td>
+		</tr>
+		<tr>
+		  <td><font size="2" face="arial">16.</font></td>
+		  <td><font size="2" face="arial">Jumlah Anak</font></td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">: '.$this->n_peg_cirikhas.'</font></td>
+		</tr>
+		<tr>
+		  <td><font size="2" face="arial">17.</font></td>
+		  <td><font size="2" face="arial">Kegemaran (hoby)</font></td>
+		  <td>&nbsp;</td>
+		  <td><font size="2" face="arial">: '.$this->n_peg_hobi.'</font></td>
+		</tr>
+
+</table>
+<br>
+
+<h3 class="title"><b><u><font size="3" face="arial">II. PENDIDIKAN</font></u></b></h3>
+<br>
+<b><font size="2" face="arial">1. Pendidikan di Dalam dan di Luar Negeri</font></b>
+<br>
+<br>
+		<table border="1" cellspacing="1" cellpadding="2">
+				<tr>
+			    <th><font size="2" face="arial">Jenjang</font></th>
+				<th><font size="2" face="arial">Nama Sekolah</font></th>
+				<th><font size="2" face="arial">Jurusan</font></th>
+				<th><font size="2" face="arial">Alamat Sekolah</font></th>
+				<th><font size="2" face="arial">Nama Pimpinan</font></th>
+				<th><font size="2" face="arial">Tahun Masuk</font></th>
+				<th><font size="2" face="arial">Tahun Lulus</font></th>
+				<th><font size="2" face="arial">IPK / Nilai Ijazah</font></th>
+				<th><font size="2" face="arial">Nomor Ijazah / Tgl Ijazah</font></th>
+				<th><font size="2" face="arial">Sumber Biaya</font></th>
+				<th><font size="2" face="arial">Judul Skripsi</font></th>
+				</tr>';
+$jumPendList = count($this->pendList); 				
+	if ($jumPendList == 0) {
+$html =$html.'	
+				<tr class="event">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				</tr>';
+ } else { 
+	foreach ($this->pendList as $key => $val): 
+$html =$html.'		
+				<td class="clcenter">'.$this->escape($val['n_pend']).'</td>
+				<td>'.ucwords(strtolower($this->escape($val['n_pend_lembaga']))).'</td>
+				<td>'.ucwords(strtolower($this->escape($val['n_pend_jurusan']))).'</td>
+				<td>'.ucwords(strtolower($this->escape($val['a_pend_alamat']))).'</td>
+				<td>'.ucwords(strtolower($this->escape($val['n_pend_kepsek']))).'</td>
+				<td class="clcenter">'.$this->escape($val['d_pend_mulai']).'</td>
+				<td class="clcenter">'.$this->escape($val['d_pend_akhir']).'</td>
+				<td class="clcenter">'.$this->escape($val['i_pend_ipk']).'</td>
+				<td class="clcenter">'.$this->escape($val['i_pend_ijazah']).'<br>'.$this->escape($val['d_pend_ijazah']).'</td>
+				<td class="clcenter">'.$this->escape($val['n_pend_sumberdana']).'</td>
+				<td class="clcenter">'.$this->escape($val['e_pend_skripsi']).'</td>
+				
+		  </tr>';
+	endforeach;
+	}
+$html =$html.'			
+	</table>
+
+
+<br>
+<br>
+<b><font size="2" face="arial">2. Diklat</font></b>
+<br>
+<br>
+<b><font size="2" face="arial">2.a. Penjenjangan</font></b>
+<br>
+		<table  border="1" cellspacing="1" cellpadding="2" class="tbl">
+				<tr>
+			    <th width="15%">Penjenjangan</th>
+				<th width="8%">Angkatan / Tahun</th>
+				<th width="8%">Lama</th>
+				<th width="8%">Peringkat</th>
+				<th width="8%">Predikat</th>
+				<th width="15%">Penyelenggara</th>
+				<th width="15%">Sertifikat</th>
+				</tr>';
+$dikJenjangList = count($this->dikJenjangList); 
+	if ($dikJenjangList == 0) {
+$html =$html.'	<tr class="event">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				</tr>';
+} else { 
+		foreach ($this->dikJenjangList as $key => $val): 
+		$html =$html.'
+				      <tr class="event">					
+				<td>'.$this->escape($val['n_penjenjangan']).'</td>
+				<td class="clcenter">'.$this->escape($val['q_angkatan']).'/'.$this->escape($val['q_tahun']).'</td>
+				<td class="clcenter">'.$this->escape($val['q_lama']).'</td>
+				<td class="clcenter">'.$this->escape($val['q_peringkat']).'</td>
+				<td class="clleft">'.$this->escape($val['n_kualifikasi']).'</td>
+				<td class="clleft">'.$this->escape($val['n_penyelenggara']).'</td>
+				<td class="clcenter">'.$this->escape($val['i_sertifikat']).'<br>'.$this->escape($val['d_sertifikat']).'</td>
+			
+		  </tr>';
+	endforeach;
+	} 
+$html =$html.'	</table>	
+	
+<br>
+<b><font size="2" face="arial">2.b. Fungsional</font></b>
+<br>
+
+<table  border="1" cellspacing="1" cellpadding="2" class="tbl">
+				<tr>
+			    <th width="15%">Jenis Pelatihan</th>
+				<th width="15%">Kelompok</th>
+				<th width="15%">Nama</th>
+				<th width="8%">Lama</th>
+				<th width="15%">Penyelenggara</th>
+				<th width="15%">Sertifikat</th>
+				</tr>';
+$jumPelatihanList=count($this->dikFungList);  
+	if ($jumPelatihanList == 0) {
+$html =$html.'	
+				<tr class="event">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				</tr>';
+} else {
+		foreach ($this->dikFungList as $key => $val): 
+		$html =$html.'
+				<tr class="event">					
+				<td>
+					'.$this->escape($val['n_jns_fungsional']).'
+				</td>
+				<td>'.$this->escape($val['n_kel_pelatihan']).'</td>
+				<td class="clleft">'.$this->escape($val['n_nama_kelompok']).'</td>
+				<td class="clcenter">'.$this->escape($val['q_pelatihan']).'</td>
+				<td class="clleft">'.$this->escape($val['n_penyelenggara']).'</td>
+				<td class="clcenter">'.$this->escape($val['i_sertifikat']).'<br>'.$this->escape($val['d_sertifikat']).'</td>
+			
+		  </tr>';
+endforeach;
+	} 
+$html =$html.'	
+	</table>					
+<br>
+<b><font size="2" face="arial">2.c. Teknis</font></b>
+<br>
+		<table  border="1" cellspacing="1" cellpadding="2" class="tbl">
+				<tr>
+			    <th width="15%">Kelompok</th>
+				<th width="20%">Nama Diklat</th>
+				<th width="8%">Negara</th>
+				<th width="8%">Lama</th>
+				<th width="15%">Penyelenggara</th>
+				<th width="15%">Sertifikat</th>
+				</tr>';
+
+$jumPelatihanList=count($this->dikTeknisList);
+	if ($jumPelatihanList == 0) {
+	$html =$html.'
+				<tr class="event">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				</tr>';
+ } else { 				
+		foreach ($this->dikTeknisList as $key => $val): 
+
+				      $html =$html.'<tr class="event">
+				<td>'.$this->escape($val['n_kelompok']).'</td>
+				<td class="clleft">'.$this->escape($val['n_diklat']).'</td>
+				<td class="clleft">'.$this->escape($val['n_negara']).'</td>
+				<td class="clleft">'.$this->escape($val['q_lama']).'</td>
+				<td class="clleft">'.$this->escape($val['n_penyelenggara']).'</td>
+				<td class="clcenter">'.$this->escape($val['i_sertifikat']).'<br>'.$this->escape($val['d_sertifikat']).'</td>
+			
+		  </tr>';
+	 endforeach; 	
+	}
+$html =$html.'	
+	</table>	
+	
+<br>
+<b><font size="2" face="arial">2.d. Lainnya</font></b>
+<br>
+		<table  border="1" cellspacing="1" cellpadding="2" class="tbl">
+				<tr>
+				<th width="20%">Nama Diklat</th>
+				<th width="8%">Tanggal Mulai</th>
+				<th width="8%">Negara</th>
+				<th width="8%">Lama</th>
+				<th width="15%">Penyelenggara</th>
+				<th width="15%">Sertifikat</th>
+				</tr>';
+
+$jumPelatihanList=count($this->dikLainList);
+	if ($jumPelatihanList == 0) {
+$html =$html.'	
+				<tr class="event">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				</tr>';
+} else {
+		foreach ($this->dikLainList as $key => $val): 
+		$html =$html.'
+				      <tr class="event">
+				<td>'.$this->escape($val['n_diklat']).'</td>
+				<td class="clcenter">'.$this->escape($val['d_diklat']).'</td>
+				<td class="clleft">'.$this->escape($val['n_negara']).'</td>
+				<td class="clleft">'.$this->escape($val['q_lama']).'</td>
+				<td class="clleft">'.$this->escape($val['n_penyelenggara']).'</td>
+				<td class="clcenter">'.$this->escape($val['i_sertifikat']).'<br>'.$this->escape($val['d_sertifikat']).'</td>
+	  </tr>';
+	 endforeach;
+}
+$html =$html.'
+	</table>
+<br>
+<br>
+<b><font size="2" face="arial">3. Seminar</font></b>
+<br>
+<br>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="1" >
+		<tr>
+		    <th width="30%">Nama Seminar</th>
+			<th width="10%">Peran</th>
+			<th width="6%">Mulai</th>
+			<th width="6%">Akhir</th>
+			<th width="10%">Penyelenggara</th>
+		</tr>';
+$jumseminarList = count($this->seminarList);   		
+	if ($jumseminarList == 0) {
+$html =$html.'
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>';
+	}	else { 
+
+		foreach ($this->seminarList as $key => $val): 
+$html =$html.'		
+				<tr class="event">
+				<td>'.$this->escape($val['n_seminar']).'</td>
+				<td>'.$this->escape($val['n_seminar_peran']).'</td>
+				<td class="clcenter">'.$this->escape($val['d_mulai_seminar']).'</td>
+				<td class="clcenter">'.$this->escape($val['d_akhir_seminar']).'</td>
+				<td>'.$this->escape($val['n_seminar_lembaga']).'</td>
+		  </tr>';
+	endforeach;
+	}
+$html =$html.'	
+	</table>	
+<br>
+<br>
+<h3 class="title"><b><u><font size="3" face="arial">III. RIWAYAT KEPANGKATAN</font></u></b></h3>
+<br>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="1" >
+		<tr>
+		    <th width="15%">Golongan/Pangkat</th>
+			<th width="7%">TMT</th>
+			<th width="9%">Masa Kerja Golongan</th>
+			<th width="12%">SK Pejabat</th>
+			<th width="15%">Nomor SK</th>
+			<th width="7%">Tanggal SK</th>
+			<th width="15%">Jenis Kenaikan</th>
+			<th width="8%">Keterangan</th>
+		</tr>';
+$jumPangkatList = count($this->pangkatList);  		
+if ($jumPangkatList == 0) {
+$html =$html.'
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>			
+	</table>';
+} else {
+	foreach ($this->pangkatList as $key => $val): 
+				     $html =$html.' <tr class="event">';
+					$nip=trim($this->escape($val['i_peg_nip']));
+					$gol = $this->escape($val['c_golongan']);
+					$nmPangkat = $this->escape($val['n_pangkat']);
+					$golPangkat = $gol." - ".$nmPangkat;				
+					$tmt = $this->escape($val['d_tmt_golongan']);
+					$thnTmt = substr($tmt,0,4);
+					$blnTmt = substr($tmt,5,2);
+					$hrTmt = substr($tmt,8,2);
+					$tglTmt = $hrTmt."-".$blnTmt."-".$thnTmt;
+					
+					if ($thnTmt == ''){$tglTmt = null;}
+					if ($blnTmt == '#'){$tglTmt = null;}
+					if ($hrTmt == '#'){$tglTmt = null;}					
+					$tglSK = $this->escape($val['d_sk_golongan']);
+					$thnSK = substr($tglSK,0,4);
+					$blnSK = substr($tglSK,5,2);
+					$hrSK = substr($tglSK,8,2);
+					$tglSK = $hrSK."-".$blnSK."-".$thnSK;
+					if ($thnSK == ''){$tglSK = null;}
+					if ($blnSK == '#'){$tglSK = null;}
+					if ($hrSK == '#'){$tglSK = null;}			
+					$golTmt = $gol." TMT: ".$tglTmt;
+					$jenis = $this->escape($val['c_jenis_naik']);
+					if ($jenis == 'KP') {
+						$jenis = 'Kenaikan Golongan Pangkat';
+					}
+					else if ($jenis == 'KGB') {
+						$jenis = 'Kenaikan Gaji Berkala';
+					}
+					else if ($jenis == 'PNS') {
+						$jenis = 'Pengangkatan PNS';
+					}
+					else if ($jenis == 'CPNS') {
+						$jenis = 'Pengangkatan CPNS';
+					}
+					
+					$kerjaThn =$this->escape($val['q_masakerja_tahun']);		
+					$kerjaBln =$this->escape($val['q_masakerja_bulan']);	
+					if ($kerjaThn == null) {$kerjaThn = 0;}
+					if ($kerjaBln == null) {$kerjaBln = 0;}
+					$masaKerja = $kerjaThn." thn ".$kerjaBln." bln ";
+$html =$html.'				
+				<td>'.$golPangkat.'</td>
+				<td class="clcenter">'.$tglTmt.'</td>
+				<td class="clcenter">'.$masaKerja.'</td>
+				<td>'.$this->escape($val['i_sk_pejabat']).'</td>
+				<td>'.$this->escape($val['i_sk_golongan']).'</td>
+				<td class="clcenter">'.$tglSK.'</td>
+				<td>'.$jenis.'</td>
+				<td>'.$this->escape($val['e_keterangan']).'</td>				
+		  </tr>';
+	endforeach;
+	}
+$html =$html.'	
+	</table>	
+
+<br>
+<br>
+<h3 class="title"><b><u><font size="3" face="arial">IV. RIWAYAT JABATAN</font></u></b></h3>
+<br>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="1" >
+			<tr>
+		    <th width="10%">Eselon / TMT Eselon</th>
+			<th width="20%">Nama Jabatan / TMT Jabatan</th>
+			<th width="20%">No SK / Tgl. SK</th>
+			<th width="16%">Tgl Pelantikan</th>
+			</tr>';		
+$jumjabatanList = count($this->jabatanList);
+	if ($jumjabatanList == 0) {
+$html =$html.'
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>';
+ 	}	else { 
+
+		  foreach ($this->jabatanList as $key => $val): 
+$html =$html.'				      
+				<tr class="event">
+				<td class="clcenter">'.$this->escape($val['n_eselon']).'<br>'.$this->escape($val['d_tmt_eselon']).'</td>
+				<td>'.$this->escape($val['e_jabatan']).($this->escape($val['e_unit']) ? '('.$this->escape($val['e_unit']).($this->escape($val['e_instansi']) ? ',' . $this->escape($val['e_instansi']): '').')' : '').'<br>'.$this->escape($val['d_mulai_jabat']).'</td>
+				<td class="clcenter"><u>'.$this->escape($val['i_sk_jabat']).'</u><br>'.$this->escape($val['d_sk_jabat']).'</td>
+				<td class="clcenter">'.$this->escape($val['d_tmt_lantik']).'</td>
+
+		  </tr>';
+endforeach;
+}
+$html =$html.'
+	</table>	
+<br>
+<br>
+<h3 class="title"><b><u><font size="3" face="arial">V. PENGHARGAAN</font></u></b></h3>
+<br>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="1" >
+		<tr>
+		    <th width="20%" rowspan="2">Jenis Penghargaan</th>
+			<th width="20%" rowspan="2">Nama Penghargaan</th>
+			<th width="50%" colspan="3">Ketegori Lain-lain</th>
+		</tr>
+		<tr>
+			<th>Tahun</th>
+			<th>Negara</th>
+			<th>Lembaga Pemberi</th>
+		</tr>';
+$jumpenghargaanList=count($this->penghargaanList);
+	if ($jumpenghargaanList == 0) {
+$html =$html.'	
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>';
+	}	else {
+
+		foreach ($this->penghargaanList as $key => $val): 
+$html =$html.'		
+				<tr class="event">			
+				<td>'.$this->escape($val['jenispenghargaan']).'</td>
+				<td>'.$this->escape($val['namapenghargaan']).'</td>
+				<td class="clcenter">'.$this->escape($val['d_tahun_alteratif']).'</td>
+				<td class="clcenter">'.$this->escape($val['c_negara_alternatif']).'</td>
+				<td>'.$this->escape($val['n_lembaga_alternatif']).'</td>
+		  </tr>';
+	endforeach;	  	  
+	}
+$html =$html.'		
+	</table>	
+
+<br>
+<br>
+<h3 class="title"><b><u><font size="3" face="arial">VI. SANKSI ATAU HUKUMAN</font></u></b></h3>
+<br>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="1" >
+		<tr>
+		    <th width="10%">Tingkat Hukuman</th>
+			<th width="30%">Jenis Hukuman</th>
+			<th width="20%">Alasan Hukuman</th>
+			<th width="6%">Mulai</th>
+			<th width="6%">Akhir</th>
+			<th width="20%">Nomor SK / Tgl SK</th>
+			<th width="6%">Pejabat</th>
+		</tr>';
+
+	if ($jumhukumanList == 0) {
+$html =$html.'		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>		
+		</tr>';
+ 	}	else { 
+
+		 foreach ($this->hukumanList as $key => $val): 
+$html =$html.'
+		 <tr class="event">
+					
+				<td>
+					'.$this->escape($val['nsanksi']).'
+				</td>
+				<td>'.$this->escape($val['jnssanksi']).'</td>
+				<td class="clcenter">'.$this->escape($val['e_alasan_sanksi']).'</td>
+				<td class="clcenter">'.$this->escape($val['d_mulai_sanksi']).'</td>
+				<td class="clcenter">'.$this->escape($val['d_akhir_sanksi']).'</td>
+				<td class="clcenter">
+					<u> '.$this->escape($val['i_sk_sanksi']).'</u><br>
+					 '.$this->escape($val['d_sk_sanksi']).'				
+				</td>
+				<td class="clcenter">'.$this->escape($val['n_pejabat']).'</td>
+		  </tr>';
+	 endforeach; 		  	  
+	}
+$html =$html.'	
+	</table>	
+<br>
+<br>
+<h3 class="title"><b><u><font size="3" face="arial">VII. ORGANISASI</font></u></b></h3>
+<br>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="1" >
+		<tr>
+		    <th width="20%">Jenis Organisasi</th>
+			<th width="30%">Nama Organisasi</th>
+			<th width="10%">Thn Daftar</th>
+			<th width="20%">Jabatan</th>
+			<th width="20%">Tempat</th>
+		</tr>';
+$jumorganisasiList = count($this->organisasiList); 
+	if ($jumorganisasiList == 0) {
+$html =$html.'		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>';
+ 	}	else { 
+
+		 foreach ($this->organisasiList as $key => $val): 
+$html =$html.'
+				      <tr class="event">
+				<td>
+					'.strtoupper($this->escape($val['n_jenis_organisasi'])).'
+				</td>
+				<td> '.$this->escape($val['n_organisasi']).'</td>
+				<td class="clcenter"> '.$this->escape($val['d_daftar_organisasi']).'</td>
+				<td>  '.$this->escape($val['n_peran_organisasi']).'</td>
+				<td>  '.$this->escape($val['n_tempat_organisasi']).'</td>				
+		  </tr>';
+	 endforeach; 		  	  
+	}	
+$html =$html.'	
+	</table>
+<br>
+<br>
+<h3 class="title"><b><u><font size="3" face="arial">VIII. KE LUAR NEGERI</font></u></b></h3>
+<br>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="1" >
+		<tr>
+		    <th width="20%" rowspan="2">Negara</th>
+			<th width="20%" rowspan="2">Tujuan</th>
+			<th width="15%" rowspan="2">Pembiayaan</th>
+			<th width="15%" rowspan="2">Sponsor</th>
+			<th width="10%" rowspan="2">Tgl Berangkat</th>
+			<th width="20%" colspan="3">Lama Kunjungan</th>
+		</tr>
+		<tr>
+		    <th>Hari</th>
+			<th>Bulan</th>
+			<th>Tahun</th>
+		</tr>';	
+$jumluarnegeriList = count($this->luarnegeriList); 
+	if ($jumluarnegeriList == 0) {
+$html =$html.'			
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>';
+ 	}	else { 
+
+		 foreach ($this->luarnegeriList as $key => $val): 
+$html =$html.'	
+				      <tr class="event">
+				<td>
+					'.$this->escape($val['n_negara']).'
+				</td>
+				<td>'.$this->escape($val['a_tujuan']).'</td>
+				<td>'.$this->escape($val['n_biaya']).'</td>
+				<td>'.$this->escape($val['e_sponsor']).'</td>
+				<td class="clcenter">'.$this->escape($val['d_barangkat']).'</td>
+				<td class="clright">'.$this->escape($val['q_hari']).'</td>
+				<td class="clright">'.$this->escape($val['q_bulan']).'</td>
+				<td class="clright">'.$this->escape($val['q_tahun']).'</td>	
+		  </tr>';
+	 endforeach; 		  	  
+	}
+$html =$html.'	
+	</table>
+<br>
+<br>
+<h3 class="title"><b><u><font size="3" face="arial">IX. KESEHATAN</font></u></b></h3>
+<br>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="1" >
+			<tr>
+		    <th width="20%">Nama Penyakit</th>
+			<th width="12%">Tanggal Sakit</th>
+			<th width="12%">Tanggal Sembuh</th>
+			<th width="16%">Nama Rumah Sakit</th>
+			<th width="20%">Alamat Rumah Sakit</th>
+			</tr>';		
+$jumkesehatanList = count($this->kesehatanList);
+	if ($jumkesehatanList == 0) {
+$html =$html.'		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>';
+ 	}	else { 
+
+		 foreach ($this->kesehatanList as $key => $val): 
+$html =$html.'
+				      <tr class="event">
+				<td>
+					'.$this->escape($val['n_penyakit']).'
+				</td>
+				<td>'.$this->escape($val['d_rawatmulai']).'</td>
+				<td class="clcenter">'.$this->escape($val['d_rawatakhir']).'</td>
+				<td class="clcenter">'.$this->escape($val['n_rmhsakit']).'</td>
+				<td>'.$this->escape($val['a_rmhsakit']).'</td>
+		  </tr>';
+	 endforeach; 		  	  
+	}
+$html =$html.'	
+	</table>';
+echo $html;
+
+  	// $filename =$this->photoPath."/sdm/riwayathidup.html";
+	// $filepdf = 'riwayathidup.pdf';	
+	// $ourFileHandle = fopen($filename, 'w+') or die("can't open file");
+	// fclose($ourFileHandle);
+	// $fh = fopen($filename, 'w+') or die("can't open file");
+	// fwrite($fh, $html);
+	// fclose($fh);
+	// $options="--footer --header --size A4 --landscape --left 1cm --right 1cm --top 1.5cm --bottom 1.5cm";
+    // putenv("HTMLDOC_NOCGI=1");
+	// header("Content-Type: application/pdf");
+	// header("Content-Disposition: attachment; filename=$filepdf");
+	// flush();
+	// passthru("htmldoc -t pdf --quiet --jpeg --webpage $options '$filename'"); 	 
+	
+?>

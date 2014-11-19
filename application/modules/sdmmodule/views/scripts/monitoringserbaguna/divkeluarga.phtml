@@ -1,0 +1,89 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+?>
+
+	<h3 class="title"><b>Riwayat Pendidikan dan Pelatihan (DIKLAT)</b><h3>
+	<br>
+	<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+		<tr>
+			<td width="15%">Nama Suami/Istri</td>
+			<td width="1%">:</td>
+			<td>
+			<input type="text" name="q_angkatan" id="q_angkatan" value="<?=$this->q_angkatan?>" size="35">
+			&nbsp;Tahun Nikah : <input type="text" name="q_angkatan" id="q_angkatan" value="<?=$this->q_angkatan?>" size="5">					
+			&nbsp;Tahun Lahir : <input type="text" name="q_tahun" id="q_tahun" value="<?=$this->q_tahun?>" size="5">
+			&nbsp;Pekerjaan :
+						<?php 
+							$jmlPekerjaanList = count($this->pekerjaanList);
+							$pekerjaanList[''] = '--Pilih--';
+							for ($i = 0; $i < $jmlPekerjaanList; $i++) {
+								$pekerjaanList[(string)$this->pekerjaanList[$i]->c_pekerjaan] =(string)$this->pekerjaanList[$i]->n_pekerjaan;	
+							}
+							echo $ctrlFrm->formSelect('c_pekerjaan', trim($this->c_pekerjaan), null,$pekerjaanList)
+						?>						
+			</td>						
+
+		</tr>
+		<tr>
+			<td>Nama Anak</td>
+			<td>:</td>
+			<td>
+				<input type="text" name="n_diklat" id="n_diklat" value="<?=$this->n_diklat?>" size="50">
+
+			&nbsp;&nbsp;Jenis Kelamin : 
+							<?php 
+
+								   $jenisKelaminList = array(""=>"--Pilih--",
+															"L"=>"Laki-laki",
+															"P"=>"Perempuan");
+								echo $ctrlFrm->formSelect('c_jns_kel', $this->c_jns_kel, null, $jenisKelaminList);
+							?>
+			&nbsp;Tahun Lahir :	
+				<input type="text" name="n_diklat" id="n_diklat" value="<?=$this->n_diklat?>" size="5">
+			</td>						
+
+		</tr>
+		<tr>
+			<td>Orang Tua/Kerabat</td>
+			<td>:</td>
+			<td>
+						<?
+								$jnsstatus = array(""=>"--Pilih--",
+													"1"=>"Bapak Kandung",
+													"2"=>"Ibu Kandung",
+													"3"=>"Bapak Mertua",
+													"4"=>"Ibu Mertua",
+													"5"=>"Saudara Kandung");
+								echo $ctrlFrm->formSelect('c_kerabat',$this->c_kerabat, null, $jnsstatus); 							
+						?>			
+
+			&nbsp;&nbsp;Nama : 
+						<input type="text" name="n_nama" id="n_nama" value="<?=$this->n_nama?>" size="30">
+			&nbsp;Jenis Kelamin :					
+							<?php 
+
+								   $jenisKelaminList = array(""=>"--Pilih--",
+															"L"=>"Laki-laki",
+															"P"=>"Perempuan");
+								echo $ctrlFrm->formSelect('c_jns_kel', $this->c_jns_kel, null, $jenisKelaminList);
+							?>	
+			</td>						
+
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>
+			&nbsp;Tahun Lahir :	
+				<input type="text" name="n_diklat" id="n_diklat" value="<?=$this->n_diklat?>" size="5">
+			&nbsp;Pekerjaan :	
+				<input type="text" name="n_diklat" id="n_diklat" value="<?=$this->n_diklat?>" size="55">				
+										
+			</td>						
+
+		</tr>		
+	
+	</table>

@@ -1,0 +1,51 @@
+<? require_once 'Zend/View.php';
+   
+$ctrlFrm = new Zend_View();
+$jumpenghargaanList=count($this->penghargaanList);
+	if ($jumpenghargaanList == 0) {
+		echo "<font color=\"red\">Data Penghargaan Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+		<tr>
+		    <th width="20%" rowspan="2">Jenis Penghargaan</th>
+			<th width="20%" rowspan="2">Nama Penghargaan</th>
+			<th width="50%" colspan="3">Ketegori Lain-lain</th>
+		</tr>
+		<tr>
+			<th>Tahun</th>
+			<th>Negara</th>
+			<th>Lembaga Pemberi</th>
+		</tr>
+<?
+	if ($jumpenghargaanList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->penghargaanList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					?>
+			
+				<td>
+					<a href="#" onclick="detilpenghargaan('<?=$nip?>','<?=trim($this->escape($val['n_jns_penghargaan']))?>')"><?php echo $this->escape($val['jenispenghargaan']);?></a>
+				</td>
+				<td><?php  echo $this->escape($val['namapenghargaan']);?></td>
+				<td class="clcenter"><?php  echo $this->escape($val['d_tahun_alteratif']);?></td>
+				<td class="clcenter"><?php  echo $this->escape($val['c_negara_alternatif']);?></td>
+				<td><?php echo $this->escape($val['n_lembaga_alternatif']);?></td>
+		  </tr>
+	<?php endforeach;?> 		  	  
+<?	}	?>
+	</table>									

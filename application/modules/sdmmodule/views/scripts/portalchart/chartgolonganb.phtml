@@ -1,0 +1,112 @@
+			<div id="targetchart">
+					<table border="0" width="100%" align="center">
+						<tr>
+						<td width="50%">
+						<div class="hideshow">
+							<table border="0" width="100%" align="center">
+							<tr>
+								<td align="left">
+									
+										<h2 class="title">Komposisi Pegawai Berdasarkan Golongan</h2>
+										<?echo $this->chartgol;?>
+														
+								</td>
+							</tr>
+							</table>			
+						</div>	
+						</td>
+						<td width="50%">
+							<table border="0" width="100%" align="center">
+							<tr>
+								<td align="left">
+									<table>
+										<tr>
+										<td>
+											<a onclick="showChart('usia');" class="icon-pie" href="#">Usia</a>&nbsp;
+											<a onclick="showChart('pendidikan');" class="icon-pie" href="#">Pendidikan</a>
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Kategori
+										</td>
+										</tr>
+									</table>
+									<table border="0" width="100%" align="center" class="tbl" cellspacing="1">
+										<th>Golongan</th>
+										<th>Jumlah</th>
+										<tr class="event">
+											<td>I</td>
+											<td align="right">
+											<?if ($this->jmlgol1!=0){?>
+											<a href="#" onclick="viewData('golongan','i')"><?=$this->jmlgol1?></a>
+											<?} else{
+											?>
+											<?=$this->jmlgol1; }
+											?>											
+											</td>
+										</tr>
+										<tr class="event">		
+											<td>II</td>
+											<td align="right">
+											<?if ($this->jmlgol2!=0){?>
+											<a href="#" onclick="viewData('golongan','ii')"><?=$this->jmlgol2?></a>
+											<?} else{
+											?>
+											<?=$this->jmlgol2; }
+											?>											
+											</td>
+										</tr>
+										<tr class="event">	
+											<td>III</td>
+											<td align="right">
+											<?if ($this->jmlgol3!=0){?>
+											<a href="#" onclick="viewData('golongan','iii')"><?=$this->jmlgol3?></a>
+											<?} else{
+											?>
+											<?=$this->jmlgol3; }
+											?>											
+											</td>
+										</tr>
+										<tr class="event">	
+											<td>IV</td>
+											<td align="right">
+											<?if ($this->jmlgol4!=0){?>
+											<a href="#" onclick="viewData('golongan','iv')"><?=$this->jmlgol4?></a>
+											<?} else{
+											?>
+											<?=$this->jmlgol4; }
+											?>											
+											</td>
+										</tr>
+										<tr class="event2">	
+											<td>Data Kosong</td>
+											<td align="right">
+											<?if ($this->jmlkosong!=0){?>
+											<a href="#"><?=$this->jmlkosong?></a>
+											<?} else{
+											?>
+											<?=$this->jmlkosong; }
+											?>											
+											</td>
+										</tr>										
+										<tr class="event">	
+											<td><b>Total</b></td>
+											<td align="right"><b>
+											<?if ($this->totalgol!=0){?>
+											<?=$this->totalgol?>
+											<?} else{
+											?>
+											<?=$this->totalgol; }
+											?></b>											
+											</td>
+										</tr>										
+									</table>								
+								</td>
+							</tr>
+							</table>						
+						</td>						
+						</tr>
+					</table>	
+						
+				</div>

@@ -1,0 +1,20 @@
+
+function cariListPegawai(){
+	var statuspegcari=document.getElementById('statuspegcari').value;
+	var golcari=document.getElementById('golcari').value;
+	var namacari=document.getElementById('namacari').value;
+	var nipcari=document.getElementById('nipcari').value;	
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai';	
+	var param = {statuspegcari:statuspegcari,golcari:golcari,namacari:namacari,nipcari:nipcari};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);
+		});
+} 
+
+function PegawaiM(par,nip){
+	var url = '<?php echo $this->basePath;?>/sdmmodule/datapendidikan/listpendidikan';	
+	var param = {par:par,nip:nip};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);
+		});
+}

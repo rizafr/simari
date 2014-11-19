@@ -1,0 +1,110 @@
+<? require_once 'Zend/View.php';
+    require_once 'share/halaman_list.php';
+  
+   $ctrlFrm = new Zend_View();
+   $halaman = new halaman_list(); 
+  
+    $jmlPegawaiList = count($this->pegawaiList);
+  $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}  
+?>
+	<div class="navlink">
+	<a href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a>
+	<strong>&#8250;</strong>Pegawai Baru
+	<strong>&#8250;</strong>Data Pokok
+	</div>
+
+	<div id="top"></div>
+	<div id="confirm" class="<?=$confirm?>" style="display: none">
+		<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+	</div>
+	<h2 class="title">Data Pokok</h2>
+	<div class="search-panel">
+				<form id="frmSearch" method="post" name="frmSearch">
+					Pencarian berdasarkan :
+						<select size="1" name="site">      
+						   <option value="">NIP</option>
+						   <option value="">Nama</option>
+						   <option value="">Golongan</option>
+						   <option value="">Status Pegawai</option>
+						</select>
+					    <span id="targetcari"><input type="text" name="Cari"></span>
+					    <input type="button" value="Cari" onclick="javascript:cariListPegawai();">		   
+				</form>						
+	</div>	
+	<div class="space-line"></div>
+	<form action="" method="post"> 
+		<fieldset class="fields"> 
+   <table align="center" border="0" cellspacing="1" cellpadding="2" class="sortable">
+		<tr>
+			<th class="nosort" width="4%">No.</th>
+			<th class="<?=$this->orderbya?>" width="18%" onclick="orderBy('n_peg','<?=$this->orderbyb?>','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai')">Nama Pegawai</th>
+			<th class="<?=$this->orderbya?>" width="7%"  onclick="orderBy('i_peg_nip','<?=$this->orderbyb?>','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai')">NIP</th>
+			<th width="12%"  onclick="orderBy('c_peg_golongan','<?=$this->orderbyb?>','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai')">Gol.</th>
+			<th width="11%" onclick="orderBy('c_eselon','<?=$this->orderbyb?>','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai')">Eselon</th>
+			<th width="13%" onclick="orderBy('c_peg_status','<?=$this->orderbyb?>','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai')">Status Pegawai</th>
+			<th width="34%" onclick="orderBy('c_unit_kerja','<?=$this->orderbyb?>','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai')">Satuan Kerja</th>
+			<th width="5%" colspan="2">&nbsp;</th>
+		</tr> 
+<? 		if ($jmlPegawaiList == 0) {?>
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>	
+<?}else{
+				foreach ($this->pegawaiList as $key => $val): 
+				if ($key%2==0) { ?>
+				<tr class="event">
+				<? } else if ($key%2==1) { ?>
+				<tr class="event2">
+				<? } 
+				$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
+				$pangkat = $this->escape($val['n_pangkat']);
+				$golongan = $this->escape($val['c_golongan']);
+				$golPangkat = $golongan." - ".$pangkat;
+				$eselon = $this->escape($val['eselon']);
+				?>
+					<td class="clcenter"><?php echo $noUrut;?></td>
+					<td><a href="#" onclick="DptigaL('Update','<?php echo $this->escape($val['i_peg_nip']);?>')"><?php echo $this->escape($val['n_peg']);?></a></td>
+					<td><?php echo $this->escape($val['i_peg_nip']);?></td>	
+				    <td><?php echo $golPangkat;?></td>
+				    <td><?php echo $this->escape($val['n_eselon']);?></td>
+				    <td><?php echo $this->escape($val['statusPeg']);?></td>
+				    <td><?php echo $this->escape($val['n_lokasi_unitkerja']);?></td>
+					<td class="clcenter">
+						<div class="edit" title="Ubah Data" onclick="PegawaiM('update','<?=$this->escape($val['i_peg_nip'])?>');"></div>	
+					</td>
+					<td class="clcenter">
+						<div class="delete" title="Hapus Data"  onClick="javascript:HapusDataPeg('<?php echo $this->escape($val['i_peg_nip']);?>')"></div>
+					</td>					
+				</tr>
+				<?php endforeach;}?>
+	
+	</table>
+<div id="targetdetil"></div>
+
+<?
+$orderBy=$this->orderBy;
+$modul = $this->basePath."/sdmmodule/datapegawai/listpegawai?orderBy=$orderBy&order=$this->orderbya";
+echo $halaman->halamanList($this->totalpegawaiList, $this->numToDisplay, $this->currentPage, $modul)
+?>	
+	</fieldset>		 
+	</form>
+
+<script>
+function detilPeg(nip){
+var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/detilpegawai';
+var param = {nip:nip};
+jQuery.get(url,param,function(data) {
+jQuery("#targetdetil").html(data);
+centerPopup();
+loadPopup();});}
+</script>		

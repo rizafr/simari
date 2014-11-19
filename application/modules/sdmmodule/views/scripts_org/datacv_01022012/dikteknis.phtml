@@ -1,0 +1,56 @@
+<? 
+require_once 'Zend/View.php';
+require_once 'share/tanggal.php'; 
+   
+$ctrlDate = new tanggal(); 
+$ctrlFrm = new Zend_View();
+$jumPelatihanList=count($this->dikTeknisList);
+	if ($jumPelatihanList == 0) {
+		echo "<font color=\"red\">Data Diklat Teknis Tidak Ditemukan</font>";
+}
+?>
+		<table align="center" border="0" cellspacing="1" cellpadding="2" class="tbl">
+				<tr>
+			    <th width="15%">Kelompok</th>
+				<th width="20%">Nama Diklat</th>
+				<th width="8%">Negara</th>
+				<th width="8%">Lama</th>
+				<th width="15%">Penyelenggara</th>
+				<th width="15%">Sertifikat</th>
+				</tr>
+
+<?
+	if ($jumPelatihanList == 0) {
+?>				<tr class="event">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				</tr>
+<? } else { ?>				
+		<?php foreach ($this->dikTeknisList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+				<? 
+					$nip=trim($this->escape($val['i_peg_nip']));
+
+				?>
+					
+				<td>
+					<a href="#" onclick="detilLatih('<?=$nip?>','<?=trim($this->escape($val['c_kelompok']))?>')"><?php echo $this->escape($val['n_kelompok']);?></a>
+				</td>
+				<td class="clleft"><?php echo $this->escape($val['n_diklat']);?></td>
+				<td class="clleft"><?php echo $this->escape($val['n_negara']);?></td>
+				<td class="clleft"><?php echo $this->escape($val['q_lama']);?></td>
+				<td class="clleft"><?php echo $this->escape($val['n_penyelenggara']);?></td>
+				<td class="clcenter"><?php echo $this->escape($val['i_sertifikat']);?><br><?php echo $this->escape($val['d_sertifikat']);?></td>
+			
+		  </tr>
+	<?php endforeach;?> 	
+	<? } ?>
+	</table>									

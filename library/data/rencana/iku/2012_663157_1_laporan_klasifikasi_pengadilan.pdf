@@ -1,0 +1,6 @@
+<br />
+<b>Warning</b>:  Division by zero in <b>/opt/ma_project/application/modules/rencanamodule/views/scripts/laporanpengadilan/laporanklasifikasipdf.phtml</b> on line <b>118</b><br />
+<br />
+<b>Warning</b>:  Division by zero in <b>/opt/ma_project/application/modules/rencanamodule/views/scripts/laporanpengadilan/laporanklasifikasipdf.phtml</b> on line <b>118</b><br />
+
+SELECT a.*, (select n_unitkerja from rencana.v_pengadilan_tinggi b where b.c_eselon_i = a.c_eselon_i and b.c_parent =a.c_parent) as n_pengadilan FROM rencana.v_pengadilan a  where 1=1   and  a.c_eselon_i ='03'  order by a.c_eselon_i,a.c_eselon_ii,a.c_eselon_iii,a.c_eselon_iv,a.c_eselon_iv 

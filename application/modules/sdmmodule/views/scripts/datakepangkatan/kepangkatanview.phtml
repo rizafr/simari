@@ -1,0 +1,125 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_test_kepangkatan").datepicker();
+		jQuery("#d_sk_kepangkatan").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datakepangkatan/listkepangkatan','');">Data Tes Kepangkatan</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Data Tes Kepangkatan
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Data Tes Kepangkatan</h2>
+<div class="boxholder">
+		<div class="search-panel">
+			<?php include "$this->leftMenu/toplink.phtml";?>
+		</div>	
+	<br>	
+<form id="formkepangkatan" method="post" name="formkepangkatan">		
+	<div class="panel">
+		<div class="spacer"></div> 
+				<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Jenis Kepangkatan
+					</td>
+					<td>:</td> 
+					<td>					
+						<?php 
+							$jmlKerjaList = count($this->jnsKepangkatanList);
+							$jnsKepangkatanList[''] = '--Pilih--';
+							for ($i = 0; $i < $jmlKerjaList; $i++) {
+								$jnsKepangkatanList[(string)$this->jnsKepangkatanList[$i]->c_jns_kepangkatan] =(string)$this->jnsKepangkatanList[$i]->n_jns_kepangkatan;	
+							}
+							echo $ctrlFrm->formSelect('c_jns_kepangkatan', $this->c_jns_kepangkatan, null,$jnsKepangkatanList)
+						?>	
+					</td>
+				</tr>
+				<tr>
+					<td>Tanggal Test</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_test_kepangkatan" id="d_test_kepangkatan" value="<?=$this->d_test_kepangkatan?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+						<input type="hidden" name="d_test_kepangkatan2" id="d_test_kepangkatan2" value="<?=$this->d_test_kepangkatan?>" size="10">
+						<input type="text" name="c_jns_kepangkatan2" id="c_jns_kepangkatan2" value="<?=$this->c_jns_kepangkatan?>" size="10">
+					</td>
+				</tr>				
+				<tr>
+					<td>Tempat</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="a_tempat_test" id="a_tempat_test" value="<?=$this->a_tempat_test?>" size="70">
+					</td>
+				</tr>
+				<tr>
+					<td>Hasil</td>
+					<td>:</td> 
+					<td>
+						<?
+							$jnshasil = array(""=>"--Pilih--","1"=>"Lulus","2"=>"Tidak Lulus");
+							echo $ctrlFrm->formSelect('c_hasil_kepangkatan',$this->c_hasil_kepangkatan, null, $jnshasil); 							
+						?>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3"><h3 class="title"><b>SURAT KETERANGAN LULUS</b><h3></td>
+				</tr>
+				<tr>
+					<td>Nomor</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="i_sk_kepangkatan" id="i_sk_kepangkatan" value="<?=$this->i_sk_kepangkatan?>" size="80">
+					</td>
+				</tr>					
+			
+				<tr>
+					<td>Tanggal</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_sk_kepangkatan" id="d_sk_kepangkatan" value="<?=$this->d_sk_kepangkatan?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+					</td>
+				</tr>
+
+				<tr>
+					<td>Pejabat</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="n_pejabat_kepangkatan" id="n_pejabat_kepangkatan" value="<?=$this->n_pejabat_kepangkatan?>" size="80">
+					</td>
+				</tr>				
+</table>				
+</div>
+<br>
+	<div class="panel">
+		<div class="spacer"></div> 				
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">				
+				<tr>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datakepangkatan/listkepangkatan','');"> 
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+</div>
+	</form>

@@ -1,0 +1,130 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tanggal_lahir").datepicker();
+		jQuery("#d_tanggal_nikah").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+					<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataanak/listanak','<?php echo $this->basePath; ?>/sdmmodule/dataanak/anakjs');">Data Anak</a>
+			
+				<strong> &#8250; </strong><?=$this->jdl;?> Data Anak
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Data Anak</h2>
+<div class="boxholder">
+		<div class="search-panel">
+			<?php include "$this->leftMenu/toplink.phtml";?>
+		</div>	
+	<br>	
+<form id="formanak" method="post" name="formanak">		
+	<div class="panel">
+		<div class="spacer"></div> 
+				<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+				<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td width="20%">Status Anak</td>
+					<td width="2%">:</td> 
+					<td>					
+						<?								
+								if ($this->c_anak=="1"){echo "Kandung";}
+								elseif ($this->c_anak=="2"){echo "Tiri";}
+								elseif ($this->c_anak=="3"){echo "Angkat";}
+								else{echo "-";}									
+						?>
+					</td>
+				</tr>
+				<tr>
+					<td>Nama Anak
+					</td>
+					<td>:</td> 
+					<td>					
+						<?=$this->n_nama?>
+					</td>
+				</tr>
+						<tr>
+							<td>Jenis Kelamin</td>
+							<td>:</td> 
+							<td>
+							<?php 
+
+								if ($this->c_jns_kel=="L"){echo "Laki-laki";}
+								elseif ($this->c_jns_kel=="P"){echo "Perempuan";}
+								else{echo "-";}	
+							?>
+							</td>
+						</tr>				
+						<tr>
+							<td>Tunjangan</td>
+							<td>:</td> 
+							<td>
+							<?php 
+								if ($this->c_tunjangan=="Y"){echo "Ya";}
+								elseif ($this->c_tunjangan=="T"){echo "Tidak";}
+								else{echo "-";}									
+							?>			
+							</td>
+						</tr>			
+				<tr>
+					<td>Tempat Lahir / Tanggal Lahir</td>
+					<td>:</td> 
+					<td>					
+						<?=$this->a_tempat_lahir?> / <?=$this->d_tanggal_lahir?>
+					</td>
+				</tr>
+
+				<tr>
+					<td>Pekerjaan</td>
+					<td>:</td> 
+					<td>
+						<?php 
+							$jmlKerjaList = count($this->pekerjaanList);
+							for ($i = 0; $i < $jmlKerjaList; $i++) {
+								if ($this->pekerjaanList[$i]->c_kerja==$this->c_pekerjaan){echo $this->pekerjaanList[$i]->n_kerja;}
+							}
+						?>	
+					</td>
+				</tr>				
+				<tr>
+					<td>Keterangan</td>
+					<td>:</td> 
+					<td>
+					<?php 
+						echo $this->e_keterangan;
+					?>
+					</td>
+				</tr>
+</table>				
+</div>
+<br>
+	<div class="panel">
+		<div class="spacer"></div> 				
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">				
+				<tr>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Kembali" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataanak/listanak','');"> 
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+</div>
+	</form>

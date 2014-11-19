@@ -1,0 +1,11 @@
+<?
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+			$jmlKabList = count($this->kabupatenList);
+			$kabupatenList['-'] = '--Pilih--';
+			for ($i = 0; $i < $jmlKabList; $i++) {
+				$kabupatenList[(string)$this->kabupatenList[$i]->c_kabupaten] = (string)$this->kabupatenList[$i]->n_kabupaten;			 
+			}
+			
+			echo $ctrlFrm->formSelect('a_cuti_kota', $this->a_cuti_kota,null, $kabupatenList);
+?>

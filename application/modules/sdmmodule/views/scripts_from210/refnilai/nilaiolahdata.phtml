@@ -1,0 +1,113 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tanggal_lahir").datepicker();
+		jQuery("#d_tanggal_nikah").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Form Penilaian
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Referensi Form Penilaian</h2>	
+		
+<form id="formnilai" method="post" name="formnilai">		
+	<div class="panel">
+		<div class="spacer"></div> 
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Kode Nilai Kinerja<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_nilai_kinerja" id="c_nilai_kinerja" value="<?=$this->detailNilai['c_nilai_kinerja']?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Nama Faktor Kinerja<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_faktor_kinerja" id="n_faktor_kinerja" value="<?=$this->detailNilai['n_faktor_kinerja'];?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Nama Standar Kinerja<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_standar_kinerja" id="n_standar_kinerja" value="<?=$this->detailNilai['n_standar_kinerja'];?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Tanggal Nilai Kinerja<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>	
+						<input type="text" id="d_nilai_kinerja" name="d_nilai_kinerja" value="<?=date('d-m-Y',strtotime($this->detailNilai['d_nilai_kinerja']));?>" size="10"> tgl-bln-thn
+					</td>
+				</tr><tr>
+					<td>Nilai Dibawah<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="q_nilai_dibawah" id="q_nilai_dibawah" value="<?=$this->detailNilai['q_nilai_dibawah'];?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Nilai Perbaikan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="q_nilai_perbaikan" id="q_nilai_perbaikan" value="<?=$this->detailNilai['q_nilai_perbaikan'];?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Nilai Sesuai<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="q_nilai_sesuai" id="q_nilai_sesuai" value="<?=$this->detailNilai['q_nilai_sesuai'];?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Nilai Diatas<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="q_nilai_diatas" id="q_nilai_diatas" value="<?=$this->detailNilai['q_nilai_diatas'];?>" size="70">
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/refnilai/listnilai','<?php echo $this->basePath; ?>/sdmmodule/refnilai/nilaijs');"> 
+							<?if ($this->par == 'insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertNilai()">
+								<script type="text/javascript">
+								$("#d_nilai_kinerja").val("");
+								</script>
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updateNilai()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>
+	
+	<script type="text/javascript">
+	$(function() {
+		$("#d_nilai_kinerja").datepicker();
+	});
+	</script>

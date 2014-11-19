@@ -1,0 +1,200 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+   $thnskrg = date("Y");
+   $thnList = $thnskrg - 40;
+   $thnArrayList[''] = '--';
+   for ($i = 0; $i < 60; $i++) {
+     $thnList = $thnList + 1;
+     $thnArrayList[$thnList] = $thnList;
+   }
+
+?>
+<script type="text/javascript">
+	$(function() {
+		$( "#d_surat" ).datepicker({changeMonth: true,changeYear: true});	
+	
+	});
+</script>
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Utama</a> 
+				<strong> &#8250; </strong>Usulan Penerimaan CPNS
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+
+	
+<form name="formcpnsusul" id="formcpnsusul" method="post" action="">
+<h2 class="title">Usulan Penerimaan CPNS</h2>
+
+	<div class="panel">	
+		<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+			<tr>
+				<td width="20%">Nomor Surat <span class="hightlight">*</span></td>
+				<td width="2%">:</td>
+				<td>
+					<input type="text" size="60" name="n_surat" id="n_surat" value="<?=$this->n_surat?>" >
+					<input type="hidden" size="60" name="id" id="id" value="<?=$this->id?>" >
+				</td>
+			</tr>
+			<tr>
+				<td>Perihal <span class="hightlight">*</span></td>
+				<td>:</td>
+				<td>
+					<textarea rows="1" name="n_perihal" id="n_perihal"><?=$this->n_perihal?></textarea>
+				</td>
+			</tr>	
+			<tr>
+				<td>Tanggal Surat <span class="hightlight">*</span></td>
+				<td>:</td>
+				<td>
+					<input type="text" size="10" name="d_surat" id="d_surat" value="<?=$this->d_surat?>" >
+				</td>
+			</tr>	
+			<tr>
+				<td>Jabatan Penandatangan</td>
+				<td>:</td>
+				<td>
+					<input type="hidden" size="70" name="c_jabatan" id="c_jabatan" value="<?=$this->c_jabatan?>" >
+					<input type="text" size="70" name="n_jabatan" id="n_jabatan" value="<?=$this->n_jabatan?>" >
+					<input type="button" value="Cari" onClick="CariJabatan()">
+				</td>
+			</tr>	
+<!--			
+			<tr>
+				<td>Pejabat Penandatangan</td>
+				<td>:</td>
+				<td>
+					<input type="text" size="80" name="n_pejabat" id="n_pejabat" value="<?//=$this->n_pejabat?>" >
+				</td>
+			</tr>
+-->		
+			<tr>
+				<td>Dokumen</td>
+				<td>:</td>
+				<td valign="bottom">					
+					<div class="fileinputs">
+						<input type="file" size=45 id="surat" name="surat"  value="<? echo $this->a_file?>"onChange="setvalueuplfile(this.value,'surat','pdf')" />
+						<div class="fakefile">
+							<input type="text" size=44 name="a_file" id="a_file" value="<? echo $this->a_file?>"/>
+						</div>
+					</div>
+					<input type="hidden" size=49 name="a_file2" id="a_file2"value="<? echo $this->a_file?>"/>								
+				</td>					
+			</tr>
+			
+		</table>
+<br>
+<? 		if (count($this->dataUsulJabat) == 0) {?>
+			<table border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td><h3 class="title">USULAN</h3></td>
+				</tr>
+			</table>
+			
+			<table  align="center" border="0" cellspacing="1" cellpadding="2" class="tbl">
+				<th width="30%">Nama Jabatan</th>
+				<th width="45%">Kualifikasi Pendidikan</th>
+				<th width="5%">&nbsp;</th>
+
+				<tr class="event" id="tr_1">
+					<td>
+						<textarea rows="1" name="n_jabatan_usul_1" id="n_jabatan_usul_1"></textarea>
+					</td>
+					<td>
+						<textarea rows="1" name="n_pend_usul_1" id="n_pend_usul_1"></textarea>
+					</td>					
+					<td>
+						<img src="<?echo $this->basePath;?>/images/del.gif" title="Hapus Baris" class=link onclick=javascript:hapusBarisx('1'); >
+						<img src="<?echo $this->basePath;?>/images/add_row.gif" title="Tambah Baris" class=link onclick=javascript:tambahBaris('1','1'); > 
+					</td>
+				</tr>
+			</table>
+<div id="tblind_1"></div>
+<input type="hidden" id="counttable" name="counttable" value="1" size = "10">				
+<?}else{?>
+			<table  align="center" border="0" cellspacing="1" cellpadding="2" class="tbl">
+				<th width="30%">Nama Jabatan</th>
+				<th width="45%">Kualifikasi Pendidikan</th>
+				<th width="5%">&nbsp;</th>
+<?
+$con=1;				
+	foreach ($this->dataUsulJabat as $key => $val):
+?>				
+		<table  align="center" border="0" cellspacing="1" cellpadding="2" class="tbl" id="tblIndikator_<?echo $con?>">	
+<?			
+				if ($key%2==0) { ?>
+				<tr class="event" id="tr_<?echo $con?>">
+				<? } else if ($key%2==1) { ?>
+				<tr class="event2" id="tr_<?echo $con?>">
+				<? } 
+?>
+					
+					<td width="30%">
+						<textarea rows="1" name="n_jabatan_usul_<?echo $con?>" id="n_jabatan_usul_<?echo $con?>"><?php echo $this->escape($val['n_jabatan_usul']);?></textarea>
+					</td>
+					<td width="45%">
+						<textarea rows="1" name="n_pend_usul_<?echo $con?>" id="n_pend_usul_<?echo $con?>"><?php echo $this->escape($val['n_pend_usul']);?></textarea>
+					</td>					
+					<td width="5%">
+						<img src="<?echo $this->basePath;?>/images/del.gif" title="Hapus Baris" class=link onclick=javascript:hapusBaris('<?=$con?>',this); >
+						<img src="<?echo $this->basePath;?>/images/add_row.gif" title="Tambah Baris" class=link onclick=javascript:tambahBaris('<?=$con?>','<?=$con?>'); > 
+					</td>
+				</tr>
+			</table>
+		
+				<?php $con++; endforeach;?>
+				
+			<table  align="center" border="0" cellspacing="1" cellpadding="2" class="tbl" id="tblIndikator_<?echo $con?>">	
+				<tr class="event" id="tr_<?echo $con?>">
+					<td width="30%">
+						<textarea rows="1" name="n_jabatan_usul_<?echo $con?>" id="n_jabatan_usul_<?echo $con?>"></textarea>
+					</td>
+					<td width="45%">
+						<textarea rows="1" name="n_pend_usul_<?echo $con?>" id="n_pend_usul_<?echo $con?>"></textarea>
+					</td>					
+
+					<td width="5%">
+						<img src="<?echo $this->basePath;?>/images/del.gif" title="Hapus Baris" class=link onclick=javascript:hapusBaris('<?=$con?>',this); >
+						<img src="<?echo $this->basePath;?>/images/add_row.gif" title="Tambah Baris" class=link onclick=javascript:tambahBaris('<?=$con?>','<?=$con?>'); > 
+					</td>
+				</tr>
+			</table>
+<div id="tblind_<?echo $con?>"></div>	
+<?$jmcnt=count($this->dataUsulJabat)*1+1?>			
+<input type="hidden" id="counttable" name="counttable" value="<?=$jmcnt?>" size = "10">	
+
+<?}?>			
+	</div>
+
+<br>
+	<div class="panel">
+		<div class="spacer"></div><center>
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td align="right">
+								<div class="right">
+									<input type="button" value="Batal" onClick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/usulanterimacpns/listusulan','<?php echo $this->basePath; ?>/sdmmodule/usulanterimacpns/usulanjs');">
+									<input type="submit" value="<?=$this->par;?>" onClick="insertCpnsUsul()">
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+								</div>
+							</td>
+						</tr>
+			</table>
+</div>			
+
+</form>	
+<div id="targetdetil"></div>

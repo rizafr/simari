@@ -1,0 +1,221 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php'; 
+   require_once 'share/oa_page.php';
+   
+	$ctrlDate = new oa_date();   
+   $halaman = new oa_page();
+   
+   $ctrlFrm = new Zend_View();
+   $thnskrg = date("Y");
+
+	$blnArr = array("#"=>"--","01"=>"Januari","02"=>"Februari","03"=>"Maret","04"=>"April","05"=>"Mei",
+					"06"=>"Juni","07"=>"Juli","08"=>"Agustus","09"=>"September","10"=>"Oktober","11"=>"November",
+					"12"=>"Desember");
+?>
+<script language="JavaScript" type="text/javascript">
+<!--// calculate the ASCII code of the given character
+function CalcKeyCode(aChar) {
+  var character = aChar.substring(0,1);
+  var code = aChar.charCodeAt(0);
+  return code;
+}
+
+function checkNumber(val) {
+  var strPass = val.value;
+  var strLength = strPass.length;
+  var lchar = val.value.charAt((strLength) - 1);
+  var cCode = CalcKeyCode(lchar);
+
+  if ((cCode < 48) || (cCode > 57)) {
+    var myNumber = val.value.substring(0, (strLength) - 1);
+    val.value = myNumber;
+  }
+  return false;
+}
+-->
+</script>
+
+<?
+$nip = $_REQUEST['nip'];
+$_SESSION['nip'] = $nip;
+
+	$jumIjinList = count($this->ijinList);
+   $totalData = $this->totijinList;
+   $numToDisplay = $this->numToDisplay;
+   $currentPage = $this->currentPage;
+   (($currentPage -1)* $numToDisplay) + $key +1;
+   for ($j = 0; $j < $jumIjinList; $j++) 
+   {
+     $nomrE = (($currentPage -1)* $numToDisplay) + $j+1;
+     $ijin[$j] = array("no" =>$nomrE,
+						"nip"  			=>(string)$this->ijinList[$j]['nip'],
+						"nama"			=>(string)$this->ijinList[$j]['nama'],
+	                    "noSurat"     	=>(string)$this->ijinList[$j]['noSurat'],
+	                    "tanggal"     	=>(string)$this->ijinList[$j]['tanggal'],
+						"jamMulai"  	=>(string)$this->ijinList[$j]['jamMulai'],
+						"jamSelesai"  	=>(string)$this->ijinList[$j]['jamSelesai'],
+						"jenis"  		=>(string)$this->ijinList[$j]['jenis'],
+						"keterangan" 	 =>(string)$this->ijinList[$j]['keterangan']);	
+   } 
+
+	$pesan = $this->pesan;
+	$tgl1 = $this->tgl1;
+	$tgl2 = $this->tgl2;
+
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'absensi');
+   echo $this->render('absensijs.phtml'); 
+   
+   
+?>
+<div class="contentdata-modul" id="modul">
+	 <div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Absensi
+		<strong> &#8250; </strong> Pencatatan Absensi
+	
+	</div>
+	<h3 class="title">DATA IJIN PEGAWAI</h3>
+	&nbsp;&nbsp;&nbsp;&nbsp;Menu ini digunakan untuk mencatat, mengubah dan menghapus data ijin pegawai.
+	Pilih tanggal pada 'Periode' ijin dan tekan tombol 'CARI' untuk melihat atau mengubah data ijin pada suatu 
+	periode tertentu. Untuk memasukkan data ijin baru, tekan ikon 'Tambah Data' pada kanan atas tabel. Untuk menghapus
+	atau mengubah data tekan ikon 'Hapus Data' atau 'Edit Data' pada kolom paling kanan tabel. 
+	<div class="spacer"></div>
+	<a name="top"></a>	
+	
+	<form id="frmDataIjin" action="<?php echo $this->basePath; ?>/sdm/absensi/dataijin" method="post" name="frmDataIjin">
+		<div class="search-panel">
+			<b>Periode&nbsp;:&nbsp;</b>
+			<?php 
+			$hr1 = $this->hr1;
+			$bln1 = $this->bln1;
+			$thn1 = $this->thn1;
+			$hr2 = $this->hr2;
+			$bln2 = $this->bln2;
+			$thn2 = $this->thn2;
+			$tgl1 = $thn1."-".$bln1."-".$hr1;
+			$tgl2 = $thn2."-".$bln2."-".$hr2;
+			 
+			if (($hr1 == '--') || ($bln1 == '--') || ($thn1 == null)) {
+				$tgl1 = '1900-01-01';
+			}
+			if (($hr2 == '--') || ($bln2 == '--') || ($thn2 == null)) {
+				$tgl2 = '2100-01-01';				
+			}
+ 			
+			?>
+			<?php echo $ctrlDate->formTanggal_oa('hr1',$hr1,'bln1',$bln1,'thn1',$thn1); ?> &nbsp;<b>s/d</b>&nbsp;
+		    <?php echo $ctrlDate->formTanggal_oa('hr2',$hr2,'bln2',$bln2,'thn2',$thn2);  ?>&nbsp;
+			<?
+			  $atribSubmit = array("onclick"=>"javascript:cariDataIjin();");
+			  echo $ctrlFrm->formSubmit('perintah', 'CARI', $atribSubmit)."&nbsp;";
+			?>
+		</div>
+
+		<a href="#"  title="Tambah Data" class="link" onClick="javascript:tambahIjin('TAMBAH')" >
+			<div class="add">
+			</div>
+		</a>
+
+
+		<div class="space-line"></div>
+		<fieldset class="fields">
+			<div class="title2">Data Ijin Pegawai</div>
+
+			<? if (!$pesan == null) {
+			?>
+				<div class="spacer"> </div>
+			<!--	<fieldset id="message" class="confirm"><? echo $pesan; ?></fieldset>-->
+			<?	echo "<font color='red'>$pesan</font>"; ?>
+				<div class="spacer"> </div>	
+			<?}?>
+
+<?
+	if ($jumIjinList == 0) {
+		//echo "Data Absensi Tidak Ditemukan";
+		echo "<font color='red'>Data Ijin Tidak Ditemukan</font>";
+?>
+	
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+				<tr>
+			    <th width="4%">No.</th>
+			    <th width="15%">Nomor Surat</th>
+			    <th width="20%">Nama</th>
+			    <th width="7%">NIP</th>
+			    <th width="8%">Tanggal</th>
+				<th width="8%">Jam Mulai</th>
+				<th width="8%">Jam Selesai</th>
+				<th width="10%">Jenis Absen</th>
+				<th width="14%">Keterangan</th>
+				<th width="6%">&nbsp;</th>
+				</tr>
+		</table>
+<? } else { ?>
+	<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+				<tr>
+			    <th width="4%">No.</th>
+			    <th width="15%">Nomor Surat</th>
+			    <th width="20%">Nama</th>
+			    <th width="7%">NIP</th>
+			    <th width="8%">Tanggal</th>
+				<th width="9%">Jam Mulai</th>
+				<th width="9%">Jam Selesai</th>
+				<th width="10%">Jenis Absen</th>
+				<th width="12%">Keterangan</th>
+				<th width="6%">&nbsp;</th>
+				</tr>
+		<?php foreach ($ijin as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+			
+				<?php
+					$jenis = $this->escape($val['jenis']);
+					if ($jenis == 'DD') {
+						$jenis = 'Dinas';
+					}
+					else if ($jenis == 'PP') {
+						$jenis = 'Pribadi';
+					}
+					//$tgl = $ctrlDate->convertTglMachineToHuman($this->escape($val['tanggal']));
+					$konfDel = $this->escape($val['nama'])." Tanggal: ".$ctrlDate->convertTglMachineToHuman($this->escape($val['tanggal']))." Jam: ".$this->escape($val['jamMulai']);
+					//echo "konfDel= ".$konfDel;
+				?>
+				<td class="clcenter"><?php echo $this->escape($val['no']);?> </a></td>
+				<td>&nbsp;<?php echo $this->escape($val['noSurat']);?> </a></td>
+				<td>&nbsp;<?php echo $this->escape($val['nama']);?> </a></td>
+				<td>&nbsp;<?php echo $this->escape($val['nip']);?> </a></td>
+				<td class="clcenter"><?php echo $ctrlDate->convertTglMachineToHuman($this->escape($val['tanggal']));?> </a></td>
+				<td class="clcenter"><?php echo $this->escape($val['jamMulai']);?> </a></td>
+				<td class="clcenter"><?php echo $this->escape($val['jamSelesai']);?> </a></td>
+				<td>&nbsp;<?php echo $jenis;?></td>
+				<td>&nbsp;<?php echo $this->escape($val['keterangan']);?></td>
+				<td class="clcenter">					
+					<a href="#"  class="link" onClick="javascript:ubahIjin('UPDATE','<? echo $this->escape($val['nip']); ?>','<? echo $this->escape($val['tanggal']);?>','<? echo $this->escape($val['jamMulai']); ?>')">
+						<div class="edit" title="Ubah Data" ></div>	
+					</a>
+						<div class="delete" title="Hapus Data"  onClick="javascript:hapusIjin('Ijin', '<?php echo $this->escape($val['nip']);?>', '<?php echo $this->escape($val['tanggal']);?>', '<? echo $this->escape($val['jamMulai']); ?>', '<? echo $konfDel; ?>')"></div>
+				</td>
+		  </tr>
+	<?php endforeach;?> 		  	  
+		</table>
+	<? } 
+			$modul = $this->basePath.'/sdm/absensi/dataijin';
+			$fungsi = $this->basePath.'/sdm/absensi/harikerjajs';
+			echo $halaman->showPage($totalData, $numToDisplay, $currentPage, $modul, $fungsi,$tgl1 ,$tgl2 ,'' , '');
+	
+	
+	?>
+
+	
+	
+		</fieldset>
+	</form>
+		  	<div class="space-line"></div>
+		  	<div><a href="#top" class="top" title="Kembali ke atas">Kembali ke atas</a></div>	  	
+
+</div>
+	

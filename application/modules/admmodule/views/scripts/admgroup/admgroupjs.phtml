@@ -1,0 +1,298 @@
+function displayGroupOlahdata(jenisForm, iGroup)
+{
+	var handler = '<?php echo $this->basePath; ?>/admmodule/admgroup/admgroupolahdata';
+	var opt = {jenisForm : jenisForm, iGroup : iGroup};
+	jQuery.get(handler,opt,function(data) {
+			$("#tableview").html(data);	
+			jQuery("#frmadmgroupinsert").ajaxForm(tambahGroup_opt);
+			jQuery("#frmadmgroupedit").ajaxForm(ubahGroup_opt);
+		 });
+}
+
+function listMenuPerAplikasi()
+{
+	var iAplikasi = document.getElementById('i_aplikasi').value;
+	var jmlaplikasi = document.getElementById('jmlAplikasi').value;
+	
+	//alert(iAplikasi+' | '+jmlaplikasi);
+	for(var a=1; a<=jmlaplikasi; a++){
+		if(a == iAplikasi){
+			if(document.getElementById('targetMenu_'+a)){
+				document.getElementById('targetMenu_'+a).style.display = "block";
+			}
+				
+		} else {
+			if(document.getElementById('targetMenu_'+a)){
+				document.getElementById('targetMenu_'+a).style.display = "none";
+			}
+		}
+	}
+	
+}
+
+function checkParent(idMenu){
+	
+	var idMenuArr = idMenu.split('_');
+	var iAplikasi = idMenuArr[0];
+	var cMenuLevel = idMenuArr[1];
+	
+	var len_cMenuLevel = cMenuLevel.length;
+	
+	
+	if(len_cMenuLevel == 8){
+		document.getElementById(iAplikasi+'_'+cMenuLevel.substr(0,6)).checked="true";
+		document.getElementById(iAplikasi+'_'+cMenuLevel.substr(0,4)).checked="true";
+		document.getElementById(iAplikasi+'_'+cMenuLevel.substr(0,2)).checked="true";
+	} else if(len_cMenuLevel == 6){
+		document.getElementById(iAplikasi+'_'+cMenuLevel.substr(0,4)).checked="true";
+		document.getElementById(iAplikasi+'_'+cMenuLevel.substr(0,2)).checked="true";
+	} else if(len_cMenuLevel == 4){
+		document.getElementById(iAplikasi+'_'+cMenuLevel.substr(0,2)).checked="true";
+	}  
+}
+
+
+function kembaliDaftarGroup(){
+	var handler = '<?php echo $this->basePath; ?>/admmodule/admgroup/daftargroup';
+	var opt = {};
+	jQuery.get(handler,opt,function(data) {
+			$("#tableview").html(data);	
+		 });
+}
+
+var tambahGroup_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/admmodule/admgroup/admgrouptambah',
+	beforeSubmit : function(){
+	},
+	success : function() {
+		jQuery("#frmadmgroupinsert").ajaxForm(tambahGroup_opt);
+		doCount(5);
+	},
+	type: 'post', 
+	resetForm: false
+};
+
+var ubahGroup_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/admmodule/admgroup/admgroupubah',
+	beforeSubmit : function(){
+	},
+	success : function() {
+		jQuery("#frmadmgroupedit").ajaxForm(ubahGroup_opt);
+		doCount(5);
+	},
+	type: 'post', 
+	resetForm: false
+};
+
+function hapusGroup(param1, param2, param3)
+{ 
+	
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/admmodule/admgroup/admgrouphapus';
+		var opt = {iGroup : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	}
+} 
+ 
+function cariCombo(){
+	var n_jabatan=document.getElementById('n_jabatan').value;
+	var esl =document.getElementById('c_eselon').value; 
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+	var eseloni=document.getElementById('c_eselon_i').value;
+	var eselonii=document.getElementById('c_eselon_ii').value;
+	var eseloniii=document.getElementById('c_eselon_iii').value;
+	var eseloniv=document.getElementById('c_eselon_iv').value;
+	
+	
+	var url = '<?php echo $this->basePath; ?>/admmodule/admgroup/listcombo'; 
+	var param = {n_jabatan:n_jabatan,c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+	jQuery.get(url, param, function(data) {
+		jQuery("#listcombo").html(data);	
+		getEselon();
+	});
+}
+
+function getEselon(){
+var esl =document.getElementById('c_eselon').value;
+
+if (esl=='01' || esl=='02')
+	{
+		document.getElementById('c_eselon_ii').value="";
+		document.getElementById('c_eselon_iii').value="";
+		document.getElementById('c_eselon_iv').value="";
+		if(document.getElementById('c_eselon_v')){
+			document.getElementById('c_eselon_v').value="";
+		}
+		document.forms[0].c_eselon_ii.disabled = "disabled" ;
+		document.forms[0].c_eselon_iii.disabled = "disabled" ;
+		document.forms[0].c_eselon_iv.disabled = "disabled" ;
+		if(document.forms[0].c_eselon_v){
+			document.forms[0].c_eselon_v.disabled = "disabled" ;
+		}
+	}
+ else if (esl=='03' || esl=='04')
+	{
+		document.getElementById('c_eselon_iii').value="";
+		document.getElementById('c_eselon_iv').value="";
+		//document.getElementById('c_eselon_v').value="";
+		if(document.getElementById('c_eselon_v')){
+			document.getElementById('c_eselon_v').value="";
+		}
+		document.forms[0].c_eselon_ii.disabled = false ;
+		document.forms[0].c_eselon_iii.disabled = "disabled" ;
+		document.forms[0].c_eselon_iv.disabled = "disabled" ;
+		//document.forms[0].c_eselon_v.disabled = "disabled" ;
+		if(document.forms[0].c_eselon_v){
+			document.forms[0].c_eselon_v.disabled = "disabled" ;
+		}
+		
+	}
+	
+else if (esl=='05' || esl=='06')
+	{
+		document.getElementById('c_eselon_iv').value="";
+		//document.getElementById('c_eselon_v').value="";	
+		if(document.getElementById('c_eselon_v')){
+			document.getElementById('c_eselon_v').value="";
+		}
+		document.forms[0].c_eselon_ii.disabled = false ;
+		document.forms[0].c_eselon_iii.disabled = false ;
+		document.forms[0].c_eselon_iv.disabled = "disabled" ;
+		//document.forms[0].c_eselon_v.disabled = "disabled" ;
+		if(document.forms[0].c_eselon_v){
+			document.forms[0].c_eselon_v.disabled = "disabled" ;
+		}
+	}
+else if (esl=='07' || esl=='08')
+	{
+		//document.getElementById('c_eselon_v').value="";	
+		if(document.getElementById('c_eselon_v')){
+			document.getElementById('c_eselon_v').value="";
+		}
+		document.forms[0].c_eselon_ii.disabled = false ;
+		document.forms[0].c_eselon_iii.disabled = false ;
+		document.forms[0].c_eselon_iv.disabled = false ;
+		//document.forms[0].c_eselon_v.disabled = "disabled" ;
+		if(document.forms[0].c_eselon_v){
+			document.forms[0].c_eselon_v.disabled = "disabled" ;
+		}
+	}
+else if (esl=='09')
+	{
+		document.forms[0].c_eselon_ii.disabled = false ;
+		document.forms[0].c_eselon_iii.disabled = false ;
+		document.forms[0].c_eselon_iv.disabled = false ;
+		//document.forms[0].c_eselon_v.disabled = false ;
+		if(document.forms[0].c_eselon_v){
+			document.forms[0].c_eselon_v.disabled = "false" ;
+		}
+	}
+else	
+	{
+		document.forms[0].c_eselon_ii.disabled = false ;
+		document.forms[0].c_eselon_iii.disabled = false ;
+		document.forms[0].c_eselon_iv.disabled = false ;
+		//document.forms[0].c_eselon_v.disabled = false ;
+		if(document.forms[0].c_eselon_v){
+			document.forms[0].c_eselon_v.disabled = "false" ;
+		}
+	} 	
+} 
+ 
+function CariJabatan(){
+	var c_eselon =document.getElementById('c_eselon').value;
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/listnamajabatan';
+	var param = {c_eselon:c_eselon};
+	jQuery.get(url,param,function(data) {
+		jQuery("#targetdetil").html(data);
+		centerPopup();
+		loadPopup();
+	});
+}
+
+function clearUnitkerjaAll(){
+	document.getElementById('n_jabatan').value="";
+	document.getElementById('c_lokasi_unitkerja').value="";
+	document.getElementById('c_eselon_i').value="";
+	document.getElementById('c_eselon_ii').value="";
+	document.getElementById('c_eselon_iii').value="";
+	document.getElementById('c_eselon_iv').value="";
+	if(document.getElementById('c_eselon_v')){
+		document.getElementById('c_eselon_v').value="";
+	}
+	document.getElementById('n_group').value="";
+}
+ 
+var checked = false;
+function pilihSemua (myForm) {
+	var idAplikasi = document.getElementById('i_aplikasi').value;
+	var x=document.getElementById(myForm);
+	var typeElement = '';
+	var namaElement = '';
+	var kodeAplikasiElement = '';
+	if (checked == false){checked = true}else{checked = false}
+	for (var i = 0; i < document.getElementById(myForm).elements.length; i++) {
+		typeElement = x.elements[i].type;
+	    /*alert(imageattributes);*/
+		if (typeElement == 'checkbox'){
+			namaElement = x.elements[i].name;
+			kodeAplikasiElement = namaElement.split('_');
+			if(kodeAplikasiElement[0] == idAplikasi){
+				document.getElementById(myForm).elements[i].checked = checked;
+			}
+		}
+	}
+}
+
+ /*
+function ubahAplikasi(iAplikasi){
+	var handler = '<?php echo $this->basePath; ?>/admmodule/admaplikasi/admaplikasiolahdata';
+	var jenisForm = 'ubah';
+	var opt = {jenisForm : jenisForm, iAplikasi : iAplikasi};
+	jQuery.get(handler,opt,function(data) {
+			$("#tableview").html(data);	
+			jQuery("#frmadmaplikasiedit").ajaxForm(ubahAplikasi_opt);
+		 });
+}
+
+var ubahAplikasi_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/admmodule/admaplikasi/admaplikasiubah',
+	beforeSubmit : function(){
+		if(document.getElementById('cAplikasi').value == ''){
+			alert('Kode Aplikasi Harus Diisi.');
+			document.getElementById('cAplikasi').focus();
+			return false;
+		} else if (document.getElementById('nAplikasi').value == ''){
+				alert('Kode Aplikasi Harus Diisi.');
+				document.getElementById('nAplikasi').focus();
+				return false;
+		} 
+	},
+	success : function() {
+		jQuery("#frmadmaplikasiedit").ajaxForm(ubahAplikasi_opt);
+		doCount(5);
+	},
+	type: 'post', 
+	resetForm: false
+};
+
+function hapusAplikasi(param1, param2, param3)
+{ 
+	
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/admmodule/admaplikasi/admaplikasihapus';
+		var opt = {iAplikasi : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	}
+}   */

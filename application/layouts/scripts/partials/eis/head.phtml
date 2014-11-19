@@ -1,0 +1,146 @@
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml2/DTD/xhtml1-strict.dtd">-->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Executive Information System - Mahkamah Agung Republlik Indonesia</title>
+
+<LINK href="<?echo $this->baseUrl;?>/css/eis/styles.css" type="text/css" rel="stylesheet">
+<?if ($this->uspejabat=='1'){?>
+<LINK href="<?echo $this->baseUrl;?>/css/eis/theme1.css" type="text/css" rel="stylesheet">
+<?} else if ($this->uspejabat=='2'){?>
+<LINK href="<?echo $this->baseUrl;?>/css/eis/theme2.css" type="text/css" rel="stylesheet">
+<?} else if ($this->uspejabat=='3'){?>
+<LINK href="<?echo $this->baseUrl;?>/css/eis/theme3.css" type="text/css" rel="stylesheet">
+<?} else{?>
+<LINK href="<?echo $this->baseUrl;?>/css/eis/theme4.css" type="text/css" rel="stylesheet">
+<?}?>
+<link href="<?echo $this->baseUrl;?>css/eis/box-slider.css" type="text/css" rel="stylesheet"  >
+<link rel="icon" href="<?echo $this->baseUrl;?>/images/icon_ma.gif" type="image/png">
+
+<script type="text/javascript" src="<? echo $this->baseUrl;?>/js/eis/jquery-1.3.2.js"></script>
+<script type="text/javascript" src="<? echo $this->baseUrl;?>/js/eis/jquery.form.js"></script>
+<script type="text/javascript" src="<? echo $this->baseUrl;?>/js/eis/common.js"></script>
+<SCRIPT type="text/javascript" src="<? echo $this->baseUrl;?>/js/eis/navigation.js"></SCRIPT>
+<script type="text/javascript" src="<? echo $this->baseUrl;?>/js/eis/popup.js"></script>
+<script type="text/javascript" src="<? echo $this->baseUrl;?>/js/eis/jquery.bxSlider.js"></script>
+<script type="text/javascript" src="<? echo $this->baseUrl;?>/js/eis/portal.js"></script>
+
+<script type="text/javascript">
+function Add(URL) {
+    	window.location.href=URL;
+    	}
+</script>
+
+<script type="text/javascript">
+// <![CDATA[
+	var jump_page = 'Masukkan no halaman yang ingin Anda tuju:';
+	var on_page = '1';
+	var per_page = '25';
+	var onload_functions = new Array();
+	var onunload_functions = new Array();
+	/**
+	* New function for handling multiple calls to window.onload and window.unload by pentapenguin
+	*/
+	window.onload = function()
+	{
+		for (var i = 0; i < onload_functions.length; i++)
+		{
+			eval(onload_functions[i]);
+		}
+	}
+
+	window.onunload = function()
+	{
+		for (var i = 0; i < onunload_functions.length; i++)
+		{
+			eval(onunload_functions[i]);
+		}
+	}
+
+// ]]>
+
+
+
+</script>
+<script type="text/javascript">
+
+// Current Server Time script (SSI or PHP)- By JavaScriptKit.com (http://www.javascriptkit.com)
+// For this and over 400+ free scripts, visit JavaScript Kit- http://www.javascriptkit.com/
+// This notice must stay intact for use.
+
+//Depending on whether your page supports SSI (.shtml) or PHP (.php), UNCOMMENT the line below your page supports and COMMENT the one it does not:
+//Default is that SSI method is uncommented, and PHP is commented:
+
+//var currenttime = '<!--#config timefmt="%B %d, %Y %H:%M:%S"--><!--#echo var="DATE_LOCAL" -->' //SSI method of getting server date
+//var currenttime = 'May 10, 2011 10:46:11' //PHP method of getting server date
+<? $date=date('M d, Y hh:mm:ss');?>
+var currenttime = '<? echo $date?>';
+///////////Stop editting here/////////////////////////////////
+
+var dayarray=new Array("Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu");
+var montharray=new Array("Januari","Februari","Maret","April","Mei","Juni","July","Agustus","September","Oktober","November","Desember")
+var serverdate=new Date(currenttime)
+
+function padlength(what){
+var output=(what.toString().length==1)? "0"+what : what
+return output
+}
+
+function displaytime(){
+serverdate.setSeconds(serverdate.getSeconds()+1)
+var datestring=dayarray[serverdate.getDay()]+", "+padlength(serverdate.getDate())+" "+montharray[serverdate.getMonth()]+" "+serverdate.getFullYear()
+var timestring=padlength(serverdate.getHours()-1)+":"+padlength(serverdate.getMinutes())+":"+padlength(serverdate.getSeconds())
+document.getElementById("servertime").innerHTML=datestring+" | "+timestring
+}
+
+window.onload=function(){
+//setInterval("displaytime()", 1000)
+}
+
+// function getReminder(par){
+	// var url = '<?php echo $this->basePath; ?>/sdmmodule/reminder/reminder'; 
+	// var param = {par:par};
+	// jQuery.get(url, param, function(data) {
+		// jQuery("#popupview").html(data);
+	// });
+// }
+
+function getReminder(par){
+if (par=='pensiun'){
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/reminder/pensiun'; 
+}	
+if (par=='golongan'){
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/portalchart/chartgolonganb'; 
+}
+if (par=='usia'){
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/portalchart/chartusiab'; 
+}
+	var param = {par:par};
+	jQuery.get(url, param, function(data) {
+		jQuery("#targetreminder").html(data);
+	});
+}
+
+function showChart(par){
+if (par=='pendidikan'){
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/portalchart/chartpendidikanb'; 
+}	
+if (par=='golongan'){
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/portalchart/chartgolonganb'; 
+}
+if (par=='usia'){
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/portalchart/chartusiab'; 
+}
+	var param = {par:par};
+	jQuery.get(url, param, function(data) {
+		jQuery("#targetchart").html(data);
+	});
+}
+
+$(function(){
+  $('#slider1').bxSlider({
+    auto: true,
+    pager: true
+  });
+});
+
+</script>
+

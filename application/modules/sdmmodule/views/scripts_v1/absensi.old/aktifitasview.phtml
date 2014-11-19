@@ -1,0 +1,268 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php'; 
+   
+	$ctrlDate = new oa_date();   
+   
+   $ctrlFrm = new Zend_View();
+?>
+
+<?
+	$jumAktList = count($this->aktList);
+   //echo $jumIjinList;
+   for ($j = 0; $j < $jumAktList; $j++) {
+     $akt[$j] = array("no" =>$j+1,
+						"tanggal"  			=>(string)$this->aktList[$j]['tanggal'],
+						"mulai"  			=>(string)$this->aktList[$j]['mulai'],
+						"selesai"  			=>(string)$this->aktList[$j]['selesai'],
+						"jnsAkt"			=>(string)$this->aktList[$j]['jnsAkt'],
+						"klaAkt"			=>(string)$this->aktList[$j]['klaAkt'],
+						"aktifitas"			=>(string)$this->aktList[$j]['aktifitas'],
+						"output"			=>(string)$this->aktList[$j]['output'],
+						"nmFile"			=>(string)$this->aktList[$j]['nmFile'],
+						);	
+   } 
+
+
+
+	$pesan = $this->pesan;
+
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'absensi');
+   echo $this->render('aktifitasjs.phtml'); 
+   
+   $catatan = $this->catatan;
+?>
+<div class="contentdata-modul" id="modul">
+	 <div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Absensi
+		<strong> &#8250; </strong> Melihat Akifitas
+	
+	</div>
+	<h3 class="title">MELIHAT AKTIFITAS HARIAN PEGAWAI</h3>
+	&nbsp;&nbsp;&nbsp;&nbsp;Menu ini digunakan untuk melihat aktifitas harian pegawai.
+	<div class="spacer"></div>
+	<a name="top"></a>	
+	
+	<form id="frmAktView" action="<?php echo $this->basePath; ?>/sdm/absensi/aktifitasview" method="post" name="frmAktView">
+<SCRIPT src="<? echo $this->basePath;?>/js/jquery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="<? echo $this->basePath;?>/js/jquery.form.js" type="text/javascript"></SCRIPT>
+<script type='text/javascript'>
+
+function ningali(nmFile)
+	{
+	   var nmFile = nmFile;
+	   var url = '<?php echo $this->basePath; ?>/sdm/absensi/lihatdokumenpendukung';	
+	   win = window.open(url+'?nmFile='+nmFile,'pagelist');
+	}
+</script>	
+		<div class="search-panel">
+		<fieldset class="panel-form4">
+				<dl>
+					<dt>NIP</dd>
+					<dd class="dot2">:</dd>
+					<dd class="col-right4">
+					<?php 
+						$nip = $this->escape($this->nip);
+						echo $ctrlFrm->formHidden('nipH', $nip, null)."&nbsp;";
+						if ($nip == null) {
+							$nip = $_POST['nipH'];
+						}
+						echo $nip;
+					?>
+					<dd class="col-left">&nbsp;</dd>
+					<dd class="dot2">&nbsp;</dd>
+				</dl>
+				<dl>
+					<dt>Nama</dd>
+					<dd class="dot2">:</dd>
+					<dd class="col-right4">
+					<?php 
+						$nama = $this->escape($this->nama);
+						echo $ctrlFrm->formHidden('namaH', $nama, null)."&nbsp;";
+						if ($nama == null) {
+							$nama = $_POST['namaH'];
+						}
+						echo $nama;
+					?>
+					<dd class="col-left">&nbsp;</dd>
+					<dd class="dot2">&nbsp;</dd>
+				</dl>
+				<dl>
+					<dt>Tanggal Aktifitas </dd>
+					<dd class="dot2">:</dd>
+					<dd class="col-right4">
+					<?php 
+					$hr1 = $_POST['hr1'];
+					$bln1 = $_POST['bln1'];
+					$thn1 = $_POST['thn1'];
+					$hr2 = $_POST['hr2'];
+					$bln2 = $_POST['bln2'];
+					$thn2 = $_POST['thn2'];
+					$tgl1 = $thn1."-".$bln1."-".$hr1;
+					$tgl2 = $thn2."-".$bln2."-".$hr2;
+					 
+					$skr=date("Y-m-d");
+					$blnSkr = date("m");
+					$thnSkr = date("Y");
+					$hrSkr = date("d");
+					//echo "hr1= ".$hr1."<br>";
+					
+					if (($hr1 == '--') || ($hr1 == null)){
+						$hr1 = '01';
+					}
+					if (($bln1 == '--') || ($bln1 == null)){
+						$bln1 = $blnSkr;
+					}
+					if ($thn1 == null) {
+						$thn1 = $thnSkr;
+					}
+					
+					if (($hr2 == '--') || ($hr2 == null)){
+						$hr2 = $hrSkr;
+					}
+					if (($bln2 == '--') || ($bln2 == null)){
+						$bln2 = $blnSkr;
+					}
+					if ($thn2 == null) {
+						$thn2 = $thnSkr;
+					}
+					//echo "hr1= ".$hr1;
+					 // if (($hr1 == '--') || ($bln1 == '--') || ($thn1 == null)) {
+						// $tgl1 = $thnSkr."-".$blnSkr."-01";
+					 // }
+					 // if (($hr2 == '--') || ($bln2 == '--') || ($thn2 == null)) {
+						// $tgl2 = $skr;			
+					// }
+					?>
+					<?php echo $ctrlDate->formTanggal_oa('hr1',$hr1,'bln1',$bln1,'thn1',$thn1); ?> &nbsp;<b>s/d</b>&nbsp;
+				    <?php echo $ctrlDate->formTanggal_oa('hr2',$hr2,'bln2',$bln2,'thn2',$thn2);  ?>&nbsp;
+					 &nbsp;
+					<dd class="col-left">&nbsp;</dd>
+					<dd class="dot2">&nbsp;</dd>
+				</dl>
+				<dl>
+					<dt>&nbsp;</dd>
+					<dd class="dot2">&nbsp;</dd>
+					<dd class="col-right4">
+					<?$aForm = "document.frmLihatAkt";
+					  //$atribSubmit = array("onclick"=>"javascript:catatAkt($aForm);");
+					  $atribSubmit = array("onclick"=>"javascript:lihatAkt();");
+					  echo $ctrlFrm->formSubmit('perintah', 'Lihat Aktifitas', $atribSubmit)."&nbsp;";
+					?>
+				</dl>
+		</fieldset>
+		</div>
+		
+		<?
+			//if (!$catatan == null) {
+echo "		
+		<div class='space-line'></div>
+		<fieldset class='panel-form'>	
+		<div class='title2'>Aktifitas Harian Pegawai</div>
+		<div class='clright'>
+		<img src='".$this->basePath."/images/pdf.gif' id='iiCetakPdf' class='link'>
+		</div>";
+		?>
+<?
+	if ($jumAktList == 0) {
+?>
+<div class="spacer"> </div>
+<center>
+<?
+		//echo "Data Absensi Tidak Ditemukan";
+		echo "<font color='red'>Data Aktifitas Tidak Ditemukan</font>";
+?>
+</center>
+
+	
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+				<tr>
+			    <th width="4%">No.</th>
+			    <th width="10%">Tanggal</th>
+			    <th width="8%">Mulai</th>
+			    <th width="8%">Selesai</th>
+			    <th width="10%">Jenis</th>
+			    <th width="10%">Klasifikasi</th>
+			    <th width="18%">Aktifitas</th>
+			    <th width="17%">Output</th>
+				<th width="12%">Nama File</th>
+				<th width="3%">&nbsp;</th>
+				</tr>
+		</table>
+<? } else { ?>
+	<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+				<tr>
+			    <th width="4%">No.</th>
+			    <th width="10%">Tanggal</th>
+			    <th width="8%">Mulai</th>
+			    <th width="8%">Selesai</th>
+			    <th width="10%">Jenis</th>
+			    <th width="10%">Klasifikasi</th>
+			    <th width="18%">Aktifitas</th>
+			    <th width="17%">Output</th>
+				<th width="12%">Nama File</th>
+				<th width="3%">&nbsp;</th>
+				</tr>
+		<?php foreach ($akt as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+			
+				<?php
+					$jenis = $this->escape($val['jnsAkt']);
+					if ($jenis == 'S') {
+						$jenis = 'Struktural';
+					}
+					else if ($jenis == 'F') {
+						$jenis = 'Fungsional';
+					}
+					$klasifikasi = $this->escape($val['klaAkt']);
+					if ($klasifikasi == 'TP') {
+						$klasifikasi = 'Tugas Pokok';
+					}
+					else if ($klasifikasi == 'TT') {
+						$klasifikasi = 'Tugas Tahunan';
+					}
+					else if ($klasifikasi == 'TL') {
+						$klasifikasi = 'Tugas Lainnya';
+					}
+				?>
+				<td class="clcenter"><?php echo $this->escape($val['no']);?> </a></td>
+				<td class="clcenter"><?php echo $ctrlDate->convertTglMachineToHuman($this->escape($val['tanggal']));?> </a></td>
+				<td class="clcenter"><?php echo $this->escape($val['mulai']);?> </a></td>
+				<td class="clcenter"><?php echo $this->escape($val['selesai']);?> </a></td>
+				<td>&nbsp;<?php echo $jenis;?> </a></td>
+				<td>&nbsp;<?php echo $klasifikasi;?> </a></td>
+				<td>&nbsp;<?php echo $this->escape($val['aktifitas']);?> </a></td>
+				<td>&nbsp;<?php echo $this->escape($val['output']);?> </a></td>
+				<td class="clcenter">&nbsp;<?php echo $this->escape($val['nmFile']);?> </a></td>
+				<td class="clcenter">
+				<? if ($this->escape($val['nmFile']) != '' ) { ?>
+				<img src="<?php echo $this->basePath; ?>/images/file.gif" title="Lihat File Pendukung" class="link" onClick="javascript:ningali('<? echo $this->escape($val['nmFile']); ?>');"></a>
+				<? }?>
+				</td>
+		  </tr>
+	<?php endforeach;?> 		  	  
+		</table>
+	<? } ?>
+
+		</fieldset>
+	</form>
+<?
+//}
+?>
+ 			<dl>
+				<dt>&nbsp;</dt>
+				<dd class="dot2">&nbsp;</dd> 
+				<dd class="col-right">&nbsp;</dd>			
+				<div class="back" onClick="javascript:kembaliViewAkt();" title="Kembali"><input type="button" value="Kembali" id="kembaliViewAkt"></div>
+			</dl>
+		  	<div class="space-line"></div>
+		  	<div><a href="#top" class="top" title="Kembali ke atas">Kembali ke atas</a></div>	  	
+
+</div>
+	

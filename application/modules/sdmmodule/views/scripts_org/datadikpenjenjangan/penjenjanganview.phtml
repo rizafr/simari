@@ -1,0 +1,161 @@
+<? require_once 'Zend/View.php';   
+	$ctrlFrm = new Zend_View();
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_sertifikat").datepicker();
+	});
+</script>
+		   <div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datadikpenjenjangan/listdiklat','');">Diklat Penjenjangan</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Diklat Penjenjangan
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+
+	<h2 class="title"><?=$this->jdl;?> Diklat Penjenjangan</h2>
+<div class="boxholder">					
+	<div class="panel">
+		<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<br>
+	
+<form id="formjenjang" method="post" name="formjenjang" enctype="multipart/form-data">		
+				<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+<div class="panel">				
+				<div class="spacer"></div> 
+				<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+					
+					<tr>
+						<td  width="20%">Penjenjangan</td>
+						<td width="2%">:</td> 
+						<td>					
+						<?php
+						   $jmllistrpenjenjangan = count($this->listrpenjenjangan);
+							for ($i = 0; $i < $jmllistrpenjenjangan; $i++) {	 
+								if ($this->c_penjenjangan==$this->listrpenjenjangan[$i]->c_jenjang){echo $this->listrpenjenjangan[$i]->n_jenjang;}
+						   }    
+						?>					
+						</td>
+					</tr>
+			
+				<tr>
+					<td>Angkatan / Tahun
+					
+					</td>
+					<td>:</td> 
+					<td>
+						<?=$this->q_angkatan?> / 
+						<?=$this->q_tahun?>
+					</td>
+				</tr>
+				<tr>
+					<td>Lama Diklat (JPL)</td>
+					<td>:</td> 
+					<td>
+						<?=$this->q_lama?>
+					</td>
+				</tr>
+				<tr>
+					<td>Penyelenggara</td>
+					<td>:</td> 
+					<td>
+						<?=$this->n_penyelenggara?>
+					</td>
+				</tr>
+				<tr>
+					<td>Peringkat</td>
+					<td>:</td> 
+					<td>
+						<?=$this->q_peringkat?>
+					</td>
+				</tr>	
+				<tr>
+					<td>Predikat Kelulusan</td>
+					<td>:</td> 
+					<td>
+						<?php
+						   $jmllistrkualifikasi = count($this->listrkualifikasi);
+							for ($i = 0; $i < $jmllistrkualifikasi; $i++) {
+								if ($this->c_kualifikasi==$this->listrkualifikasi[$i]->c_kualifikasi){echo $this->listrkualifikasi[$i]->n_kualifikasi;}
+						   }  
+						?>							
+					</td>
+				</tr>				
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				
+				<tr>
+					<td colspan="3"><h3 class="title"><b><u>SERTIFIKAT/STTPP</u></b><h3></td>
+				</tr>
+				<tr>
+					<td>Nomor Sertifikat</td>
+					<td>:</td> 
+					<td>
+						<?=$this->i_sertifikat?>
+					</td>
+				</tr>				
+				<tr>
+					<td>Tanggal Sertifikat</td>
+					<td>:</td> 
+					<td>
+						<?=$this->d_sertifikat?>
+					</td>
+				</tr>	
+				<tr>
+					<td>Pejabat</td>
+					<td>:</td> 
+					<td>
+						<?=$this->n_pejabat?>
+					</td>
+				</tr>
+	</table>
+	</div>
+	<br>
+	<div class="panel">
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">						<tr>
+							<td align="right">
+									<input type="button" value="Kembali" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datadikpenjenjangan/listdiklat','');"> 									
+							</td>
+						</tr>
+					</table>
+</form>
+	</div>
+</div>	
+<script>
+function getKelompok(){
+	var c_filter=document.getElementById("c_jns_fungsional").value;
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datapelatihan/listcombokelompok"
+	var opt = {c_filter:c_filter};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#idkel").html(data);
+		});		
+}
+function getJenis(){
+	var c_fungsional=document.getElementById("c_kel_pelatihan").value;
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datapelatihan/listcombojenis"
+	var opt = {c_fungsional:c_fungsional};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#idjns").html(data);
+		});		
+} 
+function getNama(){
+	var c_jenis=document.getElementById("c_jns_kelompok").value;
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datapelatihan/listcombonama"
+	var opt = {c_jenis:c_jenis};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#idnama").html(data);
+		});		
+}  
+</script>	

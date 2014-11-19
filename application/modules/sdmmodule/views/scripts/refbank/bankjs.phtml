@@ -1,0 +1,56 @@
+function openFormBank(par,c_bank,n_bank){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refbank/bankolahdata";
+	var opt = {par:par, c_bank:c_bank, n_bank:n_bank};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formbank").ajaxForm(maintain_bank);
+		});		
+} 
+
+function insertBank(){
+	jQuery("#formbank").ajaxForm(maintain_bank);
+}
+
+var maintain_bank = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formbank").ajaxForm(maintain_bank);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refbank/insertbank',
+	type: 'post',
+	resetForm: false
+};
+
+function updateBank(){
+	jQuery("#formbank").ajaxForm(update_bank);
+}
+
+var update_bank = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formbank").ajaxForm(maintain_bank);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refbank/updatebank',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusBank(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refbank/deletebank';
+		var opt = {c_bank : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

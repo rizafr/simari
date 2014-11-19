@@ -1,0 +1,202 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=substr($this->pesancek,0,5);
+	if ($pesancek=='Gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tanggal_lahir").datepicker();
+		jQuery("#d_tanggal_nikah").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+				<strong> &#8250; </strong> <a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapasangan/listpasangan','<?php echo $this->basePath; ?>/sdmmodule/datapasangan/pasanganjs');">Suami/Istri</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Data Suami/Istri
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Data Suami/Istri</h2>
+	<?php $opr='ppas';include "$this->leftMenu/linkdatapokok.phtml";?>
+<div class="boxholder">	
+		<div class="search-panel">
+			<?php include "$this->leftMenu/toplink.phtml";?>
+		</div>	
+<br>		
+<form id="formpasangan" method="post" name="formpasangan">		
+	<div class="panel">
+		<div class="spacer"></div> 
+			<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td width="25%">Pasangan<span class="hightlight">*</span>
+					</td>
+					<td width="2%">:</td> 
+					<td>					
+						<?
+								$jnspasangan = array(""=>"--Pilih--","I"=>"Istri","S"=>"Suami");
+								echo $ctrlFrm->formSelect('c_pasangan',$this->c_pasangan, null, $jnspasangan); 							
+						?>
+						<input type="hidden" name="c_pasangan2" id="c_pasangan2" value="<?=$this->c_pasangan?>">
+					</td>
+				</tr>
+				<tr>
+					<td>Tanggungan</td>
+					<td>:</td> 
+					<td>
+					<?php 
+						$stsTunjOpsi = array("T"=>"Ya","F"=>"Tidak"); 
+						echo $ctrlFrm->formRadio('c_tunjangan', $this->c_tunjangan, null, $stsTunjOpsi, "&nbsp;"); 
+					?>			
+					</td>
+				</tr>
+				<tr>
+					<td>Jenis Pekerjaan</td>
+					<td>:</td> 
+					<td>					
+						<?php 
+							$jmlPekerjaanList = count($this->pekerjaanList);
+							$pekerjaanList[''] = '--Pilih--';
+							for ($i = 0; $i < $jmlPekerjaanList; $i++) {
+								$pekerjaanList[(string)$this->pekerjaanList[$i]->c_pekerjaan] =(string)$this->pekerjaanList[$i]->n_pekerjaan;	
+							}
+							$arrjnsk = array("onchange"=>"JnsKerja()"); 
+							echo $ctrlFrm->formSelect('c_jns_pekerjaan', trim($this->c_jns_pekerjaan), $arrjnsk,$pekerjaanList)
+						?>
+
+					</td>
+				</tr>
+		</table>
+		<div id="pnsMaTea">
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+<?if ($this->c_jns_pekerjaan=='1' || $this->c_jns_pekerjaan=='2'){?>
+	<tr>
+		<td width="25%">Pekerjaan</td>
+		<td width="2%">:</td> 
+		<td>					
+		<input type="text" size="70" name="c_pekerjaan" id="c_pekerjaan" value="<?=$this->c_pekerjaan?>">
+		</td>
+	</tr>
+	<tr>
+		<td>NIP Suami/Istri</td>
+		<td>:</td> 
+		<td>					
+		<input type="text" name="i_nip_pasangan" id="i_nip_pasangan" value="<?=$this->i_nip_pasangan?>" size="50">
+<?if ($this->c_jns_pekerjaan=='1'){?>		
+		<input type="button" value="Cari Pegawai MA" onclick="cariNip();"> 
+<?}?>		
+		</td>
+	</tr>
+<?} else{?>
+	<tr>
+		<td width="25%">Pekerjaan</td>
+		<td width="2%">:</td> 
+		<td>					
+		<input type="text" size="70" name="c_pekerjaan" id="c_pekerjaan" value="<?=$this->c_pekerjaan?>">
+		</td>
+	</tr>
+<?}?>	
+</table>
+		
+		</div>
+
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">			
+				<tr>
+					<td width="25%">Nama Suami/Istri<span class="hightlight">*</span></td>
+					<td width="2%">:</td> 
+					<td>					
+						<input type="text" name="n_nama" id="n_nama" value="<?=$this->n_nama?>" size="50">
+						
+					</td>
+				</tr>				
+				<tr>
+					<td>Tempat Lahir / Tanggal Lahir</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="a_tempat_lahir" id="a_tempat_lahir" value="<?=$this->a_tempat_lahir?>" size="50"> /
+						<input type="text" name="d_tanggal_lahir" id="d_tanggal_lahir" value="<?=$this->d_tanggal_lahir?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+					</td>
+				</tr>
+				<tr>
+					<td>Tanggal Menikah</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_tanggal_nikah" id="d_tanggal_nikah" value="<?=$this->d_tanggal_nikah?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+					</td>
+				</tr>
+				<tr>
+					<td>Nomor KARIS/KARSU</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="i_karis" id="i_karis" value="<?=$this->i_karis?>" size="50">
+					</td>
+				</tr>				
+				<tr>
+					<td>Keterangan</td>
+					<td>:</td> 
+					<td>
+					<?php 
+						$keteranganAtrib = array("rows"=>"3","cols"=>"25","maxlength"=>"100", "class"=>"medium"); 
+						echo $ctrlFrm->formTextarea('e_keterangan', $this->e_keterangan, $keteranganAtrib);
+					?>
+					</td>
+				</tr>
+			</table>				
+</div>
+<br>				
+	<div class="panel">
+		<div class="spacer"></div> 
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapasangan/listpasangan','');"> 
+							<input type="submit" value="<?=$this->par;?>" onClick="insertPasangan()">
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+							<input type="hidden" name="id" value="<?=$this->id;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+</div>	
+	</form>
+<div id="popupview"></div>	
+<script>
+
+function cariNip(){
+var cPasangan=document.getElementById('c_pasangan').value;
+var url = '<?php echo $this->basePath; ?>/sdmmodule/datapasangan/listpegawai';
+var param = {cPasangan:cPasangan};
+jQuery.get(url,param,function(data) {
+jQuery("#popupview").html(data);
+centerPopup();
+loadPopup();});}
+
+function JnsKerja(){
+var par=document.getElementById('c_jns_pekerjaan').value;
+if (par=='1'){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datapasangan/pnsma"	
+}
+else{
+url = "<?php echo $this->basePath; ?>/sdmmodule/datapasangan/pnsnonma"
+}	
+	var opt = {par:par};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#pnsMaTea").html(data);
+		});	
+}
+</script>

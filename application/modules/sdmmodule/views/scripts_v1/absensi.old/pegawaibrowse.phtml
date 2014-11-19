@@ -1,0 +1,103 @@
+<? 
+   require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+   $jmlListNama = count($this->listNama);
+   for ($j = 0; $j < $jmlListNama; $j++) 
+   {
+     $pegawai[$j] = array("nip"       =>(string)$this->listNama[$j]['i_peg_nip'],
+			  "nama"      =>(string)$this->listNama[$j]['n_peg'],
+			  "unitKerja" =>$this->serv->getUnitKerjaDesc((string)$this->listNama[$j]['c_unit_kerja']));
+   }
+   $i_peg_nip = $this->nip;
+   $n_peg = $this->nama;
+   //$idORG = $this->idORG;
+   //echo "Nilai unit kerja : ".$idORG;
+/*
+<SCRIPT src='".$this->basePath."/js/oa_fn.js' type='text/javascript'></script>
+<SCRIPT src='".$this->basePath."/js/jquery.js' type='text/javascript'></SCRIPT>
+<SCRIPT src='".$this->basePath."/js/jquery.form.js' type='text/javascript'></SCRIPT>
+<SCRIPT src='".$this->basePath."/js/interface.js' type='text/javascript'></SCRIPT>
+<SCRIPT src='".$this->basePath."/js/ajax-navigation.js' type='text/javascript'></SCRIPT>
+<SCRIPT src='".$this->basePath."/js/tabcontent.js' type='text/javascript'></SCRIPT>
+*/
+echo "   
+<br>
+<link href='".$this->basePath."/css/tools.css' rel='stylesheet' type='text/css' />
+<link href='".$this->basePath."/css/spec.css' rel='stylesheet' type='text/css' />
+<link href='".$this->basePath."/css/typo.css' rel='stylesheet' type='text/css' />
+<link href='".$this->basePath."/css/oa_style.css' rel='stylesheet' type='text/css' />
+<link rel='stylesheet' type='text/css' href='".$this->basePath."/css/tabcontent.css' />
+<link rel='alternate stylesheet' href='".$this->basePath."/css/ice_blue.css' type='text/css' title='Ice Blue style' />
+   <link href='".$this->basePath."/images/ico_oa.gif' rel='icon' type='image/png' />
+";
+include "absensijs.phtml";
+echo "
+<div class='popups'>
+   <h3>Daftar Nama Pegawai</h3>
+   <form method='post' name='fnCariPegawai' id='fiCariPegawai'>
+      <fieldset class='panel-form4'>
+         <dl>
+   	        <dt>NIP</dt>
+   	        <dd class='dot2'>:</dd>
+   	        <dd class='col-right3'>";
+   	          $nipAtrib = array("size"=>"10","maxlength"=>"9","class"=>"");
+   	          echo $ctrlFrm->formText('i_peg_nip', $i_peg_nip, $nipAtrib);
+echo "
+   	        </dd>
+   	     </dl>
+   	     <dl>
+   	        <dt>Nama</dt>
+   	        <dd class='dot2'>:</dd>
+   	        <dd class='col-right3'>";
+   		       $npegAtrib = array("size"=>"31","maxlength"=>"30","class"=>"");
+   		       echo $ctrlFrm->formText('n_peg', $n_peg, $npegAtrib);
+echo "
+            </dd>
+   	     </dl>
+   	     <dl>
+   	        <dt>&nbsp;</dt>
+   	        <dd class='dot2'>&nbsp;</dd>
+   	        <dd class='col-right3'>";
+   		       $buttonAtrib = array("class"=>"clcenter", "onClick" => "javascript:cariPegawai();");
+   		       echo $ctrlFrm->formSubmit('cari', 'CARI', $buttonAtrib); 
+echo "
+   	        </dd>
+   	     </dl>
+      </fieldset>
+   </form>
+   <table border='0' cellspacing='1' cellpadding='2' class='tbl2'>
+      <tr>
+	     <th>Nama</th>
+	     <th>NIP</th>
+	     <th>Unit Kerja</th>
+      </tr>";
+   if (count($pegawai)>0)
+   {
+      foreach ($pegawai as $key => $val)
+	  {
+         if ($key%2==0) 
+         { echo "<tr class='event'>"; }
+	     else if ($key%2==1) 
+	     { echo "<tr class='event2'>"; }
+	     $noUrut = $key+1;
+echo "
+	    <td class='clleft'>";?>
+		<a href="#" style="TEXT-DECORATION:none;color:black;" onClick="funcCariPegawaiBrws('<?=$val['nip']?>')"><?=$val['nama']?></a><?
+echo "
+	    </td>
+	    <td class='clcenter'>".$this->escape($val['nip'])."</td>
+	    <td class='clleft'>".$this->escape($val['unitKerja'])."</td>
+      </tr>";
+	  }
+    }
+echo "
+   </table>
+   <br>
+   <div class='closebox'>
+   <FORM>
+      <INPUT TYPE='BUTTON' VALUE='Tutup' onClick='window.close()'>
+   </FORM>
+   </div>
+   <div class='spacer'></div>
+</div>";
+?>   

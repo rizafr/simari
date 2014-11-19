@@ -1,0 +1,59 @@
+<SCRIPT src="<? echo $this->basePath;?>/js/jquery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="<? echo $this->basePath;?>/js/jquery.form.js" type="text/javascript"></SCRIPT>
+<script type="text/javascript">
+
+//melihat absensi
+
+ var optCmdSubmit1 = {target : '#tableview'};
+ jQuery('#frmViewAbsensiSearch').ajaxForm(optCmdSubmit1);
+
+ function commandSubmit1() {
+ 
+   jQuery('#perintah').bind('click',function () {
+                                       jQuery("#frmViewAbsensiSearch").ajaxSubmit(optCmdSubmit1); 
+									   return false;
+									 });
+ }
+
+ $("a[@class=newPage]").bind("click",searchabsview); //coba paging
+
+ function searchabsview() //coba paging
+{
+	var handler = '<?php echo $this->basePath; ?>/sdm/absensi/viewabsensisearch';
+	var currentPage = $(this).attr("currentPage");
+	var param1 = $(this).attr("param1");
+	var param2 = $(this).attr("param2");
+	var param3 = $(this).attr("param3");
+	var param4 = $(this).attr("param4");
+		
+	var opt = {currentPage : currentPage, param1 : param1, param2 : param2, param3 : param3 , param4 : param4};
+	jQuery.get(handler,opt,function(data) {
+		$("#tableview").html(data);
+		$("a[@class=newPage]").bind("click",searchabsview);
+	});
+
+}  
+
+
+
+ function viewAbsen1(nip) {
+	//alert ("Test"+nip);
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/absensi/viewdataabsensi?nip='+nip;
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ }  
+ 
+ function kembaliAbsen1() {
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/absensi/viewabsensisearch';
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ }   
+ 
+ 
+ 
+
+</script>

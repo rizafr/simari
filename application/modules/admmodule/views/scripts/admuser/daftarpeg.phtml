@@ -1,0 +1,150 @@
+<?php
+require_once 'Zend/View.php';
+
+$ctrlFrm = new Zend_View();
+?>
+<div id="backgroundPopup" >
+	<div id="popupContact">
+		<table width="100%" border="0" cellpadding="0" cellspacing="0">
+			<tr class="event">
+				<td>
+					<h2>Daftar Pegawai</h2>
+				</td>
+				<td>
+					<div class="delete" title="Close" onclick="closeDetil()"></div>
+				</td>
+			</tr>
+		</table>
+		<br>
+		<div class="search-panel">
+			<fieldset class="panel-form3">
+				<form method="post" name="frmCariUser2" id="frmCariUser2">
+					<table class="std" width="100%">
+						<tr>
+							<td align="center">
+								<?
+									$isiKategoriCari = array("n_peg" => "Nama",
+															"i_peg_nip" => "NIP",
+															"userid" => "User Id");
+									echo $ctrlFrm->formSelect('kategoriCari', $this->kategoriCari, null, $isiKategoriCari);
+								?>
+								&nbsp;: &nbsp;
+								<?php 
+									$kataKunciAtrib = array("size"=>"31",
+									"maxlength"=>"30",
+									"class"=>""
+									);
+									echo $ctrlFrm->formText('katakunciCari', $this->kataKunciCari, $kataKunciAtrib);
+								?>
+								&nbsp;
+								<? 
+								$buttonAtrib = array("onClick"=>"javascript:prosesCariPeg();");
+								echo $ctrlFrm->formSubmit('cari', 'Cari', $buttonAtrib); 
+								?>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</fieldset>
+		</div>
+		<br>
+	
+	
+	
+		
+		<div style="height:400px; overflow:auto">
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+				<tr>
+					<th width="10%">NIP</th>
+					<th width="30%">Nama</th>
+					<th width="10%">Golongan</th>
+					<th width="20%">Jabatan</th>
+					<th width="30%">Unitkerja</th>
+				</tr>
+				<?php
+				if(count($this->daftarPenanggungjawab)){
+					$noUrut = 1;
+					foreach ($this->daftarPenanggungjawab as $key => $val): 
+						$c_satker = trim($this->escape($val['c_satker']));
+						$n_satker = trim($this->escape($val['n_satker']));
+						$i_peg_nip = trim($this->escape($val['i_peg_nip']));
+						$i_peg_nip_new = trim($this->escape($val['i_peg_nip_new']));
+						$n_peg = trim($this->escape($val['n_peg']));
+						$n_peg_gelardepan = trim($this->escape($val['n_peg_gelardepan']));
+						$n_peg_gelarblkg = trim($this->escape($val['n_peg_gelarblkg']));
+						if($n_peg_gelardepan){
+							if($n_peg_gelarblkg){
+								$nPegLengkap = "$n_peg_gelardepan $n_peg, $n_peg_gelarblkg";
+							} else {
+								$nPegLengkap = "$n_peg_gelardepan $n_peg";
+							}
+						} else {
+							if($n_peg_gelarblkg){
+								$nPegLengkap = "$n_peg, $n_peg_gelarblkg";
+							} else {
+								$nPegLengkap = "$n_peg";
+							}
+						}
+						$c_golongan = trim($this->escape($val['c_golongan']));
+						$c_jabatan = trim($this->escape($val['c_jabatan']));
+						$n_jabatan = trim($this->escape($val['n_jabatan']));
+						$c_eselon_ii = trim($this->escape($val['c_eselon_ii']));
+						$c_eselon_iii = trim($this->escape($val['c_eselon_iii']));
+						$c_eselon_iv = trim($this->escape($val['c_eselon_iv']));
+						$c_eselon_v = trim($this->escape($val['c_eselon_v']));
+						$n_unitkerja = trim($this->escape($val['n_unitkerja']));
+						if ($key%2==0) { ?>
+							  <tr class="event">
+						<? } else if ($key%2==1) { ?>
+							  <tr class="event2">
+						<? }?>	
+							
+							<td>
+								<a href="javascript:setPenanggungjawab(<?php echo $noUrut; ?>)">
+								
+									<?php 
+									echo $i_peg_nip_new; 
+									echo $ctrlFrm->formHidden('iPegNip_'.$noUrut, $i_peg_nip, null);
+									echo $ctrlFrm->formHidden('iPegNipNew_'.$noUrut, $i_peg_nip_new, null);
+									?>
+								</a>
+							</td>
+							<td>
+								<?php 
+								echo $nPegLengkap; 
+								echo $ctrlFrm->formHidden('nPegLengkap_'.$noUrut, $nPegLengkap, null);
+								?>
+							</td>
+							<td>
+								<?php 
+								echo $c_golongan; 
+								echo $ctrlFrm->formHidden('cGolongan_'.$noUrut, $c_golongan, null);
+								?>
+							</td>
+							<td>
+								<?php 
+								echo $n_jabatan; 
+								echo $ctrlFrm->formHidden('nJabatan_'.$noUrut, $n_jabatan, null);
+								echo $ctrlFrm->formHidden('cJabatan_'.$noUrut, $c_jabatan, null);
+								?>
+							</td>
+							<td>
+								<?php 
+								echo $n_unitkerja; 
+								echo $ctrlFrm->formHidden('nUnitkerja_'.$noUrut, $n_unitkerja, null);
+								?>
+							</td>
+						</tr>
+				<?php	
+						$noUrut++;
+					endforeach;
+				} else {
+				?>
+					<tr class="event2"><td colspan="13"><font color="red">Data Tidak Ditemukan</font></td></tr>
+				<?php
+				}
+				?>
+			</table>
+		</div>
+	</div>
+</div>	

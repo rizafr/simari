@@ -1,0 +1,49 @@
+var maintain_photo = {
+
+ 	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formphoto;
+		astr= "document.formphoto";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{				
+				if((!i_peg_nip.value)){cekVal = sdmValidasiData(astr,"a_file","Nip Kosong....!");return false;break;}		
+				 break;
+			}
+		}		
+	}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formphoto").ajaxForm(maintain_photo);
+		return false;
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/dataphoto/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+
+
+function insertPhoto(){
+	jQuery("#formphoto").ajaxForm(maintain_photo);
+}
+function setvalueuplfile(v,n,f) { 
+	  if (f!="") {
+	    var pass=false;
+	    var af=f.split("/");
+        var nval=eval("document.forms[0]."+n);
+		var ext=v.substring(v.lastIndexOf(".")+1,v.length);
+		if ((ext==f)||(ext=='png')||(ext=='gif')||(ext=='JPG')||(ext=='GIF')||(ext=='PNG')){ 
+		document.forms[0].a_file.value=v; 
+		}
+		else{
+		  alert ("Hanya untuk file berekstensi '"+f+"',jpg,gif,png ");
+		  nval.value="";
+		  document.forms[0].a_file.value=""; 
+		  return;	  
+		}
+	  }
+}
+

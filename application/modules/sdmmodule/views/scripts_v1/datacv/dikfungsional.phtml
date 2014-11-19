@@ -1,0 +1,57 @@
+<? 
+require_once 'Zend/View.php';
+require_once 'share/tanggal.php'; 
+   
+$ctrlDate = new tanggal();   
+$ctrlFrm = new Zend_View();
+$jumPelatihanList=count($this->dikFungList);    
+if ($jumPelatihanList == 0) {
+		echo "<font color=\"red\">Data Diklat Fungsional Tidak Ditemukan</font>";
+}
+?>
+<table align="center" border="0" cellspacing="1" cellpadding="2" class="tbl">
+				<tr>
+			    <th width="15%">Jenis Pelatihan</th>
+				<th width="15%">Kelompok</th>
+				<th width="15%">Nama</th>
+				<th width="8%">Lama</th>
+				<th width="15%">Penyelenggara</th>
+				<th width="15%">Sertifikat</th>
+				</tr>
+
+<?
+	if ($jumPelatihanList == 0) {
+	
+?>				<tr class="event">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				</tr>
+<? } else { ?>				
+		<?php foreach ($this->dikFungList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+				<? 
+					$nip=trim($this->escape($val['i_peg_nip']));
+
+				?>
+					
+				<td>
+					<a href="#" onclick="detilLatih('<?=$nip?>','<?=trim($this->escape($val['c_jns_fungsional']))?>','<?=trim($this->escape($val['c_kel_pelatihan']))?>','<?=trim($this->escape($val['c_jns_kelompok']))?>','<?=trim($this->escape($val['c_nama_kelompok']))?>')"><?php echo $this->escape($val['n_jns_fungsional']);?></a>
+				</td>
+				<td><?php echo $this->escape($val['n_kel_pelatihan']);?></td>
+				<td class="clleft"><?php echo $this->escape($val['n_nama_kelompok']);?></td>
+				<td class="clcenter"><?php echo $this->escape($val['q_pelatihan']);?></td>
+				<td class="clleft"><?php echo $this->escape($val['n_penyelenggara']);?></td>
+				<td class="clcenter"><?php echo $this->escape($val['i_sertifikat']);?><br><?php echo $this->escape($val['d_sertifikat']);?></td>
+			
+		  </tr>
+	<?php endforeach;?> 	
+	<? } ?>
+	</table>									

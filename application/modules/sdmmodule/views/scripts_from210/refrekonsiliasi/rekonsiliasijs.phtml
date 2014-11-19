@@ -1,0 +1,11 @@
+function tampilRekonsiliasi(par){
+	var tahun= document.getElementById('tahun').value;
+	var unit=document.getElementById('unit').value;
+	alert("Tahun : "+tahun+" Unit Kerja : "+unit);
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/refrekonsiliasi/listrekonsiliasi';
+	
+		var opt = {par:par, tahun:tahun, unit:unit};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+			 });
+};

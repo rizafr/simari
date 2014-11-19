@@ -1,0 +1,103 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+/* 		jQuery("#d_test_akademik").datepicker();
+		jQuery("#d_tmt_berlaku").datepicker(); */
+		$( "#d_test_akademik" ).datepicker({	changeMonth: true,changeYear: true});
+		$( "#d_tmt_berlaku" ).datepicker({	changeMonth: true,changeYear: true});
+		
+	});
+</script>
+		   <div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datatpa/listtpa','');">Data Potensi Akademik</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Data Potensi Akademik
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Data Potensi Akademik</h2>
+<div class="boxholder">
+		<div class="search-panel">
+			<?php include "$this->leftMenu/toplink.phtml";?>
+		</div>	
+	<br>	
+<form id="formtpa" method="post" name="formtpa">		
+	<div class="panel">
+		<div class="spacer"></div> 
+				<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+
+				<tr>
+					<td>Tujuan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="e_tujuan_akademik" id="e_tujuan_akademik" value="<?=$this->e_tujuan_akademik?>" size="70">
+					</td>
+				</tr>
+				<tr>
+					<td>Nilai<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="q_nilai_akademik" id="q_nilai_akademik" value="<?=$this->q_nilai_akademik?>" size="10">
+					</td>
+				</tr>				
+				<tr>
+					<td>Tanggal Test<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_test_akademik" id="d_test_akademik" value="<?=$this->d_test_akademik?>" size="10">
+						<span class="hightlight">dd-mm-yyyy</span>
+						<input type="hidden" name="d_test_akademik2" id="d_test_akademik2" value="<?=$this->d_test_akademik?>" size="10">
+					</td>
+				</tr>			
+				<tr>
+					<td>Tanggal Berlaku</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_tmt_berlaku" id="d_tmt_berlaku" value="<?=$this->d_tmt_berlaku?>" size="10">
+						<span class="hightlight">dd-mm-yyyy</span>
+					</td>
+				</tr>
+
+				<tr>
+					<td>Lembaga Penyelenggara</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="n_penyelenggara_akademik" id="n_penyelenggara_akademik" value="<?=$this->n_penyelenggara_akademik?>" size="80">
+					</td>
+				</tr>				
+</table>				
+</div>
+<br>
+	<div class="panel">
+		<div class="spacer"></div> 				
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">				
+				<tr>
+					<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datatpa/listtpa','');"> 
+							<input type="submit" value="<?=$this->par;?>" onClick="insertTpa()">
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+</div>
+	</form>

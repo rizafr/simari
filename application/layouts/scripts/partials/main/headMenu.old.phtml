@@ -1,0 +1,53 @@
+<div id="cont-nav">
+	<div id="nav-top">
+			<div class="username">Nama User | <a href="./">Logout</a></div>
+			<div class="crdate"><span id="servertime"></span></div>
+	</div>		
+	<div id="nav">
+				<h2 class="accessibility">Navigation</h2>
+					<ul class="nav">
+					  <li>
+					    <a class="" href="#">EIS</a>
+					    <ul>
+					      <li><a href="keuangan/">Sistem Informasi Keuangan</a></li>
+					      <li><a href="astmodule">Sistem Informasi Aset</a></li>
+					      <li><a href="logistikmodule">Sistem Informasi Logistik</a></li>
+					      <li><a href="sdm">Sistem Informasi SDM</a></li>
+
+					      <li><a href="#">Sistem Informasi Perencanaan</a></li>
+					      <li><a href="#">Sistem Informasi SIAP</a></li>
+					      <li><a href="#">Sistem Informasi Komunikasi Data</a></li>
+				        </ul>
+					  <li><a href="#tentangkami" onclick="showDetil('<?php echo $this->basePath; ?>/portalmodule/tentangkami/tentangkamidetil','1','Tentang Kami')">Tentang Kami</a></li>
+					  <li><a href="#kontakkami" onclick="showDetil('<?php echo $this->basePath; ?>/portalmodule/kontakkami/kontakkamidetil','1','Kontak Kami')">Kontak Kami</a></li>
+					  <li><a href="#indeksberita" onclick="goExec_Script('<?php echo $this->basePath; ?>/portalmodule/berita/indeksberita','<?php echo $this->basePath; ?>/portalmodule/berita/beritajs', 'Berita')">Berita</a></li>
+					  <li><a href="#indekspengumuman" onclick="goExec_Script('<?php echo $this->basePath; ?>/portalmodule/pengumuman/indekspengumuman','<?php echo $this->basePath; ?>/portalmodule/pengumuman/pengumumanjs', 'Pengumuman')">Pengumuman</a></li>
+					  <li ><a href="#">Chat</a></li>
+					  <li ><a href="#">Produk Hukum</a>
+<?php
+$jumkategoriprodukhukumPubList = count($this->kategoriprodukhukumPubList); 
+//echo "n=".$jumkategoriprodukhukumPubList;    
+if ($jumkategoriprodukhukumPubList!=0) {
+//  if ($jumkategoriprodukhukumPubList > 10) $end=10; 
+//  else $end=$jumkategoriprodukhukumPubList-1;
+echo" 		<ul class=\"nostyle\">\n";
+ foreach ($this->kategoriprodukhukumPubList as $val): 
+$dat = $listtmkategoriprodukhukum[$i];
+	$objtmkategoriprodukhukum = unserialize($dat); 
+$idkategoriprodukhukum=trim($this->escape($val['c_kategori']));
+$jdlkategoriprodukhukum=trim($this->escape($val['n_judul']));
+
+ ?>		
+	               <li><a href="#" onclick="goExec_ScriptId('<?php echo $this->basePath; ?>/portalmodule/produkhukum/indeksprodukhukum','<?php echo $idkategoriprodukhukum;?>','<?php echo $this->basePath; ?>/portalmodule/produkhukum/produkhukumjs', 'Produk Hukum')"><?php echo $jdlkategoriprodukhukum;?></a></li>
+ 
+	<?php endforeach;?> 	
+	             </ul>
+<?php } ?>		     
+					  
+					  </li>
+					  <li ><a href="/cms">CMS</a></li>
+					  <li ><a href="#">Administrasi User</a></li>
+					  
+					</ul>
+   </div>
+   </div>

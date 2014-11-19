@@ -1,0 +1,14 @@
+<?php 
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+
+	$jmlgolref = count($this->statusGolRef);												   
+	$golonganReff[''] = '--Pilih--';
+	for ($i = 0; $i < $jmlgolref; $i++) {
+		$n_peg_pangkat=trim($this->statusGolRef[$i]['n_peg_pangkat']);
+		$c_peg_golongan=trim($this->statusGolRef[$i]['c_peg_golongan']);
+		$n_peg_golongan=trim($this->statusGolRef[$i]['n_peg_golongan']);											
+		$golonganReff[trim($c_peg_golongan)."-".$n_peg_golongan] = $n_peg_pangkat;											   
+	}												 
+	echo $ctrlFrm->formSelect('c_gol_cpns', $this->c_gol_cpns, null, $golonganReff);
+?>

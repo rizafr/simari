@@ -1,0 +1,17 @@
+<div class="navlink">
+	<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+	<strong> &#8250; </strong>Import Data
+</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+</div>
+
+
+<h2>Import Data</h2>
+<div class="panel">
+	<form id="formimport" method="post" name="formimport" enctype="multipart/form-data" action="">
+	Silakan Pilih File Excel: <input name="userfile" type="file" size="70">
+	<input name="upload" type="submit" value="Import" onclick="uploadData()">
+	</form>
+</div>	

@@ -1,0 +1,59 @@
+
+function SeminarM(par,dSeminar){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/dataseminar/seminar"	
+	var opt = {par:par,dSeminar:dSeminar};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#formseminar").ajaxForm(maintain_seminar);
+		});		
+} 
+var maintain_seminar = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formseminar;
+		astr= "document.formseminar";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/				
+				if((!n_seminar.value)){cekVal = sdmValidasiData(astr,"n_seminar","Nama seminar harus diisi....!");return false;break;}
+				if((!n_seminar_peran.value)){cekVal = sdmValidasiData(astr,"n_seminar_peran","Peran harus diisi....!");return false;break;}
+				if((!d_mulai_seminar.value)){cekVal = sdmValidasiData(astr,"d_mulai_seminar","Tanggal Mulai harus diisi....!");return false;break;}
+				if((!d_akhir_seminar.value)){cekVal = sdmValidasiData(astr,"d_akhir_seminar","Tanggal Akhir harus diisi....!");return false;break;}
+				if (d_akhir_seminar.value && d_mulai_seminar.value){
+					cekVal = compareDate(d_mulai_seminar.value,d_akhir_seminar.value);
+					if (cekVal == false) {return false;break;}						
+				}
+				 break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formseminar").ajaxForm(maintain_seminar);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/dataseminar/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+function insertSeminar(){
+	jQuery("#formseminar").ajaxForm(maintain_seminar);
+}
+
+function HapusDataSeminar(nip,dSeminar)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/dataseminar/hapusdata"
+		var opt = {nip:nip,dSeminar:dSeminar};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}

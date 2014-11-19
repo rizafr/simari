@@ -1,0 +1,10 @@
+<?php 
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+	$jmljabList=count($this->nmJabatanList);										
+	$jabList[''] = '--Pilih--';
+	for ($i = 0; $i < $jmljabList; $i++) {
+		$jabList[(string)$this->nmJabatanList[$i]['c_jabatan']] = (string)$this->nmJabatanList[$i]['n_jabatan'];			 
+		}
+	echo $ctrlFrm->formSelect('c_jabatan_jabdiv',$this->c_jabatan_jabdiv,null,$jabList); 
+?>

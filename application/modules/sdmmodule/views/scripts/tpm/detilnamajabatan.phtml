@@ -1,0 +1,45 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$jmlnmJabatanList = count($this->nmJabatanList);  
+?>
+						   <table align="center" border="0" cellspacing="1" cellpadding="2" class="tbl2">
+								<tr>
+									<th class="nosort" width="4%">No.</th>
+									<th>Nama Jabatan</th>
+								</tr> 
+<? 		if ($jmlnmJabatanList == 0) {?>
+								<tr class="event">
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>	
+<?		}else{
+				foreach ($this->nmJabatanList as $key => $val):  
+										if ($key%2==0) { ?>
+										<tr class="event">
+										<? } else if ($key%2==1) { ?>
+										<tr class="event2">
+										<? } 
+										$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
+										?>
+											<td class="clcenter"><?php echo $noUrut;?></td>											
+											<td><a href="#" class="link" onclick="pilihData('<?php echo $this->escape($val['c_jabatan']);?>','<?php echo $this->escape($val['n_jabatan']);?>','<?php echo $this->escape($val['c_eselon']);?>')"><?php echo $this->escape($val['n_jabatan']);?></a></td>
+
+											
+										</tr>
+<?php 
+				endforeach;}
+?>
+							
+							</table>
+	
+<script>
+function pilihData(cJabat,nJabat,cEselon){
+	document.getElementById('n_jabatan').value=nJabat;
+	document.getElementById('usulan_keterangan').value=cJabat;	
+	document.getElementById('c_eselon_b').value=cEselon;
+	closeDetil();
+}
+</script>

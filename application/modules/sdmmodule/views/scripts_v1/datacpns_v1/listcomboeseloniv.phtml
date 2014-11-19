@@ -1,0 +1,11 @@
+<?
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+$jmleselonivList=count($this->eselonivList);
+$eselonivList[''] = '--Pilih--';
+for ($i = 0; $i < $jmleselonivList; $i++) {
+	$eselonivList[(string)$this->eselonivList[$i]->c_eselon_iv." ".(string)$this->eselonivList[$i]->n_unitkerja] = (string)$this->eselonivList[$i]->n_unitkerja;			 
+}
+$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iv_cpns","onChange"=>"javascript:cariEselon('targeteslv')");  	
+echo $ctrlFrm->formSelect('c_eselon_iv_cpns',$this->c_eselon_iv_cpns,$eslAtrib,$eselonivList); 	
+?>

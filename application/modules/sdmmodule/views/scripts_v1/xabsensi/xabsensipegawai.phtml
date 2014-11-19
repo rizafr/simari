@@ -1,0 +1,314 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php';
+   require_once 'share/oa_page.php';
+   
+   $ctrlFrm = new Zend_View();
+   $convDate = new oa_date();
+   $halaman = new oa_page();
+   $bulanDesc = array("01"=>"Januari",
+                      "02"=>"Februari",
+                      "03"=>"Maret",
+                      "04"=>"April",
+                      "05"=>"Mei",
+                      "06"=>"Juni",
+                      "07"=>"Juli",
+                      "08"=>"Agustus",
+                      "09"=>"September",
+                      "10"=>"Oktober",
+                      "11"=>"November",
+                      "12"=>"Desember");
+	$hari = array("Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu");
+    $itThawl = $this->itThawl; 
+	$itBlawl = $this->itBlawl;
+	$itTgawlLst = $this->itTgawlLst;
+	$itThakr = $this->itThakr;
+	$itBlakr = $this->itBlakr;
+	$itTgakrLst = $this->itTgakrLst;
+	$itTgawl = $this->itTgawl;
+	$itTgakr = $this->itTgakr;
+    $itNip = $this->itNip;
+	$itNama = $this->itNama;
+	$serviceE = $this->serviceE;
+	$idORG = $this->org;
+	//echo "xxxorganisasi:".$idORG;
+    $jmlUnitKerjaList = count($this->unitKerjaList);
+	for ($i=0; $i<$jmlUnitKerjaList; $i++)
+	{
+	   $orgList[(string)$this->unitKerjaList[$i]['i_orgb']] = (string)$this->unitKerjaList[$i]['n_orgb'];
+	}
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'absensi');
+   echo $this->render('absensijs.phtml'); 
+   
+
+echo "
+<div class='contentdata-modul' id='modul'>
+	<div class='navlink'>
+		<a  href='".$this->basePath."/home/index/main'>Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Absensi
+		<strong> &#8250; </strong> Melihat Absensi Pegawai
+	</div>
+	<h3 class='title'>Melihat Absensi Pegawai</h3>
+	<div class='spacer'></div>
+	<a name='top'></a>
+	
+	<div class='search-panel'>
+		<fieldset class='panel-form4'>
+			<form id='fiRekapAbsensiPeg' method='post' name='fnRekapAbsensiPeg'>
+				<dl>
+					<dt>Unit Kerja</dt>
+					<dd class='dot2'>:</dd> 
+					<dd class='col-right4'>";
+						echo $ctrlFrm->formSelect('idORG', $idORG, null, $orgList);
+						echo $ctrlFrm->formHidden('c',$this->category,null);
+echo "
+					</dd> 
+				</dl>
+				<dl>
+					<dt class='col-right2'>Nip / Nama </dt>";
+					//$ctrlFrm->formSelect('sKatagori', $sKatagori, null, $kategoriList)."</dt>
+echo "
+					<dd class='dot2'>:</dd> 
+					<dd class='col-right4'>";
+						
+						echo $ctrlFrm->formText('itNip', $itNip, $this->nippegAtr);
+						echo $ctrlFrm->formText('itNama', $itNama, $this->namapegAtr);
+						echo $ctrlFrm->formButton('ibiCariPeg', "cari pegawai", $this->btnAttr);
+echo "
+					</dd> 
+				</dl>";
+echo "
+				<dl>
+					<dt>Periode</dt>
+					<dd class='dot2'>:</dd> 
+					<dd class='col-right4'>";
+					    $thAtr = array ("style"=>"width:35px",
+						                    "maxlength"=>"4");
+						echo $ctrlFrm->formText('itThawl', $itThawl, $thAtr)."&nbsp;";
+						echo $ctrlFrm->formSelect('itBlawl', $itBlawl, null, $bulanDesc)."&nbsp; ";
+						echo "<span id='tdiTgAwl'>".
+						$ctrlFrm->formSelect('itTgawl', $itTgawl, null, $itTgawlLst)."</span>&nbsp; S/D &nbsp;";
+						echo $ctrlFrm->formText('itThakr', $itThakr, $thAtr)."</span>&nbsp;";
+						echo $ctrlFrm->formSelect('itBlakr', $itBlakr, null, $bulanDesc)."&nbsp; ";
+						echo "<span id='tdiTgAkr'>".
+						$ctrlFrm->formSelect('itTgakr', $itTgakr, null, $itTgakrLst)."</span>";
+echo "
+					</dd> 
+				</dl>
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd class='dot2'>&nbsp;</dd> 
+					<dd class='col-right3'>
+				    <input type='submit' id='iiCariPegAbsensi' class='isCariPegAbsensi' value='Cari' onClick='ioCariPegAbsensi()'>
+					</dd> 
+				</dl>
+			</form>
+		</fieldset>
+	</div> 
+	
+	<div class='space-line'></div>
+	
+	<fieldset class='fields'>
+		<div class='title2'>Melihat Absensi Pegawai</div>
+		<div class='clright'>
+		<img src='".$this->basePath."/images/excel.gif' id='iiCetakXcl' class='link'>
+		<img src='".$this->basePath."/images/pdf.gif' id='iiCetakPdf' class='link'>
+		</div>";
+echo "
+		<div class='blank'></div>
+		<table align='center' width='90%' border='0' cellspacing='1' cellpadding='2' class='tbl'>
+			<tr>
+				<th>No</th>			
+				<th>Tanggal</th>
+				<th>Hari</th>
+				<th>Masuk</th>
+				<th>Keluar Ijin Dinas</th>
+				<th>Keluar Ijin Pribadi</th>
+				<th>Masuk dr Ijin</th>
+				<th>Masuk dr Istirahat</th>
+				<th>Keluar/Pulang</th>
+				<th>Mulai Lembur</th>
+				<th>Pulang Lembur</th>
+				<th>Jam Hadir Kerja (jam)</th>
+				<th>Jam Lembur</th>
+				<th>Mns Jam Kerja (mnt)</th>
+				<th>Nomor Surat</th>
+				<th>Tanggal Entry</th>
+			</tr>";
+			$noUrut = 0;
+			$jmlHariHtg = $serviceE->hitungHari($itTgawl.$itBlawl.$itThawl,$itTgakr.$itBlakr.$itThakr);
+			//echo "$jmlHariHtg | $itTgawl | ";
+			for ($i=$itTgawl; $i<=$itTgawl + $jmlHariHtg; $i++)
+            {   
+			    $noUrut++;
+				
+                $thnmulai = date("Y", mktime(0, 0, 0, $itBlawl, $i, $itThawl));
+                $blnmulai = date("m", mktime(0, 0, 0, $itBlawl, $i, $itThawl));
+                $tglmulai = date("d", mktime(0, 0, 0, $itBlawl, $i, $itThawl));
+                $harimulai = date("w", mktime(0, 0, 0, $itBlawl, $i, $itThawl));
+				$jamHariKerja = $this->serviceE->getJamHariKerja($tglmulai.$blnmulai.$thnmulai);
+				$jamAwalkerja = $jamHariKerja['d_jamkerja_mulai'];
+				$jamAkhirkerja = $jamHariKerja['d_jamkerja_selesai'];
+				$jamAwalBreak = $jamHariKerja['d_jamistrht_mulai'];
+				$jamAkhirBreak = $jamHariKerja['d_jamistrht_selesai'];
+                $jmKerja = (mktime(substr($jamAkhirkerja,0,2), substr($jamAkhirkerja,3,2), 00, $itBlawl, $i, $itThawl)-mktime(substr($jamAwalkerja,0,2), substr($jamAwalkerja,3,2), 00, $itBlawl, $i, $itThawl))/60;
+                //$jmBreak = (mktime(substr($jamAkhirBreak,0,2), substr($jamAkhirBreak,3,2), 00, $itBlawl, $i, $itThawl)-mktime(substr($jamAwalBreak,0,2), substr($jamAwalBreak,3,2), 00, $itBlawl, $i, $itThawl))/60;
+				//$jmMurni = $jmKerja - $jmBreak;
+				if ($jmKerja>0) { $jmMurni = $jmKerja - 45; }
+				else { $jmMurni = 0; }
+				if (($i < 10) && ($i!=1)) { $tgllbr = '0'.$i; } 
+				else { $tgllbr = $i; }
+				$harilibur = $this->serviceE->getJamHariKerja($tgllbr.$itBlawl.$itThawl);
+				//echo "hari libur : ".$harilibur['d_jamkerja_mulai'];
+			    //if (($harimulai=="0") || ($harimulai=="6"))
+				if ($harilibur['d_jamkerja_mulai']=='')
+				{ $warna = "red"; }
+				else { $warna = "blue"; }
+				if ($key%2==0) 
+				{ echo "<tr class='event' style='color:$warna'>"; } 
+				else if ($key%2==1) 
+				{ echo "<tr class='event2' style='color:$warna'>"; } 
+				$pegKerjaIn = $this->serviceE->getAbsensiPegawai($itNip,$tglmulai.$blnmulai.$thnmulai,"01");
+				$pegKerjaOt = $this->serviceE->getAbsensiPegawai($itNip,$tglmulai.$blnmulai.$thnmulai,"02");
+				$pegKerjaOtPulang = $this->serviceE->getAbsensiPegawai($itNip,$tglmulai.$blnmulai.$thnmulai,"03");
+				$pegBreakStDinas = $this->serviceE->getAbsensiPegawai($itNip,$tglmulai.$blnmulai.$thnmulai,"04");
+				$pegBreakStPribadi = $this->serviceE->getAbsensiPegawai($itNip,$tglmulai.$blnmulai.$thnmulai,"05");
+				$pegBreakFn = $this->serviceE->getAbsensiPegawai($itNip,$tglmulai.$blnmulai.$thnmulai,"06");
+				$lemburSt = $this->serviceE->getAbsensiPegawai($itNip,$tglmulai.$blnmulai.$thnmulai,"07");
+				$lemburFn = $this->serviceE->getAbsensiPegawai($itNip,$tglmulai.$blnmulai.$thnmulai,"08");
+				
+				
+				$pegIn = substr($pegKerjaIn['d_peg_jam'],0,5);
+				$termIn = $pegKerjaIn['i_term'];
+				$pegOt = substr($pegKerjaOt['d_peg_jam'],0,5);
+				$termOt = substr($pegKerjaOtPulang['d_peg_jam'],0,5);
+				$brkStDinas = substr($pegBreakStDinas['d_peg_jam'],0,5);
+				$brkStPribadi = substr($pegBreakStPribadi['d_peg_jam'],0,5);
+				$lbrSt = substr($lemburSt['d_peg_jam'],0,5);
+				$lbrFn = substr($lemburFn['d_peg_jam'],0,5);
+			
+				$brkTrmSt = $pegBreakSt['i_term'];
+				$brkFn = substr($pegBreakFn['d_peg_jam'],0,5);
+				$brkTrmFn = $pegBreakFn['i_term'];
+				if ($pegIn=="") { $pegIn="00:00"; }
+				if ($pegOt=="") { $pegOt="00:00"; }
+				if ($termOt=="") 
+				{ 
+					$termOt="00:00"; 
+					$termOtHitungan="17:00"; 
+				}
+				//$jamHadir = (mktime(substr($pegOt,0,2), substr($pegOt,3,2), 00, $itBlawl, $i, $itThawl)-mktime(substr($pegIn,0,2), substr($pegIn,3,2), 00, $itBlawl, $i, $itThawl))/60;
+				$jamBreak = 45;
+				if($pegIn=="00:00")
+				{
+					$jamHadir = 0;
+					$jamHadirKerjaMenit = 0;
+					$jamHadirKerja = 0;
+					$jamHadirKerja1 = 0;
+				}
+				else
+				{
+					$jamHadir = (mktime(substr($termOtHitungan,0,2), substr($termOtHitungan,3,2), 00, $itBlawl, $i, $itThawl)-mktime(substr($pegIn,0,2), substr($pegIn,3,2), 00, $itBlawl, $i, $itThawl))/60;
+					$jamHadirKerjaMenit = ($jamHadir - $jamBreak);
+					$jamHadirKerja = floor(($jamHadir - $jamBreak)/60);
+					$jamHadirKerja1 = ($jamHadir - $jamBreak)%60;
+				}
+				//$jamBreak = (mktime(substr($brkFn,0,2), substr($brkFn,3,2), 00, $itBlawl, $i, $itThawl)-mktime(substr($brkSt,0,2), substr($brkSt,3,2), 00, $itBlawl, $i, $itThawl))/60;
+				
+				
+				
+				
+				
+				$jamLembur = (mktime(substr($lbrFn,0,2), substr($lbrFn,3,2), 00, $itBlawl, $i, $itThawl)-mktime(substr($lbrSt,0,2), substr($lbrSt,3,2), 00, $itBlawl, $i, $itThawl))/60;
+				$jamHadirLembur = floor($jamLembur/60);
+				$jamHadirLembur1 = $jamLembur%60;
+				
+				if($hari[$harimulai] == "Jum'at")
+				{
+					$jamWajib = (7*60)+45;
+				}
+				else
+				{
+					$jamWajib = (8*60)+45;
+				}
+				
+				$jamHadirKerjaSlsh = $jamHadirKerjaMenit - $jamWajib;
+				if ((int)$jamHadirKerjaSlsh>0)
+				{ 
+				  $lbhKerja = $jamHadirKerjaSlsh; 
+				  $krgKerja = 0;
+				}
+				else
+				{ 
+				  $lbhKerja = 0; 
+				  $krgKerja = ($jamHadirKerjaSlsh*-1);
+				}
+				if ((int)$jamBreak>60) $krgBreak = $jamBreak - 60;
+				else $krgBreak = 0;
+				$ijin = $this->serviceE->getIjinByNip($itNip,$tglmulai.$blnmulai.$thnmulai);
+				$surat = $ijin['i_no_surat_ijin'];
+				if ($ijin['d_entry']!="")
+				{
+				   $tglsurat = substr($ijin['d_entry'],8,2)."-".substr($ijin['d_entry'],5,2).
+				   "-".substr($ijin['d_entry'],0,4);
+				   $krgKerja = 0;
+				}   
+				else $tglsurat="";
+echo "
+				<td class='clright'>&nbsp;".$noUrut."</td>
+				<td class='clcenter'>".$tglmulai."-".$blnmulai."-".$thnmulai."</td>
+				<td class='clcenter'>".$hari[$harimulai]."</td>
+				<td class='clcenter'>".$pegIn."</td>
+				<td class='clcenter'>".$brkStDinas."</td>
+				<td class='clcenter'>".$brkStPribadi."</td>
+				<td class='clcenter'>".$brkFn."</td>";
+				
+				if($pegOt != "00:00")
+				{
+					echo "<td class='clcenter'>".$pegOt."</td>";
+				}
+				else
+				{
+					echo "<td class='clcenter'>&nbsp;</td>";
+				}
+				
+echo "				<td class='clcenter'>".$termOt."</td>
+				<td class='clcenter'>".$lbrSt."</td>
+				<td class='clcenter'>".$lbrFn."</td>
+				<td class='clcenter'>".$jamHadirKerja.":".$jamHadirKerja1."</td>
+				<td class='clcenter'>".$jamHadirLembur.":".$jamHadirLembur1."</td>
+				<td class='clcenter'>".$krgKerja."</td>
+				<td class='clcenter'>".$surat."</td>
+				<td class='clcenter'>".$tglsurat."</td>";
+/*				
+echo "
+				<td class='clright'>&nbsp;".$noUrut."</td>
+				<td class='clcenter'>".$tglmulai."-".$blnmulai."-".$thnmulai."</td>
+				<td class='clcenter'>".$hari[$harimulai]."</td>
+				<td class='clcenter'>".$pegIn."</td>
+				<td class='clcenter'>".$termIn."</td>
+				<td class='clcenter'>".$brkSt."</td>
+				<td class='clcenter'>".$brkTrmSt."</td>
+				<td class='clcenter'>".$brkFn."</td>
+				<td class='clcenter'>".$brkTrmFn."</td>
+				<td class='clcenter'>".$pegOt."</td>
+				<td class='clcenter'>".$termOt."</td>
+				<td class='clcenter'>".$jmMurni."</td>
+				<td class='clcenter'>".$jamHadirKerja."</td>
+				<td class='clcenter'>".$lbhKerja."</td>
+				<td class='clcenter'>".$krgKerja."</td>
+				<td class='clcenter'>".$krgBreak."</td>
+				<td class='clcenter'>".$surat."</td>
+				<td class='clcenter'>".$tglsurat."</td>";
+*/				
+echo "
+			</tr>";
+			}
+echo "      </table>";
+echo "
+	</fieldset>
+    <div class='blank'></div>
+</div>";
+	
+?>	

@@ -1,0 +1,131 @@
+<?php 
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+?>
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%" id="listcombo">
+				<tr>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b><u>UNIT KERJA</u></b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td width="30%">Lokasi</td>
+								<td width="2%">:</td> 
+								<td>					
+									<?
+										$jmlLokList=count($this->lokasiList);
+										$lokList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmlLokList; $i++) {
+												$lokList[(string)$this->lokasiList[$i]->c_lokasi] = (string)$this->lokasiList[$i]->n_lokasi;			 
+											}
+										$lokAtrib = array("style"=>"width: 300px","id"=>"c_lokasi_unitkerja_cpns","onChange"=>"javascript:cariEselon('targetesli')"); 
+										echo $ctrlFrm->formSelect('c_lokasi_unitkerja_cpns',$this->c_lokasi_unitkerja_cpns,$lokAtrib,$lokList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon I</td>
+								<td>:</td> 
+								<td id="targetesli">					
+									<?
+										$jmleseloniList=count($this->eseloniList);
+										$eseloniList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniList; $i++) {
+												$eseloniList[(string)$this->eseloniList[$i]->c_eselon_i." ".(string)$this->eseloniList[$i]->n_unitkerja] = (string)$this->eseloniList[$i]->n_unitkerja;			 
+											}
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_i_cpns","onChange"=>"javascript:cariEselon('targeteslii')");  	
+										echo $ctrlFrm->formSelect('c_eselon_i_cpns',$this->c_eselon_i_cpns,$eslAtrib,$eseloniList); 							
+									?>
+								</td>
+							</tr>
+							<tr id="targetesliix">
+								<td width="30%">Eselon II</td>
+								<td width="2%">:</td> 
+								<td id="targeteslii">				
+									<?
+										$jmleseloniiList=count($this->eseloniiList);
+										$eseloniiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiList; $i++) {
+												$eseloniiList[(string)$this->eseloniiList[$i]->c_eselon_ii." ".(string)$this->eseloniList[$i]->n_unitkerja] = (string)$this->eseloniiList[$i]->n_unitkerja;
+											}
+										if ($ceseloncpns>=3){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_ii_cpns","onChange"=>"javascript:cariEselon('targetesliii')");}
+										else {$eslAtrib = array("style"=>"width: 300px","disabled"=>"true","id"=>"c_eselon_ii_cpns","onChange"=>"javascript:cariEselon('targetesliii')");}
+										echo $ctrlFrm->formSelect('c_eselon_ii_cpns',$this->c_eselon_ii_cpns,$eslAtrib,$eseloniiList); 							
+									?>
+								</td>
+							</tr>						
+							<tr id="targetesliiix">
+								<td width="30%">Eselon III</td>
+								<td width="2%">:</td> 
+								<td id="targetesliii">					
+									<?
+										$jmleseloniiiList=count($this->eseloniiiList);
+										$eseloniiiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiiList; $i++) {
+												$eseloniiiList[(string)$this->eseloniiiList[$i]->c_eselon_iii." ".(string)$this->eseloniList[$i]->n_unitkerja] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+											}
+										
+										if ($ceseloncpns>=5){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii_cpns","onChange"=>"javascript:cariEselon('targetesliv')");  	}										
+										else{	$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii_cpns","disabled"=>"true","onChange"=>"javascript:cariEselon('targetesliv')");}
+										
+										echo $ctrlFrm->formSelect('c_eselon_iii_cpns',$this->c_eselon_iii_cpns, $eslAtrib, $eseloniiiList); 							
+									?>
+								</td>
+							</tr>
+							<tr id="targeteslivx">
+								<td>Eselon IV</td>
+								<td>:</td> 
+								<td id="targetesliv">				
+									<?
+										$jmleselonivList=count($this->eselonivList);
+										$eselonivList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonivList; $i++) {
+												$eselonivList[(string)$this->eselonivList[$i]->c_eselon_iv." ".(string)$this->eseloniList[$i]->n_unitkerja] = (string)$this->eselonivList[$i]->n_unitkerja;			 
+											}
+										if ($ceseloncpns>=7){
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iv_cpns","onChange"=>"javascript:cariEselon('targeteslv')"); 
+										}
+										else{
+										$eslAtrib = array("style"=>"width: 300px","disabled"=>"true", "id"=>"c_eselon_iv_cpns","onChange"=>"javascript:cariEselon('targeteslv')"); 
+										}
+										
+										
+										echo $ctrlFrm->formSelect('c_eselon_iv_cpns',$this->c_eselon_iv_cpns,$eslAtrib,$eselonivList); 							
+									?>
+								</td>
+							</tr>
+							<tr id="targeteslvx">
+								<td>Eselon V</td>
+								<td>:</td> 
+								<td id="targeteslv">				
+									<?
+										$jmleselonvList=count($this->eselonvList);
+										$eselonvList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonvList; $i++) {
+												$eselonvList[(string)$this->eselonvList[$i]->c_eselon_v." ".(string)$this->eseloniList[$i]->n_unitkerja] = (string)$this->eselonvList[$i]->n_unitkerja;			 
+											}
+										if ($ceseloncpns>=9){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_v_cpns");}										
+										else{$eslAtrib = array("style"=>"width: 300px","disabled"=>"true","id"=>"c_eselon_v_cpns");}
+										echo $ctrlFrm->formSelect('c_eselon_v_cpns',$this->c_eselon_v_cpns, $eslAtrib, $eselonvList); 							
+									?>
+								</td>
+							</tr>							
+						</table>
+					</td>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3"><h3 class="title"><b><u>HASIL AKHIR NAMA JABATAN</u></b><h3></td>
+							</tr>
+							<tr>
+								<td colspan="3">					
+									<textarea id="jabat_lengkap" name="jabat_lengkap" rows="7"><?=$this->jabat_lengkap?></textarea>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>

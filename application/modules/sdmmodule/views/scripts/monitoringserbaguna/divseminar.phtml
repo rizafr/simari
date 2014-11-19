@@ -1,0 +1,33 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+?>
+
+	<h3 class="title"><b>Riwayat Pendidikan dan Pelatihan (DIKLAT)</b><h3>
+	<br>
+	<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+		<tr>
+			<td width="35%">Nama Seminar/Simposium/Lokakarya/Workshop</td>
+			<td width="1%">:</td>
+			<td>
+				<input type="text" maxlength="150" name="n_seminar" id="n_seminar" value="<?=$this->n_seminar?>" size="70">							
+			</td>						
+
+		</tr>
+				<tr>
+					<td>Tempat</td>
+					<td>:</td> 
+					<td>
+						<input type="text" maxlength="50" name="a_seminar" id="a_seminar" value="<?=$this->a_seminar?>" size="70">
+					</td>
+				</tr>
+				<tr>
+					<td>Tahun</td>
+					<td>:</td> 
+					<td>
+						<input type="text" maxlength="50" name="a_seminar" id="a_seminar" value="<?=$this->a_seminar?>" size="10">
+					</td>
+				</tr>		
+	</table>

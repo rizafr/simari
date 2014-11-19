@@ -1,0 +1,56 @@
+function openFormLokasi(par,c_lokasi,n_lokasi,c_status){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/reflokasi/lokasiolahdata";
+	var opt = {par:par, c_lokasi:c_lokasi, n_lokasi:n_lokasi,c_status:c_status};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formlokasi").ajaxForm(maintain_lokasi);
+		});		
+} 
+
+function insertLokasi(){
+	jQuery("#formlokasi").ajaxForm(maintain_lokasi);
+}
+
+var maintain_lokasi = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formlokasi").ajaxForm(maintain_lokasi);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/reflokasi/insertlokasi',
+	type: 'post',
+	resetForm: false
+};
+
+function updateLokasi(){
+	jQuery("#formlokasi").ajaxForm(update_lokasi);
+}
+
+var update_lokasi = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formlokasi").ajaxForm(maintain_lokasi);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/reflokasi/updatelokasi',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusLokasi(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/reflokasi/deletelokasi';
+		var opt = {c_lokasi : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

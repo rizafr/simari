@@ -1,0 +1,199 @@
+<? 
+   include_once "Spreadsheet/Excel/Writer.php";
+   			  
+  $bulanDesc = array("01"=>"Januari",
+                      "02"=>"Februari",
+                      "03"=>"Maret",
+                      "04"=>"April",
+                      "05"=>"Mei",
+                      "06"=>"Juni",
+                      "07"=>"Juli",
+                      "08"=>"Agustus",
+                      "09"=>"September",
+                      "10"=>"Oktober",
+                      "11"=>"November",
+                      "12"=>"Desember");
+   $nmHari = array("Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu");
+   $nmORG = $this->nmORG;
+   $jmlPegawaiList = count($this->absensiList);
+   for ($j = 0; $j < $jmlPegawaiList; $j++) {
+     $pegawai[$j] = array("i_peg_nip"  =>(string)$this->absensiList[$j]['i_peg_nip'],
+							"n_peg"  =>(string)$this->absensiList[$j]['n_peg']);
+   }
+   $sitgls = $this->sitgls;
+   $siblns = $this->siblns;
+   $sithns = $this->sithns;
+   $kdhari = date("w", mktime(0, 0, 0, $siblns, $sitgls, $sithns));
+   $nmTanggal = $sitgls." ".$bulanDesc[$siblns]." ".$sithns;
+   $hariDesc = $nmHari[$kdhari];
+   $tgl = $sitgls.$siblns.$sithns;
+   
+   $xls =& new Spreadsheet_Excel_Writer();
+   $tanggalSkrg = date("Ymd");
+   $xls->send("absenharian$tanggalSkrg.xls");
+   $sheet =& $xls->addWorksheet($itNip);
+
+   $alignLftHdr =& $xls->addFormat();
+   $alignLftHdr->setAlign('left');
+   $alignLftHdr->setBold();
+   $alignLftHdr->setSize("10");
+
+   $alignJdl =& $xls->addFormat();
+   $alignJdl->setAlign('center');
+   $alignJdl->setSize("10");
+   $alignJdl->setBorder(1);
+   $alignJdl->setFgColor("gray");
+   $alignJdl->setAlign('vcenter');
+   
+   $alignIsi =& $xls->addFormat();
+   $alignIsi->setAlign('center');
+   $alignIsi->setAlign('vcenter');
+   $alignIsi->setSize("10");
+   $alignIsi->setBorder(1);
+
+   $alignIsiLft =& $xls->addFormat();
+   $alignIsiLft->setAlign('left');
+   $alignIsiLft->setAlign('vcenter');
+   $alignIsiLft->setSize("10");
+   $alignIsiLft->setBorder(1);
+
+   $alignIsiRgt =& $xls->addFormat();
+   $alignIsiRgt->setAlign('right');
+   $alignIsiRgt->setAlign('vcenter');
+   $alignIsiRgt->setSize("10");
+   $alignIsiRgt->setBorder(1);
+
+   $isiBorder =& $xls->addFormat();
+   $isiBorder->setBorder(1);
+   $jmlKol = 3;
+   for ($i=0; $i<$jmlKol; $i++)
+   { 
+     $sheet->write(4,$i,"",$isiBorder);
+     $sheet->write(5,$i,"",$isiBorder);
+   }
+   $jmlKol = 14;
+   for ($i=3; $i<$jmlKol; $i++)
+   { 
+      $sheet->write(4,$i,"",$isiBorder);
+      $sheet->write(5,$i,"",$isiBorder);
+   }
+   $sheet->write(0,0,"Rekap Absensi Harian Pegawai",$alignLftHdr);
+   $sheet->write(1,0,"Unit Kerja ",$alignLftHdr);
+   $sheet->write(2,0,"Hari / Tanggal ",$alignLftHdr);
+   $sheet->write(1,2,": ".$nmORG,$alignLftHdr);
+   $sheet->write(2,2,": ".$hariDesc.", ".$nmTanggal,$alignLftHdr);
+   $sheet->write(4,0,"No",$alignJdl);
+   $sheet->write(4,1,"Nama",$alignJdl);
+   $sheet->write(4,2,"Nip",$alignJdl);
+   $sheet->write(4,3,"Masuk",$alignJdl);
+   $sheet->write(4,6,"Keluar",$alignJdl);
+   $sheet->write(4,9,"Lembur",$alignJdl);
+   $sheet->write(4,11,"Jumlah Jam (menit)",$alignJdl);
+   $sheet->write(5,3,"Kerja",$alignJdl);
+   $sheet->write(5,4,"Dr Ijin",$alignJdl);
+   $sheet->write(5,5,"Dr Istrht",$alignJdl);
+   $sheet->write(5,6,"Ijin Dinas",$alignJdl);
+   $sheet->write(5,7,"Ijin Prbd",$alignJdl);
+   $sheet->write(5,8,"Pulang",$alignJdl);
+   $sheet->write(5,9,"Mulai",$alignJdl);
+   $sheet->write(5,10,"Pulang",$alignJdl);
+   $sheet->write(5,11,"Hari Kerja",$alignJdl);
+   $sheet->write(5,12,"Lembur",$alignJdl);
+   $sheet->write(5,13,"Mns Kerja",$alignJdl);
+   $sheet->mergeCells(4,0,5,0);
+   $sheet->mergeCells(4,1,5,1);
+   $sheet->mergeCells(4,2,5,2);
+   $sheet->mergeCells(4,3,4,5);
+   $sheet->mergeCells(4,6,4,8);
+   $sheet->mergeCells(4,9,4,10);
+   $sheet->mergeCells(4,11,4,13);
+   $sheet->setColumn(0, 0, 5);
+   $sheet->setColumn(1, 1, 30);
+   $sheet->setColumn(2, 2, 15);
+   $sheet->setColumn(3, 14, 10);
+
+   for ($i=0; $i<$jmlPegawaiList; $i++)
+   {
+        $hal = $i+1;
+	    $brs = $i + 6;
+		$c_nip = $this->absensiList[$i]['i_peg_nip'];
+        $sheet->write($brs,0,$hal,$alignIsiRgt);
+        $sheet->write($brs,1,$this->absensiList[$i]['n_peg'],$alignIsiLft);
+        $sheet->write($brs,2,"'".$c_nip,$alignIsiLft);
+
+		$DtMasukKerja = $this->serviceE->getAbsensiPegawai($c_nip,$tgl,"01");
+		$masukKerja = $DtMasukKerja['d_peg_jam'];
+		$DtMasukKerja = $this->serviceE->getAbsensiPegawai($c_nip,$tgl,"06");
+		$masukIjin = $DtMasukKerja['d_peg_jam'];
+		$DtMasukKerja = $this->serviceE->getAbsensiPegawai($c_nip,$tgl,"02");
+		$masukIstirahat = $DtMasukKerja['d_peg_jam'];
+		$DtMasukKerja = $this->serviceE->getAbsensiPegawai($c_nip,$tgl,"04");
+		$keluarIjinDns = $DtMasukKerja['d_peg_jam'];
+		$DtMasukKerja = $this->serviceE->getAbsensiPegawai($c_nip,$tgl,"05");
+		$keluarIjinPrb = $DtMasukKerja['d_peg_jam'];
+		$DtMasukKerja = $this->serviceE->getAbsensiPegawai($c_nip,$tgl,"03");
+		$keluarPulang = $DtMasukKerja['d_peg_jam'];
+		$DtMasukKerja = $this->serviceE->getAbsensiPegawai($c_nip,$tgl,"07");
+		$lemburMulai = $DtMasukKerja['d_peg_jam'];
+		$DtMasukKerja = $this->serviceE->getAbsensiPegawai($c_nip,$tgl,"08");
+		$lemburPulang = $DtMasukKerja['d_peg_jam'];
+
+		$lmbrml = explode(":",$lemburMulai);
+		$lmbrsl = explode(":",$lemburPulang);
+		$JamlemburMulai = $lmbrml[0];
+		$MntlemburMulai = $lmbrml[1];
+		$JamlemburSelesai = $lmbrsl[0];
+		$MntlemburSelesai = $lmbrsl[1];
+
+		$jamMe = $this->serviceE->getJamHariKerja($tgl);
+		$batasJamMasuk = (int)substr($jamMe['d_jamkerja_mulai'],0,2)*1;
+		$batasMntMasuk = (int)substr($jamMe['d_jamkerja_mulai'],3,2)*1;
+		$batasJamPulang = (int)substr($jamMe['d_jamkerja_selesai'],0,2)*1;
+		$batasMntPulang = (int)substr($jamMe['d_jamkerja_selesai'],3,2)*1;
+		$mlJamIstirahat = (int)substr($jamMe['d_jamistrht_mulai'],0,2)*1;
+		$mlMntIstirahat = (int)substr($jamMe['d_jamistrht_mulai'],3,2)*1;
+		$slJamIstirahat = (int)substr($jamMe['d_jamistrht_selesai'],0,2)*1;
+		$slMntIstirahat = (int)substr($jamMe['d_jamistrht_selesai'],3,2)*1;
+
+        $jmlJamLembur = (mktime((int)$JamlemburSelesai, (int)$MntlemburSelesai, 0, $siblns, $sitgls, $sithns) - mktime((int)$JamlemburMulai, (int)$MntlemburMulai, 0, $siblns, $sitgls, $sithns))/60;
+        $jmlJamIstirahat = (mktime((int)$slJamIstirahat, (int)$slMntIstirahat, 0, $siblns, $sitgls, $sithns) - mktime((int)$mlJamIstirahat, (int)$mlMntIstirahat, 0, $siblns, $sitgls, $sithns))/60;
+		$jmlJamKerja = (mktime((int)$batasJamPulang, (int)$batasMntPulang, 0, $siblns, $sitgls, $sithns) - mktime((int)$batasJamMasuk, (int)$batasMntMasuk, 0, $siblns, $sitgls, $sithns))/60;
+		$wajibhadir = $jmlJamKerja - $jmlJamIstirahat;
+				
+		$keluarPulangDt = explode(":",$keluarPulang);
+		$keluarPulangJm = $keluarPulangDt[0];
+		$keluarPulangMn = $keluarPulangDt[1];
+		$masukKerjaDt = explode(":",$masukKerja);
+		$masukKerjaJm = $masukKerjaDt[0];
+		$masukKerjaMn = $masukKerjaDt[1];
+		$hadirKerjaNe = (mktime((int)$keluarPulangJm, (int)$keluarPulangMn, 0, $siblns, $sitgls, $sithns) - mktime((int)$masukKerjaJm, (int)$masukKerjaMn, 0, $siblns, $sitgls, $sithns))/60;
+		//$hadirKerja = $hadirKerjaNe - $jmlJamIstirahat;
+		
+		$jamAkhirkerjaE = explode(":",$jamMe['d_jamkerja_selesai']);
+		$jamPulangE = (mktime((int)$jamAkhirkerjaE[0]+1, (int)$jamAkhirkerjaE[1], 00, $siblns, $sitgls, $sithns)-mktime((int)$keluarPulangDt[0], (int)$keluarPulangDt[1], 00, $siblns, $sitgls, $sithns))/60;
+		if ($jamPulangE<0)
+		{
+			$hadirKerja = ((mktime((int)$jamAkhirkerjaE[0], (int)$jamAkhirkerjaE[1], 00, $siblns, $sitgls, $sithns)-mktime((int)$masukKerjaDt[0], (int)$masukKerjaDt[1], 00, $siblns, $sitgls, $sithns))/60) - $jmIstirahat;
+		}
+		else
+		{
+			$hadirKerja = ((mktime((int)$keluarPulangDt[0], (int)$keluarPulangDt[1], 00, $siblns, $sitgls, $sithns)-mktime((int)$masukKerjaDt[0], (int)$masukKerjaDt[1], 00, $siblns, $sitgls, $sithns))/60) - $jmIstirahat;
+		}
+		if ($hadirKerja<0) $hadirKerja = 0;
+		$mnsKerjaE = $wajibhadir - $hadirKerja;
+		if ($mnsKerjaE<0) $mnsKerjaE = 0;
+		
+        $sheet->write($brs,3,$masukKerja,$alignIsiLft);
+		$sheet->write($brs,4,$masukIjin,$alignIsi);
+		$sheet->write($brs,5,$masukIstirahat,$alignIsi);
+		$sheet->write($brs,6,$keluarIjinDns,$alignIsi);
+		$sheet->write($brs,7,$keluarIjinPrb,$alignIsi);
+		$sheet->write($brs,8,$keluarPulang,$alignIsi);
+		$sheet->write($brs,9,$lemburMulai,$alignIsi);
+		$sheet->write($brs,10,$lemburPulang,$alignIsi);
+		$sheet->write($brs,11,$hadirKerja,$alignIsi);
+		$sheet->write($brs,12,$jmlJamLembur,$alignIsi);
+		$sheet->write($brs,13,$mnsKerjaE,$alignIsi);
+	}			
+   $xls->close();
+?>	

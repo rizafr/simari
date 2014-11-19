@@ -1,0 +1,175 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/absensidate.php';
+
+   $ctrlFrm = new Zend_View();
+   $bulanDesc = array("01"=>"Januari",
+                      "02"=>"Februari",
+                      "03"=>"Maret",
+                      "04"=>"April",
+                      "05"=>"Mei",
+                      "06"=>"Juni",
+                      "07"=>"Juli",
+                      "08"=>"Agustus",
+                      "09"=>"September",
+                      "10"=>"Oktober",
+                      "11"=>"November",
+                      "12"=>"Desember");
+$thnSekarang = $this->thnSekarang;
+$blnSekarang = $this->blnSekarang;
+$srvc = $this->srviceE;
+$jmlHariKerja = $srvc->cekHariKerja($thnSekarang,$blnSekarang);
+
+//echo "&nbsp; IP anda ".$srvc->getIP();
+echo "<div class='contentdata-modul' id='modul'>
+	<div class='navlink'>
+		<a  href='".$this->basePath."/home/index/main'>Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Absensi
+		<strong> &#8250; </strong> Ubah Hari Kerja
+	</div>
+	<h3 class='title'>Ubah Hari Kerja</h3>
+	<div class='spacer'></div>
+	<a name='top'></a>
+	<form method='post' id='fIBuatUbhHariKerja'>
+	<div class='search-panel'>
+		<fieldset class='panel-form3'>
+            <dl>
+			   <dt>Bulan</dt>
+			   <dd class='dot2'>:</dd>
+			   <dd class='col-right3'>";
+		  			$thn_atr = array("style"=>"width:40px",
+							"maxlength"=>"4");
+							echo $ctrlFrm->formSelect('blnUbhHariKerja', $blnSekarang, null,$bulanDesc)."&nbsp;";
+							echo $ctrlFrm->formText('thnUbhHariKerja', $thnSekarang, $thn_atr)."&nbsp;";
+echo "
+               </dd>
+			   <dt></dt>
+			   <dd class='dot2'></dd>
+			   <dd class='col-right3'>";
+							echo $ctrlFrm->formButton('ibiUbhBuat', 'Buat', null);
+							if ($jmlHariKerja>0)
+							echo $ctrlFrm->formSubmit('isiUbhSimpan', 'Simpan', null);
+echo "
+                </dd>
+			</dl>
+		</fieldset></form>";
+echo "
+	<fieldset class='fields' id='fiIsiHariKerja'>
+			<table align='center' border='1' cellspacing='0' cellpadding='2' class='tbl'>
+				<tr>
+					<th rowspan='2'>No</th>			
+					<th rowspan='2'>Tanggal</th>
+					<th rowspan='2'>Hari</th>
+					<th colspan='2'>Jam Kerja</th>
+					<th colspan='2'>Jam Istirahat</th>		
+					<th rowspan='2'>Status</th>
+				</tr>
+				<tr>
+					<th>Mulai</th>			
+					<th>Selesai</th>
+					<th>mulai</th>
+					<th>Selesai</th>
+				</tr>";
+	   $hari = array("Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu");
+	   $bulan = array("","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September",
+	   "Oktober","November","Desember");
+	   $bln=$blnSekarang;
+	   $noUrut=0;
+       for ($i=1; $i<32; $i++)
+       {
+          $tahunE = date("Y", mktime(0, 0, 0, $bln, $i, $thnSekarang));
+          $bulanE = date("m", mktime(0, 0, 0, $bln, $i, $thnSekarang));
+          $tglE = date("d", mktime(0, 0, 0, $bln, $i, $thnSekarang));
+          $hariE = date("w", mktime(0, 0, 0, $bln, $i, $thnSekarang));
+		  //$mulaiKerja = $srvc->cekJamKerja($hariE);
+		  if ($i<10) { $tgl = "0".$i; }
+		  else { $tgl = $i; }
+	      $mulaiKerja = $srvc->getJamHariKerja($tgl.$bln.$thnSekarang);
+		  if ($bulanE==$bln)
+          { 
+		     $noUrut++;
+		     if ($i%2==0)
+			 { 
+			    if (($hariE=="0") || ($hariE=="6") || ($mulaiKerja['d_jamkerja_mulai']==""))
+				{ 
+				   $chCkd = "Checked"; 
+				   $dSbld = "disabled";
+				   $valStatus = "Libur";
+			       echo "<tr class='event' id='triHariKe$i' style='color:red'>"; 
+				}   
+				else
+				{
+				   $chCkd = ""; 
+				   $dSbld = "";
+				   $valStatus = "Masuk";
+			       echo "<tr class='event' id='triHariKe$i'>"; 
+				}
+			 }
+			 else
+			 { 
+			    if (($hariE=="0") || ($hariE=="6") || ($mulaiKerja['d_jamkerja_mulai']==""))
+				{ 
+				   $chCkd = "Checked"; 
+				   $dSbld = "disabled";
+				   $valStatus = "Libur";
+			       echo "<tr class='event2' id='triHariKe$i' style='color:red'>"; 
+				}   
+				else
+				{
+				   $chCkd = ""; 
+				   $dSbld = "";
+				   $valStatus = "Masuk";
+			       echo "<tr class='event2' id='triHariKe$i'>"; 
+				}
+			 }
+echo "				
+					<td class='clcenter'>".$noUrut."</td>			
+					<td class='clcenter'>".$tglE." ".$bulanDesc[$bulanE]." ".$tahunE."</td>			
+					<td class='clcenter'>".$hari[$hariE]."</td>			
+					<td class='clcenter'>";
+					if ($mulaiKerja['d_jamkerja_mulai']=="") $mskMulai = "00:00:00";
+					else
+					$mskMulai = $mulaiKerja['d_jamkerja_mulai'];
+					
+echo "				<input type='text' id='itMskMulai$i' name='itMskMulai$i' value='".
+                    $mskMulai."' style='width:60px' maxlength='8' ".$dSbld.">&nbsp;
+					</td>			
+					<td class='clcenter'>";
+					if ($mulaiKerja['d_jamkerja_selesai']=="") $mskSelesai = "00:00:00";
+					else
+					$mskSelesai = $mulaiKerja['d_jamkerja_selesai'];
+echo "				<input type='text' id='itMskSelesai$i' name='itMskSelesai$i' value='".
+                    $mskSelesai."' style='width:60px' maxlength='8' ".$dSbld.">&nbsp;
+					</td>			
+					<td class='clcenter'>";
+					if ($mulaiKerja['d_jamistrht_mulai']=="") $breakMulai = "00:00:00";
+					else
+					$breakMulai = $mulaiKerja['d_jamistrht_mulai'];
+echo "				<input type='text' id='itBreakMulai$i' name='itBreakMulai$i' value='".
+                    $breakMulai."' style='width:60px' maxlength='8' ".$dSbld.">&nbsp;
+					</td>
+					<td class='clcenter'>";
+					if ($mulaiKerja['d_jamistrht_selesai']=="") $breakSelesai = "00:00:00";
+					else
+					$breakSelesai = $mulaiKerja['d_jamistrht_selesai'];
+echo "				<input type='text' id='itBreakSelesai$i' name='itBreakSelesai$i' value='".
+                    $breakSelesai."' style='width:60px' maxlength='8' ".$dSbld.">&nbsp;
+					</td>			
+					<td align='left'><input type='hidden' id='ihiStatus$i' name='ihiStatus$i' value='".
+					$valStatus."'>
+					<input type='checkbox' id='iiStatus$i' name='iiStatus$i' noHari='".
+					$i."' class='icSetStatus' $chCkd >&nbsp;<span id='siStatusHari$i'>".$valStatus."</span>
+					</td>			
+				</tr>
+";
+		  }
+       }
+echo "
+			</table>";
+echo "
+	</fieldset>
+	</div> 
+	</form>
+</div>";
+	
+	

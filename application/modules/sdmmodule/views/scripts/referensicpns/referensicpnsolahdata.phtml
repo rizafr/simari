@@ -1,0 +1,160 @@
+<? 
+   require_once 'Zend/View.php';
+   require_once "service/adm/Adm_Admmenu_Service.php";
+
+   
+   $ctrlFrm = new Zend_View();
+   $admmenu_serv = Adm_Admmenu_Service::getInstance();
+   
+
+?>
+
+<div class="navlink">
+	<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+	<strong> &#8250; </strong> Administrasi</a>
+	<strong> &#8250; </strong><?=$this->jdl;?> Admin User
+</div>
+<div id="top"></div>
+
+
+<h2 class="title"><?=$this->jdl;?>Mengelola Kode Jabatan CPNS</h2>
+
+
+<div class="panel">
+	<span class="corners-top"><span></span></span>
+	<div class="inner">
+		
+	<div class="space2"></div>  	
+	<a name="top"></a>
+	<?
+	$perintah = $this->jenisForm;
+	//echo "perintah = $perintah";
+	if($perintah == "ubah")
+	{
+	?>
+		<form method="post" name="frmrefcpnsubah" id="frmrefcpnsubah">
+	<?
+		$formName = "frmrefcpnsubah";
+	}
+	else
+	{
+	?>
+		<form method="post" name="frmrefcpnsinsert" id="frmrefcpnsinsert">
+		<?
+		$formName = "frmrefcpnsinsert";
+	}
+	
+	?>
+		<table width="100%" class="std">
+			<tr>
+				<td width="20%">Tahun</td>
+				<td width="5%">:</td>
+				<td width="75%">
+					<?php 
+					$thn = date('Y');		
+					$thn2 = $thn + 5;
+					for($x=$thn; $x<=$thn2; $x++){
+						$thnArr[$x] = $x;
+					}
+					$y_tahun = $this->detailJabatancpns->y_tahun;
+					echo $ctrlFrm->formSelect('y_tahun', $y_tahun, null, $thnArr);
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td>Kode Jabatan </td>
+				<td>:</td>
+				<td>
+					<?php 
+						$cJabatanAtrib = array("size"=>"4",
+						"maxlength"=>"3",
+						"class"=>""
+						);
+						
+						$c_jabatan = $this->detailJabatancpns->c_jabatan;
+						$id = $this->detailJabatancpns->id;
+						
+						echo $ctrlFrm->formText('c_jabatan', $c_jabatan, $cJabatanAtrib);
+						echo $ctrlFrm->formHidden('id', $id, null);
+					?>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>Nama Jabatan</td>
+				<td>:</td>
+				<td>
+					<?php 
+					$nJabatanAtrib = array("size"=>"100",
+											"maxlength"=>"200",
+											);
+					$n_jabatan = $this->detailJabatancpns->n_jabatan;
+					
+					echo $ctrlFrm->formText('n_jabatan', $n_jabatan, $nJabatanAtrib);
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td>Kualifikasi Pendidikan</td>
+				<td>:</td>
+				<td>
+					<?php 
+					$jmlKualifikasiPend = count($this->kualisikasiPend);
+					
+					for($x=0; $x<$jmlKualifikasiPend; $x++){
+						$c_kualifikasi_pend = $this->kualisikasiPend[$x]->c_kualifikasi_pend;
+						$n_kualifikasi_pend = $this->kualisikasiPend[$x]->n_kualifikasi_pend;
+						
+						$cKodeArray[$c_kualifikasi_pend] = $n_kualifikasi_pend;
+					} 
+					
+					$c_kode = $this->detailJabatancpns->c_kode;
+									
+					echo $ctrlFrm->formSelect('c_kode', $c_kode, null, $cKodeArray);
+					?>
+				</td>
+			</tr>
+			
+			<!--tr>
+				<td>Golongan</td>
+				<td>:</td>
+				<td>
+					<?php 
+					$cGolAtrib = array("size"=>"10",
+									"maxlength"=>"10",
+									"class"=>"",
+									"readonly"=>"true"
+									);
+					$c_golongan = $this->detailUserOlahData['c_golongan'];
+									
+					echo $ctrlFrm->formText('cGolongan', $c_golongan, $cGolAtrib);
+					?>
+				</td>
+			</tr-->
+			<tr>
+				<td colspan="3">
+					<div class="right">
+						<?php
+						echo $ctrlFrm->formHidden('proses', $perintah, null);
+						?>
+						<input type="button" value="Kembali" onClick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/referensicpns/jabatancpns','<?php echo $this->basePath; ?>/sdmmodule/referensicpns/referensicpnsjs');"> 
+						<input type="reset"  value="Ulangi"> 
+						<?
+						if($perintah == 'tambah'){
+						?>
+							<input type="submit" value="Simpan" onClick="insertJabatancpns();"> 
+						<? } else if ($perintah  == 'ubah') {?>
+							<input type="submit" value="Simpan" onClick="updateJabatancpns();"> 
+						<? }  ?>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div class="space2"></div>
+		
+	</div>
+	<span class="corners-bottom"><span></span></span>
+</div>
+	</form>
+	
+	<div id="targetPopup"></div>

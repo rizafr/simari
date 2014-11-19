@@ -1,0 +1,55 @@
+function getCariRekapDemografi (){
+	var par="show";
+	var i_orgb=document.getElementById("orgSelect").value;
+	var c_unit_kerja=document.getElementById("c_unit_kerja").value;
+
+	 isPegJabat = 'false';isPegDireksi = 'false';isPegDireksi1 = 'false';isPegDireksi2 = 'false';
+	 isPegSex = 'false';isPegPria = 'false'; isPegPermp = 'false'; 
+	 isAllPegawai = 'false'; isPegKatKontr = 'false';isPegKontr = 'false'; isPegTetap = 'false'; 
+	 isPegKomps = 'false';isPegTrmp = 'false';isPegOrgn = 'false';			
+	 
+	 if (document.frmrekapitulasi.allPegawai.checked) isAllPegawai = 'true';		
+	 if (document.frmrekapitulasi.pegKatKontr.checked) isPegKatKontr = 'true';
+	 if (document.frmrekapitulasi.pegTetap.checked) isPegTetap = 'true';
+	 if (document.frmrekapitulasi.pegKontr.checked) isPegKontr = 'true';		
+	 if (document.frmrekapitulasi.pegKomps.checked) isPegKomps = 'true';
+	 if (document.frmrekapitulasi.pegTrmp.checked) isPegTrmp = 'true';
+	 if (document.frmrekapitulasi.pegOrgn.checked) isPegOrgn = 'true';
+	 
+	 if (document.frmrekapitulasi.pegSex.checked) isPegSex = 'true';
+	 if (document.frmrekapitulasi.pegPria.checked) isPegPria = 'true';
+	 if (document.frmrekapitulasi.pegPermp.checked) isPegPermp = 'true';
+
+	 isPegGelar = 'false';isPegGelarS3 = 'false';isPegGelarS2 = 'false';isPegGelarS1 = 'false';
+	 isPegGelarD3 = 'false';isPegGelarD2 = 'false';isPegGelarD1 = 'false';
+	 isPegGelarSma = 'false';isPegGelarSmp = 'false';isPegGelarSd = 'false';
+	 if (document.frmrekapitulasi.pegGelar.checked) isPegGelar = 'true';
+	 if (document.frmrekapitulasi.pegGelarS3.checked) isPegGelarS3 = 'true';
+	 if (document.frmrekapitulasi.pegGelarS2.checked) isPegGelarS2 = 'true';
+	 if (document.frmrekapitulasi.pegGelarS1.checked) isPegGelarS1 = 'true';
+	 if (document.frmrekapitulasi.pegGelarD3.checked) isPegGelarD3 = 'true';
+	 if (document.frmrekapitulasi.pegGelarD2.checked) isPegGelarD2 = 'true';
+	 if (document.frmrekapitulasi.pegGelarD1.checked) isPegGelarD1 = 'true';
+	 if (document.frmrekapitulasi.pegGelarSma.checked) isPegGelarSma = 'true';
+	 if (document.frmrekapitulasi.pegGelarSmp.checked) isPegGelarSmp = 'true';
+	 if (document.frmrekapitulasi.pegGelarSd.checked) isPegGelarSd = 'true';
+	 
+	 isPegUsia = 'false';isPegUsia56 = 'false';isPegUsia26 = 'false'
+	 isPegUsia2635 = 'false';isPegUsia3645 = 'false';isPegUsia4655 = 'false';
+	 if (document.frmrekapitulasi.pegUsia.checked) isPegUsia = 'true';
+	 if (document.frmrekapitulasi.pegUsia56.checked) isPegUsia56 = 'true';
+	 if (document.frmrekapitulasi.pegUsia26.checked) isPegUsia26 = 'true';
+	 if (document.frmrekapitulasi.pegUsia2635.checked) isPegUsia2635 = 'true';
+	 if (document.frmrekapitulasi.pegUsia3645.checked) isPegUsia3645 = 'true';
+	 if (document.frmrekapitulasi.pegUsia4655.checked) isPegUsia4655 = 'true';
+	 
+	url = "<?php echo $this->basePath; ?>/sdm/rekapitulasistatistik/rekapitulasidemografilist"
+	var opt = {par:par,i_orgb:i_orgb,c_unit_kerja:c_unit_kerja,isAllPegawai:isAllPegawai,isPegKatKontr:isPegKatKontr,isPegTetap:isPegTetap,isPegKontr:isPegKontr,isPegKomps:isPegKomps,isPegTrmp:isPegTrmp,isPegOrgn:isPegOrgn
+			,isPegJabat:isPegJabat,isPegDireksi:isPegDireksi,isPegDireksi1:isPegDireksi1,isPegDireksi2:isPegDireksi2,isPegSex:isPegSex,isPegPria:isPegPria,isPegPermp:isPegPermp
+			,isPegGelar:isPegGelar,isPegGelarS3:isPegGelarS3,isPegGelarS2:isPegGelarS2,isPegGelarS1:isPegGelarS1,isPegGelarD3:isPegGelarD3,isPegGelarD2:isPegGelarD2,isPegGelarD1:isPegGelarD1,isPegGelarSma:isPegGelarSma,isPegGelarSmp:isPegGelarSmp,isPegGelarSd:isPegGelarSd
+			,isPegUsia:isPegUsia,isPegUsia56:isPegUsia56,isPegUsia26:isPegUsia26,isPegUsia2635:isPegUsia2635,isPegUsia3645:isPegUsia3645,isPegUsia4655:isPegUsia4655};
+	jQuery.get(url,opt,function(data) {
+		$("#targetlist").html(data);
+		
+		});		
+  }

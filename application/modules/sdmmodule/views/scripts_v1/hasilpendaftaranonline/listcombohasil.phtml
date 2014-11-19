@@ -1,0 +1,6 @@
+<?
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+$jns = array("1"=>"Lulus Administrasi","2"=>"Tidak Lulus Administrasi");	
+echo $ctrlFrm->formSelect('nCol',$this->nCol,null,$jns);
+?>

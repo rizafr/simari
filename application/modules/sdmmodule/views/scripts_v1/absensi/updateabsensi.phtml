@@ -1,0 +1,208 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php'; 
+   
+	$ctrlDate = new oa_date();   
+   
+	$ctrlFrm = new Zend_View();
+	$thnskrg = date("Y");
+
+
+	//$jenjang = $_REQUEST['jenjang'];
+	$nip = $_REQUEST['nip'];
+	//echo "testnip".$nip;
+   		
+   $jmlAbsenList = count($this->absenList);
+   //echo "Jumlah =".$jmlAbsenList;
+   $absenList['-'] = '--Pilih--';
+   for ($i = 0; $i < $jmlAbsenList; $i++) {
+   $absenList[(string)$this->absenList[$i]->c_absensi] = (string)$this->absenList[$i]->n_absensi;			 
+   }
+	  
+	  
+/*    $absenList = array(	"#"		=>"   --Pilih--   ",
+						"CT"	=>"Cuti",
+						"DL"	=>"Dinas Luar",
+						"HK"	=>"Hari Kerja",
+						"HL"	=>"Hari Libur",
+						"SK"	=>"Sakit",
+						"TM"	=>"Ijin Tidak Masuk",
+						"TK"	=>"Absen Tanpa Keterangan",
+						"TB"	=>"Tugas Belajar");	
+ */						
+	$jamArr = array("00"=>"00","01"=>"01","02"=>"02","03"=>"03","04"=>"04","05"=>"05","06"=>"06","07"=>"07",
+					"08"=>"08","09"=>"09","10"=>"10","11"=>"11","12"=>"12","13"=>"13","14"=>"14","15"=>"15",
+					"16"=>"16","17"=>"17","18"=>"18","19"=>"19","20"=>"20","21"=>"21","22"=>"22","23"=>"23",
+					"24"=>"24");
+						
+	$mntArr = array("00"=>"00","01"=>"01","02"=>"02","03"=>"03","04"=>"04","05"=>"05","06"=>"06","07"=>"07",
+					"08"=>"08","09"=>"09","10"=>"10","11"=>"11","12"=>"12","13"=>"13","14"=>"14","15"=>"15",
+					"16"=>"16","17"=>"17","18"=>"18","19"=>"19","20"=>"20","21"=>"21","22"=>"22","23"=>"23",
+					"24"=>"24","25"=>"25","26"=>"26","27"=>"27","28"=>"28","29"=>"29","30"=>"30","31"=>"31",
+					"32"=>"32","33"=>"33","34"=>"34","35"=>"35","36"=>"36","37"=>"37","38"=>"38","39"=>"39",
+					"40"=>"40","41"=>"41","42"=>"42","43"=>"44","45"=>"46","47"=>"47","48"=>"48","49"=>"49",
+					"50"=>"50","51"=>"51","52"=>"52","53"=>"53","54"=>"54","55"=>"55","56"=>"56","57"=>"57",
+					"58"=>"58","59"=>"59","60"=>"60");
+	  
+	$dtkArr = array("00"=>"00","01"=>"01","02"=>"02","03"=>"03","04"=>"04","05"=>"05","06"=>"06","07"=>"07",
+					"08"=>"08","09"=>"09","10"=>"10","11"=>"11","12"=>"12","13"=>"13","14"=>"14","15"=>"15",
+					"16"=>"16","17"=>"17","18"=>"18","19"=>"19","20"=>"20","21"=>"21","22"=>"22","23"=>"23",
+					"24"=>"24","25"=>"25","26"=>"26","27"=>"27","28"=>"28","29"=>"29","30"=>"30","31"=>"31",
+					"32"=>"32","33"=>"33","34"=>"34","35"=>"35","36"=>"36","37"=>"37","38"=>"38","39"=>"39",
+					"40"=>"40","41"=>"41","42"=>"42","43"=>"44","45"=>"46","47"=>"47","48"=>"48","49"=>"49",
+					"50"=>"50","51"=>"51","52"=>"52","53"=>"53","54"=>"54","55"=>"55","56"=>"56","57"=>"57",
+					"58"=>"58","59"=>"59","60"=>"60");
+	  
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'absensi');
+   echo $this->render('absensijs.phtml'); 
+
+
+?>
+<div class="contentdata-modul" id="modul">
+	<h3 class="title">PERUBAHAN PENCATATAN ABSENSI PEGAWAI</h3>
+	&nbsp;&nbsp;&nbsp;&nbsp;Menu ini digunakan untuk mencatat absensi pegawai. 
+	<div class="spacer"></div>
+	<a name="top"></a>	
+	<form id="frmUpdateAbsensi" action="<?php echo $this->basePath; ?>/sdm/absensi/updateabsensi" method="post" name="frmUpdateAbsensi">
+		<div class="search-panel">
+			<fieldset class="panel-form3">
+				<b>
+					<dl>
+						<dd class="col-left">NIP</dd>
+						<dd class="dot2">:</dd>
+						<dd class="col-right2">
+						<?php 
+						$nip = $_REQUEST['nip'];
+						if ($nip == ''){
+						$nip = $this->escape($this->nip);
+						}
+						echo $nip;
+						?>
+						</dd>	
+						<dd class="col-left">&nbsp;</dd>
+						<dd class="dot2">&nbsp;</dd>
+					</dl>
+					<dl>
+						<dd class="col-left">Nama</dd>
+						<dd class="dot2">:</dd>
+						<dd class="col-right2">
+						<?php echo $this->escape($this->namaPegawai);?></h3>
+						</dd>	
+						<dd class="col-left">&nbsp;</dd>
+						<dd class="dot2">&nbsp;</dd>
+					</dl>
+					<dl>
+						<dd class="col-left">Unit Kerja</dd>
+						<dd class="dot2">:</dd>
+						<dd class="col-right">
+						<?php echo $this->escape($this->namaUnitKerja);?></h3>
+					</dl>
+				</b>
+			</fieldset>	
+		</div>
+		<div class="space-line"></div>
+		<div class="title2">Perubahan Pencatatan Absensi Pegawai</div>
+		<fieldset  class="panel-form">
+			<dl>
+				<dt>Tanggal
+				<span class="hightlight">*</span>
+				</dt>
+				<dd class="dot2">:</dd> 
+				<dd class="col-right">
+				<?php 
+					$tglAbsen = $this->escape($this->tglAbsen);
+					$thnAbsen = substr($tglAbsen,0,4);
+					$blnAbsen = substr($tglAbsen,5,2);
+					$hrAbsen = substr($tglAbsen,8,2);
+				 echo $ctrlDate->formTanggal_oa('hrAbsen',$hrAbsen,'blnAbsen',$blnAbsen,'thnAbsen',$thnAbsen); 	
+				?>
+				</dd>
+			</dl>
+			<dl>
+				<dt>Jenis Absen</dt>
+				<dd class="dot2">:</dd> 
+				<dd class="col-right">
+				<?php
+				$kdAbsen = $this->escape($this->jenisAbsen);
+				echo $ctrlFrm->formSelect('kdAbsen', $kdAbsen, null, $absenList) 
+				?>
+				</dd>
+			</dl>
+			<dl>
+				<dt>Jam Masuk</dt>
+				<dd class="dot2">:</dd> 
+				<dd class="col-right">
+				<?php
+				$jamMasuk = $this->escape($this->jamMasuk);		
+				$jamMsk = substr($jamMasuk,0,2);
+				$menitMsk = substr($jamMasuk,3,2);
+				$detikMsk = substr($jamMasuk,6,2);
+				echo $ctrlFrm->formSelect('jamMsk', $jamMsk, null, $jamArr);?>&nbsp;:
+				<?
+				echo $ctrlFrm->formSelect('menitMsk', $menitMsk, null, $mntArr);?>&nbsp;:
+				<?
+				echo $ctrlFrm->formSelect('detikMsk', $detikMsk, null, $dtkArr);?>&nbsp;
+				<?
+				echo "<font color=\"red\">hh:mm:ss</font>";
+				?>
+				</dd>
+			</dl>
+			<dl>
+				<dt>Jam Keluar</dt>
+				<dd class="dot2">:</dd> 
+				<dd class="col-right">
+				<?php 
+				$jamKeluar = $this->escape($this->jamKeluar);			
+				$jamKel = substr($jamKeluar,0,2);
+				$menitKel = substr($jamKeluar,3,2);
+				$detikKel = substr($jamKeluar,6,2);
+				echo $ctrlFrm->formSelect('jamKel', $jamKel, null, $jamArr);?>&nbsp;:
+				<?
+				echo $ctrlFrm->formSelect('menitKel', $menitKel, null, $mntArr);?>&nbsp;:
+				<?
+				echo $ctrlFrm->formSelect('detikKel', $detikKel, null, $dtkArr);?>&nbsp;
+				<?
+				echo "<font color=\"red\">hh:mm:ss</font>";
+				?>
+				</dd>
+			</dl>
+			<dl>
+				<dt>Keterangan</dt>
+				<dd class="dot2">:</dd> 
+				<dd class="col-right">
+				<?php 
+				$keterangan = $this->escape($this->keterangan);
+				  if ($keterangan == '') {
+				    $keterangan = null;
+				  } 
+				  $keteranganAtrib = array("rows"=>"3",
+										    "cols"=>"25",
+											"maxlength"=>"100",
+										    "class"=>""); 
+				  echo $ctrlFrm->formTextarea('keterangan', $keterangan, $keteranganAtrib);
+				?>
+				</dd>
+			</dl>
+		</fieldset>
+
+			<div class="spacer"></div>
+			<div class="right">
+				<input type="button" value="Batal" onClick="javascript:kembaliUpdateAbsensi('<? echo $this->escape($this->nip); ?>');">
+				<input type="reset" value="Ulangi"> 
+			<?php 
+			  echo $ctrlFrm->formHidden('nipH', $nip, null)."&nbsp;";
+			  echo $ctrlFrm->formHidden('tglAbsenH', $tglAbsen, null)."&nbsp;";
+			  $atribAbsensi = array("onclick"=>"javascript:simpanUpdateAbsensi();");
+			  echo $ctrlFrm->formSubmit('perintah', 'SIMPAN', $atribAbsensi)."&nbsp;";?>
+			</div>
+		  	<div class="space-line"></div>
+		  	<div><a href="#top" class="top" title="Kembali ke atas">Kembali ke atas</a></div>	  	
+	         
+			<span class="hightlight">* Harus diisi</span>	 
+	</form>
+</div>
+
+<!--			<div class="back2">
+			  <a href="#" onClick="javascript:kembaliUpdateAbsensi('<? echo $this->escape($this->nip); ?>');" class="back" title="Kembali">Kembali</a>
+			</div>
+-->

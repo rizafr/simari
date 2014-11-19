@@ -1,0 +1,56 @@
+function openFormGoldarah(par,c_golongan_darah,n_golongan_darah){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refgoldarah/goldaraholahdata";
+	var opt = {par:par, c_golongan_darah:c_golongan_darah, n_golongan_darah:n_golongan_darah};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formgoldarah").ajaxForm(maintain_goldarah);
+		});		
+} 
+
+function insertGoldarah(){
+	jQuery("#formgoldarah").ajaxForm(maintain_goldarah);
+}
+
+var maintain_goldarah = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formgoldarah").ajaxForm(maintain_goldarah);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refgoldarah/insertgoldarah',
+	type: 'post',
+	resetForm: false
+};
+
+function updateGoldarah(){
+	jQuery("#formgoldarah").ajaxForm(update_goldarah);
+}
+
+var update_goldarah = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formgoldarah").ajaxForm(maintain_goldarah);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refgoldarah/updategoldarah',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusGoldarah(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refgoldarah/deletegoldarah';
+		var opt = {c_golongan_darah : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

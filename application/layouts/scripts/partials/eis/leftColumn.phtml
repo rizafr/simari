@@ -1,0 +1,16 @@
+<h3 class="prepend-1">Menu</h3>
+<hr class="clear">
+    <?php
+                $this->accessArr = array(
+                    'user',
+                    'admin'
+                );
+            if(is_array($this->accessArr)){
+            $liMenu = '<ul>';
+            foreach ($this->accessArr as $value) {
+                $liMenu .= '<li><a href="'.$this->baseUrl().'/'.$value.'">'.$value.'</a></li>';
+            }
+            $liMenu .= '</ul>';
+            echo $liMenu;
+            }
+        ?>

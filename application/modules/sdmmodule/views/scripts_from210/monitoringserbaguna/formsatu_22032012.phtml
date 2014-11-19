@@ -1,0 +1,572 @@
+<?
+for ($j = 0; $j<12; $j++) 
+{
+	switch($j*1)  
+	{  
+		case 1:  
+		$bulan = "Januari";  
+		break;  
+		case 2:  
+		$bulan = "Februari";  
+		break;  
+		case 3:  
+		$bulan = "Maret";  
+		break;  
+		case 4:  
+		$bulan = "April";  
+		break;  
+		case 5:  
+		$bulan = "Mei";  
+		break;  
+		case 6:  
+		$bulan = "Juni";  
+		break;  
+		case 7:  
+		$bulan = "Juli";  
+		break;  
+		case 8:  
+		$bulan = "Agustus";  
+		break;  
+		case 9:  
+		$bulan = "September";  
+		break;  
+		case 10:  
+		$bulan = "Oktober";  
+		break;  
+		case 11:  
+		$bulan = "November";  
+		break;  
+		case 12:  
+		$bulan = "Desember";  
+		break;  
+		default:  
+		break;  
+	}
+	$bulanList[$j] = $bulan;	
+}
+
+
+  
+?>
+	<div class="panel">
+		<div class="spacer"></div> 		
+		<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+			<tr>
+				<td colspan="4" align="center">
+					Awal Data : <input size="8" name="start" value="1" id="start" onkeypress="return justnumber(event)" type="text">
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					Data per halaman : <input size="8" name="limit" value="25" onkeypress="return justnumber(event)" type="text">
+				</td>
+			</tr>
+		</table>
+	</div>
+	<br>
+	<div class="panel">
+		<div class="spacer"></div> 		
+		<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+			<tr>
+				<td>Judul Laporan</td>
+				<td>:</td>
+				<td><input size="100" name="judul_lap" type="text"></td>
+			</tr>		
+			<tr>
+				<td width="15%">Nama</td>
+				<td width="1%">:</td>
+				<td>
+					<input name="s_nama" id="s_nama" size="60" type="text">&nbsp;pisah dengan koma (,)
+				</td>
+			</tr>
+			<tr>
+				<td>NIP</td>
+				<td>:</td>
+				<td><input name="s_nip" id="s_nip" size="60" onkeypress="return justnumberandash(event)" type="text">&nbsp;pisah dengan tanda sambung (-)</td>
+			</tr>
+			<tr>
+				<td>Jenis Kelamin</td>
+				<td>:</td>
+				<td>
+					<select name="jns_sex" id="jns_sex">
+						<option value="">Pilih</option>
+						<option value="L">Laki-laki</option>
+						<option value="P">Perempuan</option>
+					</select>
+				</td>
+			</tr>
+			<tr>	
+				<td>Gol. Darah</td>
+				<td>:</td>
+				<td>
+					<table>
+						<tr>
+						
+						<?foreach ($this->darahList as $key => $val): 
+							$c_golongan_darah=$this->escape($val['c_golongan_darah']);
+							$n_golongan_darah=$this->escape($val['n_golongan_darah']);
+							$nodarah++;
+						echo '		
+							<td>
+								<input name="jns_darah'.$nodarah.'" id="jns_darah'.$nodarah.'" value="'.$c_golongan_darah.'" type="checkbox">&nbsp;'.$n_golongan_darah.'
+							</td>';
+						 endforeach;
+						?>
+							<td>
+							<a href="javascript:check_all(document.getElementsByName('jns_darah[]'),'',true)" class="link7"><!--<span class="hightlight">Check<span></a>--> - 
+							<a href="javascript:check_all(document.getElementsByName('jns_darah[]'),'',false)" class="link7"><!--<span class="hightlight">Uncheck<span>--></a>
+							</td>
+						</tr>
+					</table>		
+				</td>
+			</tr>
+			<tr>
+				<td>CPNS</td>
+				<td>:</td>
+				<td>
+
+				<?
+					echo $ctrlFrm->formSelect('bln_cpns', $this->bln_cpns, null, $bulanList)
+				?>					  
+					/ Tahun TMT.(yyyy)
+					<input size="6" name="y_cpns" value="" maxlength="4" onkeypress="return justnumber(event)" type="text">
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					SK : <input size="50" name="sk_cpns" value="" maxlength="32" type="text">
+				</td>
+			</tr>
+			<tr>
+				<td>PNS</td>
+				<td>:</td>
+				<td>
+				<?
+					echo $ctrlFrm->formSelect('bln_pns', $this->bln_pns, null, $bulanList)
+				?>				
+					/ Tahun TMT.(yyyy)
+					<input size="6" name="y_pns" value="" maxlength="4" onkeypress="return justnumber(event)" type="text">
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					SK : <input size="50" name="sk_pns" value="" maxlength="32" type="text">
+				</td>
+			</tr>
+			<tr>
+				<td>Agama</td>
+				<td>:</td>
+				<td>
+					<table>
+						<tr>
+						<?foreach ($this->agamaRef as $key => $val): 
+							$n_agama=$this->escape($val['n_agama']);
+							$c_agama=$this->escape($val['c_agama']);
+							$noagama++;
+						echo '		
+							<td>
+								<input name="jns_agama'.$noagama.'" id="jns_agama'.$noagama.'" value="'.$c_agama.'" type="checkbox">&nbsp;'.$n_agama.'
+							</td>';
+						 endforeach;
+						?>						
+							<td>
+								
+								<a href="javascript:check_all(document.getElementsByName('jns_agama[]'),'',true)" class="link7"><!--<span class="hightlight">Check</span>--></a> - 
+								<a href="javascript:check_all(document.getElementsByName('jns_agama[]'),'',false)" class="link7"><!--<span class="hightlight">Uncheck</span>--></a>		
+								
+							</td>
+							<td>
+						</tr>
+					</table>		
+				</td>
+			</tr>
+			<tr>
+				<td>Pendidikan Terakhir</td>
+				<td>:</td>
+				<td>
+					<table>
+						<tr>
+						
+						<?foreach ($this->pendRef as $key => $val): 
+							$n_pend=$this->escape($val['n_pend']);
+							$c_pend=$this->escape($val['c_pend']);
+							$nopend++;
+						echo '		
+							<td>
+								<input name="jns_pddk'.$nopend.'" id="jns_pddk'.$nopend.'" value="'.$c_pend.'" type="checkbox">&nbsp;'.$n_pend.'
+							</td>';
+						 endforeach;
+						?>	
+							<td>	
+								<a href="javascript:check_all(document.getElementsByName('jns_pddk[]'),'',true)" class="link7"><!--<span class="hightlight">Check<span></a>--> - 
+								<a href="javascript:check_all(document.getElementsByName('jns_pddk[]'),'',false)" class="link7"><!--<span class="hightlight">Uncheck<span>--></a>	
+							</td>
+						</tr>
+					</table>		
+				</td>
+			</tr>
+			<tr>
+				<td>Pendidikan / Jurusan</td>
+				<td>:</td>
+				<td>
+					<input size="50" id="n_universitas" name="n_universitas" value="" type="text">&nbsp;
+					<input size="50" id="n_jurusan" name="n_jurusan" value="" type="text">
+				</td>
+			</tr>	
+			<tr>
+				<td>Tahun Kelulusan<br>Pendidikan Tertinggi</td>
+				<td>:</td>
+				<td>
+					<input size="6" name="y_lulus" value="" maxlength="4" onkeypress="return justnumber(event)" type="text">
+				</td>
+			</tr>
+			<tr>
+				<td>Eselon</td>
+				<td>:</td>
+				<td>
+					<table>
+						<tr valign="middle">
+						<?foreach ($this->eselonRef as $key => $val): 
+							$c_eselon=$this->escape($val['c_eselon']);
+							$n_eselon=$this->escape($val['n_eselon']);
+							$noesl++;
+							if ($noesl<=9){
+						echo '		
+							<td>
+								<input name="jns_eselon'.$noesl.'" id="jns_eselon'.$noesl.'" value="'.$c_eselon.'" type="checkbox">&nbsp;'.$n_eselon.'
+							</td>';
+						}
+						else{
+							if ($noesl<=10){
+						echo '</tr><tr>';
+							}
+						echo '		
+							<td>
+								<input name="jns_eselon'.$noesl.'" id="jns_eselon'.$noesl.'" value="'.$c_eselon.'" type="checkbox">&nbsp;'.$n_eselon.'
+							</td>';
+						}	
+						 endforeach;
+						?>						
+							<td colspan="2">
+								
+								<a href="javascript:check_all(document.getElementsByName('jns_eselon[]'),'',true)" class="link7"><!--<span class="hightlight">Check</span>--></a> - 
+								<a href="javascript:check_all(document.getElementsByName('jns_eselon[]'),'',false)" class="link7"><!--<span class="hightlight">Uncheck</span>--></a>
+								
+							</td>	
+						</tr>
+					</table>	
+				</td>
+			</tr>	
+			<tr>
+				<td>TMT Eselon</td>
+				<td>:</td>
+				<td>
+					<input type="text" name="d_tmt_eselon" id="d_tmt_eselon" value="<?=$this->d_tmt_eselon?>" size="10">
+					<span class="hightlight">tgl-bln-thn</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Pangkat</td>
+				<td>:</td>
+				<td>
+					<table>
+						<tr valign="middle">
+						<?foreach ($this->golRef as $key => $val): 
+							$c_peg_golongan=$this->escape($val['c_peg_golongan']);
+							$n_peg_golongan=$this->escape($val['n_peg_golongan']);
+							$nogol++;
+							if ($nogol<=10){
+						echo '		
+							<td>
+								<input name="jns_pangkat'.$nogol.'" id="jns_pangkat'.$nogol.'" value="'.$c_peg_golongan.'" type="checkbox">&nbsp;'.$n_peg_golongan.'
+							</td>';
+						}
+						else{
+							if ($nogol<=11){
+						echo '
+							<td>								
+								<a href="javascript:check_all()" class="link7"><!--<span class="hightlight">Check</span>--></a> - 
+								<a href="javascript:check_all()" class="link7"><!--<span class="hightlight">Uncheck</span>--></a>								
+							</td>						
+						</tr><tr>';
+							}
+						echo '		
+							<td>
+								<input name="jns_pangkat'.$nogol.'" id="jns_pangkat'.$nogol.'" value="'.$c_peg_golongan.'" type="checkbox">&nbsp;'.$n_peg_golongan.'
+							</td>';
+						}	
+						 endforeach;
+						?>						
+						</tr>
+					</table>		
+				</td>
+			</tr>	
+			<tr>
+				<td>TMT Golongan</td>
+				<td>:</td>
+				<td>
+					<input type="text" name="d_tmt_golongan" id="d_tmt_golongan" value="<?=$this->d_tmt_golongan?>" size="10">
+					<span class="hightlight">tgl-bln-thn</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Diklat PIM terakhir</td>
+				<td>:</td>
+				<td>
+					<table>
+						<tr valign="middle">
+						
+						<?foreach ($this->dikPimRef as $key => $val): 
+							$c_jenjang=$this->escape($val['c_jenjang']);
+							$n_jenjang=$this->escape($val['n_jenjang']);
+							$nodikpim++;
+							if ($nodikpim<=4){
+						echo '		
+							<td>
+								<input name="jns_pim'.$nodikpim.'" id="jns_pim'.$nodikpim.'" value="'.$c_jenjang.'" type="checkbox">&nbsp;'.$n_jenjang.'
+							</td>';
+						}
+						else{
+							if ($nodikpim<=5){
+						echo '
+							<td>								
+								<a href="javascript:check_all()" class="link7"><!--<span class="hightlight">Check</span>--></a> - 
+								<a href="javascript:check_all()" class="link7"><!--<span class="hightlight">Uncheck</span>--></a>								
+							</td>						
+						</tr><tr>';
+							}
+						if ($nodikpim<=9){	
+						echo '		
+							<td>
+								<input name="jns_pim'.$nodikpim.'" id="jns_pim'.$nodikpim.'" value="'.$c_jenjang.'" type="checkbox">&nbsp;'.$n_jenjang.'
+							</td>';
+						}
+						else{
+							if ($nodikpim<=10){
+						echo '
+						</tr><tr>';
+							}
+
+						echo '		
+							<td>
+								<input name="jns_pim'.$nodikpim.'" id="jns_pim'.$nodikpim.'" value="'.$c_jenjang.'" type="checkbox">&nbsp;'.$n_jenjang.'
+							</td>';
+
+						}
+						}						
+						 endforeach;
+						?>							
+							
+						</tr>		
+					</table>
+				</td>
+			</tr>	
+			<tr>
+				<td>Tahun DIKPIM Akhir</td>
+				<td>:</td>
+				<td>
+					<input size="6" name="y_diklatpim" value="" maxlength="4" onkeypress="return justnumber(event)" type="text">
+				</td>
+			</tr>
+				<td>Propinsi Unit Kerja</td>
+				<td>:</td>
+				<td>
+					<?php 
+					   $jmlPropList = count($this->propinsiList);
+					   $propinsiList[''] = '--Pilih--';
+					   for ($i = 0; $i < $jmlPropList; $i++) {
+						$propinsiList[(string)$this->propinsiList[$i]->c_propinsi] = (string)$this->propinsiList[$i]->n_propinsi;			 
+					   }
+					  echo $ctrlFrm->formSelect('propinsi_unit', $this->propinsi_unit, null, $propinsiList)
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td>Jabatan</td>
+				<td>:</td>
+				<td>
+					<?	foreach ($this->eselonRef as $key => $val): 
+							$c_eselon=$this->escape($val['c_eselon']);
+							$n_eselon=$this->escape($val['n_eselon']);
+							$jbtList[''] = '--Pilih--';
+							$jbtList[$c_eselon] = $n_eselon;	
+						endforeach;
+						$jbtAtrib = array("onChange"=>"javascript:cariJab()"); 
+						echo $ctrlFrm->formSelect('kd_jbt', $this->kd_jbt, $jbtAtrib, $jbtList)
+					?>
+					<span id="targetjabatan">
+					<?	foreach ($this->jabatanList as $key => $val): 
+							$c_jabatan=$this->escape($val['c_jabatan']);
+							$n_jabatan=$this->escape($val['n_jabatan']);
+							$jbtList2[''] = '--Pilih--';
+							$jbtList2[$c_jabatan] = $n_jabatan;	
+						endforeach;
+						echo $ctrlFrm->formSelect('kd_jbt2', $this->kd_jbt2, null, $jbtList2)
+					?>
+					</span>	
+				</td>
+			</tr>
+			<tr>
+				<td>Kelompok Fungsional</td>
+				<td>:</td>
+				<td>
+				
+					<?php 
+					   $jmlPropList = count($this->jabatanKelFungList);
+					   $KelFungListList[''] = '--Pilih--';
+					   for ($i = 0; $i < $jmlPropList; $i++) {
+						$KelFungListList[(string)$this->jabatanKelFungList[$i]->c_kelfungsional] = (string)$this->jabatanKelFungList[$i]->n_kelfungsional;			 
+					   }
+					  echo $ctrlFrm->formSelect('jabkelfungsional', $this->jabkelfungsional, null, $KelFungListList)
+					?>				
+				</td>
+			</tr>
+			<tr>
+				<td>TMT Jabatan</td>
+				<td>:</td>
+				<td>
+					<input type="text" name="d_tmt_jabatan" id="d_tmt_jabatan" value="<?=$this->d_tmt_jabatan?>" size="10">
+					<span class="hightlight">tgl-bln-thn</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Status Perkawinan</td>
+				<td>:</td>
+				<td>
+					<table>
+						<tr>
+						<?foreach ($this->nikahRef as $key => $val): 
+							$c_status_nikah=$this->escape($val['c_status_nikah']);
+							$n_status_nikah=$this->escape($val['n_status_nikah']);
+							$nostnikah++;
+						echo '		
+							<td>
+								<input name="jns_nikah'.$nostnikah.'" id="jns_nikah'.$nostnikah.'" value="'.$c_status_nikah.'" type="checkbox">&nbsp;'.$n_status_nikah.'
+							</td>';
+						 endforeach;
+						?>						
+							<td>	
+								<a href="javascript:check_all(document.getElementsByName('jns_nikah[]'),'',true)" class="link7"><!--<span class="hightlight">Check</span>--></a> - 
+								<a href="javascript:check_all(document.getElementsByName('jns_nikah[]'),'',false)" class="link7"><!--<span class="hightlight">Uncheck</span>--></a>
+							</td>
+						</tr>
+					</table>		
+				</td>
+			</tr>	
+			<tr>
+				<td>Tanggal Lahir</td>
+				<td>:</td>
+				<td> 
+					<input type="text" name="d_tgl_lahir" id="d_tgl_lahir" value="<?=$this->d_tgl_lahir?>" size="10">
+					<span class="hightlight">tgl-bln-thn</span>
+				</td>
+			</tr>	
+				<td>Usia</td>
+				<td>:</td>
+				<td>
+					<input size="8" name="usia_awl" value="" onkeypress="return justnumber(event)" type="text">
+						&nbsp;&nbsp;S/D&nbsp;&nbsp;
+					<input size="8" name="usia_akh" value="" onkeypress="return justnumber(event)" type="text">
+				</td>
+			</tr>
+			<tr>
+				<td>Tempat Lahir</td>
+				<td>:</td>
+				<td>
+					<input size="80" name="tptlahir" value="" type="text">
+				</td>				
+			</tr>
+			<tr>
+				<td>Propinsi</td>
+				<td>:</td>			
+				<td>
+					<?php 
+						$jmlPropList = count($this->propinsiList);
+						$propinsiList[''] = '--Pilih--';
+						for ($i = 0; $i < $jmlPropList; $i++) {
+							$propinsiList[(string)$this->propinsiList[$i]->c_propinsi] = (string)$this->propinsiList[$i]->n_propinsi;			 
+							}
+						$propAtrib = array("id"=>"propinsiLahir","onClick"=>"javascript:cariKabupaten('targetkablhr','propinsiLahir')"); 
+						echo $ctrlFrm->formSelect('c_propinsi_lahir', $this->c_propinsi_lahir, $propAtrib, $propinsiList)
+					?>
+				</td>
+			</tr>			
+			<tr>
+				<td>Kabupaten</td>
+				<td>:</td>			
+				<td id="targetkablhr">
+					<?php 
+						$jmlKabList = count($this->kabupatenListLahir);
+						$kabupatenListLahir[''] = '--Pilih--';
+						for ($i = 0; $i < $jmlKabList; $i++) {
+							$kabupatenListLahir[(string)$this->kabupatenListLahir[$i]->c_kabupaten] = (string)$this->kabupatenListLahir[$i]->n_kabupaten;			 
+						}
+						echo $ctrlFrm->formSelect('a_kota_lahir', $this->a_kota_lahir,null, $kabupatenListLahir);
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td>Hobi</td>
+				<td>:</td>
+				<td>
+					<input size="80" name="hobby" value="" type="text">
+				</td>
+			</tr>
+		</table>
+
+		<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">	
+			<tr>
+				<td width="15%">Telp / HP</td>
+				<td width="1%">:</td>
+				<td>
+					<input size="30" name="kd_tlp" value="" onkeypress="return justphone(event)" type="text">
+				</td>
+				<td width="15%">Kode Pos</td>
+				<td width="1%">:</td>
+				<td>
+					<input size="10" name="kd_pos" value="" onkeypress="return justnumber(event)" type="text">
+				</td>				
+			</tr>
+
+			<tr>
+				<td>Warna Kulit</td>
+				<td>:</td>
+				<td>
+					<input size="30" name="w_kulit" value="" type="text">
+				</td>
+				<td>No. KARPEG</td>
+				<td>:</td>
+				<td>
+					<input size="20" name="kd_karpeg" value="" onkeypress="return justphone(event)" type="text">
+				</td>				
+			</tr>			
+			<tr>
+				<td>No. ASKES</td>
+				<td>:</td>
+				<td>
+					<input size="20" name="kd_askes" value="" onkeypress="return justphone(event)" type="text">	
+				</td>
+				<td>No. TASPEN</td>
+				<td>:</td>
+				<td>
+					<input size="20" name="kd_taspen" value="" onkeypress="return justphone(event)" type="text">
+				</td>				
+			</tr>
+			<tr>
+				<td>No. anggota KORPRI</td>
+				<td>:</td>
+				<td>
+					<input size="20" name="kd_korpri" value="" onkeypress="return justphone(event)" type="text">
+				</td>
+				<td>No. KTP</td>
+				<td>:</td>
+				<td>
+					<input size="20" name="kd_ktp" value="" onkeypress="return justphone(event)" type="text">
+				</td>				
+			</tr>
+</table>
+</div>
+<br>
+<div class="panel">
+	<div class="spacer"></div> 	
+	<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">	
+			<tr>
+				<td align="center">
+					<input class="btn" value="Cetak" onclick="cetakVSerA()" type="submit">
+					<!--<input class="btn" value="Cetak excel" onclick="cetakExlSerA()" type="submit">-->
+				</td>
+			</tr>
+	</table>
+	
+</div>

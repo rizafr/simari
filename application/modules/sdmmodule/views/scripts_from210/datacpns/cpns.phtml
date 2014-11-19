@@ -1,0 +1,623 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+$ceseloncpns=$this->ceseloncpns*1;
+?>
+
+ 	<script type="text/javascript">
+	jQuery(function() {
+/* 		jQuery("#d_tmt_cpns").datepicker();
+		//jQuery("#d_tmt_kerjacpns").datepicker();
+		jQuery("#d_peg_lahir").datepicker();
+		jQuery("#d_sk_cpns").datepicker();
+		jQuery("#d_spmt_cpns").datepicker(); */
+		$( "#d_tmt_cpns" ).datepicker({	changeMonth: true,changeYear: true});	
+		$( "#d_peg_lahir" ).datepicker({	changeMonth: true,changeYear: true});	
+		$( "#d_sk_cpns" ).datepicker({	changeMonth: true,changeYear: true});
+		$( "#d_spmt_cpns" ).datepicker({	changeMonth: true,changeYear: true});			
+		
+	});
+	
+	</script>
+
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+			<strong> &#8250; </strong><?=$this->jdl;?> Data CPNS
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+
+<h2 class="title"><?=$this->jdl;?> Data CPNS</h2>
+<?if ($this->par=='Ubah'){$readonly="readonly='true'"?>
+	<h3 class="tab" title="first"><div class="tabtxt"><a href="#Pns" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapns/pns?par=pns','<?php echo $this->basePath; ?>/sdmmodule/datapns/pnsjs');">PNS</a></div></h3>
+	<h3 class="tab" title="first"><div class="tabtxt"><a href="#Pokok" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pokok</a></div></h3>
+	<h3 class="tab" title="first"><div class="tabtxt"><a href="#Riwayat" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapendidikan/listpendidikan','<?php echo $this->basePath; ?>/sdmmodule/datapendidikan/pendidikanjs');">Data Riwayat</a></div></h3>
+				
+<?	
+	}?>
+<form id="formpegawai" method="post" action="" name="formpegawai"enctype="multipart/form-data" >	
+	<div class="boxholder">	
+	<div class="panel">
+		<div class="spacer"></div> 
+			
+			<table border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td width="65%">
+					<table width="100%">
+							<tr>
+								<td width="25%">Status Kepegawaian<span class="hightlight">*</span></td>
+								<td width="2%">:</td>
+								<td>
+								<?php 
+									   $jmlStatusKePegRef = count($this->statusKePegRef);
+									   $statkepegList[''] = '--Pilih--';
+									   for ($i = 0; $i < $jmlStatusKePegRef; $i++) {									   
+										$statkepegList[(string)$this->statusKePegRef[$i]->c_status_kepegawaian] = (string)$this->statusKePegRef[$i]->n_status_kepegawaian;			 
+									   }
+									   $statkepegAtrib = array("onChange"=>"javascript:getStatPeg()");
+									  echo $ctrlFrm->formSelect('c_status_kepegawaian', $this->c_status_kepegawaian,$statkepegAtrib, $statkepegList)
+								?>							
+								</td>
+							</tr>
+					</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table width="100%" id="targetnip">
+							
+							<?if ($this->c_status_kepegawaian=='4' || $this->c_status_kepegawaian=='5' || $this->c_status_kepegawaian=='6' || $this->c_status_kepegawaian=='7'){?>
+							<tr>
+							<td width="25%">NRP<span class="hightlight">*</span></td>
+								<td width="2%">:</td>
+								<td>
+									<input type="hidden" size="25" maxlength="14" name="i_peg_nip" id="i_peg_nip" <?echo $readonly?> value="<?=$this->i_peg_nip?>" onKeyup="isNumber('i_peg_nip');">
+									<input type="text" size="25" maxlength="14" name="i_peg_nrp" id="i_peg_nrp" <?echo $readonly?> value="<?=$this->i_peg_nrp?>" onKeyup="isNumber('i_peg_nrp');">
+								</td>
+							</tr>							
+							<?}else{?>
+							<tr>
+								<td>NIP Baru<span class="hightlight">*</span></td>
+								<td>:</td>
+								<td>
+									<input type="text" size="35" maxlength="21" name="i_peg_nip_new" id="i_peg_nip_new" <?echo $readonly?> value="<?=$this->i_peg_nip_new?>" onKeyup="isNumber('i_peg_nip_new');">
+								</td>
+							</tr>
+							<tr>
+								<td width="25%">NIP Lama</td>
+								<td width="2%">:</td>
+								<td>
+									<input type="text" size="25" maxlength="21" name="i_peg_nip" id="i_peg_nip" <?echo $readonly?> value="<?=$this->i_peg_nip?>" onKeyup="isNumber('i_peg_nip');">
+									<input type="hidden" size="25" maxlength="21" name="i_peg_nrp" id="i_peg_nrp" <?echo $readonly?> value="<?=$this->i_peg_nrp?>" onKeyup="isNumber('i_peg_nrp');">
+								</td>
+							</tr>
+							
+							<?}?>
+
+						</table>	
+						<table width="100%">	
+							<tr>
+								<td width="25%">Nama Lengkap<span class="hightlight">*</span></td>
+								<td width="2%">:</td>
+								<td>
+									<input type="text" size="40" maxlength="35" name="n_peg" id="n_peg" value="<?=$this->n_peg?>" >
+								</td>
+							</tr>
+							<tr>
+								<td>Gelar Depan</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="5" name="n_peg_gelardepan" id="n_peg_gelardepan" value="<?=$this->n_peg_gelardepan?>">
+								</td>
+							</tr>
+							<tr>
+								<td>Pangkat</td>
+								<td>:</td>
+								<td id="targetgol">
+									<?
+									$jmlgolref = count($this->statusGolRef);												   
+									$golonganReff[''] = '--Pilih--';
+									for ($i = 0; $i < $jmlgolref; $i++) {
+											$n_peg_pangkat=trim($this->statusGolRef[$i]['n_peg_pangkat']);
+											$c_peg_golongan=trim($this->statusGolRef[$i]['c_peg_golongan']);
+											$n_peg_golongan=trim($this->statusGolRef[$i]['n_peg_golongan']);											
+											$golonganReff[trim($c_peg_golongan)] = $n_peg_golongan." / ".$n_peg_pangkat;											   
+									}												 
+									 echo $ctrlFrm->formSelect('c_gol_cpns', $this->c_gol_cpns, null, $golonganReff);
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>TMT CPNS</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="d_tmt_cpns" id="d_tmt_cpns" value="<?=$this->d_tmt_cpns?>" size="10">
+									<span class="hightlight">dd-mm-yyyy</span>
+								</td>
+							</tr>
+<!--							
+							<tr>
+								<td>TMT Kerja</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="d_tmt_kerjacpns" id="d_tmt_kerjacpns" value="<?=$this->d_tmt_kerjacpns?>" size="10">
+									<span class="hightlight">dd-mm-yyyy</span>
+								</td>
+							</tr>							
+-->							
+							<tr>
+								<td>Eselon</td>
+								<td>:</td>
+								<td>									
+									<?
+										$jmlEslList=count($this->eselonList);
+										$eslList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmlEslList; $i++) {
+												$eslList[(string)$this->eselonList[$i]->c_eselon] = (string)$this->eselonList[$i]->n_eselon;			 
+											}
+										$eslAtrib = array("onChange"=>"javascript:getEselon()"); 		
+										echo $ctrlFrm->formSelect('c_eselon_cpns',$this->c_eselon_cpns, $eslAtrib, $eslList); 							
+									?>									
+								</td>
+							</tr>
+							<tr>
+								<td>Nama Jabatan</td>
+								<td>:</td> 
+								<td>
+									<input type="hidden" name="c_eselon" id="c_eselon" value="<?=$this->c_eselon?>">
+									<input type="hidden" name="c_jabatan_cpns" id="c_jabatan" value="<?=$this->c_jabatan_cpns?>">
+									<input type="text" name="n_jabatan_cpns" id="n_jabatan" value="<?=$this->n_jabatan_cpns?>" size="40">
+									<input type="button" value="Cari" onClick="CariJabatan()">
+								</td>																
+							</tr>									
+						</table>
+					</td>
+					<td>
+						<table width="100%">
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>	
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>								
+							<tr>
+								<td>Gelar Belakang</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="5" name="n_peg_gelarblkg" id="n_peg_gelarblkg" value="<?=$this->n_peg_gelarblkg?>">
+								</td>
+							</tr>
+							<tr>
+								<td>Pendidikan<span class="hightlight">*</span></td>
+								<td>:</td>
+								<td>
+									<?php
+										$jmljenjang = count($this->nmJenjangList);														   
+										$jenjangReff[''] = '--Pilih--';							
+										for ($i = 0; $i < $jmljenjang; $i++) {
+											$n_pend=trim($this->nmJenjangList[$i]['n_pend']);												   
+											$jenjangReff[trim((string)$this->nmJenjangList[$i]['c_pend'])] = $n_pend;
+										}
+										echo $ctrlFrm->formSelect('c_pend_cpns',$this->c_pend_cpns,null,$jenjangReff);
+									?>									
+								</td>
+							</tr>
+							<tr>
+								<td>Tanggal Lahir</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="d_peg_lahir" id="d_peg_lahir" value="<?=$this->d_peg_lahir?>" size="10">
+									<span class="hightlight">dd-mm-yyyy</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Jenis Kelamin</td>
+								<td>:</td> 
+								<td>					
+								<?php 
+									$jenisKel = array("-"=>"--Pilih--","L"=>"Laki-laki","P"=>"Perempuan");	
+									echo $ctrlFrm->formSelect('c_peg_jeniskelamin', $this->c_peg_jeniskelamin, null, $jenisKel);
+								?>
+								</td>
+							</tr>	
+						
+						</table>
+					</td>					
+				</tr>
+			</table>
+<? if ($this->c_lokasi_unitkerja_cpns=='1'){?>	
+		
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%" id="listcombo">
+				<tr>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b><u>UNIT KERJA</u></b><h3>
+								</td>
+							</tr>
+							
+							<tr>
+								<td width="30%">Lokasi</td>
+								<td width="2%">:</td> 
+								<td>					
+									<?
+										$jmlLokList=count($this->lokasiList);
+										$lokList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmlLokList; $i++) {
+												$lokList[(string)$this->lokasiList[$i]->c_lokasi] = (string)$this->lokasiList[$i]->n_lokasi;			 
+											}
+										$lokAtrib = array("style"=>"width: 300px","id"=>"c_lokasi_unitkerja_cpns","onChange"=>"javascript:cariCombo('targetesli')"); 
+										echo $ctrlFrm->formSelect('c_lokasi_unitkerja_cpns',$this->c_lokasi_unitkerja_cpns,$lokAtrib,$lokList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon I</td>
+								<td>:</td> 
+								<td>					
+									<?
+										$jmleseloniList=count($this->eseloniList);
+										$eseloniList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniList; $i++) {
+											
+												$eseloniList[trim((string)$this->eseloniList[$i]->c_eselon_i).";".trim((string)$this->eseloniList[$i]->n_unitkerja)] = (string)$this->eseloniList[$i]->n_unitkerja;			 
+											}
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_i_cpns","onChange"=>"javascript:cariCombo('targeteslii')");  	
+										echo $ctrlFrm->formSelect('c_eselon_i_cpns',$this->c_eselon_i_cpns,$eslAtrib,$eseloniList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td width="30%">Eselon II</td>
+								<td width="2%">:</td> 
+								<td>				
+									<?
+										$jmleseloniiList=count($this->eseloniiList);
+										$eseloniiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiList; $i++) {
+												$eseloniiList[trim((string)$this->eseloniiList[$i]->c_eselon_ii).";".trim((string)$this->eseloniiList[$i]->n_unitkerja)] = (string)$this->eseloniiList[$i]->n_unitkerja;
+											}
+										if ($ceseloncpns>=3){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_ii_cpns","onChange"=>"javascript:cariCombo('targetesliii')");}
+										else {$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_ii_cpns","onChange"=>"javascript:cariCombo('targetesliii')");}
+										echo $ctrlFrm->formSelect('c_eselon_ii_cpns',$this->c_eselon_ii_cpns,$eslAtrib,$eseloniiList); 							
+									?>
+								</td>
+							</tr>						
+							<tr>
+								<td width="30%">Eselon III</td>
+								<td width="2%">:</td> 
+								<td>					
+									<?
+										$jmleseloniiiList=count($this->eseloniiiList);
+										$eseloniiiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiiList; $i++) {
+												$eseloniiiList[trim((string)$this->eseloniiiList[$i]->c_eselon_iii).";".trim((string)$this->eseloniiiList[$i]->n_unitkerja)] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+											}
+										
+										if ($ceseloncpns>=5){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii_cpns","onChange"=>"javascript:cariCombo('targetesliv')");  	}										
+										else{	$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii_cpns","onChange"=>"javascript:cariCombo('targetesliv')");}
+										
+										echo $ctrlFrm->formSelect('c_eselon_iii_cpns',$this->c_eselon_iii_cpns, $eslAtrib, $eseloniiiList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon IV</td>
+								<td>:</td> 
+								<td>				
+									<?
+										$jmleselonivList=count($this->eselonivList);
+										$eselonivList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonivList; $i++) {
+												$eselonivList[trim((string)$this->eselonivList[$i]->c_eselon_iv).";".trim((string)$this->eselonivList[$i]->n_unitkerja)] = (string)$this->eselonivList[$i]->n_unitkerja;			 
+											}
+										if ($ceseloncpns>=7){
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iv_cpns","onChange"=>"javascript:cariCombo('targeteslv')"); 
+										}
+										else{
+										$eslAtrib = array("style"=>"width: 300px", "id"=>"c_eselon_iv_cpns","onChange"=>"javascript:cariCombo('targeteslv')"); 
+										}
+										
+										
+										echo $ctrlFrm->formSelect('c_eselon_iv_cpns',$this->c_eselon_iv_cpns,$eslAtrib,$eselonivList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon V</td>
+								<td>:</td> 
+								<td id="targeteslv">				
+									<?
+										$jmleselonvList=count($this->eselonvList);
+										$eselonvList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonvList; $i++) {
+												$eselonvList[trim((string)$this->eselonvList[$i]->c_eselon_v).";".trim((string)$this->eselonvList[$i]->n_unitkerja)] = (string)$this->eselonvList[$i]->n_unitkerja;			 
+											}
+										if ($ceseloncpns>=9){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_v_cpns");}										
+										else{$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_v_cpns");}
+										echo $ctrlFrm->formSelect('c_eselon_v_cpns',$this->c_eselon_v_cpns, $eslAtrib, $eselonvList); 							
+									?>
+								</td>
+							</tr>							
+
+							
+						</table>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3">&nbsp;<!--<h3 class="title"><b><u>HASIL AKHIR NAMA JABATAN</u></b><h3>--></td>
+							</tr>
+							<tr>
+								<td colspan="3">					
+									<textarea id="jabat_lengkap" name="jabat_lengkap" rows="7" readonly="true"><?=$this->jabat_lengkap?></textarea>
+								</td>
+							</tr>
+						</table>
+					</td>						
+					</td>
+<?}  else{include ("listcombo2.phtml");}?>					
+
+				</tr>
+			</table>	
+
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+				<tr>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b><u>MASA KERJA TAMBAHAN</u></b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td>Fiktif</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="q_fiktif_cpns_thn" id="q_fiktif_cpns_thn" value="<?=$this->q_fiktif_cpns_thn?>" size="5" onKeyup="isNumber('q_fiktif_cpns_thn');"> Tahun
+									<input type="text" name="q_fiktif_cpns_bln" id="q_fiktif_cpns_bln" value="<?=$this->q_fiktif_cpns_bln?>" size="5" onKeyup="isNumber('q_fiktif_cpns_bln');"> Bulan
+								</td>
+							</tr>	
+							<tr>
+								<td>Honorer</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="q_honorer_cpns_thn" id="q_honorer_cpns_thn" value="<?=$this->q_honorer_cpns_thn?>" size="5" onKeyup="isNumber('q_honorer_cpns_thn');"> Tahun
+									<input type="text" name="q_honorer_cpns_bln" id="q_honorer_cpns_bln" value="<?=$this->q_honorer_cpns_bln?>" size="5" onKeyup="isNumber('q_honorer_cpns_bln');"> Bulan
+								</td>
+							</tr>	
+							<tr>
+								<td>Swasta</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="q_swasta_cpns_thn" id="q_swasta_cpns_thn" value="<?=$this->q_swasta_cpns_thn?>" size="5" onKeyup="isNumber('q_swasta_cpns_thn');"> Tahun
+									<input type="text" name="q_swasta_cpns_bln" id="q_swasta_cpns_bln" value="<?=$this->q_swasta_cpns_bln?>" size="5" onKeyup="isNumber('q_swasta_cpns_bln');"> Bulan
+								</td>
+							</tr>	
+							<tr>
+								<td>Masa Kerja Total</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="q_mktotal_cpns_thn" id="q_mktotal_cpns_thn" value="<?=$this->q_mktotal_cpns_thn?>" size="5" onKeyup="isNumber('q_mktotal_cpns_thn');"> Tahun
+									<input type="text" name="q_mktotal_cpns_bln" id="q_mktotal_cpns_bln" value="<?=$this->q_mktotal_cpns_bln?>" size="5" onKeyup="isNumber('q_mktotal_cpns_bln');"> Bulan
+								</td>
+							</tr>	
+									
+						</table>
+					</td>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3"><h3 class="title"><b><u>SURAT KEPUTUSAN</u></b><h3></td>
+							</tr>
+							<tr>
+								<td width="30%">Nomor</td>
+								<td width="2">:</td> 
+								<td>					
+									<input type="text" name="i_sk_cpns" id="i_sk_cpns" value="<?=$this->i_sk_cpns?>" size="30">
+								</td>
+							</tr>
+							<tr>
+								<td>Tanggal</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="d_sk_cpns" id="d_sk_cpns" value="<?=$this->d_sk_cpns?>" size="10">
+									<span class="hightlight">dd-mm-yyyy</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Pejabat</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="n_sk_pejabatcpns" id="n_sk_pejabatcpns" value="<?=$this->n_sk_pejabatcpns?>" size="50">
+								</td>
+							</tr>							
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table width="100%">
+							<tr>
+								<td colspan="3"><h3 class="title"><b><u>SURAT PERINTAH MELAKSANAKAN TUGAS</u></b><h3></td>
+							</tr>
+							<tr>
+								<td width="30%">Nomor</td>
+								<td width="2">:</td> 
+								<td>					
+									<input type="text" name="i_spmt_cpns" id="i_spmt_cpns" value="<?=$this->i_spmt_cpns?>" size="30">
+								</td>
+							</tr>
+							<tr>
+								<td>Tanggal</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="d_spmt_cpns" id="d_spmt_cpns" value="<?=$this->d_spmt_cpns?>" size="10">
+									<span class="hightlight">dd-mm-yyyy</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Pejabat</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="n_spmt_pejabatcpns" id="n_spmt_pejabatcpns" value="<?=$this->n_spmt_pejabatcpns?>" size="50">
+								</td>
+							</tr>							
+						</table> 
+					</td>
+				</tr>		
+			</table>
+	</div>		
+<br>
+	<div class="panel">
+		<div class="spacer"></div> 			
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td align="right">
+								<div class="right">
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');"> 
+									<input type="submit" value="<?=$this->par;?>" onClick="insertPegawaiCpns()">
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+								</div>
+							</td>
+						</tr>
+			</table>				
+	</div>
+	<div>
+	<div id="targetdetil"></div>
+</form>	
+<script>
+function CariJabatan(){
+var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/listnamajabatan';
+
+var c_eselon=document.getElementById('c_eselon_cpns').value;
+var param = {c_eselon:c_eselon};
+jQuery.get(url,param,function(data) {
+jQuery("#targetdetil").html(data);
+centerPopup();
+loadPopup();});}
+
+function getStatPeg(){
+	var c_status_kepegawaian=document.getElementById('c_status_kepegawaian').value;
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/datacpns/listgolongan'; 
+	var param = {c_status_kepegawaian:c_status_kepegawaian};
+	jQuery.get(url, param, function(data) {
+		jQuery("#targetgol").html(data);	
+	});
+	getNip();
+}
+
+function getNip(){
+	var c_status_kepegawaian=document.getElementById('c_status_kepegawaian').value;
+	if (c_status_kepegawaian=='4' ||c_status_kepegawaian=='5'||c_status_kepegawaian=='6'||c_status_kepegawaian=='7'){
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/datacpns/nrp'; 	
+	}
+	else{
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/datacpns/nip'; 
+	}
+	var param = {};
+	jQuery.get(url, param, function(data) {
+		jQuery("#targetnip").html(data);	
+	});
+}
+
+function cariCombo(){
+	var n_jabatan=document.getElementById('n_jabatan').value;
+	var esl =document.getElementById('c_eselon_cpns').value;
+	var c_lokasi_unitkerja_cpns=document.getElementById('c_lokasi_unitkerja_cpns').value;	
+	var eseloni=document.getElementById('c_eselon_i_cpns').value;
+	var eselonii=document.getElementById('c_eselon_ii_cpns').value;
+	var eseloniii=document.getElementById('c_eselon_iii_cpns').value;
+	var eseloniv=document.getElementById('c_eselon_iv_cpns').value;	
+	
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/datacpns/listcombo'; 
+	var param = {n_jabatan:n_jabatan,c_lokasi_unitkerja_cpns:c_lokasi_unitkerja_cpns,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+	jQuery.get(url, param, function(data) {
+		jQuery("#listcombo").html(data);	
+		getEselon();
+	});
+}
+
+function getEselon(){
+var esl =document.getElementById('c_eselon_cpns').value;
+
+if (esl=='01' || esl=='02')
+	{
+		document.getElementById('c_eselon_ii_cpns').value="";
+		document.getElementById('c_eselon_iii_cpns').value="";
+		document.getElementById('c_eselon_iv_cpns').value="";
+		document.getElementById('c_eselon_v_cpns').value="";
+		document.forms[0].c_eselon_ii_cpns.disabled = "disabled" ;
+		document.forms[0].c_eselon_iii_cpns.disabled = "disabled" ;
+		document.forms[0].c_eselon_iv_cpns.disabled = "disabled" ;
+		document.forms[0].c_eselon_v_cpns.disabled = "disabled" ;
+	}
+ else if (esl=='03' || esl=='04')
+	{
+		document.getElementById('c_eselon_iii_cpns').value="";
+		document.getElementById('c_eselon_iv_cpns').value="";
+		document.getElementById('c_eselon_v_cpns').value="";
+		document.forms[0].c_eselon_ii_cpns.disabled = false ;
+		document.forms[0].c_eselon_iii_cpns.disabled = "disabled" ;
+		document.forms[0].c_eselon_iv_cpns.disabled = "disabled" ;
+		document.forms[0].c_eselon_v_cpns.disabled = "disabled" ;
+		
+	}
+	
+else if (esl=='05' || esl=='06')
+	{
+		document.getElementById('c_eselon_iv_cpns').value="";
+		document.getElementById('c_eselon_v_cpns').value="";	
+		document.forms[0].c_eselon_ii_cpns.disabled = false ;
+		document.forms[0].c_eselon_iii_cpns.disabled = false ;
+		document.forms[0].c_eselon_iv_cpns.disabled = "disabled" ;
+		document.forms[0].c_eselon_v_cpns.disabled = "disabled" ;
+	}
+else if (esl=='07' || esl=='08')
+	{
+		document.getElementById('c_eselon_v_cpns').value="";	
+		document.forms[0].c_eselon_ii_cpns.disabled = false ;
+		document.forms[0].c_eselon_iii_cpns.disabled = false ;
+		document.forms[0].c_eselon_iv_cpns.disabled = false ;
+		document.forms[0].c_eselon_v_cpns.disabled = "disabled" ;
+	}
+else if (esl=='09')
+	{
+		document.forms[0].c_eselon_ii_cpns.disabled = false ;
+		document.forms[0].c_eselon_iii_cpns.disabled = false ;
+		document.forms[0].c_eselon_iv_cpns.disabled = false ;
+		document.forms[0].c_eselon_v_cpns.disabled = false ;
+	}
+else	
+	{
+		document.forms[0].c_eselon_ii_cpns.disabled = false ;
+		document.forms[0].c_eselon_iii_cpns.disabled = false ;
+		document.forms[0].c_eselon_iv_cpns.disabled = false ;
+		document.forms[0].c_eselon_v_cpns.disabled = false ;
+	} 	
+}
+</script>

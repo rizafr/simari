@@ -1,0 +1,39 @@
+<ul id="maintab" class="tabs">
+<?php
+//var_dump($this->checkotoritas);
+for($a=0;$a<count($this->aplikasiList); $a++){
+	$iAplikasi = $this->aplikasiList[$a]->i_aplikasi;
+	$cAplikasi = $this->aplikasiList[$a]->c_aplikasi;
+	$nAplikasi = $this->aplikasiList[$a]->n_aplikasi;
+	$eAplikasi = $this->aplikasiList[$a]->e_aplikasi;
+	
+	//$dataDetailAplikasi = array("i_aplikasi" => $iAplikasi);
+	//$detailAplikasi = $admaplikasi_serv->aplikasiDetail($dataDetailAplikasi);
+	//echo "xx $iAplikasi | $cAplikasi<br>";
+	if(($cAplikasi != 'adm') && ($cAplikasi != 'cms')){
+		//echo "bukan adm & cms<br>";
+		//echo "<br>$iAplikasi | $cAplikasi | ".$this->aplikasi;
+		if(in_array($iAplikasi,$this->checkotoritas)){
+			//echo "$iAplikasi<br>";
+			if($cAplikasi == $this->aplikasi){
+				?>
+				<li class="selected"><span><?php echo $cAplikasi;?></span></li>
+				<?php
+			} else {
+			?>
+				<li class=""><a href="<?php echo $cAplikasi;?>"><span><?php echo $cAplikasi;?></span></a></li>
+			<?php
+			}
+		}
+	}
+}
+?>
+<!--
+	 <li class=""><a href="#"><span>SIAP</span></a></li>
+	 <li class="selected"><span>Perencanaan & Organisasi</span></li>
+  	 <li class=""><a href="sdm"><span>Kepegawaian</span></a></li>
+	 <li class=""><a href="keuangan"><span>Keuangan</span></a></li>
+	 <li class=""><a href="aset"><span>Aset</span></a></li>
+	 <li class=""><a href="logistik"><span>Logistik</span></a></li>
+ -->
+</ul>

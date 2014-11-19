@@ -1,0 +1,56 @@
+function openFormKabupaten(par,c_kabupaten,n_kabupaten,c_propinsi){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refkabupaten/kabupatenolahdata";
+	var opt = {par:par, c_kabupaten:c_kabupaten, n_kabupaten:n_kabupaten, c_propinsi:c_propinsi};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formkabupaten").ajaxForm(maintain_kabupaten);
+		});		
+} 
+
+function insertKabupaten(){
+	jQuery("#formkabupaten").ajaxForm(maintain_kabupaten);
+}
+
+var maintain_kabupaten = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formkabupaten").ajaxForm(maintain_kabupaten);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refkabupaten/insertkabupaten',
+	type: 'post',
+	resetForm: false
+};
+
+function updateKabupaten(){
+	jQuery("#formkabupaten").ajaxForm(update_kabupaten);
+}
+
+var update_kabupaten = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formkabupaten").ajaxForm(maintain_kabupaten);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refkabupaten/updatekabupaten',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusKabupaten(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refkabupaten/deletekabupaten';
+		var opt = {c_kabupaten : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

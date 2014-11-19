@@ -1,0 +1,292 @@
+function tampilTaun(){
+	var tahun= document.getElementById('tahun').value;
+	
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir3r/listformulir3r';
+	
+		var opt = {tahun:tahun};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				if(tahun != "Tahun"){
+				jQuery(".thn_skr").html(tahun);
+				jQuery("#tahun").val(tahun);
+				}else{
+				jQuery(".thn_skr").html("");
+				}
+			 });
+		
+		
+};
+
+function OpenFormulir3rOlahdata(par,id,c_jabatan,nm_jabatan,n_eselon_i,n_eselon_ii,n_eselon_iii,c_eselon_i,c_eselon_ii,c_eselon_ii_i,c_eselon_ii_iii,c_eselon_iii,c_lokasi_unit,n_lokasi_unit){
+		
+		var thn_skr=jQuery(".thn_skr").html();
+		var tahun=jQuery("#tahun").val();
+		if(thn_skr == ""){
+		alert("Tampil Tahun Terlebih dahulu !");
+		return;
+		}
+		
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir3r/formulir3rolahdata';
+		
+		if(id==""){
+		par="Insert";
+		}else{
+		par="Update";
+		}
+		
+		var opt = {par:par,id:id,c_jabatan:c_jabatan,nm_jabatan:nm_jabatan,n_eselon_i:n_eselon_i,n_eselon_ii:n_eselon_ii,n_eselon_iii:n_eselon_iii,c_eselon_i:c_eselon_i,c_eselon_ii:c_eselon_ii,c_eselon_ii_i:c_eselon_ii_i,c_eselon_ii_iii:c_eselon_ii_iii,c_eselon_iii:c_eselon_iii,c_lokasi_unit:c_lokasi_unit,n_lokasi_unit:n_lokasi_unit};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				jQuery(".thn_skr").html(thn_skr);
+				jQuery("#thn_skrg2").val(thn_skr);
+				jQuery("#tahun").val(thn_skr);
+			 });
+		
+}
+
+function AmbilLokasi(par){
+	var thn_skr=jQuery(".thn_skr").html();
+	var tahun=jQuery("#tahun").val();
+	var id = jQuery("#id").val();
+	var lokasi = jQuery("#lokasi").val();
+	var eselon1 = jQuery("#eselon1").val();
+	var eselon2 = jQuery("#eselon2").val();
+	var eselon3 = jQuery("#eselon3").val();
+	var nm_jabatan = jQuery("#nm_jabatan").val();
+	var pendidikan = jQuery("#pendidikan").val();
+	var jurusan = jQuery("#jurusan").val();
+	var gol_ruang = jQuery("#gol_ruang").val();
+	var jml = jQuery("#jml").val();
+	var ket = jQuery("#ket").val();
+	
+	
+	
+	
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir3r/formulir3rolahdata';
+	var opt = {par:par,id:id,tahun:tahun,lokasi:lokasi,eselon1:eselon1,eselon2:eselon2,eselon3:eselon3,nm_jabatan:nm_jabatan,pendidikan:pendidikan,jurusan:jurusan,gol_ruang:gol_ruang,jml:jml,ket:ket};
+	
+	
+	jQuery.get(handler,opt,function(data) {
+		$("#tableview").html(data);
+		jQuery(".thn_skr").html(thn_skr);
+		jQuery("#tahun").val(thn_skr);
+		jQuery("#id").val(id);
+		jQuery("#lokasi").val(lokasi);
+		jQuery("#eselon1").val("");
+		jQuery("#eselon2").val("");
+		jQuery("#eselon3").val("");
+		jQuery("#nm_jabatan").val(nm_jabatan);
+		jQuery("#pendidikan").val(pendidikan);
+		jQuery("#jurusan").val(jurusan);
+		jQuery("#gol_ruang").val(gol_ruang);
+		jQuery("#jml").val(jml);
+		jQuery("#ket").val(ket);
+	});
+	
+}
+
+function AmbilEselon1(par){
+	var thn_skr=jQuery(".thn_skr").html();
+	var tahun=jQuery("#tahun").val();
+	var id = jQuery("#id").val();
+	var lokasi = jQuery("#lokasi").val();
+	var eselon1 = jQuery("#eselon1").val();
+	var eselon2 = jQuery("#eselon2").val();
+	var eselon3 = jQuery("#eselon3").val();
+	var nm_jabatan = jQuery("#nm_jabatan").val();
+	var pendidikan = jQuery("#pendidikan").val();
+	var jurusan = jQuery("#jurusan").val();
+	var gol_ruang = jQuery("#gol_ruang").val();
+	var jml = jQuery("#jml").val();
+	var ket = jQuery("#ket").val();
+	
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir3r/formulir3rolahdata';
+	var opt = {par:par,id:id,tahun:tahun,lokasi:lokasi,eselon1:eselon1,eselon2:eselon2,eselon3:eselon3,nm_jabatan:nm_jabatan,pendidikan:pendidikan,jurusan:jurusan,gol_ruang:gol_ruang,jml:jml,ket:ket};
+	
+	
+	jQuery.get(handler,opt,function(data) {
+		$("#tableview").html(data);
+		jQuery(".thn_skr").html(thn_skr);
+		jQuery("#thn_skrg2").val(thn_skr);
+		jQuery("#tahun").val(thn_skr);
+		jQuery("#id").val(id);
+		jQuery("#lokasi").val(lokasi);
+		jQuery("#eselon1").val(eselon1);
+		jQuery("#eselon2").val(eselon2);
+		jQuery("#eselon3").val(eselon3);
+		jQuery("#nm_jabatan").val(nm_jabatan);
+		jQuery("#pendidikan").val(pendidikan);
+		jQuery("#jurusan").val(jurusan);
+		jQuery("#gol_ruang").val(gol_ruang);
+		jQuery("#jml").val(jml);
+		jQuery("#ket").val(ket);
+	});
+	
+}
+
+function AmbilEselon2(par){
+	var thn_skr=jQuery(".thn_skr").html();
+	var tahun=jQuery("#tahun").val();
+	var id = jQuery("#id").val();
+	var lokasi = jQuery("#lokasi").val();
+	var eselon1 = jQuery("#eselon1").val();
+	var eselon2 = jQuery("#eselon2").val();
+	var eselon3 = jQuery("#eselon3").val();
+	var nm_jabatan = jQuery("#nm_jabatan").val();
+	var pendidikan = jQuery("#pendidikan").val();
+	var jurusan = jQuery("#jurusan").val();
+	var gol_ruang = jQuery("#gol_ruang").val();
+	var jml = jQuery("#jml").val();
+	var ket = jQuery("#ket").val();
+		
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir3r/formulir3rolahdata';
+	var opt = {par:par,id:id,tahun:tahun,lokasi:lokasi,eselon1:eselon1,eselon2:eselon2,eselon3:eselon3,nm_jabatan:nm_jabatan,pendidikan:pendidikan,jurusan:jurusan,gol_ruang:gol_ruang,jml:jml,ket:ket};
+	
+	
+	jQuery.get(handler,opt,function(data) {
+		$("#tableview").html(data);
+		jQuery(".thn_skr").html(thn_skr);
+		jQuery("#thn_skrg2").val(thn_skr);
+		jQuery("#tahun").val(thn_skr);
+		jQuery("#id").val(id);
+		jQuery("#lokasi").val(lokasi);
+		jQuery("#eselon1").val(eselon1);
+		jQuery("#eselon2").val(eselon2);
+		jQuery("#eselon3").val(eselon3);
+		jQuery("#nm_jabatan").val(nm_jabatan);
+		jQuery("#pendidikan").val(pendidikan);
+		jQuery("#jurusan").val(jurusan);
+		jQuery("#gol_ruang").val(gol_ruang);
+		jQuery("#jml").val(jml);
+		jQuery("#ket").val(ket);
+	});
+	
+}
+
+function AmbilEselon3(par){
+	var thn_skr=jQuery(".thn_skr").html();
+	var tahun=jQuery("#tahun").val();
+	var id = jQuery("#id").val();
+	var lokasi = jQuery("#lokasi").val();
+	var eselon1 = jQuery("#eselon1").val();
+	var eselon2 = jQuery("#eselon2").val();
+	var eselon3 = jQuery("#eselon3").val();
+	var nm_jabatan = jQuery("#nm_jabatan").val();
+	var pendidikan = jQuery("#pendidikan").val();
+	var jurusan = jQuery("#jurusan").val();
+	var gol_ruang = jQuery("#gol_ruang").val();
+	var jml = jQuery("#jml").val();
+	var ket = jQuery("#ket").val();
+	
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir3r/formulir3rolahdata';
+	var opt = {par:par,id:id,tahun:tahun,lokasi:lokasi,eselon1:eselon1,eselon2:eselon2,eselon3:eselon3,nm_jabatan:nm_jabatan,pendidikan:pendidikan,jurusan:jurusan,gol_ruang:gol_ruang,jml:jml,ket:ket};
+	
+	
+	jQuery.get(handler,opt,function(data) {
+		$("#tableview").html(data);
+		jQuery(".thn_skr").html(thn_skr);
+		jQuery("#thn_skrg2").val(thn_skr);
+		jQuery("#tahun").val(thn_skr);
+		jQuery("#id").val(id);
+		jQuery("#lokasi").val(lokasi);
+		jQuery("#eselon1").val(eselon1);
+		jQuery("#eselon2").val(eselon2);
+		jQuery("#eselon3").val(eselon3);
+		jQuery("#nm_jabatan").val(nm_jabatan);
+		jQuery("#pendidikan").val(pendidikan);
+		jQuery("#jurusan").val(jurusan);
+		jQuery("#gol_ruang").val(gol_ruang);
+		jQuery("#jml").val(jml);
+		jQuery("#ket").val(ket);
+	});
+	
+}
+
+function OpenFormulir3r(){
+		var thn_skr=jQuery(".thn_skr").html();
+		var tahun=jQuery("#tahun").val()
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir3r/listformulir3r';
+		
+		var opt = {tahun:tahun};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				jQuery("#tahun").val(thn_skr);
+				jQuery(".thn_skr").html(thn_skr);
+			 });
+
+}
+
+function insertFormulir3r(){
+		var thn_skr=jQuery(".thn_skr").html();
+		var tahun=jQuery("#tahun").val()
+				
+		jQuery("#formformulir3r").ajaxForm(maintain_formulir3r);
+	
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir3r/listformulir3r';
+		var opt = {tahun:tahun,thn_skr:thn_skr};
+		jQuery.get(handler,opt,function(data) {
+				//$("#tableview").html(data);
+				jQuery("#tahun").val(thn_skr);
+				jQuery(".thn_skr").html(thn_skr);
+			});
+}
+
+var maintain_formulir3r = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formformulir3r").ajaxForm(maintain_formulir3r);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/formulir3r/insertformulir3r',
+	type: 'post',
+	resetForm: false
+};
+
+function updateFormulir3r(){
+	var thn_skr=jQuery(".thn_skr").html();
+	var tahun=jQuery("#tahun").val()
+	
+	jQuery("#formformulir3r").ajaxForm(update_formulir3r);
+	
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir3r/listformulir3r';
+		
+		var opt = {tahun:tahun,thn_skr:thn_skr};
+		jQuery.get(handler,opt,function(data) {
+				//$("#tableview").html(data);
+				jQuery("#tahun").val(thn_skr);
+				jQuery(".thn_skr").html(thn_skr);
+				});
+}
+
+var update_formulir3r = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formformulir3r").ajaxForm(update_formulir3r);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/formulir3r/updateformulir3r',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusFormulir3r(param1, param2, param3){
+	var thn_skr=jQuery(".thn_skr").html();
+	var tahun=jQuery("#tahun").val()
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir3r/deleteformulir3r';
+		var opt = {id : param2,tahun:tahun};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				jQuery("#tahun").val(thn_skr);
+				jQuery(".thn_skr").html(thn_skr);
+				doCount(5);
+			 });
+	} 
+}

@@ -1,0 +1,64 @@
+<html>
+	<head>
+	<?php echo $this->render('partials/head.phtml'); ?>
+	</head>
+	<body>
+		<h1>Sistem Informasi Pemerintah Kota Cimahi Terintegrasi</h1>
+		<div id="page">
+			<div id="container-login">
+						<div id="msg" class="note">
+							<font color="red"><?php echo $this->pesan;?></font>
+						</div>	  
+
+	
+				<fieldset class="panel-form">
+					<h2>Login</h2>
+						
+					<!--form name="login" id="myForm" action="/main" method="POST"-->
+					<input type="hidden" id="pesan" value="<?php echo $this->pesan;?>">
+					
+					<form name="login" id="myForm" action="/main" method="POST">
+						<div class="panel-login">
+							<label for="posusername" style="clear:both">User ID</label>
+							<br>
+							<input type="text" name="username" class="textbox" id="username" size="23">
+							<br>
+							<label for="pospaswword">Password</label>
+							<br>
+							<input type="password" name="password" class="textbox" id="password" size="23">
+							<br>
+							<div class="alignright">
+								<input type="submit" name="submit" value="Login" class="buttonsubmit"/>
+							</div>
+						</div>
+					</form>		          
+				</fieldset>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script>
+jQuery(document).ready(function () { 
+	var pesan = document.getElementById('pesan').value;
+	if(pesan){
+		doCountLogin(5);
+		document.getElementById('pesan').value = '';
+	}
+});  	
+
+
+function doCountLogin(countdown) {
+	document.getElementById("msg").style.display="block";
+	
+	if (countdown > 0) {
+        countdown=countdown-1;
+		window.status=countdown + " seconds left to view this page.";
+		setTimeout('doCountLogin()',5000); 
+    }
+    else {
+        document.getElementById("msg").style.display="none";
+    } 
+}
+	
+</script>

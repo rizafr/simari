@@ -1,0 +1,331 @@
+<?php
+
+class Adm_Adminuser_Service {
+    private static $instance;
+
+    private function __construct() {
+    }
+
+    public static function getInstance() {
+       if (!isset(self::$instance)) {
+           $c = __CLASS__;
+           self::$instance = new $c;
+       }
+
+       return self::$instance;
+    }
+
+	//////////////////////////////////////////////////
+	public function findPegawai(array $data, $pageNumber, $itemPerPage) {
+		
+		$registry = Zend_Registry::getInstance();
+		$db = $registry->get('db');
+		try {
+			$db->setFetchMode(Zend_Db::FETCH_OBJ); 
+			$i_peg_nip = $data['i_peg_nip'];
+			$n_peg = strtoupper($data['n_peg']);
+			$i_orgb = strtoupper($data['i_orgb']);
+
+			if($i_peg_nip)	
+			{
+				if($n_peg)
+				{
+					$where = "i_peg_nip like '%$i_peg_nip%' AND UPPER(n_peg) like '%$n_peg%'";
+				}
+				else
+				{
+					$where = "i_peg_nip like '%$i_peg_nip%'";
+				}
+			}
+			else
+			{
+				if($n_peg)
+							{
+									$where = "UPPER(n_peg) like '%$n_peg%'";
+							}
+							else
+							{
+					$where = "i_peg_nip like '%%' AND UPPER(n_peg) like '%%'";
+							}
+
+			}
+			 
+			$xLimit=$itemPerPage;
+			$xOffset=($pageNumber-1)*$itemPerPage;
+			if(($pageNumber == 0) && ($itemPerPage == 0))
+			{
+				$hasilAkhir = $db->fetchOne("select count(*) 
+										FROM v_pegawai 
+										where $where
+										 limit $xLimit offset $xOffset");
+										
+			}
+			else
+			{
+				if($itemPerPage == 20)
+				{
+					$result = $db->fetchAll("select *
+											 FROM v_pegawai
+											 where $where 
+											 order by i_peg_nip
+											 limit $xLimit offset $xOffset");
+
+				}
+				else
+				{
+							
+					$result = $db->fetchAll("select * 
+								FROM v_pegawai 
+								where $where 
+								order by n_peg limit $xLimit offset $xOffset");
+				} 
+		 							  
+		         $jmlResult = count($result);
+				 //echo "==========$jmlResult=========";
+				 for ($j = 0; $j < $jmlResult; $j++) {
+					$hasilAkhir[$j] = array("i_peg_nip"  =>(string)$result[$j]->i_peg_nip,
+											"n_peg"  =>(string)$result[$j]->n_peg,
+											"n_peg_gelardepan"  =>(string)$result[$j]->n_peg_gelardepan,
+											"n_peg_gelarblkg"  =>(string)$result[$j]->n_peg_gelarblkg,
+											"c_jabatan"  =>(string)$result[$j]->c_jabatan,
+											"c_eselon_i" =>(string)$result[$j]->c_eselon_i,
+											"c_eselon_ii" =>(string)$result[$j]->c_eselon_ii,
+											"c_eselon_iii" =>(string)$result[$j]->c_eselon_iii,
+											"c_eselon_iv" =>(string)$result[$j]->c_eselon_iv,
+											"c_lokasi_unitkerja" => (string)$result[$j]->c_lokasi_unitkerja);
+				 }	
+			}
+	     return $hasilAkhir;
+	   } catch (Exception $e) {
+         //echo $e->getMessage().'<br>';
+	     return 'Data Tidak Ada <br>';
+	   }
+	}
+	
+	public function checkLogin($dataMasukan) 
+	{
+		$registry = Zend_Registry::getInstance();
+		$db = $registry->get('db');
+		try {
+		$db->setFetchMode(Zend_Db::FETCH_OBJ);
+		
+		$userid = $dataMasukan['userid'];
+		$password = $dataMasukan['password'];
+		
+		$result = $db->fetchOne("select count(*)
+								 from adm.tm_user a
+								 where a.userid = '$userid'
+								   and a.n_password = '$password'");
+		
+		 
+		 return $result;
+		} catch (Exception $e) {
+		 //echo $e->getMessage().'<br>';
+		 return 'gagal <br>';
+		}
+	}
+	
+	public function getDetailUser($dataMasukan) 
+	{
+		$registry = Zend_Registry::getInstance();
+		$db = $registry->get('db');
+		try {
+		$db->setFetchMode(Zend_Db::FETCH_OBJ);
+		
+		$userid = $dataMasukan['userid'];
+		$password = $dataMasukan['password'];
+		
+		$sqlDetailUser = "select a.userid,a.n_password, a.i_peg_nip, b.n_peg, b.n_peg_gelardepan,
+										b.n_peg_gelarblkg, b.c_jabatan, b.c_lokasi_unitkerja, 
+										b.c_eselon_i, b.c_eselon_ii, b.c_eselon_iii, b.c_eselon_iv,
+										b.c_eselon_v
+								from adm.tm_user a, v_pegawai b
+								where a.i_peg_nip = b.i_peg_nip
+								  and a.userid 		= '$userid'
+								  and a.n_password 	= '$password'";
+								  //echo $sqlDetailUser;
+								  
+		$result = $db->fetchRow($sqlDetailUser);
+		
+		if($result->c_eselon_ii){
+			if($result->c_eselon_iii){
+				if($result->c_eselon_iv){
+					if($result->c_eselon_v){
+						$whereSatker .= "b.c_eselon_ii 	= '".$result->c_eselon_ii."' and
+								  b.c_eselon_iii 	= '".$result->c_eselon_iii."' and
+								  b.c_eselon_iv 	= '".$result->c_eselon_iv."' and
+								  b.c_eselon_v	 	= '".$result->c_eselon_v."'";
+					} else {
+						$whereSatker .= "b.c_eselon_ii 	= '".$result->c_eselon_ii."' and
+								  b.c_eselon_iii 	= '".$result->c_eselon_iii."' and
+								  b.c_eselon_iv 	= '".$result->c_eselon_iv."'";
+					}
+				} else {
+					$whereSatker .= "b.c_eselon_ii 	= '".$result->c_eselon_ii."' and
+								  b.c_eselon_iii 	= '".$result->c_eselon_iii."'";
+				}
+			} else {
+				$whereSatker .= "b.c_eselon_ii 	= '".$result->c_eselon_ii."'";
+			}
+		}
+		
+		$sqlCsatker = "select b.c_satker
+					  from v_unitkerja b
+					  where b.c_eselon_i = '".$result->c_eselon_i."'
+					    and $whereSatker
+						and b.c_lokasi_unitkerja = '".$result->c_lokasi_unitkerja."'";
+		
+		$cSatker = $db->fetchOne($sqlCsatker);
+		
+		$sqlNsatker = "select nmsatker
+					  from v_satker
+					  where kdsatker = '$cSatker'";
+					  
+		$nSatker = $db->fetchOne($sqlNsatker);
+		
+		$hasilAkhir = array("userid"  =>(string)$result->userid,
+							"n_password"  =>(string)$result->n_password,
+							"i_peg_nip"  =>(string)$result->i_peg_nip,
+							"n_peg"  =>(string)$result->n_peg,
+							"n_peg_gelardepan"  =>(string)$result->n_peg_gelardepan,
+							"n_peg_gelarblkg"  =>(string)$result->n_peg_gelarblkg,
+							"c_jabatan"  =>(string)$result->c_jabatan,
+							"c_eselon_i" =>(string)$result->c_eselon_i,
+							"c_eselon_ii" =>(string)$result->c_eselon_ii,
+							"c_eselon_iii" =>(string)$result->c_eselon_iii,
+							"c_eselon_iv" =>(string)$result->c_eselon_iv,
+							"c_eselon_v" =>(string)$result->c_eselon_v,
+							"c_lokasi_unitkerja" => (string)$result->c_lokasi_unitkerja,
+							"c_satker" => $cSatker,
+							"n_satker" => $nSatker);
+
+		 return $hasilAkhir;
+		} catch (Exception $e) {
+		 //echo $e->getMessage().'<br>';
+		 return $e->getMessage().'gagal <br>';
+		}
+	}
+	
+	public function getOtoritasAplikasi($dataMasukan) 
+	{
+		$registry = Zend_Registry::getInstance();
+		$db = $registry->get('db');
+		try {
+		$db->setFetchMode(Zend_Db::FETCH_OBJ);
+		
+		$userid = $dataMasukan['userid'];
+		$password = $dataMasukan['password'];
+		
+		$sqlOtoritasAplikasi = "select distinct d.i_aplikasi
+							  from adm.tm_user a, 
+								   adm.tm_user_group b, 
+								   adm.tm_group_menu c, 
+								   adm.tm_menu d
+							  where a.userid = b.userid 
+								and b.i_group = c.i_group 
+								and c.c_menu_level = d.c_menu_level
+							    and a.userid 		= '$userid'
+								and a.n_password 	= '$password'";
+								  
+		$result = $db->fetchCol($sqlOtoritasAplikasi);
+		for($x=0; $x<count($result); $x++){
+			$hasilAkhir[$x] = $result[$x];
+		} 
+		
+		 return $result;
+		} catch (Exception $e) {
+		 //echo $e->getMessage().'<br>';
+		 return $e->getMessage().'gagal <br>';
+		}
+	}
+	
+	public function getOtoritasMenu($dataMasukan) 
+	{
+		$registry = Zend_Registry::getInstance();
+		$db = $registry->get('db');
+		try {
+		$db->setFetchMode(Zend_Db::FETCH_OBJ);
+		
+		$userid = $dataMasukan['userid'];
+		$password = $dataMasukan['password'];
+		$iAplikasi = $dataMasukan['iAplikasi'];
+		
+		$sqlOtoritasMenu = "select c.c_menu_level
+							  from adm.tm_user a, 
+								   adm.tm_user_group b, 
+								   adm.tm_group_menu c, 
+								   adm.tm_menu d
+							  where a.userid = b.userid 
+								and b.i_group = c.i_group 
+								and c.c_menu_level = d.c_menu_level
+							    and a.userid 		= '$userid'
+								and a.n_password 	= '$password'
+								and d.i_aplikasi	= '$iAplikasi'";
+								  //echo $sqlOtoritasMenu;
+		$result = $db->fetchCol($sqlOtoritasMenu);
+		
+		 return $result;
+		} catch (Exception $e) {
+		 //echo $e->getMessage().'<br>';
+		 return $e->getMessage().'gagal <br>';
+		}
+	}
+	
+	//================================
+	public function getNamaFungsi($cFungsi) 
+	{
+		$registry = Zend_Registry::getInstance();
+		$db = $registry->get('db');
+		try {
+			$db->setFetchMode(Zend_Db::FETCH_OBJ);
+
+			$n_fungsi = $db->fetchOne("select a.n_fungsi 
+									from rencana.tr_fungsi a
+									where a.c_fungsi = '$cFungsi'");
+									
+			return $n_fungsi;
+		} catch (Exception $e) {
+		 //echo $e->getMessage().'<br>';
+		 return 'gagal <br>';
+		}
+	}
+	
+	public function getNamaSfungsi($cFungsi, $cSfung) 
+	{
+		$registry = Zend_Registry::getInstance();
+		$db = $registry->get('db');
+		try {
+			$db->setFetchMode(Zend_Db::FETCH_OBJ);
+
+			$n_sfung = $db->fetchOne("select distinct(a.n_sfung)
+									from rencana.tr_sfung a
+									where a.c_fungsi = '$cFungsi' AND
+										  a.c_sfung = '$cSfung'");
+										  
+			return $n_sfung;
+		} catch (Exception $e) {
+		 //echo $e->getMessage().'<br>';
+		 return 'gagal <br>';
+		}
+	}
+	
+	public function getNamaPrioritas($c_jnsgiat, $c_priorits) 
+	{
+		$registry = Zend_Registry::getInstance();
+		$db = $registry->get('db');
+		try {
+			$db->setFetchMode(Zend_Db::FETCH_OBJ);
+
+			$n_priorits = $db->fetchOne("select distinct(a.n_priorits)
+									from rencana.tr_prioritas a
+									where a.c_jnsgiat = '$c_jnsgiat' AND
+										  a.c_priorits = '$c_priorits'");
+										  
+			return $n_priorits;
+		} catch (Exception $e) {
+		 //echo $e->getMessage().'<br>';
+		 return 'gagal <br>';
+		}
+	}
+}
+?>

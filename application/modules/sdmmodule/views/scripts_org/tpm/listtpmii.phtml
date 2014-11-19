@@ -1,0 +1,82 @@
+<? require_once 'Zend/View.php';
+    require_once 'share/halaman_list.php';
+  
+	$ctrlFrm = new Zend_View();
+	$halaman = new halaman_list(); 
+  
+	$jmldptigaList = count($this->dptigaList);
+
+	$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}  
+?>
+	<div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong> TPM &nbsp;
+			<strong>&#8250;</strong>&nbsp;TPM II
+	</div>
+
+	<div id="top"></div>
+	<div id="confirm" class="<?=$confirm?>" style="display: none">
+		<h2 class="title"><?echo $this->pesan;?></h2>				
+	</div>
+	<h2 class="title">TPM II</h2>
+<div class="panel">	
+
+	<form action="" method="post"> 
+		<fieldset class="fields"> 
+<?		if (count($this->dataPraTpm) == 0) {?>
+			   <div class="add" title="Tambah Data" onclick="TpmIIM('insert','<?=$this->usulan_id?>');"></div>
+<?}?>			   
+   <table width="100%" border="0" cellpadding="0" cellspacing="1" class="tbl">
+		<tr>
+			<th>Nomor Surat</th>
+			<th>Judul</th>
+			<th>Tanggal TPM</th>
+			<th width="5%" colspan="2">&nbsp;</th>
+		</tr> 
+<? 		if (count($this->dataPraTpm) == 0) {?>
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>	
+<?}else{
+				foreach ($this->dataPraTpm as $key => $val): 
+				if ($key%2==0) { ?>
+				<tr class="event">
+				<? } else if ($key%2==1) { ?>
+				<tr class="event2">
+				<? } 
+				$usulan_id=$this->escape($val['usulan_id']);
+				?>
+					<td align="right"><?php echo $this->escape($val['usulan_nomor']);?></td>
+					<td align="right"><?php echo $this->escape($val['nama_list']);?></td>
+					<td align="right"><?php echo $this->escape($val['tpm_tgl']);?></td>					
+					<td class="clcenter">
+						<div class="edit" title="Ubah Data" onclick="TpmIIM('update','<?=trim($usulan_id)?>');"></div>	
+					</td>
+					<td class="clcenter">
+						<div class="delete" title="Hapus Data"  onClick="javascript:HapuspraTpmM('<?=$usulan_id?>')"></div>
+					</td>					
+				</tr>
+				<?php endforeach;}?>
+	
+	</table>
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">	
+			<tr>
+				<td align="left">&nbsp;</td>
+				<td></td>
+				<td align="right">
+					<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/tpm/listpmtipmii','');"> 									
+				</td>
+			</tr>
+		</table>	
+	</div>	
+<br>
+			
+	</form>
+	
+

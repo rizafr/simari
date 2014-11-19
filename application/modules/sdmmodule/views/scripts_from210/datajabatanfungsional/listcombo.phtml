@@ -1,0 +1,11 @@
+<?php 
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+
+	$jmlstatusJabatList=count($this->statusJabatList);
+	$statusJabatList[''] = '--Pilih--';
+	for ($i = 0; $i < $jmlstatusJabatList; $i++) {
+		$statusJabatList[(string)$this->statusJabatList[$i]->c_statusfung] = (string)$this->statusJabatList[$i]->n_statusfung;			 
+	}						
+	echo $ctrlFrm->formSelect('c_alasan',$this->c_alasan,null,$statusJabatList); 	
+?>						

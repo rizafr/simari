@@ -1,0 +1,10 @@
+<?
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+$wilList[''] = '--Pilih--';							
+for ($i = 0; $i < count($this->wilayahList); $i++) {
+	$n_pengadilan=trim($this->wilayahList[$i]['n_pengadilan']);		   
+	$wilList[trim((string)$this->wilayahList[$i]['c_pengadilan'])] = $n_pengadilan;
+}
+echo $ctrlFrm->formSelect('nCol',$this->nCol,null,$wilList);
+?>

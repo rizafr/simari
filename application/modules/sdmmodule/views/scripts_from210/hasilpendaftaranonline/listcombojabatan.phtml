@@ -1,0 +1,10 @@
+<?
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+$jabatanList[''] = '--Pilih--';							
+for ($i = 0; $i < count($this->jabatanList); $i++) {
+	$n_jabatan=trim($this->jabatanList[$i]['n_jabatan']);		   
+	$jabatanList[trim((string)$this->jabatanList[$i]['c_jabatan'])] = $n_jabatan;
+}
+echo $ctrlFrm->formSelect('nCol',$this->nCol,null,$jabatanList);
+?>

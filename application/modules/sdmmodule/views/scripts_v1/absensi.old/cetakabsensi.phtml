@@ -1,0 +1,208 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php';
+
+   $convDate = new oa_date();
+   $jmlPegawaiList = count($this->absensiList);
+   for ($j = 0; $j < $jmlPegawaiList; $j++) {
+     $pegawai[$j] = array("i_peg_nip"  =>(string)$this->absensiList[$j]['i_peg_nip'],
+							"n_peg"  =>(string)$this->absensiList[$j]['n_peg']);
+   }
+   $bulan = array("01"=>"Januari",
+                      "02"=>"Februari",
+                      "03"=>"Maret",
+                      "04"=>"April",
+                      "05"=>"Mei",
+                      "06"=>"Juni",
+                      "07"=>"Juli",
+                      "08"=>"Agustus",
+                      "09"=>"September",
+                      "10"=>"Oktober",
+                      "11"=>"November",
+                      "12"=>"Desember");
+	$hari = array("Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu");
+    $itThawl = $this->sithns; 
+	$itBlawl = $this->siblns;
+	$itTgawl = $this->sitgls;
+	$itThakr = $this->sithnf;
+	$itBlakr = $this->siblnf;
+	$itTgakr = $this->sitglf;
+    $itNip = $this->nip;
+	$itNama = $this->nama;
+	$serviceE = $this->serviceE;
+    $idOrg = $this->idORG;
+    $tglAwal = $itTgawl." ".$bulan[$itBlawl]." ".$itThawl;
+    $tglAkhir = $itTgakr." ".$bulan[$itBlakr]." ".$itThakr;
+   
+$html = "";
+$html = $html.'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head>
+<body>';
+$html = $html. "
+<table cellpadding='0' cellspacing='0' border='0'>
+<tr>
+<td width='10'></td>
+<td colspan='3'><font size='4' face='arial'><u>Rekap Absensi Pegawai</u></font>
+</td>
+</tr>
+<tr height='15'><td colspan='4'></td></tr>
+<tr height='12'>
+<td width='10'></td>
+<td width='90'><font size='3' face='arial'>Unit Kerja</font></td>
+<td width='10'><font size='3' face='arial'>:</font></td>
+<td width='550'><font size='3' face='arial'>".$this->serviceE->getUnitKerjaDesc($idOrg)."</font></td>
+</tr>
+<tr height='12'>
+<td></td>
+<td><font size='3' face='arial'>Nip / Nama</font></td>
+<td><font size='3' face='arial'>:</font></td>
+<td><font size='3' face='arial'>".$itNip." / ".$itNama."</font></td>
+</tr>
+<tr height='12'>
+<td></td>
+<td><font size='3' face='arial'>Periode</font></td>
+<td><font size='3' face='arial'>:</font></td>
+<td><font size='3' face='arial'>".$tglAwal." s/d ".$tglAkhir."</font></td>
+</tr>
+<tr height='15'><td colspan='4'></td></tr>
+<tr height='12'>
+<td width='10'></td>
+<td colspan='3'>
+   <table cellpadding='0' cellspacing='0' border='1' align='center'>
+        <tr height='12'> 
+          <td width='30' align='center' valign='middle' rowspan='2'> <font size='3' face='arial'>No</font> 
+          </td>
+          <td width='70' align='center' valign='middle' rowspan='2'> <font size='3' face='arial'>Tanggal</font> 
+          </td>
+          <td width='50' align='center' valign='middle' rowspan='2'> <font size='3' face='arial'>Hari</font> 
+          </td>
+          <td align='center' valign='middle' colspan='3'> <font size='3' face='arial'>Masuk</font> 
+          </td>
+          <td align='center' valign='middle' colspan='3'> <font size='3' face='arial'>Keluar</font></td>
+          <td width='50' align='center' valign='middle' colspan='2'><font size='3' face='arial'>Lembur</font></td>
+          <td width='50' align='center' valign='middle' colspan='2'><font size='3' face='arial'>Jml jam (menit)</font></td>
+        </tr>
+        <tr height='12'> 
+          <td width='30' align='center' valign='middle'><font face='arial' size='3'>Kerja</font></td>
+          <td width='30' align='center' valign='middle'><font size='3' face='arial'>Dari Ijin</font></td>
+          <td width='30' align='center' valign='middle'> <font size='3' face='arial'>Dari 
+            Istrht</font></td>
+          <td width='30' align='center' valign='middle'><font size='3' face='arial'>Ijin Dinas</font></td>
+          <td width='30' align='center' valign='middle'><font size='3' face='arial'>Ijin Prbd</font></td>
+          <td width='30' align='center' valign='middle'><font face='arial' size='3'>Pulang</font></td>
+          <td width='25' align='center' valign='middle'><font size='3' face='arial'>Mulai</font></td>
+          <td width='25' align='center' valign='middle'><font size='3' face='arial'>Selesai</font></td>
+          <td width='25' align='center' valign='middle'><font size='3' face='arial'>Kerja</font></td>
+          <td width='25' align='center' valign='middle'><font size='3' face='arial'>Lembur</font></td>
+        </tr>";
+
+	  $noUrut = 0; $jmlHariHtg = $serviceE->hitungHari($itTgawl.$itBlawl.$itThawl,$itTgakr.$itBlakr.$itThakr); 
+        for ($i=$itTgawl; $i<$jmlHariHtg+2; $i++) { $noUrut++; $thnmulai = date("Y", 
+        mktime(0, 0, 0, $itBlawl, $i, $itThawl)); $blnmulai = date("m", mktime(0, 
+        0, 0, $itBlawl, $i, $itThawl)); $tglmulai = date("d", mktime(0, 0, 0, 
+        $itBlawl, $i, $itThawl)); $harimulai = date("w", mktime(0, 0, 0, $itBlawl, 
+        $i, $itThawl)); $jamHariKerja = $this->serviceE->getJamHariKerja($tglmulai.$blnmulai.$thnmulai); 
+        $jamAwalkerja = $jamHariKerja['d_jamkerja_mulai']; $jamAkhirkerja = $jamHariKerja['d_jamkerja_selesai']; 
+        $jamAwalBreak = $jamHariKerja['d_jamistrht_mulai']; $jamAkhirBreak = $jamHariKerja['d_jamistrht_selesai']; 
+        $jmKerja = (mktime(substr($jamAkhirkerja,0,2), substr($jamAkhirkerja,3,2), 
+        00, $itBlawl, $i, $itThawl)-mktime(substr($jamAwalkerja,0,2), substr($jamAwalkerja,3,2), 
+        00, $itBlawl, $i, $itThawl))/60; $jmBreak = (mktime(substr($jamAkhirBreak,0,2), 
+        substr($jamAkhirBreak,3,2), 00, $itBlawl, $i, $itThawl)-mktime(substr($jamAwalBreak,0,2), 
+        substr($jamAwalBreak,3,2), 00, $itBlawl, $i, $itThawl))/60; $jmMurni = 
+        $jmKerja - $jmBreak; if (($harimulai=="0") || ($harimulai=="6")) { $warna 
+        = "red"; $back = "#CCCCCC";} else { $warna = "blue"; $back = "#FFFFFF"; } $pegKerjaIn = $this->serviceE->getAbsensiPegawai($itNip,$tglmulai.$blnmulai.$thnmulai,"01"); 
+        $pegKerjaOt = $this->serviceE->getAbsensiPegawai($itNip,$tglmulai.$blnmulai.$thnmulai,"04"); 
+        $pegBreakSt = $this->serviceE->getAbsensiPegawai($itNip,$tglmulai.$blnmulai.$thnmulai,"02"); 
+        $pegBreakFn = $this->serviceE->getAbsensiPegawai($itNip,$tglmulai.$blnmulai.$thnmulai,"03"); 
+        $pegIn = substr($pegKerjaIn['d_peg_jam'],0,5); $termIn = $pegKerjaIn['i_term']; 
+        $pegOt = substr($pegKerjaOt['d_peg_jam'],0,5); $termOt = $pegKerjaOt['i_term']; 
+        $brkSt = substr($pegBreakSt['d_peg_jam'],0,5); $brkTrmSt = $pegBreakSt['i_term']; 
+        $brkFn = substr($pegBreakFn['d_peg_jam'],0,5); $brkTrmFn = $pegBreakFn['i_term']; 
+        if ($pegIn=="") { $pegIn="00:00"; } if ($pegOt=="") { $pegOt="00:00"; 
+        } $jamHadir = (mktime(substr($pegOt,0,2), substr($pegOt,3,2), 00, $itBlawl, 
+        $i, $itThawl)-mktime(substr($pegIn,0,2), substr($pegIn,3,2), 00, $itBlawl, 
+        $i, $itThawl))/60; $jamBreak = (mktime(substr($brkFn,0,2), substr($brkFn,3,2), 
+        00, $itBlawl, $i, $itThawl)-mktime(substr($brkSt,0,2), substr($brkSt,3,2), 
+        00, $itBlawl, $i, $itThawl))/60; $jamHadirKerja = $jamHadir - $jamBreak; 
+        $jamHadirKerjaSlsh = $jamHadirKerja - $jmMurni; if ((int)$jamHadirKerjaSlsh>0) 
+        { $lbhKerja = $jamHadirKerjaSlsh; $krgKerja = 0; } else { $lbhKerja = 
+        0; $krgKerja = ($jamHadirKerjaSlsh*-1); } if ((int)$jamBreak>60) $krgBreak 
+        = $jamBreak - 60; else $krgBreak = 0; $ijin = $this->serviceE->getIjinByNip($itNip,$tglmulai.$blnmulai.$thnmulai); 
+        $surat = $ijin['i_no_surat_ijin']; if ($ijin['d_entry']!="") { $tglsurat 
+        = substr($ijin['d_entry'],8,2)."-".substr($ijin['d_entry'],5,2). "-".substr($ijin['d_entry'],0,4); 
+        $krgKerja = 0; } else $tglsurat=""; $html = $html. " 
+        <tr height='12'> 
+          <td align='right' bgcolor='$back'><font size='2' face='arial' color='$warna'>".$noUrut."</font></td>
+          <td align='center' bgcolor='$back'><font size='2' face='arial' color='$warna'>".$tglmulai."-".$blnmulai."-". 
+            $thnmulai."</font></td>
+          <td bgcolor='$back'><font size='2' face='arial' color='$warna'>".$hari[$harimulai]."</font></td>
+          <td align='center' bgcolor='$back'><font size='2' face='arial' color='$warna'>".$pegIn."</font></td>
+          <td align='center' bgcolor='$back'>&nbsp;</td>
+          <td align='center' bgcolor='$back'><font size='2' face='arial' color='$warna'>&nbsp;</font></td>
+          <td align='center' bgcolor='$back'>&nbsp;</td>
+          <td align='center' bgcolor='$back'>&nbsp;</td>
+          <td align='center' bgcolor='$back'><font size='2' face='arial' color='$warna'>".$brkFn."</font></td>
+          <td align='center' bgcolor='$back'>&nbsp;</td>
+          <td align='center' bgcolor='$back'>&nbsp;</td>
+          <td align='center' bgcolor='$back'>&nbsp;</td>
+          <td align='center' bgcolor='$back'>&nbsp;</td>
+          "; $html = $html. " </tr>
+        "; } $html = $html. " 
+      </table>
+      <p>&nbsp;</p>
+      <table width='250' border='0' cellspacing='0' cellpadding='0' align='right'>
+        <tr>
+          <td><font size='3' face='arial'>Mengetahui,</font></td>
+        </tr>
+        <tr>
+          <td><font size='3' face='arial'>KaBid Sistem Informasi</font></td>
+        </tr>
+        <tr>
+          <td><br>
+            <br>
+            <br>
+          </td>
+        </tr>
+        <tr>
+          <td><font size='3' face='arial'>Indriani Widiastuti</font></td>
+        </tr>
+        <tr>
+          <td><font size='3' face='arial'>NIP 19681213 199603 2 001</font></td>
+        </tr>
+      </table>
+      <p>&nbsp; </p>
+    </td>
+</tr>
+</table>
+</body>
+</html>";
+//echo $html;
+	$formatToPdf = $html;
+
+	$filename = "/tmp/test1.html";
+	$filepdf = "/tmp/test1.pdf";
+	
+	$ourFileHandle = fopen($filename, 'w+') or die("can't open file");
+	fclose($ourFileHandle);
+
+	$fh = fopen($filename, 'w+') or die("can't open file");
+	fwrite($fh, $formatToPdf);
+	fclose($fh);
+	
+
+	$options="--footer . --continuous --duplex --portrait --tocheader ht --left margin 3cm --right margin 1cm --size A4";
+
+	# Tell HTMLDOC not to run in CGI mode...
+       putenv("HTMLDOC_NOCGI=1");
+
+	# Write the content type to the client...
+	header("Content-Type: application/pdf");
+	header("Content-Disposition: attachment; filename=".$filepdf);
+	flush();
+
+	# Run HTMLDOC to provide the PDF file to the user...
+	passthru("htmldoc -t pdf --quiet --jpeg --webpage $options '$filename'");
+
+	?>

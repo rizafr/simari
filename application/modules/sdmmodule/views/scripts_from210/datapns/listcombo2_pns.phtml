@@ -1,0 +1,116 @@
+<?php 
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+
+?>
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%"  id="listcombo">
+				<tr>
+					<td width="50%">
+					<table width="100%">
+							<tr>
+								<td><h3 class="title"><b><u>UNIT KERJA</u></b><h3></td>
+							</tr>
+					</table>
+					</td>
+				</tr>			
+				<tr>
+					<td width="53%">
+						<table width="100%">							
+							<tr>
+								<td width="25%">Lokasi<span class="hightlight">*</span></td>
+								<td width="2%">:</td> 
+								<td>					
+									<?
+										$jmlLokList=count($this->lokasiList);
+										$lokList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmlLokList; $i++) {
+												$lokList[(string)$this->lokasiList[$i]->c_lokasi] = (string)$this->lokasiList[$i]->n_lokasi;			 
+											}
+										$lokAtrib = array("style"=>"width: 320px","id"=>"c_lokasi_unitkerja_pns","onChange"=>"javascript:cariComboPns('targetesli')"); 
+										echo $ctrlFrm->formSelect('c_lokasi_unitkerja_pns',$this->c_lokasi_unitkerja_pns,$lokAtrib,$lokList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon I</td>
+								<td>:</td> 
+								<td>					
+									<?
+										$jmleseloniList=count($this->eseloniList);
+										$eseloniList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniList; $i++) {
+												
+												$eseloniList[trim((string)$this->eseloniList[$i]->c_eselon_i.";".(string)$this->eseloniList[$i]->n_unitkerja)] = (string)$this->eseloniList[$i]->n_unitkerja;		
+												
+											}
+										$eslAtrib = array("style"=>"width: 320px","id"=>"c_eselon_i_pns","onChange"=>"javascript:cariComboPns('targeteslii')");  	
+										echo $ctrlFrm->formSelect('c_eselon_i_pns',$this->c_eselon_i_pns,$eslAtrib,$eseloniList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Pengadilan Tk Banding</td>
+								<td>:</td> 
+								<td>				
+									<?
+										$jmleseloniiList=count($this->eseloniiList);
+										$eseloniiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiList; $i++) {
+												//$eseloniiList[(string)$this->eseloniiList[$i]->c_eselon_ii." ".(string)$this->eseloniiList[$i]->n_unitkerja] = (string)$this->eseloniiList[$i]->n_unitkerja;
+												$eseloniiList[trim((string)$this->eseloniiList[$i]->c_eselon_ii.";".(string)$this->eseloniiList[$i]->c_parent.";".(string)$this->eseloniiList[$i]->n_unitkerja)] = (string)$this->eseloniiList[$i]->n_unitkerja;
+											}
+										if ($ceseloncpns>=3){$eslAtrib = array("style"=>"width: 320px","id"=>"c_eselon_ii_pns","onChange"=>"javascript:cariComboPns('targetesliii')");}
+										else {$eslAtrib = array("style"=>"width: 320px","id"=>"c_eselon_ii_pns","onChange"=>"javascript:cariComboPns('targetesliii')");}
+										echo $ctrlFrm->formSelect('c_eselon_ii_pns',$this->c_eselon_ii_pns,$eslAtrib,$eseloniiList); 							
+									?>
+								</td>
+							</tr>						
+							<tr>
+								<td>Pengadilan Tk I</td>
+								<td>:</td> 
+								<td>					
+									<?
+										$jmleseloniiiList=count($this->eseloniiiList);
+										$eseloniiiList[''] = '--Pilih--';
+										
+											for ($i = 0; $i < $jmleseloniiiList; $i++) {
+												//$eseloniiiList[(string)$this->eseloniiiList[$i]->c_eselon_iii." ".(string)$this->eseloniiiList[$i]->n_unitkerja] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+												$eseloniiiList[trim((string)$this->eseloniiiList[$i]->c_eselon_ii.";".(string)$this->eseloniiiList[$i]->c_eselon_iii.";".(string)$this->eseloniiiList[$i]->c_satker.";".(string)$this->eseloniiiList[$i]->n_unitkerja)] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+												
+											}										
+										if ($ceseloncpns>=5){$eslAtrib = array("style"=>"width: 320px","id"=>"c_eselon_iii_pns","onChange"=>"javascript:cariComboPns('targetesliv')");  	}										
+										else{$eslAtrib = array("style"=>"width: 320px","id"=>"c_eselon_iii_pns","onChange"=>"javascript:cariComboPns('targetesliv')");}										
+										echo $ctrlFrm->formSelect('c_eselon_iii_pns',$this->c_eselon_iii_pns, $eslAtrib, $eseloniiiList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Unit Kerja</td>
+								<td>:</td> 
+								<td>				
+									<?
+										$jmleselonivList=count($this->eselonivList);
+										$eselonivList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonivList; $i++) {
+												$eselonivList[trim((string)$this->eselonivList[$i]->c_eselon_iv.";".(string)$this->eselonivList[$i]->n_unitkerja)] = (string)$this->eselonivList[$i]->n_unitkerja;			 
+											}
+										$eslAtrib = array("style"=>"width: 320px", "id"=>"c_eselon_iv_pns","onChange"=>"javascript:cariComboPns('targeteslv')"); 
+										echo $ctrlFrm->formSelect('c_eselon_iv_pns',$this->c_eselon_iv_pns,$eslAtrib,$eselonivList); 							
+									?>
+								</td>
+							</tr>
+						</table>
+					</td>
+										
+					<td width="47%">
+						<table width="100%">
+							<tr>
+								<td align="left">					
+									<textarea id="jabat_lengkap" name="jabat_lengkap" rows="5" cols="20"><?=$this->jabat_lengkap?></textarea>
+								</td>
+							</tr>
+						</table>
+					</td>
+										
+				</tr>
+			</table>

@@ -1,0 +1,11 @@
+<?php 
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+
+$jmlEslList=count($this->eselonList);
+$eslList[''] = '--Pilih--';
+	for ($i = 0; $i < $jmlEslList; $i++) {
+		$eslList[(string)$this->eselonList[$i]->c_eselon] = (string)$this->eselonList[$i]->n_eselon;			 
+	}
+$eslAtrib = array("style"=>"width: 300px"); 		
+echo $ctrlFrm->formSelect('nCol',$this->nCol, $eslAtrib, $eslList); 

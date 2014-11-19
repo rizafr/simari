@@ -1,0 +1,163 @@
+<? require_once 'Zend/View.php';   
+	$ctrlFrm = new Zend_View();
+  
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_sertifikat").datepicker();
+	});
+</script>
+	
+<form id="formfungsional" method="post" name="formfungsional" enctype="multipart/form-data">		
+				<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>						
+				<div class="spacer"></div> 
+				<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td colspan="3"><h3 class="title"><b>FUNGSIONAL</b><h3></td>
+				</tr>
+					<tr>
+						<td  width="23%">Jenis Pelatihan
+						<span class="hightlight">*</span>
+						</td>
+						<td width="2%">:</td> 
+						<td width="75%">					
+						<?php	
+						   $jmllisjnslatih = count($this->lisjnslatih);
+						   $lisjnslatih[''] = '--Pilih--';
+							for ($i = 0; $i < $jmllisjnslatih; $i++) {	 
+								$lisjnslatih[(string)$this->lisjnslatih[$i]->c_fungsional ]= (string)$this->lisjnslatih[$i]->n_fungsional;			 
+						   }						
+							$parlisjnslatih= array("onChange"=>"getKelompok()");							
+							echo $ctrlFrm->formSelect('c_jns_fungsional', $this->c_jns_fungsional, $parlisjnslatih, $lisjnslatih);
+						?>						
+						</td>
+					</tr>
+			
+				<tr>
+					<td>Kelompok
+					<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td id="idkel">
+						<?php
+							   $jmlliskellatih = count($this->liskellatih);
+							   $lisliskellatih[''] = '--Pilih--';
+								for ($i = 0; $i < $jmlliskellatih; $i++) {	 
+									$lisliskellatih[(string)$this->liskellatih[$i]->c_kelfungsional ]= (string)$this->liskellatih[$i]->n_kelfungsional;			 
+							   } 
+ 						
+							$parlisliskellatih= array("onChange"=>"getJenis()");
+							echo $ctrlFrm->formSelect('c_kel_pelatihan', $this->c_kel_pelatihan, $parlisliskellatih, $lisliskellatih);
+						?>
+					</td>
+				</tr>
+				<tr>
+					<td>Jenis</td>
+					<td>:</td> 
+					<td id="idjns">
+						<?php
+						   $jmllisjenjanglatih = count($this->lisjenjanglatih);
+						   $lisjenjanglatih[''] = '--Pilih--';
+							for ($i = 0; $i < $jmllisjenjanglatih; $i++) {	 
+								$lisjenjanglatih[(string)$this->lisjenjanglatih[$i]->c_jenjang_fungsional ]= (string)$this->lisjenjanglatih[$i]->n_jenjang_fungsional;			 
+						   } 						
+							$parlisliskellatih= array("onchange"=>"getNama()");
+							echo $ctrlFrm->formSelect('c_jns_kelompok', $this->c_jns_kelompok, $jenisLatihAtrib, $lisjenjanglatih);
+						?>
+					</td>
+				</tr>
+				<tr>
+					<td>Nama</td>
+					<td>:</td> 
+					<td id="idnama">
+						<?php
+						   $jmllisnamajenjanglatih = count($this->lisnamajenjanglatih);
+						   $lisnamajenjanglatih[''] = '--Pilih--';
+							for ($i = 0; $i < $jmllisnamajenjanglatih; $i++) {	 
+								$lisnamajenjanglatih[$this->lisnamajenjanglatih[$i]->c_jenjang ]= (string)$this->lisnamajenjanglatih[$i]->n_jenjang;			 
+						   }    
+							echo $ctrlFrm->formSelect('c_nama_kelompok', $this->c_nama_kelompok, null, $lisnamajenjanglatih);
+						?>
+					</td>
+				</tr>
+				<tr>
+					<td>Lama Diklat (JPL)</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="q_pelatihan" id="q_pelatihan" value="<?=$this->q_pelatihan?>" size="5">
+					</td>
+				</tr>
+				<tr>
+					<td>Penyelenggara</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="n_penyelenggara" id="n_penyelenggara" value="<?=$this->n_penyelenggara?>" size="80">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3"><h3 class="title"><b>SERTIFIKAT/STTPP</b><h3></td>
+				</tr>
+				<tr>
+					<td>Nomor Sertifikat</td>
+					<td>:</td> 
+					<td>
+						<input type="text" maxlength="80" name="i_sertifikat" id="i_sertifikat" value="<?=$this->i_sertifikat?>" size="50">
+					</td>
+				</tr>				
+				<tr>
+					<td>Tanggal Sertifikat</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_sertifikat" id="d_sertifikat" value="<?=$this->d_sertifikat?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+					</td>
+				</tr>	
+				<tr>
+					<td>Pejabat</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="n_pejabat" id="n_pejabat" value="<?=$this->n_pejabat?>" size="80">
+					</td>
+				</tr>
+			</table>	
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">	
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td align="right">
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapelatihan/listpelatihan','');"> 									
+									<input type="submit" value="<?=$this->par;?>" onClick="insertFungsional()">
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+							</td>
+						</tr>
+					</table>
+</form>
+<script>
+function getKelompok(){
+	var c_filter=document.getElementById("c_jns_fungsional").value;
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datapelatihan/listcombokelompok"
+	var opt = {c_filter:c_filter};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#idkel").html(data);
+		});		
+}
+function getJenis(){
+	var c_fungsional=document.getElementById("c_kel_pelatihan").value;
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datapelatihan/listcombojenis"
+	var opt = {c_fungsional:c_fungsional};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#idjns").html(data);
+		});		
+} 
+function getNama(){
+	var c_jenis=document.getElementById("c_jns_kelompok").value;
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datapelatihan/listcombonama"
+	var opt = {c_jenis:c_jenis};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#idnama").html(data);
+		});		
+}  
+</script>	

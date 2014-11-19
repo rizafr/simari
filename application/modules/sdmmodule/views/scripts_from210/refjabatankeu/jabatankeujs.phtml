@@ -1,0 +1,56 @@
+function openFormJabatankeu(par,id,n_jabatan,d_awal,d_akhir,n_sk,c_statusdelete,d_statusdelete){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refjabatankeu/jabatankeuolahdata";
+	var opt = {par:par, id:id, n_jabatan:n_jabatan, d_awal:d_awal, d_akhir:d_akhir, n_sk:n_sk, c_statusdelete:c_statusdelete, d_statusdelete:d_statusdelete};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formjabatankeu").ajaxForm(maintain_jabatankeu);
+		});		
+} 
+
+function insertJabatankeu(){
+	jQuery("#formjabatankeu").ajaxForm(maintain_jabatankeu);
+}
+
+var maintain_jabatankeu = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjabatankeu").ajaxForm(maintain_jabatankeu);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refjabatankeu/insertjabatankeu',
+	type: 'post',
+	resetForm: false
+};
+
+function updateJabatankeu(){
+	jQuery("#formjabatankeu").ajaxForm(update_jabatankeu);
+}
+
+var update_jabatankeu = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjabatankeu").ajaxForm(maintain_jabatankeu);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refjabatankeu/updatejabatankeu',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusJabatankeu(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refjabatankeu/deletejabatankeu';
+		var opt = {id : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

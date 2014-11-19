@@ -1,0 +1,418 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php'; 
+	require_once "share/oa_dec_cur_conv.php";
+   
+	$convDec = new oa_dec_cur_conv();   
+	$ctrlDate = new oa_date();     
+	$ctrlFrm = new Zend_View();
+	
+	$thnskrg = date("Y");
+
+   $jmlorgList = count($this->orgList);
+   //$orgList['-'] = '--Pilih--';
+    for ($i = 0; $i < $jmlorgList; $i++) {
+   $orgList[(string)$this->orgList[$i]->i_orgb] = (string)$this->orgList[$i]->n_orgb;			 
+   }
+
+    //$jnsAktList = array("-"=>"--Pilih--",
+    $jnsAktList = array("S"=>"Struktural",
+				  "F"=>"Fungsional");	
+  
+	$jumRepList = count($this->repList);
+   //echo "jumList=".$jumRepList."<br>";
+   for ($j = 0; $j < $jumRepList; $j++) {
+   
+     $rep[$j] = array("no" =>$j+1,
+						"nip"  			=>(string)$this->repList[$j]['nip'],
+						"nama"  		=>(string)$this->repList[$j]['nama'],
+						"orgb"  		=>(string)$this->repList[$j]['orgb'],
+						"unitKerja"  	=>(string)$this->repList[$j]['unitKerja'],
+						"tp"			=>(string)$this->repList[$j]['tp'],
+						"tt"			=>(string)$this->repList[$j]['tt'],
+						"tl"			=>(string)$this->repList[$j]['tl'],
+						"jumlah"		=>(string)$this->repList[$j]['jumlah'],
+						"pegawai"		=>(string)$this->repList[$j]['pegawai']);	
+   } 
+ 	$kodePeg = $this->repList[0]['pegawai'];
+  
+   
+	$pesan = $this->pesan;
+	
+	$judulOrg = $this->judulOrg;
+	
+	$spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'absensi');
+   echo $this->render('aktifitasjs.phtml'); 
+
+   $deptInput = $this->deptInput;
+   
+   $catatan = $this->catatan;
+?>
+<div class="contentdata-modul" id="modul">
+	 <div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Absensi
+		<strong> &#8250; </strong> Report Akifitas Harian
+	
+	</div>
+<?
+	$staf = $this->repList[0]['pegawai'];
+	//echo "staff= ".$staff;
+	if ($staf = 'staf') {
+	
+?>
+	<h3 class="title">REPORT AKTIFITAS HARIAN PEGAWAI</h3>
+<?
+	}
+?>
+	&nbsp;&nbsp;&nbsp;&nbsp;Menu ini digunakan untuk .... 
+	<div class="spacer"></div>
+	<a name="top"></a>	
+	
+	
+	<form id="frmReportAkt" action="<?php echo $this->basePath; ?>/sdm/absensi/reportaktifitas" method="post" name="frmReportAkt">
+		<div class="search-panel">
+		<fieldset class="panel-form4">
+				<dl>
+					<dd class="col-left">Organisasi</dd>
+					<dd class="dot2">:</dd>
+					<dd class="col-right4">
+					<?php 
+						$org = $_POST['org'];
+						if ($org == null) {
+							if ($_REQUEST['org'] == null) {
+								$org = $deptInput;
+							//echo "org= ".$org."<br>";
+							}
+							else {
+								$org = $_REQUEST['org'];
+							}
+						}
+						echo $ctrlFrm->formSelect('org', $org, null, $orgList) 
+					?>
+					<dd class="col-left">&nbsp;</dd>
+					<dd class="dot2">&nbsp;</dd>
+				</dl>
+				<dl>
+					<dd class="col-left">Jenis Aktifitas</dd>
+					<dd class="dot2">:</dd> 
+					<dd class="col-right4">
+					<?php
+						$jnsAkt = $_POST['jnsAkt'];
+						if ($jnsAkt == null) {
+							$jnsAkt = $_REQUEST['jnsAkt'];
+						}
+						echo $ctrlFrm->formSelect('jnsAkt', $jnsAkt, null, $jnsAktList) 
+					?>
+					</dd>
+				</dl>
+				<dl>
+					<dd class="col-left">Periode Tanggal</dd>
+					<dd class="dot2">:</dd>
+					<dd class="col-right4">
+					<?php 
+					$skr=date("Y-m-d");
+					$blnSkr = date("m");
+					$thnSkr = date("Y");
+					$hrSkr = date("d");
+					
+					$hr1 = $_POST['hr1'];
+					if (($hr1 == '--') || ($hr1 == null)){
+						if ($_REQUEST['hr1'] == null) {						
+							$hr1 = '01';
+						}
+						else {
+							$hr1 = $_REQUEST['hr1'];
+						}
+					}
+					
+					$bln1 = $_POST['bln1'];
+					if (($bln1 == '--') || ($bln1 == null)){
+						if ($_REQUEST['bln1'] == null) {						
+							$bln1 = $blnSkr;
+						}
+						else {
+							$bln1 = $_REQUEST['bln1'];
+						}
+					}
+					
+					$thn1 = $_POST['thn1'];
+					if ($thn1 == null) {
+						if ($_REQUEST['thn1'] == null) {						
+							$thn1 = $thnSkr;
+						}
+						else {
+							$thn1 = $_REQUEST['thn1'];
+						}
+					}
+					
+					$hr2 = $_POST['hr2'];
+					if (($hr2 == '--') || ($hr2 == null)){
+						if ($_REQUEST['hr2'] == null) {						
+							$hr2 = $hrSkr;
+						}
+						else {
+							$hr2 = $_REQUEST['hr2'];
+						}
+					}
+					
+					$bln2 = $_POST['bln2'];
+					if (($bln2 == '--') || ($bln2 == null)){
+						if ($_REQUEST['bln2'] == null) {						
+							$bln2 = $blnSkr;
+						}
+						else {
+							$bln2 = $_REQUEST['bln2'];
+						}
+					}
+
+					$thn2 = $_POST['thn2'];
+					if ($thn2 == null) {
+						if ($_REQUEST['thn2'] == null) {						
+							$thn2 = $thnSkr;
+						}
+						else {
+							$thn2 = $_REQUEST['thn2'];
+						}
+					}
+
+					$tgl1 = $thn1."-".$bln1."-".$hr1;
+					$tgl2 = $thn2."-".$bln2."-".$hr2;
+					 
+					//echo "hr1= ".$hr1."<br>";
+					
+					
+					?>
+					<?php echo $ctrlDate->formTanggal_oa('hr1',$hr1,'bln1',$bln1,'thn1',$thn1); ?> &nbsp;<b>s/d</b>&nbsp;
+				    <?php echo $ctrlDate->formTanggal_oa('hr2',$hr2,'bln2',$bln2,'thn2',$thn2);  ?>&nbsp;
+					
+					<dd class="col-left">&nbsp;</dd>
+					<dd class="dot2">&nbsp;</dd>
+				</dl>
+				<dl>
+					<dd class="col-left">&nbsp;</dd>
+					<dd class="dot2">&nbsp;</dd>
+					<dd class="col-right2">
+					<input id="perintah" type="submit" value="Cari" name="perintah" onClick="javascript:cariReport();">
+				</dl>
+		</fieldset>
+		</div>
+		
+		<? if (!$pesan == null) {
+		?>
+			<div class="spacer"> </div>
+			<fieldset id="message" class="confirm"><? echo $pesan; ?></fieldset>
+			<div class="spacer"> </div>	
+		<?}?>
+		
+		<div class="space-line"></div>
+		<fieldset  class="panel-form">	
+		
+		<div class="title2"> 
+		
+		<? 
+			if ($kodePeg == 'staf') {
+				echo $this->repList[0]['unitKerja']; 
+			} else 
+			if ($jumRepList == 0) {
+				echo $judulOrg;
+			}
+		?> 
+		
+		</div>
+		
+<?
+	if ($jumRepList == 0) {
+?>
+		<div class="spacer"> </div>
+		<center>
+<?
+		//echo "Data Absensi Tidak Ditemukan";
+			echo "<font color='red'>Data Rekap Aktifitas Harian Tidak Ditemukan</font>";
+?>
+		</center>
+
+		<?
+		if ($kodePeg == 'staf') {		
+		?>
+			<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+				<tr>
+					<th width="30%" rowspan='2'>Nama</th>
+					<th width="15%" rowspan='2'>NIP</th>
+					<th width="36%" colspan='3'>Jumlah Jam Kerja</th>
+					<th width="19%"  rowspan='2'>Jumlah</th>
+				</tr>
+				<tr>
+					<th width="12%">TP</th>
+					<th width="12%">TT</th>
+					<th width="12%">TL</th>
+				</tr>
+			</table>
+		
+		
+		<?
+		} else {
+		?>
+			<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+				<tr>
+					<th width="40%" rowspan='2'>Organisasi</th>
+					<th width="20%" rowspan='2'>Nama</th>
+					<th width="10%" rowspan='2'>NIP</th>
+					<th width="21%" colspan='3'>Jumlah Jam Kerja</th>
+					<th width="9%"  rowspan='2'>Jumlah</th>
+				</tr>
+				<tr>
+					<th width="7%">TP</th>
+					<th width="7%">TT</th>
+					<th width="7%">TL</th>
+				</tr>
+			</table>
+		<?
+		}
+		?>
+		
+<? } else { ?>
+
+		<?
+		if ($kodePeg == 'staf') {		
+		?>
+			<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+				<tr>
+					<th width="30%" rowspan='2'>Nama</th>
+					<th width="15%" rowspan='2'>NIP</th>
+					<th width="36%" colspan='3'>Jumlah Jam Kerja</th>
+					<th width="19%"  rowspan='2'>Jumlah</th>
+				</tr>
+				<tr>
+					<th width="12%">TP</th>
+					<th width="12%">TT</th>
+					<th width="12%">TL</th>
+				</tr>
+					<?
+						$jtp = 0.00;
+						$jtt = 0.00;
+						$jtl = 0.00;
+						$jTotal = 0.00;
+					?>
+			<?php foreach ($rep as $key => $val): 
+					if ($key%2==0) { ?>
+						<tr class="event">
+				<? 	} 
+					else if ($key%2==1) { ?>
+						  <tr class="event2">
+				<? } ?>
+				
+					<?php
+						$tp = $this->escape($val['tp']);
+						$tt = $this->escape($val['tt']);
+						$tl = $this->escape($val['tl']);
+						$jumT = $this->escape($val['jumlah']);
+					?>
+					<td>&nbsp;<?php echo $this->escape($val['nama']);?></td>
+					<td>&nbsp;<?php echo $this->escape($val['nip']);?></td>
+					<td class="clright"><?php echo $tp; ?></td>
+					<td class="clright"><?php echo $tt; ?></td>
+					<td class="clright"><?php echo $tl; ?></td>
+					<td class="clright"><?php echo $jumT; ?></td>
+				</tr>
+					<?
+						$jtp = $jtp + $tp;
+						$jtt = $jtt + $tt;
+						$jtl = $jtl + $tl;
+						$jTotal = $jTotal + $jumT;
+					?>
+		<?php endforeach;?> 
+			</table>
+			<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+			<?
+			?>
+				<tr class="event">
+					<td width="45%" class="clcenter"><b><? echo "J u m l a h : " ?></td>
+					<td width="12%" class="clright"><?php echo $jtp; ?></td>
+					<td width="12%" class="clright"><?php echo $jtt; ?></td>
+					<td width="12%" class="clright"><?php echo $jtl; ?></td>
+					<td width="19%" class="clright"><?php echo $jTotal;; ?></b></td>
+				</tr>
+			</table>
+		
+		<?		
+		} else {
+		
+		?>
+
+			<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+				<tr>
+				    <th width="40%"  rowspan='2'>Organisasi</th>
+				    <th width="20%"  rowspan='2'>Nama</th>
+				    <th width="10%"  rowspan='2'>NIP</th>
+				    <th width="21%" colspan='3'>Jumlah Jam Kerja</th>
+				    <th width="9%"  rowspan='2'>Jumlah</th>
+				</tr>
+				<tr>
+				    <th width="7%">TP</th>
+				    <th width="7%">TT</th>
+				    <th width="7%">TL</th>
+				</tr>
+					<?
+						$jtp = 0.00;
+						$jtt = 0.00;
+						$jtl = 0.00;
+						$jTotal = 0.00;
+					?>
+			<?php foreach ($rep as $key => $val): 
+					if ($key%2==0) { ?>
+						<tr class="event">
+				<? 	} 
+					else if ($key%2==1) { ?>
+						  <tr class="event2">
+				<? } ?>
+				
+					<?php
+						$tp = $this->escape($val['tp']);
+						$tt = $this->escape($val['tt']);
+						$tl = $this->escape($val['tl']);
+						$jumT = $this->escape($val['jumlah']);
+					?>
+					<td>&nbsp;
+						<a href="#" onClick="javascript:viewOrg2('<? echo $org; ?>','<? echo $this->escape($val['orgb']); ?>','<? echo $this->escape($val['jnsAkt']); ?>','<? echo $hr1; ?>','<? echo $bln1; ?>','<? echo $thn1; ?>','<? echo $hr2; ?>','<? echo $bln2; ?>','<? echo $thn2; ?>');" class="link" title="Lihat Organisasi 1 level di bawahnya">
+							<?php echo $this->escape($val['orgb'])." (".$this->escape($val['unitKerja']).")";?>
+						</a>
+					</td>
+					<td>&nbsp;<?php echo $this->escape($val['nama']);?></td>
+					<td>&nbsp;<?php echo $this->escape($val['nip']);?></td>
+					<td class="clright"><?php echo $tp; ?></td>
+					<td class="clright"><?php echo $tt; ?></td>
+					<td class="clright"><?php echo $tl; ?></td>
+					<td class="clright"><?php echo $jumT; ?></td>
+				</tr>
+					<?
+						$jtp = $jtp + $tp;
+						$jtt = $jtt + $tt;
+						$jtl = $jtl + $tl;
+						$jTotal = $jTotal + $jumT;
+					?>
+		<?php endforeach;?> 
+			</table>
+			<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+			<?
+			?>
+				<tr class="event">
+					<td width="70%" class="clcenter"><b><? echo "J u m l a h : " ?></td>
+					<td width="7%" class="clright"><?php echo $jtp; ?></td>
+					<td width="7%" class="clright"><?php echo $jtt; ?></td>
+					<td width="7%" class="clright"><?php echo $jtl; ?></td>
+					<td width="9%" class="clright"><?php echo $jTotal;; ?></b></td>
+				</tr>
+			</table>
+		<? } ?>
+
+	<? } ?>
+
+		</fieldset>
+	</form>
+		  	<div class="space-line"></div>
+		  	<div><a href="#top" class="top" title="Kembali ke atas">Kembali ke atas</a></div>	  	
+
+</div>
+	

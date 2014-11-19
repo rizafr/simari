@@ -1,0 +1,30 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+
+
+$vFoto = $this->basePath."/data/sdm/photo/".trim($this->i_peg_nip).".jpg";
+//if (!file_exists($vFoto)) {$vFoto = $this->basePath."/images/nophoto.jpg";} 
+
+?>
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong> SDM 
+				<strong> &#8250; </strong> <a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Maintain Data Pegawai</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Data Pegawai
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+<div class="panel"><?php include "$this->leftMenu/datapokok.phtml";?></div>	
+	

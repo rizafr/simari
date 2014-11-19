@@ -1,0 +1,12 @@
+10.1.15.131
+255.255.0.0
+
+
+
+
+di ruang rapat
+10.2.1.245
+255.255.255.1
+10.2.1.1
+
+login postgres password postgres 

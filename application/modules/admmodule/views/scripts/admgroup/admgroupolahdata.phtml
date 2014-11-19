@@ -1,0 +1,543 @@
+<? 
+   require_once 'Zend/View.php';
+   require_once "service/adm/Adm_Admmenu_Service.php";
+   require_once "service/adm/Adm_Admgroup_Service.php";
+
+
+   
+   $ctrlFrm = new Zend_View();
+   $admmenu_serv = Adm_Admmenu_Service::getInstance();
+   $admgroup_serv = Adm_Admgroup_Service::getInstance();
+		
+   /*
+   require_once 'share/oa_date.php';
+   require_once 'share/oa_page.php';
+   require_once 'share/oa_message.php';
+   
+   $message = new oa_message();
+
+   
+   
+   $convDate = new oa_date();
+   $halaman = new oa_page();
+*/
+?>
+
+<div class="navlink">
+	<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+	<strong> &#8250; </strong> Perencanaan 
+	<strong> &#8250; </strong> Administrasi</a>
+	<strong> &#8250; </strong><?=$this->jdl;?> Admin Group
+</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+
+	
+<h2 class="title"><?=$this->jdl;?>Mengelola Group</h2>
+
+<div class="panel">
+	<div class="inner">
+		<span class="corners-top"><span></span></span>
+	    <div class="space2"></div>  	
+		<a name="top"></a>
+	
+		<?php
+		if($this->jenisForm == "ubah")
+		{
+			?>
+			<form method="post" name="frmadmgroupedit" id="frmadmgroupedit">
+			<?
+			$formName = "frmadmgroupedit";
+		}
+		else
+		{
+			?>
+			<form method="post" name="frmadmgroupinsert" id="frmadmgroupinsert">
+			<?
+			$formName = "frmadmgroupinsert";
+		}
+		?>
+			<table border="0" cellpadding="2" cellspacing="1" class="std" width="100%">
+				
+				
+				<? //////////////////////////////////////////////////////////////////////////////////////////////////?>
+				<tr>
+					<td width="45%">
+						<table border="0" cellpadding="2" cellspacing="1" class="std" width="100%">
+							<tr>
+								<td colspan="2" align="left">
+									<h3 class="title"><b><u>UNIT KERJA DAN JABATAN YANG TERKAIT</u></b><h3>
+								</td>
+							</tr>
+						</table>
+						<table border="0" cellpadding="2" cellspacing="1" class="std" width="100%">
+							<tr>
+								<td width="30%">Eselon<span class="hightlight">*</span></td>
+								<td>					
+									<?
+									//var_dump($this->detailGroup);
+									//var_dump($this->detailGroup);
+									$iGroup = $this->detailGroup['i_group'];
+									
+									echo $ctrlFrm->formHidden('iGroup', $iGroup, null);
+									$jmlEslList=count($this->eselonList);
+									$eslList[''] = '--Pilih--';
+										for ($i = 0; $i < $jmlEslList; $i++) {
+											$eslList[(string)$this->eselonList[$i]->c_eselon] = (string)$this->eselonList[$i]->n_eselon;			 
+										}
+									$eslAtrib = array("style"=>"width: 275px");
+									if($this->jenisForm == "insert") {
+										$eslAtrib["onChange"] = "javascript:getEselon();clearUnitkerjaAll();"; 
+									} else if ($this->jenisForm == "ubah"){
+										$eslAtrib["disabled"] = "true"; 
+									}
+									
+									echo $ctrlFrm->formSelect('c_eselon',$this->detailGroup['c_eselon'], $eslAtrib, $eslList); 							
+									?>
+									<input type="hidden" name="c_eselon2" id="c_eselon2" value="<?=$this->detailGroup['c_eselon']?>">
+								</td>							
+							</tr>
+							<tr>
+								<td>Nama Jabatan <br> (Dengan Kode Ref.)</td>
+								<td>					
+									<input type="hidden" name="c_jabatan" id="c_jabatan" value="<?=$this->detailGroup['c_jabatan']?>">
+									<?
+									if ($this->jenisForm == "ubah"){
+										$readonlyAttrib = 'readonly = "readonly"';
+									}
+									?>
+									<input type="text" name="n_jabatan" id="n_jabatan" value="<?=$this->detailGroup['n_jabatan']?>" size="30" <?=$readonlyAttrib ?>>
+									<?
+									if ($this->jenisForm == "insert"){
+									?>
+										<input type="button" value="Cari" onClick="CariJabatan()">
+									<?
+									}
+									?>
+								</td>								
+							</tr>	
+						</table>
+						
+						<?
+						if($this->c_lokasi_unitkerja == '1')
+						{
+						?>
+							<table border="0" cellpadding="2" cellspacing="1" class="std" width="100%" id="listcombo">
+								<tr>
+									<td align="right" width="20%">Lokasi :</td>
+									<td>					
+										<?
+											$jmlLokList=count($this->lokasiList);
+											$lokList[''] = '--Pilih--';
+												for ($i = 0; $i < $jmlLokList; $i++) {
+													$lokList[(string)$this->lokasiList[$i]->c_lokasi] = (string)$this->lokasiList[$i]->n_lokasi;			 
+												}
+											$lokAtrib = array("style"=>"width: 300px",
+															  "id"=>"c_lokasi_unitkerja");
+											
+											if ($this->jenisForm == "insert"){
+												$lokAtrib["onChange"] = "javascript:cariCombo('targetesli')";
+											} else if ($this->jenisForm == "ubah"){
+												$lokAtrib["disabled"] = "true"; 
+											}
+											echo $ctrlFrm->formSelect('c_lokasi_unitkerja',$this->detailGroup['c_lokasi_unitkerja'],$lokAtrib,$lokList); 							
+										?>
+									</td>
+								</tr>
+								<tr>
+									<td align="right" width="20%">Eselon I</td>
+									<td>					
+										<?	
+											$jmleseloniList=count($this->eseloniList);
+											$eseloniList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniList; $i++) {
+											
+												$eseloniList[trim((string)$this->eseloniList[$i]->c_eselon_i).";".trim((string)$this->eseloniList[$i]->n_unitkerja)] = (string)$this->eseloniList[$i]->n_unitkerja;			 
+											}
+												
+											$eslAtrib = array("style"=>"width: 300px",
+															  "id"=>"c_eselon_i");
+											if ($this->jenisForm == "insert"){
+												$eslAtrib["onChange"] = "javascript:cariCombo('targeteslii')";
+											} else if ($this->jenisForm == "ubah"){
+												$eslAtrib["disabled"] = "true"; 
+											}				  
+											echo $ctrlFrm->formSelect('c_eselon_i',$this->detailGroup['c_eselon_i'].';'.$this->detailGroup['n_eselon_i'],$eslAtrib,$eseloniList); 							
+										?>
+									</td>
+								</tr>
+								<tr>
+									<td align="right" width="20%">Eselon II</td>
+									<td>				
+										<?
+										
+											$jmleseloniiList=count($this->eseloniiList);
+											$eseloniiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiList; $i++) {
+												$eseloniiList[trim((string)$this->eseloniiList[$i]->c_eselon_ii).";".trim((string)$this->eseloniiList[$i]->n_unitkerja)] = (string)$this->eseloniiList[$i]->n_unitkerja;
+											}
+											
+											
+											if ($ceseloncpns>=3){
+												$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_ii","onChange"=>"javascript:cariCombo('targetesliii')");}
+											else {
+												$eslAtrib = array("style"=>"width: 300px",
+																	"id"=>"c_eselon_ii");
+											}
+											
+											if ($this->jenisForm == "insert"){
+												$eslAtrib["onChange"] = "javascript:cariCombo('targetesliii')";
+											} else if ($this->jenisForm == "ubah"){
+												$eslAtrib["disabled"] = "true";
+											}
+											
+											if($this->detailGroup['c_eselon'] == '07' || $this->detailGroup['c_eselon'] == '08' ||
+											   $this->detailGroup['c_eselon'] == '05' || $this->detailGroup['c_eselon'] == '06' ||
+											   $this->detailGroup['c_eselon'] == '03' || $this->detailGroup['c_eselon'] == '04'){
+												//$eslAtrib['disabled'] = 'false';
+											} else {
+												$eslAtrib['disabled'] = 'true';
+											}
+											
+											echo $ctrlFrm->formSelect('c_eselon_ii',$this->detailGroup['c_eselon_ii'].';'.$this->detailGroup['n_eselon_ii'],$eslAtrib,$eseloniiList); 							
+										?>
+									</td>
+								</tr>						
+								<tr>
+									<td align="right" width="20%">Eselon III</td>
+									<td>					
+										<?									
+											$jmleseloniiiList=count($this->eseloniiiList);
+											$eseloniiiList[''] = '--Pilih--';
+												for ($i = 0; $i < $jmleseloniiiList; $i++) {
+													$eseloniiiList[trim((string)$this->eseloniiiList[$i]->c_eselon_iii).";".trim((string)$this->eseloniiiList[$i]->n_unitkerja)] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+												}
+											
+											if ($ceseloncpns>=5){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii","onChange"=>"javascript:cariCombo('targetesliv')");  	}										
+											else{	
+												$eslAtrib = array("style"=>"width: 300px",
+																  "id"=>"c_eselon_iii");
+											}
+											
+											if ($this->jenisForm == "insert"){
+												$eslAtrib["onChange"] = "javascript:cariCombo('targetesliv')";
+											} else if ($this->jenisForm == "ubah"){
+												$eslAtrib["disabled"] = "true";
+											}
+											
+											if($this->detailGroup['c_eselon'] == '07' || $this->detailGroup['c_eselon'] == '08' ||
+											   $this->detailGroup['c_eselon'] == '05' || $this->detailGroup['c_eselon'] == '06'){
+												//$eslAtrib['disabled'] = 'true';
+											} else {
+												$eslAtrib['disabled'] = 'true';
+											}
+											echo $ctrlFrm->formSelect('c_eselon_iii',$this->detailGroup['c_eselon_iii'].';'.$this->detailGroup['n_eselon_iii'], $eslAtrib, $eseloniiiList); 							
+										?>
+									</td>
+								</tr>
+								<tr>
+									<td align="right" width="20%">Eselon IV</td>
+									<td>				
+										<?
+											$jmleselonivList=count($this->eselonivList);
+											$eselonivList[''] = '--Pilih--';
+												for ($i = 0; $i < $jmleselonivList; $i++) {
+													$eselonivList[trim((string)$this->eselonivList[$i]->c_eselon_iv).";".trim((string)$this->eselonivList[$i]->n_unitkerja)] = (string)$this->eselonivList[$i]->n_unitkerja;			 
+												}
+											if ($ceseloncpns>=7){
+											$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iv_cpns","onChange"=>"javascript:cariCombo('targeteslv')"); 
+											}
+											else{
+												$eslAtrib = array("style"=>"width: 300px", 
+																  "id"=>"c_eselon_iv");
+											}
+											
+											if ($this->jenisForm == "insert"){
+												$eslAtrib["onChange"] = "javascript:cariCombo('targeteslv')";
+											} else if ($this->jenisForm == "ubah"){
+												$eslAtrib["disabled"] = "true";
+											}
+											if($this->detailGroup['c_eselon'] == '07' || $this->detailGroup['c_eselon'] == '08'){
+												//$eslAtrib['disabled'] = 'true';
+											} else {
+												$eslAtrib['disabled'] = 'true';
+											}
+											
+											echo $ctrlFrm->formSelect('c_eselon_iv',$this->detailGroup['c_eselon_iv'].';'.$this->detailGroup['n_eselon_iv'],$eslAtrib,$eselonivList); 							
+										?>
+									</td>
+								</tr>
+								<tr>
+									<td align="right" width="20%">Eselon V</td>
+									<td id="targeteslv">				
+										<?
+											$jmleselonvList=count($this->eselonvList);
+											$eselonvList[''] = '--Pilih--';
+												for ($i = 0; $i < $jmleselonvList; $i++) {
+													$eselonvList[trim((string)$this->eselonvList[$i]->c_eselon_v).";".trim((string)$this->eselonvList[$i]->n_unitkerja)] = (string)$this->eselonvList[$i]->n_unitkerja;			 
+												}
+											if ($ceseloncpns>=9){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_v");}										
+											else{
+												$eslAtrib = array("style"=>"width: 300px",
+																  "id"=>"c_eselon_v");
+											}
+											
+											if ($this->jenisForm == "ubah"){
+												$eslAtrib["disabled"] = "true";
+											}
+											
+											if($this->detailGroup['c_eselon'] == '07' || $this->detailGroup['c_eselon'] == '08'){
+												//$eslAtrib['disabled'] = 'true';
+											} else {
+												$eslAtrib['disabled'] = 'false';
+											}
+											echo $ctrlFrm->formSelect('c_eselon_v',$this->detailGroup['c_eselon_v'].';'.$this->detailGroup['n_eselon_v'], $eslAtrib, $eselonvList); 							
+										?>
+									</td>
+								</tr>		
+								<tr>
+								    <td align="right"><span class="highlight">*</span> Nama Group :</td>
+									<td>
+										<?php
+										
+										?>
+										<textarea id="n_group" name="n_group" rows="7"><?=$this->detailGroup['n_group']?></textarea>
+									</td>
+								</tr>
+								<tr>
+								    <td align="right">Wewenang :</td>
+									<td>
+										<?
+										/* if($iGroup == 0){
+											$disableO = 'readonly = "readonly"';
+											$disableE = 'readonly = "readonly"';
+											$disableA = 'readonly = "readonly"';
+										} else {
+											$disableO = '';
+											$disableE = '';
+											$disableA = '';
+											 */
+											if($this->detailGroup['c_wewenang'] == 'O'){
+												$checkO = 'checked';
+												$checkE = '';
+												$checkA = '';
+												
+											} else if($this->detailGroup['c_wewenang'] == 'A') {
+												$checkO = '';
+												$checkE = '';
+												$checkA = 'checked';
+											} else {
+												$checkO = '';
+												$checkE = 'checked';
+												$checkA = '';
+											}
+										//}
+										?>
+										<input type="radio" id="c_wewenang" name="c_wewenang" value="E" <?echo "$checkE"; ?> >&nbsp;Eksekutif<br>
+										<input type="radio" id="c_wewenang" name="c_wewenang" value="O" <?echo "$checkO"; ?> >&nbsp;Operator<br>
+										<input type="radio" id="c_wewenang" name="c_wewenang" value="A" <?echo "$checkA"; ?> >&nbsp;Administrator Absensi
+									</td>
+								</tr>
+								<tr>
+								    <td align="right">Sektoral :</td>
+									<td>
+										<?
+										if($this->detailGroup['c_sektoral'] == 'L'){
+											$checkD = '';
+											$checkL = 'checked';
+											$checkS = '';
+											//$checkW = '';
+										} else if($this->detailGroup['c_sektoral'] == 'S'){
+											$checkD = '';
+											$checkL = '';
+											$checkS = 'checked';
+											//$checkW = '';
+										} else if($this->detailGroup['c_sektoral'] == 'W'){
+											$checkD = '';
+											$checkL = '';
+											$checkS = '';
+											//$checkW = 'checked';
+										} else{
+											$checkD = 'checked';
+											$checkL = '';
+											$checkS = '';
+											//$checkW = '';
+										}
+										?>
+										<input type="radio" id="c_sektoral" name="c_sektoral" value="D" <?echo "$checkD"; ?>>&nbsp;Dalam Sektoral<br>
+										<input type="radio" id="c_sektoral" name="c_sektoral" value="L" <?echo "$checkL"; ?>>&nbsp;Lintas Sektoral<br>
+										<input type="radio" id="c_sektoral" name="c_sektoral" value="S" <?echo "$checkS"; ?>>&nbsp;Semua Sektoral<br>
+										<!--input type="radio" id="c_sektoral" name="c_sektoral" value="W" <?echo "$checkW"; ?>>&nbsp;Bawas-->
+									</td>
+								</tr>
+							</table>
+						<?
+						} else {
+							include('listcombo2.phtml');
+						} ?>
+					</td>
+					<td>
+							
+				<?////////////////////////////////////////////////////////////////////////////////////////////////////////?>	
+						<table border="0" cellpadding="2" cellspacing="1" class="std" width="100%">
+							<tr>
+								<td colspan="2" align="left">
+									<h3 class="title"><b><u>MENU</u></b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td align="right" width="10%">Aplikasi</td>
+								<td>
+									<?php
+									//var_dump($this->aplikasiList);
+									if(count($this->aplikasiList)){
+										for($j=0; $j<count($this->aplikasiList); $j++){ 
+											$i_aplikasi = $this->aplikasiList[$j]->i_aplikasi;
+											$n_aplikasi = $this->aplikasiList[$j]->n_aplikasi;
+											
+											$aplikasiList[$i_aplikasi] = $n_aplikasi;
+										}
+									}
+									$aplikasiAttr = array("style"=>"width: 300px",
+														  "onChange" => "javascript:listMenuPerAplikasi()");
+									echo $ctrlFrm->formSelect('i_aplikasi', $iAplikasi, $aplikasiAttr, $aplikasiList);
+									echo $ctrlFrm->formHidden('jmlAplikasi', count($this->aplikasiList),null);
+									
+									?>
+									<span class="highlight">*</span> 
+								</td>
+							</tr>
+							<tr>
+								<td align="right" >&nbsp;</td>
+								<td>
+									
+									<?php
+									$x=1;
+									for($j=0; $j<count($this->aplikasiList); $j++){ 
+										$i_aplikasi = $this->aplikasiList[$j]->i_aplikasi;
+										$i_urut_aplikasi = $this->aplikasiList[$j]->i_urut_aplikasi;
+										$n_aplikasi = $this->aplikasiList[$j]->n_aplikasi;
+										
+										$data = array("i_aplikasi" => $i_aplikasi);
+										unset($daftarMenuPerAplikasi);
+										$daftarMenuPerAplikasi = $admmenu_serv->readAllMenuMapPerAplikasi($data);
+										//echo "<br> $i_aplikasi - ".count($daftarMenuPerAplikasi)."<br>";
+										//var_dump($daftarMenuPerAplikasi);
+										if(count($daftarMenuPerAplikasi)){
+											if($i_urut_aplikasi == '1'){
+											?>
+												<div id="targetMenu_<?php echo $i_aplikasi?>"  style="height:400px; overflow:auto; display:block">
+											<?} else {?>
+												<div id="targetMenu_<?php echo $i_aplikasi?>"  style="height:400px; overflow:auto; display:none">
+											<?php } ?>	
+												<table width="100%" class="std" cellspacing="2" cellpadding="1" border="0">
+													<tr bgcolor="#87AEC5">
+														<td>
+															<input type="checkbox" onClick="pilihSemua('<?=$formName; ?>')"> 
+														</td>
+														<td colspan="2">
+															Pilih Semua
+														</td>
+													</tr>
+											<?php
+											unset($menuGroup);
+											//var_dump($menuGroup);
+											//echo "<br>";
+											
+											$dataMasukan2 = array("i_aplikasi"	=> $i_aplikasi,
+																  "i_group" 	=> $this->iGroup);
+																  
+											$detailGroupMenu = $admgroup_serv->detailgroupMenu($dataMasukan2);
+											for($x=0; $x<count($detailGroupMenu); $x++){
+												$menuGroup[] = $detailGroupMenu[$x]['c_menu_level'];
+											}
+											//var_dump($menuGroup);
+											for($a=0; $a<count($daftarMenuPerAplikasi); $a++){
+												$i_menu 	= $daftarMenuPerAplikasi[$a]['i_menu'];
+												$l1		 	= $daftarMenuPerAplikasi[$a]['l1'];
+												$l2		 	= $daftarMenuPerAplikasi[$a]['l2'];
+												$l3		 	= $daftarMenuPerAplikasi[$a]['l3'];
+												$l4		 	= $daftarMenuPerAplikasi[$a]['l4'];
+												$i_aplikasi = $daftarMenuPerAplikasi[$a]['i_aplikasi'];
+												$n_aplikasi = $daftarMenuPerAplikasi[$a]['n_aplikasi'];
+												$c_menu_level = $daftarMenuPerAplikasi[$a]['c_menu_level'];
+												$n_menu 	= $daftarMenuPerAplikasi[$a]['n_menu'];
+												$c_menu_statuscb = $daftarMenuPerAplikasi[$a]['c_menu_statuscb'];
+												$e_menu 	= $daftarMenuPerAplikasi[$a]['e_menu'];
+												$n_action 	= $daftarMenuPerAplikasi[$a]['n_action'];
+												
+												
+																				
+												if ($x%2==0) { ?>
+												  <tr class="event">
+												<? } else if ($x%2==1) { ?>
+												  <tr class="event2">
+												<? } ?>
+													<td align="right" width="5%">
+														<?php
+														if(count($menuGroup)){
+															if(in_array($c_menu_level, $menuGroup)){?>
+																<input type="checkbox" id="<?php echo $i_aplikasi."_".$c_menu_level;?>" name="<?php echo $i_aplikasi."_".$c_menu_level;?>" onClick="checkParent('<?php echo $i_aplikasi."_".$c_menu_level;?>')" checked>
+															<?php
+															} else {
+															?>
+																<input type="checkbox" id="<?php echo $i_aplikasi."_".$c_menu_level;?>" name="<?php echo $i_aplikasi."_".$c_menu_level;?>" onClick="checkParent('<?php echo $i_aplikasi."_".$c_menu_level;?>')">
+															<?}
+														} else {?>
+															<input type="checkbox" id="<?php echo $i_aplikasi."_".$c_menu_level;?>" name="<?php echo $i_aplikasi."_".$c_menu_level;?>" onClick="checkParent('<?php echo $i_aplikasi."_".$c_menu_level;?>')">
+														<?php
+														}
+														?>
+													</td>
+													<td width="25%">
+														<?php
+														if(strlen($c_menu_level) == 2){
+															echo "$c_menu_level";
+														} else if (strlen($c_menu_level) == 4){
+															echo "&nbsp;&nbsp;$c_menu_level";
+														} else if (strlen($c_menu_level) == 6){
+															echo "&nbsp;&nbsp;&nbsp;&nbsp;$c_menu_level";
+														} else if (strlen($c_menu_level) == 8){
+															echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$c_menu_level";
+														}
+														?>
+													</td>
+													<td width="70%"><?php echo $n_menu;?></td>
+													
+												</tr>
+											
+														
+											<?
+											}
+											?>
+												</table>
+											</div>
+										<?php
+										} 
+									}
+								?>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</td>
+				<tr>
+				<tr>
+					<td colspan="2">
+						<div class="right">
+							<input type="button"    value="Batal" onClick="kembaliDaftarGroup()"> 
+							<input type="reset"   value="Ulangi"> 
+							<input   type="submit" value="Simpan">
+						</div>
+					</td>
+				</tr>
+			</table>
+			<div class="space2"></div>
+		</form>
+	</div>
+	<span class="corners-bottom"><span></span></span>
+</div>
+
+<div id="targetdetil"></div>

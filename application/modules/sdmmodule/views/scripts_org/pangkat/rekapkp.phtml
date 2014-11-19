@@ -1,0 +1,78 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php'; 
+	$ctrlFrm = new Zend_View();
+	$ctrlDate = new oa_date();   
+   
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'pangkat');
+   echo $this->render('pangkatjs.phtml');
+?>
+<fieldset class="fields1">
+<legend>Rekap Kenaikan Pangkat</legend>
+<form id="frmRekapKP" action="<?php echo $this->basePath; ?>/sdm/pangkat/sdmrekapkp" method="post" name="frmRekapKP">	  
+<a name="top"></a>
+<div class="blank"></div>
+		<tr>
+	<p align"center">
+			<td>Periode&nbsp;:&nbsp;
+				<?php echo $ctrlDate->formTanggal_oa('hr1',$hr1,'bln1',$bln1,'thn1',$thn1); ?> &nbsp;<b>s/d</b>&nbsp;
+				<?php echo $ctrlDate->formTanggal_oa('hr2',$hr2,'bln2',$bln2,'thn2',$thn2);  ?>&nbsp;
+				<?php  
+					$atribSubmit = array("onclick"=>"javascript:cariUsulanKGB();");
+					echo $ctrlFrm->formSubmit('perintah', 'CARI', $atribSubmit)."&nbsp;";
+				?>
+		</td>
+		</tr>
+<br><br>	
+		
+<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+    <tr>
+      <th width="27" rowspan="2">NIP</th>
+      <th width="189" rowspan="2">Nama</th>
+      <th colspan="2">Lama</th>
+      <th colspan="2">Baru</th>
+      <th width="53" rowspan="2">Jabatan</th>
+      <th width="60" rowspan="2">Jenis Kelamin </th>
+      <th width="92" rowspan="2">No. SK </th>
+      <th width="98" rowspan="2">Tgl SK </th>
+    </tr>
+    <tr>
+      <th width="55">Pangkat</th>
+      <th width="73">TMT</th>
+      <th width="55">Pangkat</th>
+      <th width="73">TMT</th>
+    </tr>
+	<tr class="event">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+	<tr class="event2">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+</table>
+
+		
+</fieldset>
+</form>
+	<div class="back2">
+		<a href="#" onClick="javascript:commandSubmitBack();" class="back" title="Kembali">Kembali</a>
+	</div>
+</body>
+</html>

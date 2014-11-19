@@ -1,0 +1,20 @@
+function cariJab(){
+	var kd_jbt=document.getElementById('kd_jbt').value;
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/combonamajabatan'; 
+	var param = {kd_jbt:kd_jbt};
+	jQuery.get(url, param, function(data) {
+		jQuery("#targetjabatan").html(data);	
+	});
+
+}
+
+function CheckAll(chk,jml,par)
+{
+for (i = 1; i < jml+1; i++)
+    if (par=='true'){
+    document.getElementById(chk+i).checked = true ;
+    }
+    else{
+    document.getElementById(chk+i).checked = false ;
+    }
+}

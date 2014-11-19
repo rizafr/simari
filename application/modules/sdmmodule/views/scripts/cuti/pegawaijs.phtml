@@ -1,0 +1,211 @@
+function insCutiM(par,nip){
+
+	var url = '<?php echo $this->basePath;?>/sdmmodule/pengajuancuti/insertpengajuancuti';	
+//	var url = '<?php echo $this->basePath;?>/sdmmodule/pengajuancuti/cpns';
+//	var url = '<?php echo $this->basePath;?>/sdmmodule/pengajuancuti/pengajuancutiolahdata';
+
+	var param = {par:par,nip:nip};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);			
+		});
+		insCutiJs();
+}
+function insCutiJs(){
+//	var url = '<?php echo $this->basePath;?>/sdmmodule/pengajuancuti/pegawaijs';
+
+	var url = '<?php echo $this->basePath;?>/sdmmodule/pengajuancuti/pengajuancutijs';	
+
+	var param = {};
+		jQuery.get(url, param, function(data) {
+		});
+}
+
+function updCutiM(par,nip){
+
+	var url = '<?php echo $this->basePath;?>/sdmmodule/pengajuancuti/updatepengajuancuti';	
+//	var url = '<?php echo $this->basePath;?>/sdmmodule/pengajuancuti/cpns';
+	var param = {par:par,nip:nip};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);			
+		});
+		updCutiJs();
+}
+function updCutiJs(){
+
+	var url = '<?php echo $this->basePath;?>/sdmmodule/pengajuancuti/pengajuancutijs';	
+//	var url = '<?php echo $this->basePath;?>/sdmmodule/pengajuancuti/pegawaijs';
+	var param = {};
+		jQuery.get(url, param, function(data) {
+		});
+}
+
+
+
+
+
+
+
+function PnsM(par,nip){
+
+	var url = '<?php echo $this->basePath;?>/sdmmodule/pengajuancuti/updatepengajuancuti';	
+	var param = {par:par,nip:nip};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);			
+		});
+	open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/pengajuancutiedit','<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/pengajuancutijs');
+
+}
+
+function cariDataUnit2(){
+
+var cCol =document.getElementById('cCol').value;
+if (cCol=='unitkerja'){
+	$("#targetcari").css("display","block");
+	$("#targetcari2").css("display","none");
+	document.getElementById('nCol').value="";
+
+	var c_lokasi_unitkerja =document.getElementById('c_lokasi_unitkerja').value;
+	var eseloni = document.getElementById('eseloni').value;
+	var eselonii = document.getElementById('eselonii').value;
+	var eseloniii = document.getElementById('eseloniii').value;
+	var eseloniv = document.getElementById('eseloniv').value;
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/cuti/listcombo';
+}
+else{
+	$("#targetcari2").css("display","inline");
+	$("#targetcari").css("display","none");	
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/cuti/listtext';
+}
+var param = {cCol:cCol,c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+jQuery.get(url,param,function(data) {
+jQuery("#targetcari").html(data);});
+
+
+}
+function cariListPegawai(){
+	jQuery("#frmSearch").ajaxForm(search);
+	
+}
+
+
+var search = {
+	//target:'#tableview',
+	target:'#targetdetil',
+	beforeSubmit: function() {
+		var col=document.getElementById('cCol').value;
+		var periode_i=document.getElementById('periode_i').value;
+		/*
+		if(!col){
+			alert("Combo Pilihan harus diisi....!") 
+			return false;
+			document.getElementById('cCol').focus;
+		}
+		*/
+			
+
+	
+	}, 
+	success:function(){if (document.getElementById('cCol').value=='unitkerja')
+	{cariDataUnit2();}
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/cuti/carilistpegawai',
+	type: 'post',
+	resetForm: false
+};
+
+
+function insertPegawaiCuti(){
+	jQuery("#formpegawai").ajaxForm(maintain_pegawaicuti);
+}
+var maintain_pegawaicuti = {
+	target:'#tableview',
+	beforeSubmit: function() {		
+	}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpegawai").ajaxForm(maintain_pegawaicuti);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+
+function insertPegawai(){
+	jQuery("#formpegawai").ajaxForm(maintain_pegawai);
+}
+var maintain_pegawai = {
+	target:'#tableview',
+	beforeSubmit: function() {		
+		aobj= document.formpegawai;
+		astr= "document.formpegawai";
+		var cekVal="";
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/				
+				if((!i_peg_nip_new.value)){cekVal = sdmValidasiData(astr,"i_peg_nip_new","NIP Pegawai harus diisi....!");return false;break;}
+				if((!n_peg.value)){cekVal = sdmValidasiData(astr,"n_peg","Nama Pegawai harus diisi....!");return false;break;}				
+				break;
+			}
+		}
+	}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpegawai").ajaxForm(maintain_pegawai);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/cuti/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+
+/*
+function PegawaiM(par,nip){
+	var url = '<?php echo $this->basePath;?>/sdmmodule/cuti/pegawai';	
+	var param = {par:par,nip:nip};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);
+			jQuery("#formpegawai").ajaxForm(maintain_pegawai);
+		});
+}
+
+
+*/
+/*
+function HapusDataPeg(nip)
+{
+	var where_to= confirm("Yakin anda akan hapus data NIP :"+nip);
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/cuti/hapusdata"
+		var opt = {nip:nip};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}
+*/
+/*
+function setvalueuplpdf(v,n,f) { 
+
+	  if (f!="") {
+	    var pass=false;
+	    var af=f.split("/");
+        var nval=eval("document.forms[0]."+n);
+		var ext=v.substring(v.lastIndexOf(".")+1,v.length);
+		if ((ext==f)||(ext=='png')||(ext=='gif')){ 
+		document.forms[0].a_file.value=v; 
+		}
+		else{
+		  alert ("Hanya untuk file berekstensi '"+f+"',jpg,gif,png ");
+		  nval.value="";
+		  document.forms[0].a_file.value=""; 
+		  return;	  
+		}
+	  }
+}
+*/

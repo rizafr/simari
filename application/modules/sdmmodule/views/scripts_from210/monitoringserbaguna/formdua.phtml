@@ -1,0 +1,81 @@
+<span id="divlap"></span>
+<div class="panel">
+	<div class="spacer"></div> 		
+		<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+			<tr>
+				<td><a href="#divlap" onclick="getLapDiv('unitkerja')">Unit Kerja</a></td>
+				<td><a href="#divlap" onclick="getLapDiv('diklat')">Diklat</a></td>
+				<td><a href="#divlap" onclick="getLapDiv('pangkat')">Pangkat</a></td>
+				<td><a href="#divlap" onclick="getLapDiv('jabatan')">Jabatan</a></td>				
+				<td><a href="#divlap" onclick="getLapDiv('seminar')">Seminar</a></td>
+				<td><a href="#divlap" onclick="getLapDiv('pendidikan')">Pendidikan</a></td>
+				<td><a href="#divlap" onclick="getLapDiv('organisasi')">Organisasi</a></td>
+				<td><a href="#divlap" onclick="getLapDiv('penghargaan')">Penghargaan</a></td>
+				<td><a href="#divlap" onclick="getLapDiv('hukuman')">Hukuman</a></td>
+				<td><a href="#divlap" onclick="getLapDiv('luarnegeri')">Luar Negeri</a></td>
+				<td><a href="#divlap" onclick="getLapDiv('keluarga')">Keluarga</a></td>
+				<td><a href="#divlap" onclick="getLapDiv('alamat')">Alamat</a></td>				
+			</tr>
+		</table>
+</div>
+<div class="panel" id="targetLapDiv"></div>
+<br>
+<div class="panel">
+	<div class="spacer"></div> 	
+	<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">	
+			<tr>
+				<td align="center">
+					<input class="btn" value="Cetak" onclick="cetakVSerA()" type="submit">
+					<!--<input class="btn" value="Cetak excel" onclick="viewExl()" type="submit">-->
+				</td>
+			</tr>
+	</table>	
+</div>
+
+<script>
+function getLapDiv(par)
+{
+	if (par=='unitkerja'){
+		var url = '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/divunitkerja'; 
+	}
+	if (par=='diklat'){
+		var url = '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/divdiklat'; 
+	}	
+	if (par=='pangkat'){
+		var url = '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/divpangkat'; 
+	}	
+	if (par=='jabatan'){
+		var url = '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/divjabatan'; 
+	}	
+	if (par=='seminar'){
+		var url = '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/divseminar'; 
+	}
+	if (par=='pendidikan'){
+		var url = '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/divpendidikan'; 
+	}
+	if (par=='organisasi'){
+		var url = '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/divorganisasi'; 
+	}	
+	if (par=='penghargaan'){
+		var url = '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/divpenghargaan'; 
+	}
+	if (par=='hukuman'){
+		var url = '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/divhukuman'; 
+	}	
+	if (par=='luarnegeri'){
+		var url = '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/divluarnegeri'; 
+	}	
+	if (par=='keluarga'){
+		var url = '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/divkeluarga'; 
+	}	
+	if (par=='alamat'){
+		var url = '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/divalamat'; 
+	}	
+	var param = {par:par};
+	jQuery.get(url, param, function(data) {
+		jQuery("#targetLapDiv").html(data);
+	});
+
+}
+
+</script>

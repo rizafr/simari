@@ -1,0 +1,49 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+?>
+
+	<h3 class="title"><b>Riwayat Hukuman</b><h3>
+	<br>
+	<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+				<tr>
+					<td width="15%">Tingkat Hukuman</td>
+					<td width="2%">:</td> 
+					<td>					
+						<?
+							$tingkat = array(""=>"--Pilih--",
+														"R"=>"Ringan",
+														"M"=>"Menengah",
+														"B"=>"Berat");								
+							echo $ctrlFrm->formSelect('c_tingkat_sanksi', $this->c_tingkat_sanksi, null, $tingkat); 							
+						?>
+					</td>
+				</tr>
+				<tr>
+					<td>Jenis Hukuman</td>
+					<td>:</td> 
+					<td>
+						<?
+								$jenis = array(""=>"--Pilih--",
+												"01"=>"Pernyataan Tidak Puas Secara Tertulis");
+								echo $ctrlFrm->formSelect('c_jenis_sanksi', $this->c_jenis_sanksi, null, $jenis); 							
+						?>
+					</td>
+				</tr>
+				<tr>
+					<td>Alasan Hukuman</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="e_alasan_sanksi" id="e_alasan_sanksi" value="<?=$this->e_alasan_sanksi?>" size="70">
+					</td>
+				</tr>
+				<tr>
+					<td>Tahun</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_tahun_alteratif" id="d_tahun_alteratif" value="<?=$this->d_tahun_alteratif?>" size="10">
+					</td>
+				</tr>			
+	</table>

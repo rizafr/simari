@@ -1,0 +1,56 @@
+function openFormPekerjaan(par,c_pekerjaan,n_pekerjaan){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refpekerjaan/pekerjaanolahdata";
+	var opt = {par:par, c_pekerjaan:c_pekerjaan, n_pekerjaan:n_pekerjaan};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formpekerjaan").ajaxForm(maintain_pekerjaan);
+		});		
+} 
+
+function insertPekerjaan(){
+	jQuery("#formpekerjaan").ajaxForm(maintain_pekerjaan);
+}
+
+var maintain_pekerjaan = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpekerjaan").ajaxForm(maintain_pekerjaan);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refpekerjaan/insertpekerjaan',
+	type: 'post',
+	resetForm: false
+};
+
+function updatePekerjaan(){
+	jQuery("#formpekerjaan").ajaxForm(update_pekerjaan);
+}
+
+var update_pekerjaan = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpekerjaan").ajaxForm(maintain_pekerjaan);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refpekerjaan/updatepekerjaan',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusPekerjaan(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refpekerjaan/deletepekerjaan';
+		var opt = {c_pekerjaan : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

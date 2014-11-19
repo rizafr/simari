@@ -1,0 +1,125 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+   $thnskrg = date("Y");
+   $thnList = $thnskrg - 40;
+   $thnArrayList['#'] = '--';
+   for ($i = 0; $i < 40; $i++) {
+     $thnList = $thnList + 1;
+     $thnArrayList[$thnList] = $thnList;
+   } $blnArrayList['#'] = '--';	
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+  
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataorganisasi/listorganisasi','<?php echo $this->basePath; ?>/sdmmodule/dataorganisasi/organisasijs');">Organisasi</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Organisasi
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Organisasi</h2>
+<?php $opr='rorg';include "$this->leftMenu/linkriwayat.phtml";?>	
+<div class="boxholder">					
+	<div class="panel">
+		<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<br>
+<form id="formorganisasi" method="post" name="formorganisasi">		
+	<div class="panel">
+		<div class="spacer"></div> 
+						<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>	
+					<td>Jenis Organisasi<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>					
+					<?php
+						$darahList = array(""=>"--Pilih--","profesi"=>"Profesi","kemasyarakatan"=>"Kemasyarakatan","sebelum menjadi pns"=>"Sebelum Menjadi PNS");	
+						echo $ctrlFrm->formSelect('n_jenis_organisasi', $this->n_jenis_organisasi,null, $darahList); 
+					?>
+						<input type="hidden" name="n_jenis_organisasi2" value="<?=$this->n_jenis_organisasi?>">
+					</td>
+				</tr>
+				<tr>
+					<td>Nama Organisasi<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>
+					<?php 
+						$noSerAtrib = array("size"=>"50",
+										 "maxlength"=>"50",
+										 "class"=>""); 
+						echo $ctrlFrm->formText('n_organisasi', $this->n_organisasi, $noSerAtrib);
+					?>
+						<input type="hidden" name="n_organisasi2" value="<?=$this->n_organisasi?>">
+					</td>
+				</tr>
+				<tr>
+					<td>Tahun Terdaftar<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_daftar_organisasi" id="d_daftar_organisasi" value="<?=$this->d_daftar_organisasi?>" size="5" maxlength=4 onKeypress="return justnumber(event)">
+						<input type="hidden" name="d_daftar_organisasi2" value="<?=$this->d_daftar_organisasi?>">
+					</td>
+				</tr>
+				<tr>
+					<td>Jabatan</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="n_peran_organisasi" id="n_peran_organisasi" value="<?=$this->n_peran_organisasi?>" size="35">
+					</td>
+				</tr>
+				<tr>
+					<td>Tempat</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="n_tempat_organisasi" id="n_tempat_organisasi" value="<?=$this->n_tempat_organisasi?>" size="50">
+					</td>
+				</tr>
+				<tr>
+					<td>Keterangan</td>
+					<td>:</td> 
+					<td>
+					<?php 
+						$keterangan = $_POST['keterangan'];
+						if ($keterangan == '') {
+							$keterangan = null;
+						} 
+						$keteranganAtrib = array("rows"=>"3",
+											    "cols"=>"25",
+												"maxlength"=>"200",
+											    "class"=>"medium"); 
+						echo $ctrlFrm->formTextarea('e_keterangan', $this->e_keterangan, $keteranganAtrib);
+					?>
+					</td>
+				</tr>
+	</table>
+	</div>
+	<br>
+	<div class="panel">
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				</tr>
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td>
+								<div class="right">
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataorganisasi/listorganisasi','');"> 
+									<input type="submit" value="<?=$this->par;?>" onClick="insertOrganisasi()">
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+									<input type="hidden" name="id" value="<?=$this->id;?>">
+								</div>
+							</td>
+						</tr>			
+			</table>
+	</div>
+</div>	
+</form>

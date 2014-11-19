@@ -1,0 +1,90 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tanggal_lahir").datepicker();
+		jQuery("#d_tanggal_nikah").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Golongan Pangkat
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Referensi Golongan Pangkat</h2>	
+		
+<form id="formgolpangkat" method="post" name="formgolpangkat">		
+	<div class="panel">
+		<div class="spacer"></div> 
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Kode Pegawai Golongan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_peg_golongan" id="c_peg_golongan" value="<?=$this->detailGolpangkat['c_peg_golongan']?>" size="70" maxlength="2">
+					</td>
+				</tr><tr>
+					<td>Kode Pegawai Tipe Golongan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_peg_tipegolongan" id="c_peg_tipegolongan" value="<?=$this->detailGolpangkat['c_peg_tipegolongan']?>" size="70" maxlength="1">
+					</td>
+				</tr><tr>
+					<td>Kode Pegawai level Golongan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_peg_lvlgolongan" id="c_peg_lvlgolongan" value="<?=$this->detailGolpangkat['c_peg_lvlgolongan']?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Nama Pegawai Golongan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_peg_golongan" id="n_peg_golongan" value="<?=$this->detailGolpangkat['n_peg_golongan']?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Nama Pegawai Pangkat<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_peg_pangkat" id="n_peg_pangkat" value="<?=$this->detailGolpangkat['n_peg_pangkat']?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Kode Pph<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_pph" id="c_pph" value="<?=$this->detailGolpangkat['c_pph']?>" size="70">
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/refgolpangkat/listgolpangkat','<?php echo $this->basePath; ?>/sdmmodule/refgolpangkat/golpangkatjs');"> 
+							<?if ($this->par == 'insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertGolpangkat()">
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updateGolpangkat()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>

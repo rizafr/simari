@@ -1,0 +1,88 @@
+<? 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+require_once "share/pesan.php";  
+$pesan = new pesan();
+$ctrlDate = new tanggal();
+$ctrlFrm = new Zend_View();
+///=================================================DataRiwayatHidup=================================================================================================================================
+
+?>	
+<script>
+function PilihanData() {
+var html = "";
+var html1 = "";
+var iddl ="";
+//var Table = document.getElementById('targetformulir').innerHTML;
+var Table = "";
+var nocountid=document.getElementById('nocountid').value;
+var jmlid=nocountid*1;
+var formcountid="";
+//html1 = '<table>';
+var jmlid2=0;
+
+for ( var i=0;i < document.frmcatatlhkpn.check_formulir.length; i++)
+ {
+	   if (document.frmcatatlhkpn.check_formulir[i].checked)
+	      {
+			jmlid++;
+			jmlid2++;
+					if ((jmlid2==1)){
+								document.getElementById("formulirdata1").innerHTML = "";
+ 								html = html + '<tr id="formulirdata'+ jmlid +'">';
+									html = html + '<td>';
+												html = html + '<input type="hidden" id="c_formulir_'+ jmlid +'"  name= "c_formulir_'+ jmlid +'" value="'+ document.frmcatatlhkpn.check_formulir[i].value +'" size = "10" maxlength = "150" >';
+												html = html + '<input type="text" readonly id= "n_formulir_'+ jmlid +'" name= "n_formulir_'+ jmlid +'" value="'+ document.frmcatatlhkpn.check_nformulir[i].value +'" size = "80" maxlength = "150" >';	
+									html = html + '</td>';
+									html = html + '<td align="left">';
+												html = html + '<img src=<?echo $this->basePath;?>/images/del.gif title="Hapus" class=link onclick=javascript:hapusFormulir('+jmlid+'); > ';
+												//html = html + '<img src=<?echo $this->basePath;?>/images/Search.gif title="Cari Data Formulir" onclick="javascript:dataFormulir()"; >';
+									html = html + '</td>';					
+								html = html + '</tr>';	
+							
+								formcountid=document.frmcatatlhkpn.check_formulir[i].value+";"+formcountid;
+					}
+					else{
+								html = html + '<tr id="formulirdata'+ jmlid +'">';
+									html = html + '<td>';
+												html = html + '<input type="hidden" id="c_formulir_'+ jmlid +'"  name= "c_formulir_'+ jmlid +'" value="'+ document.frmcatatlhkpn.check_formulir[i].value +'" size = "10" maxlength = "150" >';
+												html = html + '<input type="text" readonly id= "n_formulir_'+ jmlid +'" name= "n_formulir_'+ jmlid +'" value="'+ document.frmcatatlhkpn.check_nformulir[i].value +'" size = "80" maxlength = "150" >';	
+									html = html + '</td>';
+									html = html + '<td align="left">';
+												html = html + '<img src=<?echo $this->basePath;?>/images/del.gif title="Hapus" class=link onclick=javascript:hapusFormulir('+jmlid+'); > ';
+									html = html + '</td>';										
+								html = html + '</tr>';
+								formcountid=document.frmcatatlhkpn.check_formulir[i].value+";"+formcountid;
+					}	
+				
+				document.getElementById("targetformulir").innerHTML = Table+html;
+				document.getElementById('nocountid').value=jmlid;
+				
+		}
+}
+document.getElementById('formcountid').value=formcountid;	
+formulirClosePopup();
+}
+</script>
+<div id="popupContact">  
+	<div class="ct-menu">
+		<div class="hd2">Data Jenis Formulir LHKPN</div>
+		<div class="bd clearfix">
+			<?include("formulirlhkpnlist.phtml")?>	
+			<div id="tambahformulir" style="display:none">		
+				<fieldset class="panel-form2">	
+					<dl>
+						<dt>Jenis Formulir</dt>
+							<dd class="dot2">:</dd> 
+							<dd class="col-right2">
+								<input type="text" id="n_formulirref" name="n_formulirref" value="<?=$this->n_formulirref?>" size="50">
+							</dd> 
+					</dl>
+				<fieldset>
+				<div class="right">
+					<input   name="perintah" id="perintah" type="button" style="font-weight: bold;" class="button2" value="Simpan" onClick="tambahDataFormulir()">
+			</div>
+		</div>
+	</div>
+</div>	
+

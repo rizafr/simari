@@ -1,0 +1,136 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tanggal_lahir").datepicker();
+		jQuery("#d_tanggal_nikah").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+					<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataanak/listanak','<?php echo $this->basePath; ?>/sdmmodule/dataanak/anakjs');">Data Anak</a>
+			
+				<strong> &#8250; </strong><?=$this->jdl;?> Data Anak
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Data Anak</h2>
+<div class="boxholder">
+		<div class="search-panel">
+			<?php include "$this->leftMenu/toplink.phtml";?>
+		</div>	
+	<br>	
+<form id="formanak" method="post" name="formanak">		
+	<div class="panel">
+		<div class="spacer"></div> 
+						<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Status Anak
+					</td>
+					<td>:</td> 
+					<td>					
+						<?
+								$jnsstatus = array(""=>"--Pilih--","1"=>"Kandung","2"=>"Tiri","3"=>"Angkat");
+								echo $ctrlFrm->formSelect('c_anak',$this->c_anak, null, $jnsstatus); 							
+						?>
+						<input type="hidden" name="c_anak2" id="c_anak2" value="<?=$this->c_anak?>">
+					</td>
+				</tr>
+				<tr>
+					<td>Nama Anak
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_nama" id="n_nama" value="<?=$this->n_nama?>" size="70">
+						<input type="hidden" name="n_nama2" id="n_nama2" value="<?=$this->n_nama?>">
+					</td>
+				</tr>
+						<tr>
+							<td>Jenis Kelamin</td>
+							<td>:</td> 
+							<td>
+							<?php 
+
+								   $jenisKelaminList = array(""=>"--Pilih--",
+															"L"=>"Laki-laki",
+															"P"=>"Perempuan");
+								echo $ctrlFrm->formSelect('c_jns_kel', $this->c_jns_kel, null, $jenisKelaminList);
+							?>
+							</td>
+						</tr>				
+						<tr>
+							<td>Tunjangan</td>
+							<td>:</td> 
+							<td>
+							<?php 
+								$stsTunjOpsi = array("Y"=>"Ya","T"=>"Tidak"); 
+								echo $ctrlFrm->formRadio('c_tunjangan', $this->c_tunjangan, null, $stsTunjOpsi, "&nbsp;"); 
+							?>			
+							</td>
+						</tr>			
+				<tr>
+					<td>Tempat Lahir / Tanggal Lahir</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="a_tempat_lahir" id="a_tempat_lahir" value="<?=$this->a_tempat_lahir?>" size="50"> /
+						<input type="text" name="d_tanggal_lahir" id="d_tanggal_lahir" value="<?=$this->d_tanggal_lahir?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+					</td>
+				</tr>
+
+				<tr>
+					<td>Pekerjaan</td>
+					<td>:</td> 
+					<td>
+						<?php 
+							$jmlKerjaList = count($this->pekerjaanList);
+							$pekerjaanList[''] = '--Pilih--';
+							for ($i = 0; $i < $jmlKerjaList; $i++) {
+								$pekerjaanList[(string)$this->pekerjaanList[$i]->c_kerja] =(string)$this->pekerjaanList[$i]->n_kerja;	
+							}
+							echo $ctrlFrm->formSelect('c_pekerjaan', $this->c_pekerjaan, null,$pekerjaanList)
+						?>	
+					</td>
+				</tr>				
+				<tr>
+					<td>Keterangan</td>
+					<td>:</td> 
+					<td>
+					<?php 
+						$keteranganAtrib = array("rows"=>"3","cols"=>"25","maxlength"=>"100", "class"=>"medium"); 
+						echo $ctrlFrm->formTextarea('e_keterangan', $this->e_keterangan, $keteranganAtrib);
+					?>
+					</td>
+				</tr>
+</table>				
+</div>
+<br>
+	<div class="panel">
+		<div class="spacer"></div> 				
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">				
+				<tr>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataanak/listanak','');"> 
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+</div>
+	</form>

@@ -1,0 +1,303 @@
+function tampilTaun(){
+	var tahun= document.getElementById('tahun').value;
+	var tahun_asli = tahun;
+	if(tahun != "Tahun"){
+	tahun = "TAHUN ANGGARAN "+tahun;
+	}
+	
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir8/listformulir8';
+	
+		var opt = {tahun:tahun};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				if(tahun != "Tahun"){
+				jQuery(".thn_skr").html(tahun);
+				jQuery("#tahun").val(tahun_asli);
+				}else{
+				jQuery(".thn_skr").html("");
+							
+				}
+			 });
+		
+		
+};
+
+function enterNumber(id){
+	
+	var e = document.getElementById(id);
+	var d = document.getElementById(id).value;
+
+	if(d != ""){
+	if (!/^[0-9]+$/.test(e.value)) 
+	{ 
+	alert("Masukan Angka saja");
+	e.value = e.value.substring(0,e.value.length-1);
+	jQuery('id').focus();
+
+	}
+	}
+}  
+
+function OpenFormulir8Olahdata(par,id,c_jabatan,nm_jabatan,n_eselon_i,n_eselon_ii,n_eselon_iii,c_eselon_i,c_eselon_ii,c_eselon_ii_i,c_eselon_ii_iii,c_eselon_iii,c_lokasi_unit,n_lokasi_unit){
+		
+		var thn_skr=jQuery(".thn_skr").html();
+		var tahun=jQuery("#tahun").val();
+		if(thn_skr == ""){
+		alert("Tampil Tahun Terlebih dahulu !");
+		return;
+		}
+		
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir8/formulir8olahdata';
+		
+		if(id==""){
+		par="Insert";
+		}else{
+		par="Update";
+		}
+		
+		var opt = {par:par,id:id,c_jabatan:c_jabatan,nm_jabatan:nm_jabatan,n_eselon_i:n_eselon_i,n_eselon_ii:n_eselon_ii,n_eselon_iii:n_eselon_iii,c_eselon_i:c_eselon_i,c_eselon_ii:c_eselon_ii,c_eselon_ii_i:c_eselon_ii_i,c_eselon_ii_iii:c_eselon_ii_iii,c_eselon_iii:c_eselon_iii,c_lokasi_unit:c_lokasi_unit,n_lokasi_unit:n_lokasi_unit};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				jQuery(".thn_skr").html(thn_skr);
+				jQuery("#thn_skrg2").val(thn_skr);
+				jQuery("#tahun").val(tahun);
+			 });
+		
+}
+
+function AmbilLokasi(par){
+	var thn_skr=jQuery(".thn_skr").html();
+	var tahun=jQuery("#tahun").val();
+	var id = jQuery("#id").val();
+	var lokasi = jQuery("#lokasi").val();
+	var eselon1 = jQuery("#eselon1").val();
+	var eselon2 = jQuery("#eselon2").val();
+	var eselon3 = jQuery("#eselon3").val();
+	var nm_jabatan = jQuery("#nm_jabatan").val();
+	var berhenti = jQuery("#berhenti").val();
+	var pensiun = jQuery("#pensiun").val();
+	var meninggal_dunia = jQuery("#meninggal_dunia").val();
+	var ket = jQuery("#ket").val();
+		
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir8/formulir8olahdata';
+	var opt = {par:par,id:id,tahun:tahun,lokasi:lokasi,eselon1:eselon1,eselon2:eselon2,eselon3:eselon3,nm_jabatan:nm_jabatan,berhenti:berhenti,pensiun:pensiun,meninggal_dunia:meninggal_dunia,ket:ket};
+	
+	
+	jQuery.get(handler,opt,function(data) {
+		$("#tableview").html(data);
+		jQuery(".thn_skr").html(thn_skr);
+		jQuery("#tahun").val(tahun);
+		jQuery("#id").val(id);
+		jQuery("#lokasi").val(lokasi);
+		jQuery("#eselon1").val("");
+		jQuery("#eselon2").val("");
+		jQuery("#eselon3").val("");
+		jQuery("#nm_jabatan").val(nm_jabatan);
+		jQuery("#berhenti").val(berhenti);
+		jQuery("#pensiun").val(pensiun);
+		jQuery("#meninggal_dunia").val(meninggal_dunia);
+		jQuery("#ket").val(ket);
+	});
+	
+}
+
+function AmbilEselon1(par){
+	var thn_skr=jQuery(".thn_skr").html();
+	var tahun=jQuery("#tahun").val();
+	var id = jQuery("#id").val();
+	var lokasi = jQuery("#lokasi").val();
+	var eselon1 = jQuery("#eselon1").val();
+	var eselon2 = jQuery("#eselon2").val();
+	var eselon3 = jQuery("#eselon3").val();
+	var nm_jabatan = jQuery("#nm_jabatan").val();
+	var berhenti = jQuery("#berhenti").val();
+	var pensiun = jQuery("#pensiun").val();
+	var meninggal_dunia = jQuery("#meninggal_dunia").val();
+	var ket = jQuery("#ket").val();
+	
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir8/formulir8olahdata';
+	var opt = {par:par,id:id,tahun:tahun,lokasi:lokasi,eselon1:eselon1,eselon2:eselon2,eselon3:eselon3,nm_jabatan:nm_jabatan,berhenti:berhenti,pensiun:pensiun,meninggal_dunia:meninggal_dunia,ket:ket};
+	
+	
+	jQuery.get(handler,opt,function(data) {
+		$("#tableview").html(data);
+		jQuery(".thn_skr").html(thn_skr);
+		jQuery("#thn_skrg2").val(thn_skr);
+		jQuery("#tahun").val(tahun);
+		jQuery("#id").val(id);
+		jQuery("#lokasi").val(lokasi);
+		jQuery("#eselon1").val(eselon1);
+		jQuery("#eselon2").val(eselon2);
+		jQuery("#eselon3").val(eselon3);
+		jQuery("#nm_jabatan").val(nm_jabatan);
+		jQuery("#berhenti").val(berhenti);
+		jQuery("#pensiun").val(pensiun);
+		jQuery("#meninggal_dunia").val(meninggal_dunia);
+		jQuery("#ket").val(ket);
+	});
+	
+}
+
+function AmbilEselon2(par){
+	var thn_skr=jQuery(".thn_skr").html();
+	var tahun=jQuery("#tahun").val();
+	var id = jQuery("#id").val();
+	var lokasi = jQuery("#lokasi").val();
+	var eselon1 = jQuery("#eselon1").val();
+	var eselon2 = jQuery("#eselon2").val();
+	var eselon3 = jQuery("#eselon3").val();
+	var nm_jabatan = jQuery("#nm_jabatan").val();
+	var berhenti = jQuery("#berhenti").val();
+	var pensiun = jQuery("#pensiun").val();
+	var meninggal_dunia = jQuery("#meninggal_dunia").val();
+	var ket = jQuery("#ket").val();
+		
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir8/formulir8olahdata';
+	var opt = {par:par,id:id,tahun:tahun,lokasi:lokasi,eselon1:eselon1,eselon2:eselon2,eselon3:eselon3,nm_jabatan:nm_jabatan,berhenti:berhenti,pensiun:pensiun,meninggal_dunia:meninggal_dunia,ket:ket};
+	
+	
+	jQuery.get(handler,opt,function(data) {
+		$("#tableview").html(data);
+		jQuery(".thn_skr").html(thn_skr);
+		jQuery("#thn_skrg2").val(thn_skr);
+		jQuery("#tahun").val(tahun);
+		jQuery("#id").val(id);
+		jQuery("#lokasi").val(lokasi);
+		jQuery("#eselon1").val(eselon1);
+		jQuery("#eselon2").val(eselon2);
+		jQuery("#eselon3").val(eselon3);
+		jQuery("#nm_jabatan").val(nm_jabatan);
+		jQuery("#berhenti").val(berhenti);
+		jQuery("#pensiun").val(pensiun);
+		jQuery("#meninggal_dunia").val(meninggal_dunia);
+		jQuery("#ket").val(ket);
+	});
+	
+}
+
+function AmbilEselon3(par){
+	var thn_skr=jQuery(".thn_skr").html();
+	var tahun=jQuery("#tahun").val();
+	var id = jQuery("#id").val();
+	var lokasi = jQuery("#lokasi").val();
+	var eselon1 = jQuery("#eselon1").val();
+	var eselon2 = jQuery("#eselon2").val();
+	var eselon3 = jQuery("#eselon3").val();
+	var nm_jabatan = jQuery("#nm_jabatan").val();
+	var berhenti = jQuery("#berhenti").val();
+	var pensiun = jQuery("#pensiun").val();
+	var meninggal_dunia = jQuery("#meninggal_dunia").val();
+	var ket = jQuery("#ket").val();
+	
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir8/formulir8olahdata';
+	var opt = {par:par,id:id,tahun:tahun,lokasi:lokasi,eselon1:eselon1,eselon2:eselon2,eselon3:eselon3,nm_jabatan:nm_jabatan,berhenti:berhenti,pensiun:pensiun,meninggal_dunia:meninggal_dunia,ket:ket};
+	
+	
+	jQuery.get(handler,opt,function(data) {
+		$("#tableview").html(data);
+		jQuery(".thn_skr").html(thn_skr);
+		jQuery("#thn_skrg2").val(thn_skr);
+		jQuery("#tahun").val(tahun);
+		jQuery("#id").val(id);
+		jQuery("#lokasi").val(lokasi);
+		jQuery("#eselon1").val(eselon1);
+		jQuery("#eselon2").val(eselon2);
+		jQuery("#eselon3").val(eselon3);
+		jQuery("#nm_jabatan").val(nm_jabatan);
+		jQuery("#berhenti").val(berhenti);
+		jQuery("#pensiun").val(pensiun);
+		jQuery("#meninggal_dunia").val(meninggal_dunia);
+		jQuery("#ket").val(ket);
+	});
+	
+}
+
+function OpenFormulir8(){
+		var thn_skr=jQuery(".thn_skr").html();
+		var tahun=jQuery("#tahun").val()
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir8/listformulir8';
+		
+		var opt = {tahun:tahun};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				jQuery("#tahun").val(tahun);
+				jQuery(".thn_skr").html(thn_skr);
+			 });
+
+}
+
+function insertFormulir8(){
+		var thn_skr=jQuery(".thn_skr").html();
+		var tahun=jQuery("#tahun").val()
+				
+		jQuery("#formformulir8").ajaxForm(maintain_formulir8);
+	
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir8/listformulir8';
+		var opt = {tahun:tahun,thn_skr:thn_skr};
+		jQuery.get(handler,opt,function(data) {
+				//$("#tableview").html(data);
+			jQuery("#tahun").val(tahun);
+				jQuery(".thn_skr").html(thn_skr);
+			 });
+}
+
+var maintain_formulir8 = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formformulir8").ajaxForm(maintain_formulir8);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/formulir8/insertformulir8',
+	type: 'post',
+	resetForm: false
+};
+
+function updateFormulir8(){
+	var thn_skr=jQuery(".thn_skr").html();
+	var tahun=jQuery("#tahun").val()
+	
+	jQuery("#formformulir8").ajaxForm(update_formulir8);
+	
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir8/listformulir8';
+		
+		var opt = {tahun:tahun,thn_skr:thn_skr};
+		jQuery.get(handler,opt,function(data) {
+				//$("#tableview").html(data);
+				jQuery("#tahun").val(tahun);
+				jQuery(".thn_skr").html(thn_skr);
+				
+			 });
+}
+
+var update_formulir8 = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formformulir8").ajaxForm(update_formulir8);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/formulir8/updateformulir8',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusFormulir8(param1, param2, param3){
+	var thn_skr=jQuery(".thn_skr").html();
+	var tahun=jQuery("#tahun").val()
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir8/deleteformulir8';
+		var opt = {id : param2,tahun:tahun};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				jQuery("#tahun").val(tahun);
+				jQuery(".thn_skr").html(thn_skr);
+				doCount(5);
+			 });
+	} 
+}

@@ -1,0 +1,56 @@
+function openFormStatuskepegawaian(par,c_status_kepegawaian,n_status_kepegawaian,c_filter){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refstatuskepegawaian/statuskepegawaianolahdata";
+	var opt = {par:par, c_status_kepegawaian:c_status_kepegawaian, n_status_kepegawaian:n_status_kepegawaian,c_filter:c_filter};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formstatuskepegawaian").ajaxForm(maintain_statuskepegawaian);
+		});		
+} 
+
+function insertStatuskepegawaian(){
+	jQuery("#formstatuskepegawaian").ajaxForm(maintain_statuskepegawaian);
+}
+
+var maintain_statuskepegawaian = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formstatuskepegawaian").ajaxForm(maintain_statuskepegawaian);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refstatuskepegawaian/insertstatuskepegawaian',
+	type: 'post',
+	resetForm: false
+};
+
+function updateStatuskepegawaian(){
+	jQuery("#formstatuskepegawaian").ajaxForm(update_statuskepegawaian);
+}
+
+var update_statuskepegawaian = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formstatuskepegawaian").ajaxForm(maintain_statuskepegawaian);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refstatuskepegawaian/updatestatuskepegawaian',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusStatuskepegawaian(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refstatuskepegawaian/deletestatuskepegawaian';
+		var opt = {c_status_kepegawaian : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

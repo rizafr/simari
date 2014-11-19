@@ -1,0 +1,620 @@
+<? 
+   require_once 'Zend/View.php';
+   require_once "service/adm/Adm_Admmenu_Service.php";
+
+   
+   $ctrlFrm = new Zend_View();
+   $admmenu_serv = Adm_Admmenu_Service::getInstance();
+   
+
+?>
+
+<div class="navlink">
+	<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+	<strong> &#8250; </strong> Administrasi</a>
+	<strong> &#8250; </strong><?=$this->jdl;?> Admin User
+</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+<?
+if(strtolower($this->userLogin) == 'administrator'){?>
+	<h2 class="title"><?=$this->jdl;?>Mengelola Admin Biro</h2>
+<? } else {?>
+	<h2 class="title"><?=$this->jdl;?>Mengelola User Login</h2>
+<?}?>
+
+<div class="panel">
+	<span class="corners-top"><span></span></span>
+	<div class="inner">
+		
+	<div class="space2"></div>  	
+	<a name="top"></a>
+	<?
+	$perintah = $this->jenisForm;
+	//echo "perintah = $perintah";
+	if($perintah == "ubah")
+	{
+	//	if($useridAsal == "Belum Terdaftar LDAP")
+		/* if($this->useridldap == 0)
+		{
+			?>
+			<form method="post" name="frmbuatuserinsert" id="frmbuatuserinsert">
+			<?
+			$formName = "frmbuatuserinsert";
+		}
+		else
+		{ */
+			?>
+			<form method="post" name="frmbuatuserubah" id="frmbuatuserubah">
+			<?
+			$formName = "frmbuatuserubah";
+		//}
+	} else if($perintah == "ubahPassword") {
+			?>
+			<form method="post" name="frmbuatuserubahpassword" id="frmbuatuserubahpassword">
+			<?
+			$formName = "frmbuatuserubahpassword";
+	}
+	else
+	{
+		/* if($this->useridldap == 0)
+		{ */
+			?>
+			<form method="post" name="frmbuatuserinsert" id="frmbuatuserinsert">
+			<?
+			$formName = "frmbuatuserinsert";
+		/* }
+		else
+		{
+			?>
+			<form method="post" name="frmbuatuseredit" id="frmbuatuseredit">
+			<?
+			$formName = "frmbuatuseredit";
+		} */
+
+	}
+	
+	?>
+		<table width="100%" class="std">
+			<tr>
+				<td width="20%">Userid</td>
+				<td width="5%">:</td>
+				<td width="75%">
+					<?php 
+					
+					$userid = $this->detailUserOlahData['userid'];
+					//echo "perintah = $perintah";
+					if (!$perintah){
+						if (strtolower($this->userLogin) == 'administrator'){
+							$userid = "admin_";
+						}
+					}
+					
+					if(($perintah == "ubah") || ($perintah == "ubahPassword"))
+					{
+						$useridAtrib = array("size"=>"40",
+							"maxlength"=>"40",
+							"id" => "userid",
+							"readonly" => "true"
+						);
+						echo $ctrlFrm->formText('userid', $userid, $useridAtrib);
+					}
+					else
+					{
+						$useridAtrib = array("size"=>"40",
+							"maxlength"=>"40",
+							"id" => "userid"
+						);
+						echo $ctrlFrm->formText('userid', $userid, $useridAtrib);
+					}
+							
+					?>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>Nama</td>
+				<td>:</td>
+				<td>
+					<?php 
+						$npegAtrib = array("size"=>"31",
+						"maxlength"=>"30",
+						"class"=>"",
+						"readonly"=>"true"
+						);
+						$nPeg = $this->detailUserOlahData['n_peg'];
+						
+						echo $ctrlFrm->formText('nPeg', $nPeg, $npegAtrib);
+						//echo "perintah = $perintah";
+						if($perintah != "ubahPassword")
+						{
+							$selectPegAtrib = array("onClick"=>"javascript:selectPeg();");
+							echo $ctrlFrm->formButton('pilih', Cari , $selectPegAtrib);
+						}
+					?>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>NIP</td>
+				<td>:</td>
+				<td>
+					<?php 
+					$nippegAtrib = array("size"=>"21",
+					"maxlength"=>"21",
+					"class"=>"",
+					"readonly" => "true"
+					);
+					$nippeg2Atrib = array("size"=>"21",
+					"maxlength"=>"21",
+					"class"=>""
+					);
+					$i_peg_nip = $this->detailUserOlahData['i_peg_nip'];
+					
+					echo $ctrlFrm->formText('iPegNip', $i_peg_nip, $nippegAtrib);
+					echo $ctrlFrm->formText('iPegNipNew', $i_peg_nip, $nippegAtrib);
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td>Golongan</td>
+				<td>:</td>
+				<td>
+					<?php 
+					$cGolAtrib = array("size"=>"10",
+									"maxlength"=>"10",
+									"class"=>"",
+									"readonly"=>"true"
+									);
+					$c_golongan = $this->detailUserOlahData['c_golongan'];
+									
+					echo $ctrlFrm->formText('cGolongan', $c_golongan, $cGolAtrib);
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td>Jabatan</td>
+				<td>:</td>
+				<td>
+					<?php 
+					//var_dump($this->detailUserOlahData);
+					
+					$nJabatanAtrib = array("size"=>"100",
+									"maxlength"=>"250",
+									"class"=>"",
+									"readonly"=>"true"
+									);
+									
+					$cJabatan = $this->detailUserOlahData['c_jabatan'];
+					$nJabatan = $this->detailUserOlahData['n_jabatan'];
+									
+					echo $ctrlFrm->formHidden('cJabatan', $cJabatan, null);
+					echo $ctrlFrm->formText('nJabatan', $nJabatan, $nJabatanAtrib);
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+			<tr>
+				<td>Unit Kerja</td>
+				<td>:</td>
+				<td>
+					<?php 
+					$nUnitkerjaAtrib = array("size"=>"100",
+									"maxlength"=>"200",
+									"class"=>"",
+									"readonly"=>"true"
+									);
+					$nUnitkerja = $this->detailUserOlahData['n_unitkerja'];
+									
+					echo $ctrlFrm->formText('nUnitkerja', $nUnitkerja, $nUnitkerjaAtrib);
+					?>
+				</td>
+			</tr>
+			<?php
+			if ($perintah == 'ubahPassword'){
+			?>
+				<tr>
+					<td>Password Semula</td>
+					<td>:</td>
+					<td>
+						<?php 
+						$passwdAtrib = array("size"=>"35",
+											"maxlength"=>"35",
+											"onBlur" => "checkPasswordSemula();"
+											);
+						echo $ctrlFrm->formPassword('userPasswdLama', $userPasswdLama, $passwdAtrib);
+						?>
+					</td>
+				</tr>
+			<?php
+			}
+			
+			//echo "ssssssssssssss =$perintah";
+			if((!$perintah) || ($perintah == 'ubahPassword')) { //(($perintah != 'ubah') && (($perintah == 'ubahPassword'))){
+			?>
+				<tr>
+					<td>
+					<?php 
+					if ($perintah == 'ubahPassword'){
+						echo "Password Baru";
+					} else {
+						echo "Password";
+					}
+					?>
+					</td>
+					<td>:</td>
+					<td>
+						<?php 
+						$passwdAtrib = array("id" => "userPasswd",
+											"size"=>"35",
+											"maxlength"=>"35"
+											);
+						echo $ctrlFrm->formPassword('userPasswd', $userPasswd, $passwdAtrib);
+						?>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>Ulangi Password</td>
+					<td>:</td>
+					<td>
+						<?php 
+						$passwd2Atrib = array("id" => "userPasswd2",
+											"size"=>"35",
+											"maxlength"=>"35",
+											"onBlur" => "javascript:checkPasswd();"
+											);
+						echo $ctrlFrm->formPassword('userPasswd2', $userPasswd2, $passwd2Atrib);
+						?>
+					</td>
+				</tr>
+			<?php 
+			}
+			?>
+			<tr>
+				<td>Id YM</td>
+				<td>:</td>
+				<td>
+					<?php 
+					$iYMAtrib = array("size"=>"50",
+										"maxlength"=>"100",
+										"onBlur" => "javascript:checkIdYM();"
+										);
+					echo $ctrlFrm->formText('iYM', $iYM, $iYMAtrib);
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td>Kategori User</td>
+				<td>:</td>
+				<td>
+					<? 
+					$c_kategori_user = $this->detailUserOlahData['c_kategori_user'];
+					
+					//echo "katuser = $c_kategori_user";
+					if ($c_kategori_user == 'A'){
+						$pilihKategoriuser = '';
+						$pilihKategorisuperuser = '';
+						$pilihKategoriadmin = 'checked';
+					} else if ($c_kategori_user == 'SU'){
+						$pilihKategoriuser = '';
+						$pilihKategoriadmin = '';
+						$pilihKategorisuperuser = 'checked';
+					}else {
+						$pilihKategoriuser = 'checked';
+						$pilihKategoriadmin = '';
+						$pilihKategorisuperuser = '';						
+					
+					}
+					?>
+					<input type="radio" name="kategori_user" id="kategori_user" value="U" <?echo $pilihKategoriuser; ?>>&nbsp;User
+					<input type="radio" name="kategori_user" id="kategori_user" value="A" <?echo $pilihKategoriadmin; ?>>&nbsp;Administrator
+					<input type="radio" name="kategori_user" id="kategori_user" value="SU" <?echo $pilihKategorisuperuser; ?>>&nbsp;Superuser
+				</td>
+			</tr>
+			<?
+			//echo "perintah = $perintah";
+			/*
+			if($perintah != 'ubahPassword'){
+			?>
+				<tr>
+					<td><h3 class="title"><b>Pemberian Hak Akses</b></h3></td>
+					<td colspan="2">:</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+									
+						<table class="tbl2" width="100%" cellspacing="1" cellpadding="0" border="0">
+							<tr>
+								<td width="50%">
+									<div style="height:200px; overflow:auto">
+										<table class="std" width="100%" cellspacing="1" cellpadding="0" border="0">
+											<tr>
+												<td>Group</td>
+												<td>
+													<?php 
+													//var_dump($this->GroupList );
+													for($x=0; $x<count($this->GroupList); $x++){
+														$iGroup = $this->GroupList[$x]['i_group'];
+														$nGroup = $this->GroupList[$x]['n_group'];
+														
+														if($iGroup == '0'){
+														?>
+															<input type="checkbox" name="group_<? echo $iGroup;?>" id="group_<? echo $iGroup;?>" disabled checked>
+														<?php 
+														} else {
+														//echo "$iGroup | ";
+														//var_dump($this->detailUserOlahData['otoritasGroupArr']);
+															if(count($this->detailUserOlahData['otoritasGroupArr'])){
+																if(in_array($iGroup, $this->detailUserOlahData['otoritasGroupArr'])){
+																?>
+																	<input type="checkbox" name="group_<? echo $iGroup;?>" id="group_<? echo $iGroup;?>" checked>
+																<?php
+																} else {
+																?>
+																	<input type="checkbox" name="group_<? echo $iGroup;?>" id="group_<? echo $iGroup;?>">
+														<?
+																}
+															} else {
+															?>
+																<input type="checkbox" name="group_<? echo $iGroup;?>" id="group_<? echo $iGroup;?>">
+															<?php
+															}
+														}
+														echo $nGroup."<br>";
+														
+													}
+													
+													?>
+												</td>
+											</tr>
+										</table>
+									</div>
+									<br>
+									<div style="height:200px; overflow:auto">
+										<table class="std" width="100%" cellspacing="1" cellpadding="0" border="0">
+											<tr>
+												<td>Otoritas User</td>
+												<td>
+													<?php 
+													//var_dump($this->izinList );
+													for($x=0; $x<count($this->izinList); $x++){
+														$cIzin = $this->izinList[$x]['c_izin'];
+														$nIzin = $this->izinList[$x]['n_izin'];
+														
+														
+														if(!count($this->detailUserOlahData['cIzinArr'])){
+															$cIzinData = '000000';
+															
+															if ($cIzinData == $cIzin){
+															?>
+																<input type="radio" name="izin" id="izin" value="<?php echo $cIzin;?>" checked>
+															<?php
+															} else {
+															?>
+																<input type="radio" name="izin" id="izin" value="<?php echo $cIzin;?>">
+															<?php
+															}
+														} else {
+															for($a=0; $a<count($this->detailUserOlahData['cIzinArr']); $a++){
+																$cIzinData = $this->detailUserOlahData['cIzinArr'][$a];
+																//echo "xxx = $cIzinData | ";
+																if ($cIzinData == $cIzin){
+																?>
+																	<input type="radio" name="izin" id="izin" value="<?php echo $cIzin;?>" checked>
+																<?php
+																} else {
+																?>
+																	<input type="radio" name="izin" id="izin" value="<?php echo $cIzin;?>">
+																<?php
+																}
+															}
+														}
+														
+														echo $nIzin."<br>";
+														
+													}  
+													?>
+													
+												</td>
+											</tr>
+										</table>
+									</div>
+								</td>
+								<td width="50%">
+									<div class="boxcheck">
+										Jenis Aplikasi &nbsp;
+										<?php
+										if(count($this->aplikasiList)){
+											for ($x=0; $x<count($this->aplikasiList); $x++){
+												$i_aplikasi = $this->aplikasiList[$x]->i_aplikasi;
+												$n_aplikasi = $this->aplikasiList[$x]->n_aplikasi;
+												$aplikasiList[$i_aplikasi] = $n_aplikasi;
+											}
+										} else {
+											$aplikasiList[''] = '';
+										}
+										$aplikasiAttr = array("onChange" => "javascript:listMenuPerAplikasi()");
+										echo $ctrlFrm->formSelect('i_aplikasi', $iAplikasi, $aplikasiAttr, $aplikasiList);
+										echo $ctrlFrm->formHidden('jmlAplikasi', count($this->aplikasiList),null);
+										?>
+									</div>
+									<table class="std" width="100%" cellspacing="1" cellpadding="0" border="0">
+										<tr>
+											<td><?php
+												$x=1;
+												for($j=0; $j<count($this->aplikasiList); $j++){ 
+													$i_aplikasi = $this->aplikasiList[$j]->i_aplikasi;
+													$n_aplikasi = $this->aplikasiList[$j]->n_aplikasi;
+													
+													$data = array("i_aplikasi" => $i_aplikasi);
+													$daftarMenuPerAplikasi = $admmenu_serv->readAllMenuMapPerAplikasi($data);
+													//echo "<br> $i_aplikasi - ".count($daftarMenuPerAplikasi)."<br>";
+													//var_dump($daftarMenuPerAplikasi);
+													if(count($daftarMenuPerAplikasi)){
+														if($i_aplikasi == '1'){
+														?>
+															<div id="targetMenu_<?php echo $i_aplikasi?>"  style="height:400px; overflow:auto; display:block">
+														<?} else {?>
+															<div id="targetMenu_<?php echo $i_aplikasi?>"  style="height:400px; overflow:auto; display:none">
+														<?php } ?>	
+															<table width="100%" class="std" cellspacing="2" cellpadding="1" border="0">
+														<?php
+														
+														
+														for($a=0; $a<count($daftarMenuPerAplikasi); $a++){
+															$i_menu 	= $daftarMenuPerAplikasi[$a]['i_menu'];
+															$l1		 	= $daftarMenuPerAplikasi[$a]['l1'];
+															$l2		 	= $daftarMenuPerAplikasi[$a]['l2'];
+															$l3		 	= $daftarMenuPerAplikasi[$a]['l3'];
+															$l4		 	= $daftarMenuPerAplikasi[$a]['l4'];
+															$i_aplikasi = $daftarMenuPerAplikasi[$a]['i_aplikasi'];
+															$n_aplikasi = $daftarMenuPerAplikasi[$a]['n_aplikasi'];
+															$c_menu_level = $daftarMenuPerAplikasi[$a]['c_menu_level'];
+															$n_menu 	= $daftarMenuPerAplikasi[$a]['n_menu'];
+															$c_menu_statuscb = $daftarMenuPerAplikasi[$a]['c_menu_statuscb'];
+															$e_menu 	= $daftarMenuPerAplikasi[$a]['e_menu'];
+															$n_action 	= $daftarMenuPerAplikasi[$a]['n_action'];
+															
+															
+																							
+															if ($x%2==0) { ?>
+															  <tr class="event">
+															<? } else if ($x%2==1) { ?>
+															  <tr class="event2">
+															<? } ?>
+																<td align="right" width="5%">
+																	<?php
+																	//var_dump($this->detailUserOlahData['otoritasMenuArr']);
+																	$z=0;
+																	for($x=0; $x<count($this->detailUserOlahData['otoritasMenuArr']); $x++){
+																		$iAplikasiData = $this->detailUserOlahData['otoritasMenuArr'][$x]['i_aplikasi'];
+																		$cMenuLevelData = $this->detailUserOlahData['otoritasMenuArr'][$x]['c_menu_level'];
+																	
+																		//if(count($menuGroup)){
+																		//echo "$iAplikasiData == $i_aplikasi | $c_menu_level == $cMenuLevelData";
+																		if($iAplikasiData == $i_aplikasi){
+																			if($c_menu_level == $cMenuLevelData){ 
+																				$z++;
+																			}
+																		} 
+																	}
+																	
+																	if(!$z){
+																	?>
+																		<input type="checkbox" id="<?php echo $i_aplikasi."_".$c_menu_level;?>" name="<?php echo $i_aplikasi."_".$c_menu_level;?>" onClick="checkParent('<?php echo $i_aplikasi."_".$c_menu_level;?>')">
+																	<?php
+																	} else {
+																	?>
+																		<input type="checkbox" id="<?php echo $i_aplikasi."_".$c_menu_level;?>" name="<?php echo $i_aplikasi."_".$c_menu_level;?>" onClick="checkParent('<?php echo $i_aplikasi."_".$c_menu_level;?>')" checked>
+																	<?php
+																	}
+																	?>
+																</td>
+																<td width="25%">
+																	<?php
+																	if(strlen($c_menu_level) == 2){
+																		echo "$c_menu_level";
+																	} else if (strlen($c_menu_level) == 4){
+																		echo "&nbsp;&nbsp;$c_menu_level";
+																	} else if (strlen($c_menu_level) == 6){
+																		echo "&nbsp;&nbsp;&nbsp;&nbsp;$c_menu_level";
+																	} else if (strlen($c_menu_level) == 8){
+																		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$c_menu_level";
+																	}
+																	?>
+																</td>
+																<td width="70%"><?php echo $n_menu;?></td>
+																
+															</tr>
+														
+																	
+														<?
+														}
+														?>
+															</table>
+														</div>
+													<?php
+													} 
+												}
+											?>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			<?php
+			}
+			*/
+			?>
+			<tr>
+				<td colspan="3">
+					<div class="right">
+						<input type="button"    value="Kembali" id="backToListAktifitas" onClick="javascript:displayDaftarUser();"> 
+						<?
+						if(count($this->modulList) > 0)
+						{
+						?>
+							<input type="button"    value="Hapus Otoritas" onClick="javascript:prosesHapusOtoritas('<?echo $b;?>');"> 
+						<?
+						}
+						?>
+						<input type="reset"   value="Ulangi"> 
+						<?php 
+								echo $ctrlFrm->formHidden('modulAwal', $modulAwal, null);
+								echo $ctrlFrm->formHidden('jsAwal', $jsAwal, null);
+
+								if($perintah == "Edit")
+								{
+//echo "useridAsal=$useridAsal";
+							//		if($useridAsal == "Belum Terdaftar LDAP")
+//echo "jml1 = ".$this->useridldap;
+									if($this->useridldap == 0)
+									{
+										$simpanAttrib = array("onClick" => "javascript:prosesBuatUser();");
+										echo $ctrlFrm->formSubmit('perintah', 'Simpan', $simpanAttrib); 
+									}
+									else
+									{
+										$ubahAttrib = array("onClick" => "javascript:prosesUbahUser();");
+										echo $ctrlFrm->formSubmit('perintah', 'Ubah', $ubahAttrib); 
+									}
+								}
+								else
+								{
+//echo "jml2 = ".$this->useridldap;
+									if($this->useridldap == 0)
+									{
+										//$simpanAttrib = array("onClick" => "javascript:prosesBuatUser();");
+										echo $ctrlFrm->formSubmit('perintah', 'Simpan', null); 
+									}
+									else
+									{
+										$ubahAttrib = array("onClick" => "javascript:prosesUbahUser();");
+										echo $ctrlFrm->formSubmit('perintah', 'Ubah', $ubahAttrib); 
+									}
+/*
+									$simpanAttrib = array("onClick" => "javascript:prosesBuatUser();");
+									echo $ctrlFrm->formSubmit('perintah', 'Simpan', $simpanAttrib); 
+*/
+								}
+							?>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div class="space2"></div>
+		
+	</div>
+	<span class="corners-bottom"><span></span></span>
+</div>
+	</form>
+	
+	<div id="targetPopup"></div>

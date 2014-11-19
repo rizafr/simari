@@ -1,0 +1,281 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+$ceseloncpns=$this->ceseloncpns*1;
+?>
+
+ 	<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_sk_pns").datepicker();
+		jQuery("#d_kesehatan_pns").datepicker();
+		jQuery("#d_sk_prajab").datepicker();
+		
+	});
+	
+	</script>
+
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong> SDM 
+				<strong> &#8250; </strong> <a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Data PNS
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+
+	
+<form id="formpegawai" method="post" action="" name="formpegawai"enctype="multipart/form-data" >
+<input type="hidden" size="25" maxlength="9" name="i_peg_nip" id="i_peg_nip" readonly="true" value="<?=$this->i_peg_nip?>">
+	<h2 class="title"><?=$this->jdl;?> Data PNS</h2>
+							<h3 class="tab" title="first"><div class="tabtxt"><a href="#Pns" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapns/pns','<?php echo $this->basePath; ?>/sdmmodule/datapns/pnsjs');">PNS</a></div></h3>
+							<h3 class="tab" title="first"><div class="tabtxt"><a href="#Pokok" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pokok</a></div></h3>
+							<h3 class="tab" title="first"><div class="tabtxt"><a href="#Riwayat" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapangkat/listpangkat','<?php echo $this->basePath; ?>/sdmmodule/datapangkat/pangkatjs');">Data Riwayat</a></div></h3>	
+						<? if ($this->statuspeg!='2CP'){?>
+							<h3 class="tab" title="first"><div class="tabtxt"><a href="#Diklat" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datadikpenjenjangan/listdiklat','<?php echo $this->basePath; ?>/sdmmodule/datadikpenjenjangan/dikpenjenjanganjs');">Diklat</a></div></h3>
+							<h3 class="tab" title="first"><div class="tabtxt"><a href="#Kinerja" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dptiga/listdptiga','<?php echo $this->basePath; ?>/sdmmodule/dptiga/dptigajs');">Kinerja</a></div></h3>
+							<h3 class="tab" title="first"><div class="tabtxt"><a href="#Kinerja" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/databahasa/listbahasa','<?php echo $this->basePath; ?>/sdmmodule/databahasa/bahasajs');">Penilaian</a></div></h3>
+						<?}?>
+						
+<div class="boxholder">
+<div class="panel">	
+		<div class="spacer"></div> 
+		<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+			<tr>
+				<td width="15%">&nbsp;&nbsp;Nama / NIP</td>
+				<td width="2%">:</td>
+				<td>
+					<b><? echo $this->n_peg." / ".$this->i_peg_nip;?></b>
+				</td>
+			</tr>	
+		</table>		
+		<br>
+<?if ($this->c_lokasi_unitkerja=='1'){?>			
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%"  id="listcombo">
+				<tr>
+					<td width="50%">
+					<table width="100%">
+							<tr>
+								<td><h3 class="title"><b><u>UNIT KERJA</u></b><h3></td>
+							</tr>
+					</table>
+					</td>
+				</tr>			
+				<tr>
+					<td width="50%">
+						<table width="100%">							
+							
+							<tr>
+								<td width="20%">Lokasitpm_tgllahir</td>
+								<td width="2%">:</td> 
+								<td>
+									<?
+											$jmlLokList=count($this->lokasiList);
+											for ($i = 0; $i < $jmlLokList; $i++) {
+												if ($this->c_lokasi_unitkerja==$this->lokasiList[$i]->c_lokasi){$n_lokasi=$this->lokasiList[$i]->n_lokasi;}
+											}							
+									?>								
+									<input type="text" value="<?=$n_lokasi?>" size="55" readonly="true">
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon I</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" value="<?=$this->n_eselon_i?>" size="55" readonly="true">
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon II</td>
+								<td>:</td> 
+								<td>				
+									<input type="text" value="<?=$this->n_eselon_ii?>" size="55" readonly="true">
+								</td>
+							</tr>						
+							<tr>
+								<td>Eselon III</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" value="<?=$this->n_eselon_iii?>" size="55" readonly="true">
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon IV</td>
+								<td>:</td> 
+								<td>				
+									<input type="text" value="<?=$this->n_eselon_iv?>" size="55" readonly="true">
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon V</td>
+								<td>:</td> 
+								<td>				
+									<input type="text" value="<?=$this->n_eselon_v?>" size="55" readonly="true">
+								</td>
+							</tr>							
+						</table>
+					</td>
+										
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3">					
+									<textarea id="jabat_lengkap" name="jabat_lengkap" rows="5"><?=$this->jabat_lengkap?></textarea>
+								</td>
+							</tr>
+						</table>
+					</td>
+										
+				</tr>
+			</table>
+<?}  else{include ("listcombo2.phtml");}?>			
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+				<tr>
+					<td width="20%">Unit Kerja (tanpa kode)</td>
+					<td width="2%">:</td>
+					<td>
+						<textarea id="n_unitkerja_nokode" name="n_unitkerja_nokode" rows="3" readonly="true"><?=$this->n_unitkerja_nokode?></textarea>
+					</td>
+				</tr>
+			</table>
+				
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+				<tr>
+
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3"><h3 class="title"><b><u>SURAT KEPUTUSAN PNS</u></b><h3></td>
+							</tr>
+							<tr>
+								<td width="30%">Nomortpm_tgllahir</td>
+								<td width="2">:</td> 
+								<td>					
+									<input type="text" name="i_sk_pns" id="i_sk_pns" value="<?=$this->i_sk_pns?>" size="30" readonly="true">
+								</td>
+							</tr>
+							<tr>
+								<td>Tanggaltpm_tgllahir</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="d_sk_pns" id="d_sk_pns" value="<?=$this->d_sk_pns?>" size="10" readonly="true">
+									<span class="hightlight">tgl-bln-thn</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Pejabat</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="n_sk_pejabatpns" id="n_sk_pejabatpns" value="<?=$this->n_sk_pejabatpns?>" size="50" readonly="true">
+								</td>
+							</tr>							
+						</table>
+					</td>
+
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b><u>SURAT TANDA LULUS KESEHATAN</u></b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td>Nomor</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="i_kesehatan_pns" id="i_kesehatan_pns" value="<?=$this->i_kesehatan_pns?>" size="25" readonly="true">
+								</td>
+							</tr>	
+							<tr>
+								<td>Tanggal</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="d_kesehatan_pns" id="d_kesehatan_pns" value="<?=$this->d_kesehatan_pns?>" size="10" readonly="true">
+									<span class="hightlight">tgl-bln-thn</span>
+								</td>
+							</tr>	
+							<tr>
+								<td>Rumah Sakit</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="n_rumahsakit_pns" id="n_rumahsakit_pns" value="<?=$this->n_rumahsakit_pns?>" size="45" readonly="true">
+								</td>
+							</tr>	
+							<tr>
+								<td>Pejabat</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="n_kesehatan_pejabatpns" id="n_kesehatan_pejabatpns" value="<?=$this->n_kesehatan_pejabatpns?>" size="50" readonly="true">
+								</td>
+							</tr>	
+									
+						</table>
+					</td>					
+				</tr>
+				<tr>
+					<td>
+						<h3 class="title"><b><u>SURAT TANDA LULUS PRA JABATAN</u></b><h3>
+					</td>
+				</tr>
+				<tr>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td width="30%">Nomortpm_tgllahir</td>
+								<td width="2">:</td> 
+								<td>					
+									<input type="text" name="i_sk_prajab" id="i_sk_prajab" value="<?=$this->i_sk_prajab?>" size="30" readonly="true">
+								</td>
+							</tr>
+							<tr>
+								<td>Tanggaltpm_tgllahir</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="d_sk_prajab" id="d_sk_prajab" value="<?=$this->d_sk_prajab?>" size="10" readonly="true">
+									<span class="hightlight">tgl-bln-thn</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Pejabat</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="n_sk_pejabatprajab" id="n_sk_pejabatprajab" value="<?=$this->n_sk_pejabatprajab?>" size="50" readonly="true">
+								</td>
+							</tr>							
+						</table>
+					</td>
+				</tr>				
+			</table>
+	</div>		
+<br>
+	<div class="panel">
+		<div class="spacer"></div> 				
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+						<tr>
+							<td align="left">&nbsp;</td>
+							<td></td>
+							<td align="right">
+								<div class="right">
+								<?if ($this->pns!='pns'){?>
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapns/pegawaijs');"> 
+								<?}else{?>	
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');"> 
+								<?}?>			
+								</div>
+							</td>
+						</tr>
+			</table>				
+	</div>
+	</div>
+	<div id="targetdetil"></div>
+</form>

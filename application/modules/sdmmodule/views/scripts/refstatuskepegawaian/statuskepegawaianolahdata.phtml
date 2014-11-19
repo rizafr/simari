@@ -1,0 +1,69 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tanggal_lahir").datepicker();
+		jQuery("#d_tanggal_nikah").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Status Kepegawaian
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Referensi Status Kepegawaian</h2>	
+		
+<form id="formstatuskepegawaian" method="post" name="formstatuskepegawaian">		
+	<div class="panel">
+		<div class="spacer"></div> 
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Kode Status Kepegawaian<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_status_kepegawaian" id="c_status_kepegawaian" value="<?=$this->detailStatuskepegawaian['c_status_kepegawaian']?>" size="70" maxlength="2" <? if($this->par != "insert"){ ?> readonly <? } ?> >
+					</td>
+				</tr><tr>
+					<td>Nama Status Kepegawaian<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_status_kepegawaian" id="n_status_kepegawaian" value="<?=$this->detailStatuskepegawaian['n_status_kepegawaian']?>" size="70" maxlength="15">
+					</td>
+				</tr><tr>
+					<td>Kode Filter<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_filter" id="c_filter" value="<?=$this->detailStatuskepegawaian['c_filter']?>" size="70" maxlength="1">
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/refstatuskepegawaian/liststatuskepegawaian','<?php echo $this->basePath; ?>/sdmmodule/refstatuskepegawaian/statuskepegawaianjs');"> 
+							<?if ($this->par == 'insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertStatuskepegawaian()">
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updateStatuskepegawaian()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>

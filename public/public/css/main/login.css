@@ -1,0 +1,212 @@
+/*style for panel-login */
+body{
+	background:#EEE url(../images/bg_login.png) repeat-x;
+	font: 68% "Trebuchet MS", Verdana, Arial, Geneva, Helvetica, sans-serif;
+	line-height:130%;
+	text-align:center;
+	color:#333;
+}
+h1 {display:none}
+h2 {font-size:2em;font-weight:normal}
+h4 {font-size:1em;}
+a:link,a:active,a:visited {
+	color: #FFF;
+}
+
+a:hover {
+	color: #FFF;
+	text-decoration:none;
+}
+fieldset {
+	border: none;
+	padding: 3px;
+}
+
+div#page { /* explorer 5.5+ */
+	width: expression((document.body.clientWidth > 400 ? document.body.clientWidth : 500) + "px");
+	height: expression((document.body.clientHeight > 320 ? document.body.clientHeight :255) + "px");
+	}
+div#container-login,
+div#container-login div.container-top,
+div#container-login div.container-bottom {
+	width: 500px;
+	text-align:center;
+	font-size:13px;
+	}
+.footer {color:#666;}
+
+div#container-login,
+div#container-login div.container-right,
+div#container-login div.container-left {
+	height: 255px;
+	}
+div#page { /* explorer 5.5+ */
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	overflow: hidden;
+	text-align: center;
+	}
+
+* > div#page { /* normal browsers */
+	min-width: 500px;
+	min-height: 255px;
+	width: 100%;
+	height: 100%;
+	}
+
+div#container-login {
+	position: relative;
+	top: 50%;
+	margin-top: -160px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+	}
+div#container-login {
+	background:url(../images/box_login.gif) no-repeat;
+	}			
+
+div#container-login div.container-top {
+	position: absolute;
+	left: 0px;
+	top: -1000px;
+	height: 1000px;
+	}
+
+div#container-login div.container-right {
+	position: absolute;
+	right: -1000px;
+	top: 0px;
+	width: 1000px;
+	}
+
+div#container-login div.container-bottom {
+	position: absolute;
+	left: 0px;
+	bottom: -1000px;
+	height: 1000px;
+	}
+div#container-login div.container-left {
+	position: absolute;
+	left: -1000px;
+	top: 0px;
+	width: 1000px;
+	}
+div#container-login div.container-top-right {
+	position: absolute;
+	right: -1000px;
+	top: -1000px;
+	width: 1000px;
+	height: 1000px;
+	}
+
+div#container-login div.container-bottom-right {
+	position: absolute;
+	right: -1000px;
+	bottom: -1000px;
+	width: 1000px;
+	height: 1000px;
+	}
+div#container-login div.container-bottom-left {
+	position: absolute;
+	left: -1000px;
+	bottom: -1000px;
+	width: 1000px;
+	height: 1000px;
+	}
+
+div#container-login div.container-top-left {
+	position: absolute;
+	left: -1000px;
+	top: -1000px;
+	width: 1000px;
+	height: 1000px;
+	}
+fieldset.panel-form{text-align:left}	
+.panel-login {
+	float:left;
+	width:228px; 
+	margin:10px 0 0 20px;
+	border:0px solid;
+	font-size:1.1em;
+	}
+.note {
+	float:left;
+	width:200px; 
+	margin:20px 0 0 20px;
+	border:0px solid;
+	font-size:1em;
+	}
+.panel-form h2{color:#047a01;text-align:left;font-family:Arial;margin:30px 0 0 80px;line-height:120%}	
+.panel-form h4 {color:#025200;font-size:1em;margin:0 0 0 80px}
+
+form label {
+display: block;
+float: left; 
+width:180px; 
+padding: 0; 
+margin: 5px 0 0;
+text-align: left; 
+}
+
+form textarea, form select {
+width:100%; 
+margin:0;
+border:1px solid #9a7f02;
+background-color:#EEE;
+padding:3px;
+}
+ form textarea:hover, form select:hover{
+border:1px solid #5e8f00;
+background-color:#FAFAFA;
+}
+.textbox {
+width:100%; 
+margin:0;
+border:1px solid #9a7f02;
+background-color:#EEE;
+padding:1px 3px;
+}
+.textbox2 {
+width:auto; 
+margin:0;
+border:1px solid #9a7f02;
+background-color:#EEE;
+padding:1px 3px;
+}
+
+input.buttonsubmit {
+background:#bdcd56 url(../images/grad.gif) top repeat-x;
+font-weight:bold;
+padding:2px 3px;
+width:auto;
+border:1px solid #9a7f02;
+cursor:pointer;
+margin-top:10px;
+}
+input.buttonsubmit:hover {
+border:1px solid #5e8f00;
+}
+
+form br {
+clear:left;
+}
+.alignright {
+	float: right;
+}
+#result { position:absolute; top:-60px;left:0px;margin:0 auto;background-color: #F0FFED; border: 1px solid #215800; padding: 10px; width: 380px; margin-bottom: 20px; text-align:left;}
+#loading {
+	background-color:#FAFAFA;
+	border:3px solid #DDDDDD;
+	height:28px;
+	left:50%;
+	margin-left:-50px;
+	padding:0;
+	position:absolute;
+	text-align:left;
+	top:50%;
+	visibility:visible;
+	width:120px;
+	z-index:1000;
+}

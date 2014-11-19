@@ -1,0 +1,105 @@
+<? 
+require_once 'Zend/View.php';
+require_once 'share/tanggal.php'; 
+   
+$ctrlDate = new tanggal();   
+   
+   $ctrlFrm = new Zend_View();
+
+$nip = $_REQUEST['nip'];
+$jumPendList = count($this->pendList);     
+$pesan = $this->pesan;
+$pesancek=$this->pesancek;
+if ($pesancek=='gagal'){$confirm ='confirmfail';}
+else {$confirm ='confirm';}
+?>
+		   <div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+				<strong> &#8250; </strong> Pendidikan
+			</div>
+	        <a name="top"></a>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>			
+			
+	<h2 class="title">Pendidikan</h2>
+						
+<?php $opr = 'rpdk'; include "$this->leftMenu/linkriwayat.phtml";?>
+<div class="boxholder">	
+	<div class="panel">
+	<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+ <?if ($this->c_izin=='000002' || $this->c_izin=='000003'){ ?>	   
+<div class="add" title="Tambah Data" onclick="PendidikanM('insert','');"></div>
+<?}	if ($jumPendList == 0) {
+		echo "<font color=\"red\">Data Pendidikan Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+				<tr>
+			    <th width="10%">Jenjang</th>
+				<th width="20%">Nama Sekolah</th>
+				<th width="5%">Tahun Masuk</th>
+				<th width="5%">Tahun Lulus</th>
+				<th width="4%" colspan="2">&nbsp;</th>
+				</tr>
+
+<?
+	if ($jumPendList == 0) {
+?>				<tr class="event">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				</tr>
+<? } else { ?>				
+		<?php foreach ($this->pendList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+				<? 
+					$id=trim($this->escape($val['id']));
+					$nip=trim($this->escape($val['i_peg_nip']));
+					$c_pend=trim($this->escape($val['c_pend']));
+				?>
+				<td width="6%">
+				<a href="#" onclick="detilPend('<?php echo $this->escape($val['i_peg_nip']);?>','<?php echo $this->escape($val['c_pend']);?>')"><?php echo $this->escape($val['n_pend']);?></a>
+				</td>
+				<td width="20%"><?php echo $this->escape($val['n_pend_lembaga']);?></td>
+				<!--<td width="20%"><?php// echo ucwords(strtolower($this->escape($val['n_pend_jurusan'])));?></td>-->
+				<td class="clcenter" width="8%"><?php echo $this->escape($val['d_pend_mulai']);?></td>
+				<td class="clcenter" width="8%"><?php echo $this->escape($val['d_pend_akhir']);?></td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data"  onclick="PendidikanM2('<?=$id?>','<?=$c_pend?>');"></div>	
+				</td>
+ <?if ($this->c_izin=='000002' || $this->c_izin=='000003'){ ?>	 				
+				<td class="clcenter">			
+					<!--<div class="delete" title="Hapus Data"  onClick="HapusDataPend('<?=$nip?>','<?=$c_pend?>')"></div>-->
+					<div class="delete" title="Hapus Data"  onClick="HapusDataPend('<?=$nip?>','<?=$id?>')"></div>
+				</td>
+<?}?>				
+		  </tr>
+	<?php endforeach;?> 	
+	<? } ?>
+	</table>									
+<div id="targetdetil"></div>						
+		</div>		 
+		</form>
+<script>
+function detilPend(nip,cPend){
+var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/detilpendidikan';
+var param = {nip:nip,cPend:cPend};
+jQuery.get(url,param,function(data) {
+jQuery("#targetdetil").html(data);
+centerPopup();
+loadPopup();});}
+</script>	

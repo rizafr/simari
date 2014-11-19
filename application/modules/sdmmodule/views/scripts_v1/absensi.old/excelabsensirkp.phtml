@@ -1,0 +1,218 @@
+<?
+  include_once "Spreadsheet/Excel/Writer.php";
+  $bulanDesc = array("01"=>"Januari",
+                      "02"=>"Februari",
+                      "03"=>"Maret",
+                      "04"=>"April",
+                      "05"=>"Mei",
+                      "06"=>"Juni",
+                      "07"=>"Juli",
+                      "08"=>"Agustus",
+                      "09"=>"September",
+                      "10"=>"Oktober",
+                      "11"=>"November",
+                      "12"=>"Desember");
+   $hari = array("Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu");
+   $itThawl = $this->itThawl; 
+   $itBlawl = $this->itBlawl;
+   $itTgawl = $this->itTgawl;
+   $itThakr = $this->itThakr;
+   $itBlakr = $this->itBlakr;
+   $itTgakr = $this->itTgakr;
+   $ktgr = $this->ktgr;
+   $ktgrval = $this->ktgrval;
+   $serviceE = $this->serviceE;
+   $idORG = $this->org;
+   $nmORG = $this->serviceE->getUnitKerjaDesc($idORG);
+   $tglmulai = $itTgawl." ".$bulanDesc[$itBlawl]." ".$itThawl;
+   $tglselesai = $itTgakr." ".$bulanDesc[$itBlakr]." ".$itThakr;
+   $mulaiabsen = $itThawl.$itBlawl.$itTgawl;
+   $akhirabsen = $itThakr.$itBlakr.$itTgakr;
+   $xls =& new Spreadsheet_Excel_Writer();
+   $tanggalSkrg = date("Ymd");
+   $xls->send("absenrkp$tanggalSkrg.xls");
+   $sheet =& $xls->addWorksheet($itNip);
+
+   $alignLftHdr =& $xls->addFormat();
+   $alignLftHdr->setAlign('left');
+   $alignLftHdr->setBold();
+   $alignLftHdr->setSize("10");
+
+   $alignJdl =& $xls->addFormat();
+   $alignJdl->setAlign('center');
+   $alignJdl->setSize("10");
+   $alignJdl->setBorder(1);
+   $alignJdl->setFgColor("gray");
+   $alignJdl->setAlign('vcenter');
+   
+   $alignIsi =& $xls->addFormat();
+   $alignIsi->setAlign('center');
+   $alignIsi->setAlign('vcenter');
+   $alignIsi->setSize("10");
+   $alignIsi->setBorder(1);
+
+   $alignIsiLft =& $xls->addFormat();
+   $alignIsiLft->setAlign('left');
+   $alignIsiLft->setAlign('vcenter');
+   $alignIsiLft->setSize("10");
+   $alignIsiLft->setBorder(1);
+
+   $alignIsiRgt =& $xls->addFormat();
+   $alignIsiRgt->setAlign('right');
+   $alignIsiRgt->setAlign('vcenter');
+   $alignIsiRgt->setSize("10");
+   $alignIsiRgt->setBorder(1);
+
+   $isiBorder =& $xls->addFormat();
+   $isiBorder->setBorder(1);
+
+   $jmlAbsensiDescList = count($this->absensiDescList);
+   $jmlKol = $jmlAbsensiDescList+3;
+   for ($i=0; $i<$jmlKol; $i++)
+   { 
+     $sheet->write(4,$i,"",$isiBorder);
+   }
+
+   $sheet->write(0,0,"Rekap Absensi Pegawai",$alignLftHdr);
+   $sheet->setColumn(0, 0, 5);
+   $sheet->setColumn(1, 1, 25);
+   $sheet->setColumn(2, 2, 10);
+   $sheet->setColumn(3, 16, 7);
+//   $sheet->setColumn(11, 15, 13);
+//   $sheet->setColumn(16, 16, 23);
+//   $sheet->setColumn(17, 17, 13);
+
+   $sheet->write(1,0,"Unit Kerja",$alignLftHdr);
+   $sheet->write(1,2,": ".$nmORG,$alignLftHdr);
+
+   $sheet->write(2,0,"Periode",$alignLftHdr);
+   $sheet->write(2,2,": ".$tglmulai." s/d ".$tglselesai,$alignLftHdr);
+   
+   $sheet->write(4,0,"No",$alignJdl);
+   $sheet->write(4,1,"Nama",$alignJdl);
+   $sheet->write(4,2,"Nip",$alignJdl);
+   for ($j=0; $j<$jmlAbsensiDescList; $j++)
+   {
+      $kol = $j+3;
+      $sheet->write(4,$kol,$this->absensiDescList[$j]['c_absensi'],$alignJdl);
+   }
+   $jmlpegawaiList = count($this->pegawaiList);
+   for ($i=0; $i<$jmlpegawaiList; $i++)
+   {
+      $hal = $i+1;
+	  $brs = $i + 5;
+      $sheet->write($brs,0,$hal,$alignIsiRgt);
+      $sheet->write($brs,1,$this->pegawaiList[$i]['n_peg'],$alignIsiLft);
+      $sheet->write($brs,2,$this->pegawaiList[$i]['i_peg_nip'],$alignIsi);
+      $c_nip = $this->pegawaiList[$i]['i_peg_nip'];
+	  for ($k=0; $k<$jmlAbsensiDescList; $k++)
+	  {
+         $kol = $k+3;
+	     if ($this->absensiDescList[$k]['c_absensi']=='TL')
+	     {
+			$listHariKerja = $this->serviceE->getHariKerjaList($mulaiabsen,$akhirabsen);
+			$jmlListHariKerja = count($listHariKerja);
+			$tl = 0;
+			for ($l=0; $l<$jmlListHariKerja; $l++)
+			{
+				$tglHariKerja = $listHariKerja[$l]['d_tgl_kerja'];
+				$mulaiKerja = $listHariKerja[$l]['d_jamkerja_mulai'];
+				$selesaiKerja = $listHariKerja[$l]['d_jamkerja_selesai'];
+				$mulaiIstirahat = $listHariKerja[$l]['d_jamistrht_mulai'];
+				$selesaiIstirahat = $listHariKerja[$l]['d_jamistrht_selesai'];
+				$tglAbsenKerja = explode('-',$tglHariKerja);
+				$dataAbsen = $this->serviceE->getAbsensiPegawai($c_nip,$tglAbsenKerja[2].$tglAbsenKerja[1].$tglAbsenKerja[0],'01');
+				$jamHadir = $dataAbsen['d_peg_jam'];
+				$jamHadirE = explode(':',$jamHadir);
+				$mulaiKerjaE = explode(':',$mulaiKerja);
+				$masukTelat = (mktime((int)$jamHadirE[0], (int)$jamHadirE[1], 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]) - mktime((int)$mulaiKerjaE[0]+1, (int)$mulaiKerjaE[1], 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]))/60;
+				if ($masukTelat>0) $tl++;
+			}
+			if ($tl==0) $tl = "-";
+		    $sheet->write($brs,$kol,$tl,$alignIsi);
+	     }		 
+	     else if ($this->absensiDescList[$k]['c_absensi']=='PSW')
+		 {
+			$listHariKerja = $this->serviceE->getHariKerjaList($mulaiabsen,$akhirabsen);
+			$jmlListHariKerja = count($listHariKerja);
+			$tl = 0;
+			for ($l=0; $l<$jmlListHariKerja; $l++)
+			{
+				$tglHariKerja = $listHariKerja[$l]['d_tgl_kerja'];
+				$mulaiKerja = $listHariKerja[$l]['d_jamkerja_mulai'];
+				$selesaiKerja = $listHariKerja[$l]['d_jamkerja_selesai'];
+				$mulaiIstirahat = $listHariKerja[$l]['d_jamistrht_mulai'];
+				$selesaiIstirahat = $listHariKerja[$l]['d_jamistrht_selesai'];
+				$tglAbsenKerja = explode('-',$tglHariKerja);
+				$mulaiKerjaE = explode(':',$mulaiKerja);
+				$selesaiKerjaE = explode(':',$selesaiKerja);
+				$mulaiIstirahatE = explode(':',$mulaiIstirahat);
+				$selesaiIstirahatE = explode(':',$selesaiIstirahat);
+                $jmlJamIstirahat = (mktime($selesaiIstirahatE[0], $selesaiIstirahatE[1], 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]) - mktime($mulaiIstirahatE[0], $mulaiIstirahatE[1], 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]))/60;
+				$jmlJamKerja = (mktime($selesaiKerjaE[0], $selesaiKerjaE[1], 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]) - mktime($mulaiKerjaE[0], $mulaiKerjaE[1], 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]))/60;
+				$wajibhadir = $jmlJamKerja - $jmlJamIstirahat;
+
+				$dataAbsen = $this->serviceE->getAbsensiPegawai($c_nip,$tglAbsenKerja[2].$tglAbsenKerja[1].$tglAbsenKerja[0],'01');
+				$jamPulang = $this->serviceE->getAbsensiPegawai($c_nip,$tglAbsenKerja[2].$tglAbsenKerja[1].$tglAbsenKerja[0],'03');
+				$jamPulangE = explode(':',$jamPulang['d_peg_jam']);
+				$jamHadir = $dataAbsen['d_peg_jam'];
+				$jamHadirE = explode(':',$jamHadir);
+				$mulaiKerjaE = explode(':',$mulaiKerja);
+				$masukTelat = (mktime((int)$jamHadirE[0], (int)$jamHadirE[1], 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]) - mktime((int)$mulaiKerjaE[0]+1, (int)$mulaiKerjaE[1], 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]))/60;
+				if ($masukTelat>0) 
+				{
+					$pulangDuluan = (mktime((int)$jamPulangE[0], (int)$jamPulangE[1], 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]) - mktime((int)$selesaiKerjaE[0]+1, (int)$selesaiKerjaE[1], 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]))/60;
+					if ($pulangDuluan>0) $tl++; 
+				}
+				else
+				{
+					$toleransi = (mktime((int)$jamHadirE[0], (int)$jamHadirE[1], 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]) - mktime((int)$mulaiKerjaE[0], (int)$mulaiKerjaE[1], 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]))/60;
+					if ($toleransi>0)
+					{
+						$pulangDuluan = (mktime((int)$jamPulangE[0], (int)$jamPulangE[1], 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]) - mktime((int)$selesaiKerjaE[0], (int)$selesaiKerjaE[1]+$toleransi, 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]))/60;
+						if (($pulangDuluan<0) && (($jamPulang['d_peg_jam']!='') && ($jamHadir!=''))) $tl++; 
+					}
+					else
+					{
+						$pulangDuluan = (mktime((int)$jamPulangE[0], (int)$jamPulangE[1], 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]) - mktime((int)$selesaiKerjaE[0], (int)$selesaiKerjaE[1], 0, $tglAbsenKerja[1], $tglAbsenKerja[2], $tglAbsenKerja[0]))/60;
+						if (($pulangDuluan<0) && (($jamPulang['d_peg_jam']!='') && ($jamHadir!=''))) $tl++; 
+					}
+				}
+			}
+			if ($tl==0) $tl = "-";
+		    $sheet->write($brs,$kol,$tl,$alignIsi);
+		 }
+	     else if ($this->absensiDescList[$k]['c_absensi']=='A')
+		 {
+		    
+			$listHariKerja = $this->serviceE->getHariKerjaList($mulaiabsen,$akhirabsen);
+			$jmlListHariKerja = count($listHariKerja);
+			$tl = 0;
+			for ($l=0; $l<$jmlListHariKerja; $l++)
+			{
+				$tglHariKerja = $listHariKerja[$l]['d_tgl_kerja'];
+				$mulaiKerja = $listHariKerja[$l]['d_jamkerja_mulai'];
+				$selesaiKerja = $listHariKerja[$l]['d_jamkerja_selesai'];
+				$mulaiIstirahat = $listHariKerja[$l]['d_jamistrht_mulai'];
+				$selesaiIstirahat = $listHariKerja[$l]['d_jamistrht_selesai'];
+				$tglAbsenKerja = explode('-',$tglHariKerja);
+				$dataAbsen = $this->serviceE->getAbsensiPegawai($c_nip,$tglAbsenKerja[2].$tglAbsenKerja[1].$tglAbsenKerja[0],'01');
+				$dataAbsenPlg = $this->serviceE->getAbsensiPegawai($c_nip,$tglAbsenKerja[2].$tglAbsenKerja[1].$tglAbsenKerja[0],'03');
+				$suratIjin = $this->serviceE->getIjinByNip($c_nip,$tglAbsenKerja[2].$tglAbsenKerja[1].$tglAbsenKerja[0]);
+				if ((!$dataAbsen['d_peg_jam']) || (!$dataAbsenPlg['d_peg_jam']) || (!$suratIjin)) $tl++;
+			}
+			if ($tl==0) $tl = "-";
+		    $sheet->write($brs,$kol,$tl,$alignIsi);
+		 }   
+		 else
+		 {
+            $tl1 = $this->serviceE->getAbsensiVal($val['i_peg_nip'],$this->absensiDescList[$j]['c_absensi'],$tglmulai,$tglselesai);
+			if ($tl1==0) $tl1 = "-";
+			$sheet->write($brs,$kol,$tl1,$alignIsi);
+		 }
+	  }
+
+   }
+   $xls->close();
+?>
+

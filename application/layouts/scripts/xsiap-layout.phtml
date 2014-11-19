@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><?php echo $this->render('partials/siap/head.phtml'); ?></head>
+<body>
+<div id="main"><!--main start -->
+	<div id="header">
+		<!--header start -->
+		<?php 
+		//echo $this->render('partials/rencana/app_rencana.phtml'); 
+		echo $this->render('partials/app-tab.phtml'); 
+		?>
+    </div><!--header end -->
+    <div id="cont-nav">
+		<div id="nav-top">
+			<div class="username"><?php echo $this->ssologin->userid; ?> (<?php echo $this->ssologin->n_peg;?>) | <a href="/logout">Logout</a></div>
+			<div class="crdate"><span id="servertime"></span></div>
+		</div>
+		<div id="nav">
+				<?php 
+				//echo $this->render('partials/rencana/headMenu.phtml'); 
+				echo $this->render('partials/headMenu-db.phtml'); 
+				?>
+		</div>
+	</div>  
+
+	<div id="page">
+		<div id="content">
+			<div id="tableview">
+				<div class="navlink">Halaman Utama</div>
+				<div class="das2">
+					<div class="hd">Dashboard</div>
+					<div class="bd">
+						<div id="targetchart">
+							<table border="0" width="100%" align="center">
+								<tr>
+									<td width="50%">
+										<div class="hideshow">
+											<table border="0" width="100%" align="center">
+												<tr>
+													<td align="left">
+														<?
+														// Menampilkan Chart
+														//-------------------------
+														//echo $this->chartpagu;?>
+													</td>
+												</tr>
+											</table>			
+										</div>	
+									</td>
+									<td width="50%">&nbsp;
+										<!--
+										<table border="0" width="100%" align="center">
+											<tr>
+												<td align="left">
+													<table>
+														<tr>
+															<td>
+																<a onclick="showChart('pendidikan');" class="icon-pie" href="#">Pendidikan</a>&nbsp;
+																<a onclick="showChart('golongan');" class="icon-pie" href="#">Golongan</a>
+															</td>
+														</tr>
+														<tr>
+															<td>Kategori</td>
+														</tr>
+													</table>
+													<table border="0" width="100%" align="center" class="tbl" cellspacing="1">
+														<th>Usia</th>
+														<th>Jumlah</th>
+														<tr class="event">
+															<td><25</td>
+															<td align="right"><?=$this->jml25?></td>
+														</tr>
+														<tr class="event2">		
+															<td>26 s/d 35</td>
+															<td align="right"><?=$this->jml2635?></td>
+														</tr>
+														<tr class="event">	
+															<td>36 s/d 45</td>
+															<td align="right"><?=$this->jml3645?></td>
+														</tr>
+														<tr class="event2">	
+															<td>46 s/d 55</td>
+															<td align="right"><?=$this->jml4655?></td>
+														</tr>
+														<tr class="event">	
+															<td>>56</td>
+															<td align="right"><?=$this->jml56?></td>
+														</tr>
+													</table>								
+												</td>
+											</tr>
+										</table>						
+										-->
+									</td>						
+								</tr>
+							</table>	
+						</div> 
+					</div>
+					<div class="ft"></div>
+				</div>	
+
+				<div class="widget">
+					<h4 class="widgettitle">Reminder</h4>
+					<ul  class="nostyle">
+						<li><a href="#"></a></li>
+						<li><a href="#">test <blink> (2)</blink></a></li>
+					</ul>
+				</div>			
+				<div id="targetreminder"></div>		  
+			</div>
+		</div>                           
+		<div class="space2"></div>
+	</div>
+</DIV><!--main  end -->
+<div id="footer"><!--footer start -->
+<?php echo $this->render('partials/siap/footer.phtml'); ?>
+</div><!--footer end -->
+<div id='loading' style='display:none;'>
+  <div class='image'>
+     <img src='../../images/globe32.gif' alt='Loading...'>
+  </div>
+  <div class='load'>Loading...</div>
+</div>
+</body>
+
+</html>

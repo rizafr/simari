@@ -1,0 +1,20 @@
+			<? if ($this->statuspeg!='2CP'){?>
+                        | <a href="#Pns" class="<?=($opr=='duk' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapns/pns','<?php echo $this->basePath; ?>/sdmmodule/datapns/pnsjs');">PNS</a> |
+			<?} else{?>
+			| <a href="#Pns" class="<?=($opr=='duk' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datacpns/cpns','<?php echo $this->basePath; ?>/sdmmodule/datacpns/cpnsjs');">CPNS</a> |			
+			<?}?>
+				
+	<a href="#Pokok" class="<?=($opr=='duk' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pokok</a> |
+	<a href="#Riwayat" class="<?=($opr=='duk' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapangkat/listpangkat','<?php echo $this->basePath; ?>/sdmmodule/datapangkat/pangkatjs');">Data Riwayat</a> |
+	<a href="#Diklat" class="<?=($opr=='duk' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datadikpenjenjangan/listdiklat','<?php echo $this->basePath; ?>/sdmmodule/datadikpenjenjangan/dikpenjenjanganjs');">Diklat</a> |
+	<a href="#Kinerja" class="<?=($opr=='duk' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dptiga/listdptiga','<?php echo $this->basePath; ?>/sdmmodule/dptiga/dptigajs');">Kinerja</a> |
+	<a href="#Kinerja" class="<?=($opr=='duk' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/databahasa/listbahasa','<?php echo $this->basePath; ?>/sdmmodule/databahasa/bahasajs');">Penilaian</a> |
+<br>
+	<h3 class="<?=($opr=='ppkk' ? 'tab02':'tab')?>" title="first"><div class="tabtxt"><a href="#Pokok" class="<?=($opr=='ppkk' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Diri</a></div></h3>
+<? //if ($this->cpegstatusnikah!='B' && $this->cpegstatusnikah!='-' && $this->cpegstatusnikah!=' ' && $this->cpegstatusnikah!=''){?>
+	<h3 class="<?=($opr=='ppas' ? 'tab02':'tab')?>" title="first"><div class="tabtxt"><a href="#Pasangan" class="<?=($opr=='ppas' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapasangan/listpasangan','<?php echo $this->basePath; ?>/sdmmodule/datapasangan/pasanganjs');">Suami/Istri</a></div></h3>
+	<h3 class="<?=($opr=='pank' ? 'tab02':'tab')?>" title="first"><div class="tabtxt"><a href="#Anak" class="<?=($opr=='pank' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataanak/listanak','<?php echo $this->basePath; ?>/sdmmodule/dataanak/anakjs');">Anak</a></div></h3>
+<?//}?>	
+	<h3 class="<?=($opr=='psdr' ? 'tab02':'tab')?>" title="first"><div class="tabtxt"><a href="#Kerabat" class="<?=($opr=='psdr' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datakerabat/listkerabat','<?php echo $this->basePath; ?>/sdmmodule/datakerabat/kerabatjs');">Kerabat</a></div></h3>
+	<h3 class="<?=($opr=='pcv' ? 'tab02':'tab')?>" title="first"><div class="tabtxt"><a href="#cv" class="<?=($opr=='pcv' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datacv/datacv','<?php echo $this->basePath; ?>/sdmmodule/datacv/datacvjs');">Riwayat Hidup</a></div></h3>
+	<h3 class="<?=($opr=='ppht' ? 'tab02':'tab')?>" title="first"><div class="tabtxt"><a href="#Photo" class="<?=($opr=='ppht' ? 'linksp2':'linksp')?>" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataphoto/dataphoto','<?php echo $this->basePath; ?>/sdmmodule/dataphoto/dataphotojs');">Photo</a></div></h3>

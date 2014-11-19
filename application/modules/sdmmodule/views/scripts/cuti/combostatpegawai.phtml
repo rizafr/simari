@@ -1,0 +1,9 @@
+<?php 
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+
+$jmlStatusKePegRef = count($this->statusKePegRef);
+$statkepegList[''] = '--Pilih--';
+$statkepegList = array("2CP"=>"CPNS","3PN"=>"PNS","17"=>"Pensiun");	
+echo $ctrlFrm->formSelect('nCol',$this->nCol,$statkepegAtrib, $statkepegList)
+								?>

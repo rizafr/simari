@@ -1,0 +1,56 @@
+function openFormPengadilan(par,c_pengadilan,n_pengadilan,c_wilayah,n_wilayah){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refpengadilan/pengadilanolahdata";
+	var opt = {par:par, c_pengadilan:c_pengadilan, n_pengadilan:n_pengadilan,c_wilayah:c_wilayah,n_wilayah:n_wilayah};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formpengadilan").ajaxForm(maintain_pengadilan);
+		});		
+} 
+
+function insertPengadilan(){
+	jQuery("#formpengadilan").ajaxForm(maintain_pengadilan);
+}
+
+var maintain_pengadilan = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpengadilan").ajaxForm(maintain_pengadilan);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refpengadilan/insertpengadilan',
+	type: 'post',
+	resetForm: false
+};
+
+function updatePengadilan(){
+	jQuery("#formpengadilan").ajaxForm(update_pengadilan);
+}
+
+var update_pengadilan = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpengadilan").ajaxForm(maintain_pengadilan);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refpengadilan/updatepengadilan',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusPengadilan(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refpengadilan/deletepengadilan';
+		var opt = {c_pengadilan : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

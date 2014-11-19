@@ -1,0 +1,71 @@
+<? require_once 'Zend/View.php';
+    require_once 'share/halaman_list.php';
+  
+	$ctrlFrm = new Zend_View();
+	$jmldptigaList = count($this->dptigaList);
+
+$file_type = "vnd.ms-word";
+$file_ending = "doc";
+header("Content-Type: application/$file_type");
+header("Content-Disposition: attachment; filename=tpm.$file_ending");
+header("Pragma: no-cache");
+header("Expires: 0");
+
+$html ='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<style type="text/css">
+</style></head>
+<body>
+<table border="0" align="center" width="100%">
+	<tr>
+		<td align="center" colspan="6">
+			<h2><font size="4" face="arial"><b>Daftar TPM</b></font></h2>
+		</td>
+	</tr>
+
+</table>
+   <table width="100%" border="2">
+		<tr>
+			<td rowspan="2" align="center" width="200">No. Usulan</td>
+			<td rowspan="2" align="center" width="1000">Usulan</td>
+			<td rowspan="2" align="center" width="400">Unit Kerja</td>
+			<td rowspan="2" align="center" width="200">Tanggal TPM</td>
+			<td colspan="2" align="center" >Hasil TPM</td>
+		</tr>
+		<tr>
+			<td align="center" width="200">NIP</td>
+			<td align="center" width="400">Nama</td>
+		</tr>';
+				foreach ($this->dataPraTpm as $key => $val): 
+$html =$html.'<tr>';
+				$usulan_id=$this->escape($val['usulan_id']);
+				if ($usulan_id!=$usulan_id2){
+				$usulan_nomor=$this->escape($val['usulan_nomor']);
+				$usulan_keterangan=$this->escape($val['usulan_keterangan']);
+				$tvinstansi_kd=$this->escape($val['tvinstansi_kd']);
+				$tpm_tgl=$this->escape($val['tpm_tgl']);
+				}
+				else{
+				$usulan_nomor="";
+				$usulan_keterangan="";
+				$tvinstansi_kd="";
+				$tpm_tgl="";
+				}
+				$usulan_id2=$this->escape($val['usulan_id']);
+$html =$html.'				
+					<td>'.$usulan_nomor.'</td>
+					<td>'.$usulan_keterangan.'</td>
+					<td>'.$tvinstansi_kd.'</td>
+					<td>'.$tpm_tgl.'</td>								
+					<td>'.$this->escape($val['peg_nip']).'</td>
+					<td>'.$this->escape($val['tpm_namalengkap']).'</td>					
+				</tr>';
+				endforeach;
+$html =$html.'	
+	</table>
+	</div>';
+
+echo $html;	
+

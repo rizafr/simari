@@ -1,0 +1,195 @@
+<?
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+
+?>
+
+<div class="navlink">
+<a href="#" onclick="open_url_to_home('<?php echo $this->basePath; ?>/home/index/depan','<?php echo $this->basePath; ?>/home/index/main');">Halaman Utama</a>
+</div>
+<div class="panel">
+	<div class="inner">
+		<span class="corners-top"><span></span></span>
+		<h2 class="title">Input Absen</h2>
+	    <div class="spacer"></div> 
+		
+		<?
+		$status = $this->hasil;
+		$proses = $this->proses;
+		$keterangan = $this->keterangan;
+		
+		//$pesan->show_message($proses, $keterangan, $status); 
+		?>
+		<div class="spacer"> </div>	
+		<div id="targetview" class="" style="display:none"></div>
+
+		
+		<? if(strtolower($this->jenisForm) == 'insert') {$namaForm = 'frmtambahabsenmahasiswa'; }
+			else if (strtolower($this->jenisForm) == 'update') {	$namaForm = 'frmubahabsenmahasiswa'; }
+			else {	$namaForm = 'frmhapusabsenmahasiswa'; }
+
+		?>
+		<form method="post" name="<? echo $namaForm;?>" id="<? echo $namaForm;?>">
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+				    <td align="right" width="190">Program Studi :</td>
+					<td><?echo $this->n_prodi; ?>	
+					</td>
+					</td>
+				</tr>
+				<tr>
+				    <td align="right" width="190">Tahun :</td>
+					<td><?
+					if(trim($this->semester) == '1') {echo ($this->tahun." / ".$this->tahun+1); }
+					if(trim($this->semester) == '2') {echo (($this->tahun-1)." / ".$this->tahun); }
+					?>
+					</td>
+					</td>
+				</tr>
+				<tr>
+				    <td align="right" width="190">Semester :</td>
+					<td><? if(trim($this->semester) == '1') {$sem = 'Ganjil';}if(trim($this->semester) == '2'){$sem = 'Genap';}
+				echo $sem;
+				?>
+					</td>
+					</td>
+				</tr>
+				<tr>
+				    <td align="right" width="190">Matakuliah :</td>
+					<td><?echo $this->n_matakuliah; ?>	
+					</td>
+					</td>
+				</tr>
+				<tr>
+				    <td align="right" width="190">Dosen :</td>
+					<td><?echo $this->n_nama; ?>, <?echo $this->n_gelar; ?>
+					</td>
+					</td>
+				</tr>
+				<tr>
+				    <td align="right" width="190">Kelas :</td>
+					<td><?echo $this->n_kelas; ?>	
+					</td>
+					</td>
+				</tr>
+				<tr>
+				    <td align="right" width="190">* Pertemuan ke :</td>
+					<td>
+					<?
+	if(strtolower($this->jenisForm) == 'insert') {
+	$jmlpertemuanListBy = count($this->pertemuanListBy);
+	$pertemuanListBy['-'] = '--Pilih--';
+		for ($i = 0; $i < $jmlpertemuanListBy; $i++) {
+		$pertemuanListBy[$this->pertemuanListBy[$i]->id] = (string)$this->pertemuanListBy[$i]->n_pertemuan;			 
+		}
+	$n_pertemuaanAtrib = array("id"=>"pertemuaan", "tabindex"=>"17");
+	echo $ctrlFrm->formSelect('pertemuaan', trim($this->pertemuaan), $n_pertemuaanAtrib, $pertemuanListBy);
+	}
+	else if (strtolower($this->jenisForm) == 'update') {
+	echo $this->pertemuaan;
+	echo $ctrlFrm->formHidden('n_mingguke', trim($this->pertemuaan), null);
+
+	}
+	?>
+					</td>
+				</tr>
+				<tr>
+				    <td align="right" width="190">* Tanggal :</td>
+					<td>	<input name="prodi" id="prodi" type="hidden" value="<?echo $this->prodi;?>" />
+						<input name="c_dosen" id="c_dosen" type="hidden" value="<?echo $this->c_dosen;?>" />
+						<input name="tahun" id="tahun" type="hidden" value="<?echo $this->tahun;?>" />
+						<input name="semester" id="semester" type="hidden" value="<?echo $this->semester;?>" />
+						<input name="matakuliah" id="matakuliah" type="hidden" value="<?echo $this->matakuliah;?>" />
+						<input name="kelas" id="kelas" type="hidden" value="<?echo $this->kelas;?>" />
+						<input name="c_perkuliahan" id="c_perkuliahan" type="hidden" value="<?echo $this->c_perkuliahan;?>" />
+						<input name="n_mingguke" id="n_mingguke" type="hidden" value="<?echo $this->pertemuaan;?>" />
+						<input name="pertemuaan" id="pertemuaan" type="hidden" value="<?echo $this->pertemuaan;?>" />
+	<?
+	if(strtolower($this->jenisForm) == 'insert') {
+	?>
+	<input type="text" id="dTanggal" name="dTanggal" value="<?echo $this->d_tanggal; ?>" />
+	<? } else if (strtolower($this->jenisForm) == 'update') { ?>
+	<?echo $this->d_tanggal; ?>
+	<input type="Hidden" id="dTanggal" name="dTanggal" value="<?echo $this->d_tanggal; ?>" />
+
+	<? } ?>
+	</td>
+					</td>
+				</tr>
+				
+				
+			</table><fieldset class="fields">
+			<table id="sorter" class="sortable" cellspacing="1" cellpadding="2" border="0" align="center">
+				<th width=5% class="nosort">No</th> 
+				<th width=10% class="sorted order2 sortable">NPM</th> 
+				<th class="sorted order2 sortable">Nama</th> 
+				<th width=10% class="sorted order2 sortable">Masuk</th> 
+				<th width=10% class="sorted order2 sortable">Alpa</th> 
+				<th width=10% class="sorted order2 sortable">Sakit</th> 
+				<th width=10% class="sorted order2 sortable">Ijin</th> 
+				
+				<?
+				if (count($this->LembarAbsenmahasiswa) == 0){ 
+				?>
+					<tr class="event2"><td colspan="7"><font color="red">Data Tidak Ditemukan</font></td></tr>
+				<?} else {
+						
+						foreach ($this->LembarAbsenmahasiswa as $key => $val): 
+						if ($key%2==0) { ?>
+							<tr class="event">
+						<? } else if ($key%2==1) { ?>
+							<tr class="event2">
+						<? } 
+						$id = $this->escape($val['id']); 
+						$c_perkuliahan = $this->c_perkuliahan; 
+						$n_kelas = $this->escape($val['n_kelas']); 
+						$n_matakuliah = $this->escape($val['n_matakuliah']);
+						$c_mhskelas= $this->escape($val['c_mhskelas']);
+						$id_npm = $this->escape($val['id_npm']);
+						$n_mhs = $this->escape($val['n_mhs']);
+						$n_alasan = $this->escape($val['n_alasan']);
+						$noUrut = (($currentPage -1)* $numToDisplay) + $key +1;
+						echo $ctrlFrm->formhidden('id_npm', $id_npm, null);
+						echo $ctrlFrm->formhidden('id', $id, null);
+						echo $ctrlFrm->formhidden('c_mhskelas', $c_mhskelas, null);
+						?>
+						<td align="center">&nbsp;<? echo $noUrut;?></td>
+						<td class="clleft">&nbsp;<? echo $id_npm;?></td>
+						<td class="clleft">&nbsp;<? echo $n_mhs;?></td>
+						<? 
+						$check1 = "";
+						$check2 = "";
+						$check3 = "";
+						$check4 = "";
+						if (trim($n_alasan) == "M"){  $check1 = "checked";  }
+						?>
+						<? if (trim($n_alasan) == "A"){  $check2 = "checked";  }?>
+						<? if (trim($n_alasan) == "S"){  $check3 = "checked";  }?>
+						<? if (trim($n_alasan) == "I"){  $check4 = "checked";  }?> 
+						<td align="center"><input name="radio_<? echo $id_npm;?>" type="radio" value="M"  <? echo $check1; ?> checked></td>
+						<td align="center"><input name="radio_<? echo $id_npm;?>" type="radio" value="A" <? echo $check2; ?> ></td>
+						<td align="center"><input name="radio_<? echo $id_npm;?>" type="radio" value="S" <? echo $check3; ?> ></td>
+						<td align="center"><input name="radio_<? echo $id_npm;?>" type="radio" value="I" <? echo $check4; ?> </td>
+						</tr>
+					<?
+					endforeach;
+				}
+				?>
+			</table></fieldset>
+		</form>
+	</div>
+</div>
+<div class="right">
+							<input type="button" value="Batal" onClick="absenmahasiswalist();"> 
+							
+							<input type="button" value="Simpan" onClick="absen('<? echo $this->jenisForm; ?>');">
+						</div>	
+<script type="text/javascript">
+	$(function() {
+		$("#dTanggal").datepicker();
+	});
+</script>	
+<script type="text/javascript">
+var sorter=new table.sorter("sorter");
+sorter.init("sorter",0);
+</script>

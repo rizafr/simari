@@ -1,0 +1,115 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+?>
+
+	<h3 class="title"><b>Riwayat Pendidikan dan Pelatihan (DIKLAT)</b><h3>
+	<br>
+	<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+		<tr>
+			<td width="15%">Diklat PIM</td>
+			<td width="1%">:</td>
+			<td>
+						<?php
+						   $jmllistrpenjenjangan = count($this->listrpenjenjangan);
+						   $listrpenjenjangan[''] = '--Pilih--';
+							for ($i = 0; $i < $jmllistrpenjenjangan; $i++) {	 
+								$listrpenjenjangan[$this->listrpenjenjangan[$i]->c_jenjang ]= (string)$this->listrpenjenjangan[$i]->n_jenjang;			 
+						   }    
+							echo $ctrlFrm->formSelect('c_penjenjangan', $this->c_penjenjangan, null, $listrpenjenjangan);
+						?>
+			&nbsp;Angkatan : <input type="text" name="q_angkatan" id="q_angkatan" value="<?=$this->q_angkatan?>" size="5">					
+			&nbsp;Tahun : <input type="text" name="q_tahun" id="q_tahun" value="<?=$this->q_tahun?>" size="5">
+			&nbsp;Predikat Kelulusan :
+							<?php
+							   $jmllistrkualifikasi = count($this->listrkualifikasi);
+							   $listrkualifikasi[''] = '--Pilih--';
+								for ($i = 0; $i < $jmllistrkualifikasi; $i++) {	 
+									$listrkualifikasi[$this->listrkualifikasi[$i]->c_kualifikasi ]= (string)$this->listrkualifikasi[$i]->n_kualifikasi;			 
+							   }    
+								echo $ctrlFrm->formSelect('c_kualifikasi', $this->c_kualifikasi, null, $listrkualifikasi);
+							?>							
+			</td>						
+
+		</tr>
+		<tr>
+			<td>Diklat Teknis</td>
+			<td>:</td>
+			<td>
+						<?php
+						   $jmllistrkelteknis = count($this->listrkelteknis);
+						   $listrkelteknis[''] = '--Pilih--';
+							for ($i = 0; $i < $jmllistrkelteknis; $i++) {	 
+								$listrkelteknis[$this->listrkelteknis[$i]->c_kelompok ]= (string)$this->listrkelteknis[$i]->n_kelompok;			 
+						   }    
+							echo $ctrlFrm->formSelect('c_kelompok', $this->c_kelompok, null, $listrkelteknis);
+						?>	
+			&nbsp;&nbsp;Nama Diklat : <input type="text" name="n_diklat" id="n_diklat" value="<?=$this->n_diklat?>" size="50">
+			&nbsp;Negara :					
+						<?php
+						   $jmllistnegara = count($this->listnegara);
+						   $listnegara[''] = '--Pilih--';
+							for ($i = 0; $i < $jmllistnegara; $i++) {	 
+								$listnegara[$this->listnegara[$i]->c_negara ]= (string)$this->listnegara[$i]->n_negara;			 
+						   }    
+							echo $ctrlFrm->formSelect('c_negara', $this->c_negara, null, $listnegara);
+						?>					
+			</td>						
+
+		</tr>
+		<tr>
+			<td>Diklat Fungsional</td>
+			<td>:</td>
+			<td>
+						<?php	
+						   $jmllisjnslatih = count($this->lisjnslatih);
+						   $lisjnslatih[''] = '--Pilih--';
+							for ($i = 0; $i < $jmllisjnslatih; $i++) {	 
+								$lisjnslatih[(string)$this->lisjnslatih[$i]->c_fungsional ]= (string)$this->lisjnslatih[$i]->n_fungsional;			 
+						   }						
+							$parlisjnslatih= array("onChange"=>"getKelompok()");							
+							echo $ctrlFrm->formSelect('c_jns_fungsional', $this->c_jns_fungsional, $parlisjnslatih, $lisjnslatih);
+						?>				
+
+			&nbsp;&nbsp;Jenis Penjenjangan : 
+						<?php
+						   $jmllisjenjanglatih = count($this->lisjenjanglatih);
+						   $lisjenjanglatih[''] = '--Pilih--';
+							for ($i = 0; $i < $jmllisjenjanglatih; $i++) {	 
+								$lisjenjanglatih[(string)$this->lisjenjanglatih[$i]->c_jenjang_fungsional ]= (string)$this->lisjenjanglatih[$i]->n_jenjang_fungsional;			 
+						   } 						
+							$parlisliskellatih= array("onchange"=>"getNama()");
+							echo $ctrlFrm->formSelect('c_jns_kelompok', $this->c_jns_kelompok, $jenisLatihAtrib, $lisjenjanglatih);
+						?>
+			&nbsp;Nama Penjenjangan :					
+						<?php
+						   $jmllisnamajenjanglatih = count($this->lisnamajenjanglatih);
+						   $lisnamajenjanglatih[''] = '--Pilih--';
+							for ($i = 0; $i < $jmllisnamajenjanglatih; $i++) {	 
+								$lisnamajenjanglatih[$this->lisnamajenjanglatih[$i]->c_jenjang ]= (string)$this->lisnamajenjanglatih[$i]->n_jenjang;			 
+						   }    
+							echo $ctrlFrm->formSelect('c_nama_kelompok', $this->c_nama_kelompok, null, $lisnamajenjanglatih);
+						?>				
+			</td>						
+
+		</tr>
+		<tr>
+			<td>Diklat Lain</td>
+			<td>:</td>
+			<td><input type="text" name="q_tahun" id="q_tahun" value="<?=$this->q_tahun?>" size="50">
+			&nbsp;&nbsp;Negara : 
+						<?php
+						   $jmllistnegara = count($this->listnegara);
+						   $listnegara[''] = '--Pilih--';
+							for ($i = 0; $i < $jmllistnegara; $i++) {	 
+								$listnegara[$this->listnegara[$i]->c_negara ]= (string)$this->listnegara[$i]->n_negara;			 
+						   }    
+							echo $ctrlFrm->formSelect('c_negara', $this->c_negara, null, $listnegara);
+						?>	
+		
+			</td>						
+
+		</tr>		
+	</table>

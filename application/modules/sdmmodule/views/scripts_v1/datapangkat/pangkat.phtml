@@ -1,0 +1,176 @@
+<? 	
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tmt_golongan").datepicker();
+		jQuery("#d_sk_golongan").datepicker();
+	});
+</script>
+ 		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapangkat/listpangkat','<?php echo $this->basePath; ?>/sdmmodule/datapangkat/pangkatjs');">Kepangkatan</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Riwayat Kepangkatan
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+	<h2 class="title"><?=$this->jdl;?> Riwayat Kepangkatan</h2>	
+						
+	<div class="boxholder">					
+	<div class="panel">
+		<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<br>
+				<form id="frmpangkat" method="post" name="frmpangkat">			
+	<div class="panel">
+		<div class="spacer"></div> 				
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+					<tr>
+						<td width="25%">Pangkat<span class="hightlight">*</span></td>
+						<td width="2%">:</td> 
+					<td>					
+					<?
+						$jmlgolref = count($this->statusGolRef);												   
+						$golonganReff[''] = '--Pilih--';
+						for ($i = 0; $i < $jmlgolref; $i++) {
+								$n_peg_pangkat=trim($this->statusGolRef[$i]['n_peg_pangkat']);
+								$c_peg_golongan=trim($this->statusGolRef[$i]['c_peg_golongan']);
+								$n_peg_golongan=trim($this->statusGolRef[$i]['n_peg_golongan']);								
+								$golonganReff[trim((string)$this->statusGolRef[$i]['c_peg_golongan'])] = $n_peg_golongan." - ".$n_peg_pangkat;											   
+								//$golonganReff[trim((string)$this->statusGolRef[$i]['c_peg_golongan'])] = $n_peg_pangkat;											   
+						}												 
+						 echo $ctrlFrm->formSelect('c_golongan', $this->c_golongan, null, $golonganReff);
+					?>
+					<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null);?>
+					</td>
+				</tr>
+				<tr>
+					<td>TMT Pangkat<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_tmt_golongan" id="d_tmt_golongan" value="<?=$this->d_tmt_golongan?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>	 
+					</td>
+				</tr>
+				<tr>
+					<td>Jenis Kenaikan<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>					
+					<?php 
+						$jmljns = count($this->jnsNaikGolRef);												   
+						$jnsNaikReff[''] = '--Pilih--';
+						for ($i = 0; $i < $jmljns; $i++) {
+							$jnsNaikReff[trim((string)$this->jnsNaikGolRef[$i]['i_kode'])] =(string)$this->jnsNaikGolRef[$i]['n_nama'];											   
+						}												 
+						 echo $ctrlFrm->formSelect('c_jenis_naik', trim($this->c_jenis_naik), null, $jnsNaikReff);						
+					?>
+					<input type="hidden" name="c_jenis_naik2" id="c_jenis_naik2" value="<?=$this->c_jenis_naik?>" size="10">
+					<input type="hidden" name="d_tmt_golongan2" id="d_tmt_golongan2" value="<?=$this->d_tmt_golongan?>" size="10">
+					<input type="hidden" name="c_golongan2" id="c_golongan2" value="<?=$this->c_golongan?>" size="10">
+					</td>
+				</tr>
+				<tr>
+					<td>Masa Kerja Golongan</td>
+					<td>:</td> 
+					<td>
+						<input maxlength="2" type="text" size="10" name="q_masakerja_tahun" id="q_masakerja_tahun" value="<?=$this->q_masakerja_tahun?>" onKeyup="javascript:isNumber('q_masakerja_tahun');">
+						&nbsp; tahun &nbsp;
+						<input maxlength="2" type="text" size="10" name="q_masakerja_bulan" id="q_masakerja_bulan" value="<?=$this->q_masakerja_bulan?>" onKeyup="javascript:isNumber('q_masakerja_bulan');">
+						&nbsp; bulan
+					</td>
+				</tr>
+				<tr>
+					<td>Gaji Pokok</td>
+					<td>:</td> 
+					<td>
+						<input type="text" size="15" name="v_gaji_pokok" id="v_gaji_pokok" value="<?=$this->v_gaji_pokok?>" onKeyup="javascript:isNumber('v_gaji_pokok');">
+					</td>
+				</tr>
+				<tr>
+					<td>Surat Keputusan Pejabat</td>
+					<td>:</td> 
+					<td>
+						<input type="text" maxlength="30"  size="40" name="i_sk_pejabat" id="i_sk_pejabat" value="<?=$this->i_sk_pejabat?>">					
+					</td>
+				</tr>
+				<tr>
+					<td>Nomor Surat Keputusan</td>
+					<td>:</td> 
+					<td>
+					 <input type="text" maxlength="30"  size="40" name="i_sk_golongan" id="i_sk_golongan" value="<?=$this->i_sk_golongan?>">
+					 <!--<input type="button" onclick="findDosier('<?//=$this->i_peg_nip?>')" value="Dosier">-->
+					</td>
+				</tr>
+				<tr>
+					<td>Tanggal SK</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_sk_golongan" id="d_sk_golongan" value="<?=$this->d_sk_golongan?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>	 
+					</td>
+				</tr>
+				<tr>
+					<td>File Surat Keputusan</td>
+					<td>:</td> 
+					<td>
+						<div class="fileinputs">
+							<input type="file" size=55 id="e_file_sk" name="e_file_sk"  value="<? echo $this->e_file_sk?>"onChange="setvalueuplfile(this.value,'efiledok','pdf')" />
+							<div class="fakefile">
+								<input type="text" size=54 name="a_file" id="a_file" value="<? echo $this->e_file_sk?>"/>
+							</div>
+						</div>
+						<input type="hidden" size=49 name="a_file2" id="a_file2"value="<? echo $e_file_sk?>"/>	
+
+					</td>
+				</tr>				
+				<tr>
+					<td>Keterangan</td>
+					<td>:</td> 
+					<td>
+					<?php 
+						$keterangan = $_POST['keterangan'];
+						if ($keterangan == '') {
+							$keterangan = null;
+						} 
+						$keteranganAtrib = array("rows"=>"3",
+												"cols"=>"25",
+												"maxlength"=>"100",
+												"class"=>"medium"); 
+						echo $ctrlFrm->formTextarea('e_keterangan', $this->e_keterangan, $keteranganAtrib);
+					?>
+
+
+				
+					
+					</td>
+				</tr>
+</table>
+</div>
+<br>
+<div class="panel">
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">			
+				</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td>
+								<div class="right">
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapangkat/listpangkat','<?php echo $this->basePath; ?>/sdmmodule/datapangkat/pangkatjs');"> 
+									<input type="submit" value="<?=$this->par;?>" onClick="insertPangkat()">
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+								</div>
+							</td>
+						</tr>			
+			</table>
+</div>			
+			</form>
+</div>

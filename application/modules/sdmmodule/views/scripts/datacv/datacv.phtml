@@ -1,0 +1,319 @@
+<? 	
+$vFoto = $this->basePath."/upld/Uploaddata/getphoto?f=".trim($this->filephoto);
+?>
+		   <div class="navlink">
+	<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+				<strong> &#8250; </strong>Riwayat Hidup
+			</div>
+			
+<h2 class="title">Riwayat Hidup</h2>
+<?php $opr='pcv';include "$this->leftMenu/linkdatapokok.phtml";?>
+
+	<div class="boxholder">
+	<div class="panel">	
+		<h2 class="title"><b><u>Daftar Riwayat Hidup</u></b></h2>	
+		
+				<table border='0' width='100%' >
+					<tr>
+						<td width='65%'>&nbsp;</td>
+						<td width='7%'>Lampiran:</td>
+						<td width='28%'>Surat Edaran Badan Administrasi</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>  Kepegawaian Negara</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>  Nomor     : 01/SE/1979</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>  Tanggal  : 9 Maret 1979</td>
+					</tr>	
+				</table> 
+
+	<center>
+		
+				<div class='center'>
+						<img src=<?=$vFoto?> width='90' height='120' >
+				</div>
+				
+	</center>
+<h3 class="title"><b><u>I. KETERANGAN PERORANGAN</u></b></h3>
+<br>
+<table border='0' align='center' width='100%'>	
+		<tr>
+			<td width='3%'>1</td>
+			<td width='20%'>Nama Lengkap</td>
+			<td width='15%'>&nbsp;</td>
+			<td width='50%'>: <?=$this->n_peg;?></td>
+		</tr>
+		<tr>
+			<td width='5%'>2</td>
+			<td><? 
+			if($this->c_status_kepegawaian == '2' || $this->c_status_kepegawaian == '3') {
+				echo 'NIP / NIP LAMA ';
+				$varnip = $this->i_peg_nip_new.' / '.$this->i_peg_nip;
+			} else if ($this->c_status_kepegawaian > 3){
+				echo 'NRP ';
+				$varnip = $this->i_peg_nrp;
+			} else {// NON PNS
+				echo 'NIP ';
+				$varnip = $this->i_peg_nip;
+			}?> 
+			/ KARPEG</td>
+			<td>&nbsp;</td>
+			<td>: <?=$varnip?> / <?=$this->i_peg_karpeg;?></td>
+		</tr>
+		<tr>
+			<td width='5%'>4</td>
+			<td>Eselon</td>
+			<td>&nbsp;</td>
+			<td>: <?=$this->n_eselon;?></td>
+		</tr>
+		<tr>			
+		    <td width='5%'>5</td>
+			<td>TMT Eselon</td>
+			<td>&nbsp;</td>
+			<td>: <?=$this->d_tmt_eselon;?></td>
+		</tr>
+		<tr>
+			<td width='5%'>6</td>
+			<td>Unit Kerja</td>
+			<td>&nbsp;</td>
+			<td>: <?=$this->n_unit_kerja;?></td>
+		</tr>
+		<tr>
+			<td width='5%'>7</td>
+			<td>TMT CPNS</td>
+			<td>&nbsp;</td>
+			<td>: <?=$this->d_tmt_cpns;?></td>
+		</tr>
+		<tr>
+			<td width='5%'>8</td>
+			<td>Status Pegawai</td>
+			<td>&nbsp;</td>
+			<td>: <?=$this->n_peg_status;?></td>
+		</tr>
+		<tr>
+			<td width='5%'>9</td>
+		  <td>Pangkat dan Golongan</td>
+		  <td>&nbsp;</td>
+		  <td>: <?=$this->pangkat;?></td>
+		</tr>
+		<tr>
+			<td width='5%'>10</td>
+		  <td>Tempat/Tanggal Lahir</td>
+		  <td>&nbsp;</td>
+		  <td>: <?=$this->n_peg_kota_lahir;?> / <?=$this->d_peg_lahir;?></td>
+		</tr>
+		<tr>
+			<td width='5%'>11</td>
+		  <td>Jenis Kelamin</td>
+		  <td>&nbsp;</td>
+		  <td>: <?=$this->c_peg_jeniskelamin;?></td>
+		</tr>
+		<tr>
+			<td width='5%'>12</td>
+		  <td>Status Perkawinan</td>
+		  <td>&nbsp;</td>
+		  <td>: <?=$this->c_peg_statusnikah;?></td>
+		</tr>
+		<tr>
+			<td width='5%'>13</td>
+		  <td>Alamat Rumah :</td>
+		  <td>a. Jalan </td>		  
+		  <td>: <?=$this->a_peg_rumah;?></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td>b. RT / RW</td>
+		  <td>: <?=$this->a_peg_rt;?>/ <?=$this->a_peg_rw;?></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td>c. Kelurahan</td>
+		  <td>: <?=$this->a_peg_kelurahan;?></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td>d. Kecamatan</td>
+		  <td>: <?=$this->a_peg_kecamatan;?></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td>e. Kabupaten</td>
+		  <td>: <?=$this->a_peg_kota;?></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td>f. Propinsi</td>
+		  <td>: <?=$this->a_peg_propinsi;?></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td>g. Kode Pos</td>
+		  <td>: <?=$this->a_peg_kodepos;?></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td>h. Telepon Rumah</td>
+		  <td>: <?=$this->i_peg_telponrumah;?></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td>i. Telepon Genggam</td>
+		  <td>: <?=$this->i_peg_telponhp;?></td>
+		</tr>
+		<tr>
+			<td width='5%'>14</td>
+		  <td>Keterangan :</td>
+		  <td>a. Tinggi </td>		  
+		  <td>: <?=$this->q_peg_tinggibdn;?></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td>b. Berat Badan</td>
+		  <td>: <?=$this->q_peg_beratbdn;?></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td>c. Rambut</td>
+		  <td>: <?=$this->n_peg_rambut;?></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td>d. Bentuk muka</td>
+		  <td>: <?=$this->n_peg_btkmuka;?></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td>e. Warna Kulit</td>
+		  <td>: <?=$this->n_peg_warnakulit;?></td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		  <td>f. Ciri Khas</td>
+		  <td>: <?=$this->n_peg_cirikhas;?></td>
+		</tr>
+		<tr>
+		  <td>15</td>
+		  <td>Golongan Darah</td>
+		  <td>&nbsp;</td>
+		  <td>: <?=$this->c_golongan_darah;?></td>
+		</tr>
+		<tr>
+		  <td>16</td>
+		  <td>Jumlah Anak</td>
+		  <td>&nbsp;</td>
+		  <td>: <?=$this->CountAnak;?></td>
+		</tr>
+		<tr>
+		  <td>17</td>
+		  <td>Kegemaran (hoby)</td>
+		  <td>&nbsp;</td>
+		  <td>: <?=$this->n_peg_hobi;?></td>
+		</tr>
+
+</table>
+<br>
+<h3 class="title"><b><u>II. PENDIDIKAN</u></b></h3>
+<br>
+<b>1. Pendidikan di Dalam dan di Luar Negeri</b>
+<br>
+<br>
+<?include ("pendidikan.phtml")?>
+<br>
+<br>
+<b>2. Diklat</b>
+<br>
+<br>
+<b>2.a. Penjenjangan</b>
+<br>
+<?include ("dikjenjang.phtml")?>
+<br>
+<b>2.b. Fungsional</b>
+<br>
+<?include ("dikfungsional.phtml")?>
+<br>
+<b>2.c. Teknis</b>
+<br>
+<?include ("dikteknis.phtml")?>
+<br>
+<b>2.d. Lainnya</b>
+<br>
+<?include ("diklainnya.phtml")?>
+<br>
+<br>
+<b>3. Seminar</b>
+<br>
+<br>
+<?include ("seminar.phtml")?>
+<br>
+<br>
+<h3 class="title"><b><u>III. RIWAYAT KEPANGKATAN</u></b></h3>
+<br>
+<?include ("pangkat.phtml")?>
+<br>
+<br>
+<h3 class="title"><b><u>IV. RIWAYAT JABATAN</u></b></h3>
+<br>
+<?include ("jabatan.phtml")?>
+<br>
+<br>
+<h3 class="title"><b><u>V. PENGHARGAAN</u></b></h3>
+<br>
+<?include ("penghargaan.phtml")?>
+<br>
+<br>
+<h3 class="title"><b><u>VI. SANKSI ATAU HUKUMAN</u></b></h3>
+<br>
+<?include ("hukuman.phtml")?>
+<br>
+<br>
+<h3 class="title"><b><u>VII. ORGANISASI</u></b></h3>
+<br>
+<?include ("organisasi.phtml")?>
+<br>
+<br>
+<h3 class="title"><b><u>VIII. KE LUAR NEGERI</u></b></h3>
+<br>
+<?include ("luarnegeri.phtml")?>
+<br>
+<br>
+<h3 class="title"><b><u>IX. KESEHATAN</u></b></h3>
+<br>
+<?include ("kesehatan.phtml")?>
+<br>
+<br>
+</div>
+<br>
+<div class="panel">	
+<table width="100%">
+<tr>
+	<td align="center">
+		<input type="button" value="Cetak" onclick="cetakCv()"> 
+	</td>
+</tr>
+</table>
+</div>
+</div>

@@ -1,0 +1,54 @@
+
+function organisasiM(par,nip,nJnsOrganisasi,nOrganisasi,dDaftar){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/dataorganisasi/organisasi"	
+	var opt = {par:par,nip:nip,nOrganisasi:nOrganisasi,nJnsOrganisasi:nJnsOrganisasi,dDaftar:dDaftar};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#formorganisasi").ajaxForm(maintain_organisasi);
+		});		
+} 
+var maintain_organisasi = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formorganisasi;
+		astr= "document.formorganisasi";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/				
+				if((!n_jenis_organisasi.value)){cekVal = sdmValidasiData(astr,"n_jenis_organisasi","Jenis harus diisi....!");return false;break;}
+				if((!n_organisasi.value)){cekVal = sdmValidasiData(astr,"n_organisasi","Nama Organisasi harus diisi....!");return false;break;}
+				if((!d_daftar_organisasi.value)){cekVal = sdmValidasiData(astr,"d_daftar_organisasi","Tahun Daftar harus diisi....!");return false;break;}
+				 break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formorganisasi").ajaxForm(maintain_organisasi);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/dataorganisasi/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+function insertOrganisasi(){
+	jQuery("#formorganisasi").ajaxForm(maintain_organisasi);
+}
+
+function HapusDataOrganisasi(nip,cOrg,nOrg,dDaftar)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/dataorganisasi/hapusdata"
+		var opt = {nip:nip,cOrg:cOrg,nOrg:nOrg,dDaftar:dDaftar};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}

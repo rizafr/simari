@@ -1,0 +1,46 @@
+<div id="backgroundPopup"></div>	
+	<div id="popupContact">
+		<table width="100%" border="0" cellpadding="0" cellspacing="1">
+			<tr>
+				<td align="center">
+					<?echo $this->judul;?>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">
+					<input type="button" value="Keluar"  onclick="closeDetil()">
+				</td>
+			</tr>
+		</table>	
+		<center>
+		<div class="hideshow">
+			<table border="0" width="100%" align="center">
+				<tr>
+					<td align="center">
+						<?echo $this->chart;?>
+						<table border="0" width="50%" align="center" class="tbl2">
+							<tr>
+								<th><25</th>
+								<th>26 s/d 35</th>
+								<th>36 s/d 45</th>
+								<th>46 s/d 55</th>
+								<th>>56</th>
+								<th>Data Kosong</th>
+								<th>Total</th>
+							</tr>
+							<tr class="event">
+								<td align="right"><?=$this->jml25?></td>
+								<td align="right"><?=$this->jml2635?></td>
+								<td align="right"><?=$this->jml3645?></td>
+								<td align="right"><?=$this->jml4655?></td>
+								<td align="right"><?=$this->jml56?></td>
+								<td align="right"><?=$this->jmlkosong?></td>
+								<td align="right"><?=$this->jml25*1+$this->jml2635*1+$this->jml3645*1+$this->jml4655*1+$this->jml56*1+$this->jmlkosong?></td>
+							</tr>
+						</table>
+					</td>
+				</tr>		
+			</table>		
+		</div>	
+		</center>
+	</div>

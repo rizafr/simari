@@ -1,0 +1,56 @@
+function openFormFungsional(par,c_fungsional,n_fungsional){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/reffungsional/fungsionalolahdata";
+	var opt = {par:par, c_fungsional:c_fungsional, n_fungsional:n_fungsional};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formfungsional").ajaxForm(maintain_fungsional);
+		});		
+} 
+
+function insertFungsional(){
+	jQuery("#formfungsional").ajaxForm(maintain_fungsional);
+}
+
+var maintain_fungsional = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formfungsional").ajaxForm(maintain_fungsional);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/reffungsional/insertfungsional',
+	type: 'post',
+	resetForm: false
+};
+
+function updateFungsional(){
+	jQuery("#formfungsional").ajaxForm(update_fungsional);
+}
+
+var update_fungsional = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formfungsional").ajaxForm(maintain_fungsional);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/reffungsional/updatefungsional',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusFungsional(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/reffungsional/deletefungsional';
+		var opt = {c_fungsional : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

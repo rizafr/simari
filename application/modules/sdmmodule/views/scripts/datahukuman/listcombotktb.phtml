@@ -1,0 +1,40 @@
+<?php 
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+?>
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" id="listcomboa">	
+				<tr>
+					<td width="30%">Tingkat Hukuman<span class="hightlight">*</span></td>
+					<td width="2%">:</td> 
+					<td>					
+						<?
+							$tingkat = array(""=>"--Pilih--",
+									"3"=>"Ringan",
+									"2"=>"Sedang",
+									"1"=>"Berat");
+							$jnsHuk = array("onChange"=>"javascript:cariJnsHuk()"); 									
+							echo $ctrlFrm->formSelect('c_tingkat_sanksi', $this->c_tingkat_sanksi,$jnsHuk, $tingkat); 							
+						?>
+						<input type="hidden" name="c_tingkat_sanksib" id="c_tingkat_sanksib" value="<?=$this->c_tingkat_sanksi?>" size="10">
+					</td>
+				</tr>
+				<tr>
+					<td>Jenis Hukuman</td>
+					<td>:</td> 
+					<td id="listcombob">
+						<?
+							$jmldata=count($this->jnsHukuman);
+								$jenis[''] = '--Pilih--';
+								for ($i = 0; $i < $jmldata; $i++) {
+									$jenis[(string)$this->jnsHukuman[$i]->c_hukuman] = (string)$this->jnsHukuman[$i]->n_hukuman;			 
+								}
+							echo $ctrlFrm->formSelect('c_jenis_sanksi', $this->c_jenis_sanksi, null, $jenis); 	
+								
+						?>
+						<input type="hidden" name="c_jenis_sanksib" id="c_jenis_sanksib" value="<?=$this->c_jenis_sanksi?>" size="10">
+					</td>
+				</tr>
+			</table>
+
+	
+	

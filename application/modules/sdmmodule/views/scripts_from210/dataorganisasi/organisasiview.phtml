@@ -1,0 +1,105 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+   $thnskrg = date("Y");
+   $thnList = $thnskrg - 40;
+   $thnArrayList['#'] = '--';
+   for ($i = 0; $i < 40; $i++) {
+     $thnList = $thnList + 1;
+     $thnArrayList[$thnList] = $thnList;
+   } $blnArrayList['#'] = '--';	
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+  
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataorganisasi/listorganisasi','<?php echo $this->basePath; ?>/sdmmodule/dataorganisasi/organisasijs');">Organisasi</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Organisasi
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Organisasi</h2>	
+<div class="boxholder">					
+	<div class="panel">
+		<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<br>
+<form id="formorganisasi" method="post" name="formorganisasi">		
+	<div class="panel">
+		<div class="spacer"></div> 
+						<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>	
+					<td>Jenis Organisasi</td>
+					<td>:</td> 
+					<td>					
+					<?php
+						echo ucwords($this->n_jenis_organisasi); 
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td>Nama Organisasi</td>
+					<td>:</td> 
+					<td>
+					<?php
+						echo $this->n_organisasi;
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td>Tahun Terdaftar</td>
+					<td>:</td> 
+					<td>
+						<?=$this->d_daftar_organisasi?>
+					</td>
+				</tr>
+				<tr>
+					<td>Jabatan</td>
+					<td>:</td> 
+					<td>
+						<?=$this->n_peran_organisasi?>
+					</td>
+				</tr>
+				<tr>
+					<td>Tempat</td>
+					<td>:</td> 
+					<td>
+						<?=$this->n_tempat_organisasi?>
+					</td>
+				</tr>
+				<tr>
+					<td>Keterangan</td>
+					<td>:</td> 
+					<td>
+					<?php 
+						
+						echo $this->e_keterangan;
+					?>
+					</td>
+				</tr>
+	</table>
+	</div>
+	<br>
+	<div class="panel">
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				</tr>
+						<tr>
+							<td>
+								<div class="right">
+									<input type="button" value="Kembali" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataorganisasi/listorganisasi','');"> 
+								</div>
+							</td>
+						</tr>			
+			</table>
+	</div>
+</div>	
+</form>

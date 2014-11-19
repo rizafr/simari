@@ -1,0 +1,139 @@
+<? require_once 'Zend/View.php';
+    require_once 'share/halaman_list.php';
+  
+   $ctrlFrm = new Zend_View();
+   $halaman = new halaman_list(); 
+  
+    $jmlPegawaiList = count($this->pegawaiList);
+  $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}  
+?>
+	<div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a>
+		<strong>&#8250;</strong>&nbsp;Pencarian Data Pegawai
+	</div>
+
+	<h2 class="title">Pencarian Data Pegawai</h2>
+	<form id="frmSearch" method="post" name="frmSearch">	
+		<div class="search-panel">
+			<?include("listpencarian.phtml");?>
+		</div>					
+	</div>	
+	<br>
+	<div class="search-panel">	
+		<input type="submit" value="Cari" onclick="javascript:cariListPegawai();">
+	</div>		
+	</form>		
+	<div class="space-line"></div>
+		<fieldset class="fields"> 
+   <table align="center" border="0" cellspacing="1" cellpadding="2" class="sortable">
+		<tr>
+			<th width="5%" rowspan="2">No.</th>
+			<th rowspan="2">&nbsp;</th>
+			<th rowspan="2">Nama</th>
+			<th rowspan="2">Jabatan</th>
+			<th rowspan="2">NIP</th>
+			<th rowspan="2">Unit Kerja</th>
+			<th rowspan="2">Gol / Pangkat</th>
+			<th colspan="3">TMT</th>
+			<th rowspan="2">Tanggal Lahir</th>
+			<th rowspan="2">Umur</th>
+			<th rowspan="2">Pendidikan</th>
+			<th rowspan="2">Dtype</th>
+		</tr> 
+		<tr>
+			<th>Gol</th>
+			<th>Jabatan</th>
+			<th>CPNS</th>			
+		</tr>	
+<? 		if ($jmlPegawaiList == 0) {?>
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>	
+<?}else{
+				foreach ($this->pegawaiList as $key => $val): 
+				if ($key%2==0) { ?>
+				<tr class="event">
+				<? } else if ($key%2==1) { ?>
+				<tr class="event2">
+				<? } 
+					$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
+					$pangkat = $this->escape($val['n_pangkat']);
+					$golongan = $this->escape($val['n_golongan']);
+					$golPangkat = $golongan." - ".$pangkat;
+					$n_lokasi_unitkerja=$this->escape($val['n_lokasi_unitkerja']);
+					$n_eselon=$this->escape($val['n_eselon']);
+					$n_jabatan=$this->escape($val['n_jabatan']);
+					$tmtkgb = $this->escape($val['d_tmt_kgb']);
+					$d_tmt_golongan = $this->escape($val['d_tmt_golongan']);
+					$d_mulai_jabat = $this->escape($val['d_mulai_jabat']);
+					$d_tmt_cpns = $this->escape($val['d_tmt_cpns']);
+					$d_peg_lahir = $this->escape($val['d_peg_lahir2']);
+					
+					$usiatahun=$this->escape($val['usiatahun']);
+					$usiabulan=$this->escape($val['usiabulan']);
+					if ($usiatahun && $usiatahun!='0'){
+					if ($usiabulan && $usiabulan!='0'){
+					$Usia="$usiatahun tahun $usiabulan bulan";
+					}
+					else{$Usia="$usiatahun tahun";
+					}
+					}
+					$n_status_kepegawaian="";
+					$n_pendidikan=$this->escape($val['n_pendidikan']);
+					if($this->escape($val['c_peg_status'])=='MIL'){$n_status_kepegawaian="/".$this->escape($val['n_status_kepegawaian']);}
+				?>
+					<td class="clcenter"><?php echo $noUrut;?></td>
+					
+					<td>
+						<?
+						$vFoto="";
+						$vFoto = $this->basePath."/upld/Uploaddata/getphoto?f=".trim($this->escape($val['e_file_photo']));
+						?>
+						<img src="<?=$vFoto?>" width="55" height="60" >
+					</td>
+					<td><?php echo $this->escape($val['n_peg']);?></td>
+					<td><?php echo $n_jabatan;?></td>
+					<td><?php echo $this->escape($val['i_peg_nip']);?></td>
+					<td><?php echo $n_lokasi_unitkerja;?></td>
+					<td><?php echo $golPangkat;?></td>
+					<td><?php echo $d_tmt_golongan;?></td>
+					<td><?php echo $d_mulai_jabat;?></td>
+					<td><?php echo $d_tmt_cpns;?></td>
+					<td><?php echo $d_peg_lahir;?></td>
+					<td><?php echo $Usia;?></td>
+					<td><?php echo $n_pendidikan;?></td>
+					<td><?php echo "";?></td>
+					
+					
+					
+					
+				<?php endforeach;}?>
+	
+	</table>
+<div id="targetdetil"></div>
+
+<?
+
+
+$orderBy=$this->orderBy;
+$modul = $this->basePath."/sdmmodule/datapegawai/listpegawai?orderBy=$orderBy&order=$this->orderbya&cCol=$this->cCol&nCol=$this->nCol&c_eselon_i=$this->c_eselon_i&c_eselon_ii=$this->c_eselon_ii&c_eselon_iii=$this->c_eselon_iii&c_eselon_iv=$this->c_eselon_iv&c_lokasi_unitkerja=$this->c_lokasi_unitkerja"; 
+echo $halaman->halamanList($this->totalpegawaiList, $this->numToDisplay, $this->currentPage, $modul)
+?>	
+</fieldset>
+
+	

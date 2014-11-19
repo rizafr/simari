@@ -1,0 +1,287 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/ma_date.php";  
+require_once "share/ma_message.php";
+require_once "service/adm/Adm_Admmenu_Service.php";
+
+
+$ctrlFrm = new Zend_View();
+$pesan1 = new ma_message();
+$tanggal = new ma_date();
+$admmenu_serv = Adm_Admmenu_Service::getInstance();
+?>
+		   
+<div class="navlink">
+	<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+	<strong> &#8250; </strong> Administrasi 
+	<strong> &#8250; </strong><?=$this->jdl;?> Administrasi Aplikasi
+</div>
+<div id="top"></div>
+	
+<h2 class="title"><?=$this->jdl;?>Daftar Menu Aplikasi</h2>
+
+<!--div class="search-panel">
+	<form method="post" name="frmCariAplikasi" id="frmCariAplikasi">
+		<center>
+			<table>
+				<tr>
+					<td>Pencarian Berdasarkan :&nbsp;
+						<?
+						$isiKategoriCari = array("semua" => "Semua",
+												"c_aplikasi" => "Kode Aplikasi",
+												"n_aplikasi" => "Nama Aplikasi",
+												"e_aplikasi" => "Keterangan Aplikasi");
+												
+						$kategoriCariAttrib = array("onClick" => "setKatakunci();");						
+						echo $ctrlFrm->formSelect('kategoriCari', $kategoriCari, $kategoriCariAttrib, $isiKategoriCari);
+						?>
+					</td>
+					<td>
+						<?php 
+							
+							if 	($this->kategoriCari == 'semua'){
+							?>
+								<div id="cari" style="display:none">
+							<?php
+							} else {
+							?>
+								<div id="cari" style="display:block">
+							<?php
+							}
+							$kataKunciAtrib = array("size"=>"31",
+							"maxlength"=>"30",
+							"class"=>""
+							);
+							echo $ctrlFrm->formText('kataKunci', $kataKunci, $kataKunciAtrib);
+						?>
+						</div>
+					</td> 
+					<td>
+						<? 
+						$buttonAtrib = array("onClick"=>"javascript:prosesCariUser();");
+						echo $ctrlFrm->formSubmit('cari', 'Cari', $buttonAtrib); 
+						?>
+					</td>
+				</tr>
+			</table>
+		</center>
+	</form>
+</div-->
+
+<? 
+$status = $this->hasil;
+$proses = $this->proses;
+$keterangan = $this->keterangan;
+
+$pesan1->show_message($proses, $keterangan, "$status" ); 
+
+?>
+
+<table width="100%" class="std">
+	<tbody>
+		<tr>
+			<th>No.</th>
+			<th colspan="2">Nama Aplikasi</th>
+			<th>&nbsp;</th>
+		</tr>
+		<input type="hidden" name="jmlAppl" id="jmlAppl" value="<?php echo $this->maxIaplikasi;?>">
+		<?php
+		
+		if(count($this->aplikasiList)){
+		?>
+			
+			<?php
+			$a =0;
+			$noAwal = $numToDisplay*($currentPage -1)+1;
+			
+			foreach ($this->aplikasiList as $key => $val): 
+				$noUrut 	= $noAwal+$a;
+				$iAplikasi 	= $this->escape($val['i_aplikasi']);
+				$cAplikasi	= $this->escape($val['c_aplikasi']);
+				$nAplikasi	= $this->escape($val['n_aplikasi']);
+				$iUrutAplikasi	= $this->escape($val['i_urut_aplikasi']);
+				
+				
+				if ($key%2==0) { ?>
+				  <tr class="event">
+				<? } else if ($key%2==1) { ?>
+				  <tr class="event2">
+				<? } ?>
+					<td class="clleft" width="5%">&nbsp;<?php echo $noUrut; ?></td>
+					<td class="clleft" width="3%">
+						<?php
+						//echo "$iUrutAplikasi == $this->noUrutAplikasi";
+						if($iUrutAplikasi == $this->noUrutAplikasi){
+						
+						?>
+							<div id="down_<?php echo $iAplikasi;?>"  style="display:none"><a href="#"  onClick="showDetail('<?php echo $iAplikasi;?>')"><img src="images/down.gif"></a></div>
+							<div id="right_<?php echo $iAplikasi;?>"  style="display:block"><a href="#"  onClick="hideDetail('<?php echo $iAplikasi;?>')"><img src="images/right.gif" onClick="hideDetail('<?php echo $iAplikasi;?>')"></a></div>
+						<?php
+						} else {
+						?>
+							<div id="down_<?php echo $iAplikasi;?>"  style="display:block"><a href="#"  onClick="showDetail('<?php echo $iAplikasi;?>')"><img src="images/down.gif" onClick="showDetail('<?php echo $iAplikasi;?>')"></a></div>
+							<div id="right_<?php echo $iAplikasi;?>"  style="display:none"><a href="#"  onClick="hideDetail('<?php echo $iAplikasi;?>')"><img src="images/right.gif" onClick="hideDetail('<?php echo $iAplikasi;?>')"></a></div>
+						<?php 
+						}
+						?>
+					</td>
+					<td class="clleft" width="81%">&nbsp;
+						<?php 
+						if($iAplikasi != $iAplikasiLama){
+							echo $nAplikasi; 
+						}
+						if($iUrutAplikasi == $this->noUrutAplikasi){
+						?>
+							<div id="detailMenu_<?php echo $iAplikasi;?>" style="display:block">
+						<?php
+						} else {
+						?>
+							<div id="detailMenu_<?php echo $iAplikasi;?>" style="display:none">
+						<?php
+						}
+						?>
+							<table class="tbl2" cellpadding="2" cellspacing="1" border="0">
+								<?php
+								$menu1 = $admmenu_serv->readMenuMapPerLevel($iAplikasi,'');
+								//var_dump($menu1);
+								for ($x1=0; $x1<count($menu1);$x1++){
+									$c_menu_level1 = $menu1[$x1]['c_menu_level'];
+									$n_menu1 = $menu1[$x1]['n_menu'];
+									$c_menu_statuscb1 = $menu1[$x1]['c_menu_statuscb'];
+									$n_action1 = $menu1[$x1]['n_action'];
+									?>
+									<tr class="bg1">
+										<td><?php echo $c_menu_level1;?></td>
+										<td colspan="4"><?php echo $n_menu1;?></td>
+										<td><?php echo $n_action1;?></td>
+										<td class="clleft">&nbsp;
+											<a href="javascript:displayMenuOlahdata('tambah','<?php echo $iAplikasi;?>','<?php echo $c_menu_level1;?>');" title="Tambah Menu Level 2"><img src="images/tambah1_ico.png"></a>
+										</td>
+										<td class="clleft">&nbsp;
+											<a href="javascript:displayMenuOlahdata('ubah','<?php echo $iAplikasi;?>','<?php echo $c_menu_level1;?>');" title="Ubah Menu Level 1"><img src="images/edit.gif"></a>
+										</td>
+										<td class="clleft">&nbsp;
+											<?php
+											if($c_menu_statuscb1 != 'N'){?>
+												<a href="javascript:hapusMenu('Menu','<?php echo $iAplikasi;?>','<?php echo $c_menu_level1;?>','<?php echo $n_menu1;?>');" title="Hapus Menu Level 2"><img src="images/del.gif"></a>
+											<?php } ?>
+										</td>
+									</tr>
+									<?php
+									//Level 2
+									//========
+									if($c_menu_statuscb1 == 'N'){
+										$menu2 = $admmenu_serv->readMenuMapPerLevel($iAplikasi,$c_menu_level1);
+										//var_dump($menu2);
+										for($x2=0; $x2<count($menu2); $x2++){
+											$c_menu_level2 = $menu2[$x2]['c_menu_level'];
+											$n_menu2 = $menu2[$x2]['n_menu'];
+											$c_menu_statuscb2 = $menu2[$x2]['c_menu_statuscb'];
+											$n_action2 = $menu2[$x2]['n_action'];
+									
+										?>
+											<tr class="bg">
+												<td width="5%">&nbsp;</td>
+												<td width="5%"><?php echo $c_menu_level2;?></td>
+												<td colspan="3">&nbsp;<?php echo $n_menu2;?></td>
+												<td>&nbsp;<?php echo $n_action2;?></td>
+												<td class="clleft">&nbsp;
+													<a href="javascript:displayMenuOlahdata('tambah','<?php echo $iAplikasi;?>','<?php echo $c_menu_level2;?>');" title="Tambah Menu Level 3"><img src="images/tambah1_ico.png"></a>
+												</td>
+												<td class="clleft">&nbsp;
+													<a href="javascript:displayMenuOlahdata('ubah','<?php echo $iAplikasi;?>','<?php echo $c_menu_level2;?>');" title="Ubah Menu Level 2"><img src="images/edit.gif"></a>
+												</td>
+												<td class="clleft">&nbsp;
+													<?php
+													if($c_menu_statuscb2 != 'N'){?>
+														<a href="javascript:hapusMenu('Menu','<?php echo $iAplikasi;?>','<?php echo $c_menu_level2;?>','<?php echo $n_menu2;?>');" title="Hapus Menu Level 2"><img src="images/del.gif"></a>
+													<?php } ?>
+												</td>
+											</tr>
+											<?php
+											//Level 3
+											//========
+											if($c_menu_statuscb2 == 'N'){
+												$menu3 = $admmenu_serv->readMenuMapPerLevel($iAplikasi,$c_menu_level2);
+												//var_dump($menu3);
+												for($x3=0; $x3<count($menu3); $x3++){
+													$c_menu_level3 = $menu3[$x3]['c_menu_level'];
+													$n_menu3 = $menu3[$x3]['n_menu'];
+													$c_menu_statuscb3 = $menu3[$x3]['c_menu_statuscb'];
+													$n_action3 = $menu3[$x3]['n_action'];
+									
+												?>
+													<tr class="bg2">
+														<td>&nbsp;</td>
+														<td>&nbsp;</td>
+														<td><?php echo $c_menu_level3;?></td>
+														<td colspan="2"><?php echo $n_menu3;?></td>
+														<td>&nbsp;<?php echo $n_action3;?></td>
+														<td class="clleft" width="7%">&nbsp;
+															<a href="javascript:displayMenuOlahdata('tambah','<?php echo $iAplikasi;?>','<?php echo $c_menu_level3;?>');" title="Tambah Menu Level 4"><img src="images/tambah1_ico.png"></a>
+														</td>
+														<td class="clleft" width="7%">&nbsp;
+															<a href="javascript:displayMenuOlahdata('ubah','<?php echo $iAplikasi;?>','<?php echo $c_menu_level3;?>');" title="Ubah Menu Level 3"><img src="images/edit.gif"></a>
+														</td>
+														<td class="clleft" width="7%">&nbsp;
+															<?php
+															if($c_menu_statuscb3 != 'N'){ ?>
+																<a href="javascript:hapusMenu('Menu','<?php echo $iAplikasi;?>','<?php echo $c_menu_level3;?>','<?php echo $n_menu3;?>');" title="Hapus Menu Level 2"><img src="images/del.gif"></a>
+															<?php } ?>
+														</td>
+													</tr>
+												<?php
+													//Level 4
+													//========
+													if($c_menu_statuscb3 == 'N'){
+														$menu4 = $admmenu_serv->readMenuMapPerLevel($iAplikasi,$c_menu_level3);
+														//var_dump($menu2);
+														for($x4=0; $x4<count($menu4); $x4++){
+															$c_menu_level4 = $menu4[$x4]['c_menu_level'];
+															$n_menu4 = $menu4[$x4]['n_menu'];
+															$c_menu_statuscb4 = $menu4[$x4]['c_menu_statuscb'];
+															$n_action4 = $menu4[$x4]['n_action'];
+														?>
+															<tr bgcolor="ffffff">
+																<td width="5%">&nbsp;</td>
+																<td width="5%">&nbsp;</td>
+																<td width="10%">&nbsp;</td>
+																<td width="23%"><?php echo $c_menu_level4;?></td>
+																<td width="30%"><?php echo $n_menu4;?></td>
+																<td colspan="2">&nbsp;<?php echo $n_action4;?></td>
+																<td class="clleft" width="7%">&nbsp;
+																	<a href="javascript:displayMenuOlahdata('ubah','<?php echo $iAplikasi;?>','<?php echo $c_menu_level4;?>');" title="Ubah Menu Level 4"><img src="images/edit.gif"></a>
+																</td>
+																<td class="clleft" width="7%">&nbsp;
+																	<a href="javascript:hapusMenu('Menu','<?php echo $iAplikasi;?>','<?php echo $c_menu_level4;?>','<?php echo $n_menu4;?>');" title="Hapus Menu Level 2"><img src="images/del.gif"></a>
+																</td>
+															</tr>
+														<?php
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								?>
+							</table>
+						</div>
+					</td>
+					<td class="clleft" width="10%">&nbsp;
+						<a href="javascript:displayMenuOlahdata('tambah', '<?php echo $iAplikasi;?>','');" title="Tambah Menu Level 1"><img src="images/tambah2_ico.png"></a>
+					</td>
+				</tr>
+				<?php
+				$iAplikasiLama = $iAplikasi;
+				$a++;
+			endforeach;
+		} else {
+		?>
+			<tr class="event">
+				<td class="clleft" width="5%" colspan="5">&nbsp;<font color="orange">Data Tidak Ada </font></td>
+			</tr>
+		<?php
+		}?>
+	</tbody>
+</table>

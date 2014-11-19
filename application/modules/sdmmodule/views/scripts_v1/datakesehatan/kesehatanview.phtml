@@ -1,0 +1,102 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_rawatmulai").datepicker();
+		jQuery("#d_rawatakhir").datepicker();
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datakesehatan/listkesehatan','<?php echo $this->basePath; ?>/sdmmodule/datakesehatan/kesehatanjs');">Kesehatan</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Kesehatan
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Kesehatan</h2>	
+<div class="boxholder">					
+	<div class="panel">
+		<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<br>
+<form id="formkesehatan" method="post" name="formkesehatan">		
+	<div class="panel">
+		<div class="spacer"></div> 
+						<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Nama Penyakit
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_penyakit" id="n_penyakit" value="<?=$this->n_penyakit?>" size="70">
+					</td>
+				</tr>
+				<tr>
+					<td>Tanggal Sakit
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_rawatmulai" id="d_rawatmulai" value="<?=$this->d_rawatmulai?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+					</td>
+				</tr>
+				<tr>
+					<td>Tanggal Sembuh</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_rawatakhir" id="d_rawatakhir" value="<?=$this->d_rawatakhir?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+					</td>
+				</tr>
+				<tr>
+					<td>Nama Rumah Sakit</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_rmhsakit" id="n_rmhsakit" value="<?=$this->n_rmhsakit?>" size="50">
+					</td>
+				</tr>
+				<tr>
+					<td>Alamat Rumah Sakit</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="a_rmhsakit" id="a_rmhsakit" value="<?=$this->a_rmhsakit?>" size="70">
+					</td>
+				</tr>
+				<tr>
+					<td>Keterangan</td>
+					<td>:</td> 
+					<td>
+					<?php 
+						$keteranganAtrib = array("rows"=>"3","cols"=>"25","maxlength"=>"100", "class"=>"medium"); 
+						echo $ctrlFrm->formTextarea('e_keterangan', $this->e_keterangan, $keteranganAtrib);
+					?>
+					</td>
+				</tr>
+	</table>
+	</div>
+	<br>
+	<div class="panel">
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">				
+				<tr>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datakesehatan/listkesehatan','');"> 
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>
+</div>

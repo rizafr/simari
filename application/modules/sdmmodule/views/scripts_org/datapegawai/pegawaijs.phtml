@@ -1,0 +1,202 @@
+function CpnsM(par,nip){
+
+	var url = '<?php echo $this->basePath;?>/sdmmodule/datacpns/cpns';	
+	var param = {par:par,nip:nip};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);			
+		});
+		CpnsJs();
+}
+function CpnsJs(){
+
+	var url = '<?php echo $this->basePath;?>/sdmmodule/datacpns/pegawaijs';	
+	var param = {};
+		jQuery.get(url, param, function(data) {
+		});
+}
+function PnsM(par,nip){
+
+	var url = '<?php echo $this->basePath;?>/sdmmodule/datapns/pns';	
+	var param = {par:par,nip:nip};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);			
+		});
+}
+
+function cariDataUnit2(){
+
+var cCol =document.getElementById('cCol').value;
+if (cCol=='unitkerja'){
+	$("#targetcari").css("display","block");
+	$("#targetcari2").css("display","none");
+	document.getElementById('nCol').value="";
+
+	var c_lokasi_unitkerja =document.getElementById('c_lokasi_unitkerja').value;
+	var eseloni = document.getElementById('eseloni').value;
+	var eselonii = document.getElementById('eselonii').value;
+	var eseloniii = document.getElementById('eseloniii').value;
+	var eseloniv = document.getElementById('eseloniv').value;
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listcombo';
+}
+else{
+	$("#targetcari2").css("display","inline");
+	$("#targetcari").css("display","none");	
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listtext';
+}
+var param = {cCol:cCol,c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+jQuery.get(url,param,function(data) {
+jQuery("#targetcari").html(data);});
+
+
+}
+function cariListPegawai(){
+	jQuery("#frmSearch").ajaxForm(search);
+	
+}
+
+
+var search = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		var col=document.getElementById('cCol').value;
+		/*
+		if(!col){
+			alert("Combo Pilihan harus diisi....!") 
+			return false;
+			document.getElementById('cCol').focus;
+		}
+		*/
+			
+
+	
+	}, 
+	success:function(){cariDataUnit2();
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datapegawai/carilistpegawai',
+	type: 'post',
+	resetForm: false
+};
+
+
+function insertPegawaiCpns(){
+	jQuery("#formpegawai").ajaxForm(maintain_pegawaiPns);
+}
+var maintain_pegawaiPns = {
+	target:'#tableview',
+	beforeSubmit: function() {		
+		aobj= document.formpegawai;
+		astr= "document.formpegawai";
+		var cekVal="";
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/
+				
+				if (c_status_kepegawaian.value=='1' ||c_status_kepegawaian.value=='2'||c_status_kepegawaian.value=='3'){
+					if((!i_peg_nip_new.value)){
+						if((!i_peg_nip.value)){
+							cekVal = sdmValidasiData(astr,"i_peg_nip_new","NIP Pegawai harus diisi....!");
+							return false;break;
+						}
+					}
+				}
+				else{
+					if((!i_peg_nrp.value)){cekVal = sdmValidasiData(astr,"i_peg_nrp","NRP Pegawai harus diisi....!");return false;break;}
+				}				
+				if((!n_peg.value)){cekVal = sdmValidasiData(astr,"n_peg","Nama Pegawai harus diisi....!");return false;break;}				
+				break;
+			}
+			
+		}
+		
+	
+	}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpegawai").ajaxForm(maintain_pegawai);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datacpns/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+
+function insertPegawai(){
+	jQuery("#formpegawai").ajaxForm(maintain_pegawai);
+}
+var maintain_pegawai = {
+	target:'#tableview',
+	beforeSubmit: function() {		
+		aobj= document.formpegawai;
+		astr= "document.formpegawai";
+		var cekVal="";
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/				
+				if((!i_peg_nip_new.value)){cekVal = sdmValidasiData(astr,"i_peg_nip_new","NIP Pegawai harus diisi....!");return false;break;}
+				if((!n_peg.value)){cekVal = sdmValidasiData(astr,"n_peg","Nama Pegawai harus diisi....!");return false;break;}				
+				break;
+			}
+		}
+	}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpegawai").ajaxForm(maintain_pegawai);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datapegawai/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+
+/*
+function PegawaiM(par,nip){
+	var url = '<?php echo $this->basePath;?>/sdmmodule/datapegawai/pegawai';	
+	var param = {par:par,nip:nip};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);
+			jQuery("#formpegawai").ajaxForm(maintain_pegawai);
+		});
+}
+
+
+*/
+/*
+function HapusDataPeg(nip)
+{
+	var where_to= confirm("Yakin anda akan hapus data NIP :"+nip);
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/datapegawai/hapusdata"
+		var opt = {nip:nip};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}
+*/
+/*
+function setvalueuplpdf(v,n,f) { 
+
+	  if (f!="") {
+	    var pass=false;
+	    var af=f.split("/");
+        var nval=eval("document.forms[0]."+n);
+		var ext=v.substring(v.lastIndexOf(".")+1,v.length);
+		if ((ext==f)||(ext=='png')||(ext=='gif')){ 
+		document.forms[0].a_file.value=v; 
+		}
+		else{
+		  alert ("Hanya untuk file berekstensi '"+f+"',jpg,gif,png ");
+		  nval.value="";
+		  document.forms[0].a_file.value=""; 
+		  return;	  
+		}
+	  }
+}
+*/

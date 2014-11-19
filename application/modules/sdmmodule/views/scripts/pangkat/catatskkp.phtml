@@ -1,0 +1,103 @@
+<? require_once 'Zend/View.php';
+
+   $ctrlFrm = new Zend_View();
+				  
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'pangkat');
+   echo $this->render('pangkatjs.phtml');
+?>
+<html>
+<body>
+<fieldset class="fields1">
+<legend>Mencatat SK Kenaikan Pangkat</legend>
+	
+<form id="frmcatatSKKP" action="<?php echo $this->basePath; ?>/sdm/pangkat/sdmmencatatskkp" method="post" name="frmcatatSKKP">	  
+<a name="top"></a>
+<div class="blank"></div>
+
+	<table align="center" width="70%" border="0" cellspacing="1" cellpadding="2"> 
+		<tr>
+			<td width="211">NIP</td>
+			<td colspan="2">&nbsp;:&nbsp; <?php $nipAtrib = array("size"=>"10","maxlength"=>"9","class"=>""); 
+					echo $ctrlFrm->formText('nip', null, $nipAtrib) ?>			</td>
+		</tr>
+		<tr>
+			<td>NAMA</td>
+			<td colspan="2">&nbsp;:&nbsp; <?php $nmAtrib = array("size"=>"25","maxlength"=>"25","class"=>""); 
+					echo $ctrlFrm->formText('nm', null, $nmAtrib) ?>			</td>
+		</tr>
+		<tr>
+			<td>GOLONGAN PNS</td>
+			<td colspan="2">&nbsp;:&nbsp; <?php $golAtrib = array("size"=>"5","maxlength"=>"4","class"=>""); 
+					echo $ctrlFrm->formText('gol', null, $golAtrib) ?>			</td>
+		</tr>
+		<tr>
+			<td>MASA KERJA</td>
+			<td colspan="2">&nbsp;:&nbsp; <?php $mktAtrib = array("size"=>"2","maxlength"=>"2","class"=>""); 
+					echo $ctrlFrm->formText('mkt', null, $mktAtrib) ?>	&nbsp;Thn &nbsp; 
+										<?php $mkbAtrib = array("size"=>"2","maxlength"=>"2","class"=>""); 
+					echo $ctrlFrm->formText('nkb', null, $mkbAtrib) ?>		&nbsp;Bln	</td>
+		</tr>
+		<tr>
+			<td>Nomor SK</td>
+			<td colspan="2">&nbsp;:&nbsp; <?php $nskAtrib = array("size"=>"20","maxlength"=>"20","class"=>""); 
+					echo $ctrlFrm->formText('nsk', null, $nskAtrib) ?>			</td>
+		</tr>
+		<tr>
+			<td>Tanggal SK</td>
+			<td colspan="2">&nbsp;:&nbsp; <?php $tglskAtrib = array("size"=>"10","maxlength"=>"10","class"=>""); 
+					echo $ctrlFrm->formText('tglsk', null, $tglskAtrib) ?>			</td>
+		</tr>
+		<br>
+		<tr>
+			<td><h4>Pejabat Yang Mengeluarkan SK</h4></td>
+		</tr>
+		<tr>
+			<td>Pangkat Lama</td>
+			<td colspan="2">&nbsp;:&nbsp; <?php $plmAtrib = array("size"=>"5","maxlength"=>"4","class"=>""); 
+					echo $ctrlFrm->formText('plm', null, $plmAtrib) ?>			</td>
+		</tr>
+		<tr>
+			<td>TMT Pangkat Lama</td>
+			<td colspan="2">&nbsp;:&nbsp; <?php $tmtplmAtrib = array("size"=>"10","maxlength"=>"10","class"=>""); 
+					echo $ctrlFrm->formText('tmtplm', null, $tmtplmAtrib) ?>			</td>
+		</tr>
+		<tr>
+			<td>Pangkat Baru</td>
+			<td colspan="2">&nbsp;:&nbsp; <?php $pbrAtrib = array("size"=>"5","maxlength"=>"4","class"=>""); 
+					echo $ctrlFrm->formText('pbr', null, $pbrAtrib) ?>			</td>
+		</tr>
+		<tr>
+			<td>TMT Pangkat Baru</td>
+			<td colspan="2">&nbsp;:&nbsp; <?php $tmtpbrAtrib = array("size"=>"10","maxlength"=>"10","class"=>""); 
+					echo $ctrlFrm->formText('tmtpbr', null, $tmtpbrAtrib) ?>			</td>
+		</tr>
+		<tr height="22">
+			<td height="41" rowspan="2">Keterangan</td>
+			<td width="10" rowspan="2">&nbsp;:&nbsp;</td>
+			<td width="446" rowspan="2">
+				<?php
+					$keteranganAtrib = array("rows"=>"3",
+											"cols"=>"25",
+											"maxlength"=>"100",
+											"class"=>""); 
+				echo $ctrlFrm->formTextarea('keterangan', $keterangan, $keteranganAtrib)
+				?>
+			</td>
+		</tr>
+</table>
+</fieldset>
+<fieldset class="fields2">
+				<?php 
+					$saveAtrib = array("onclick"=>"javascript:commandSubmitSave();");
+						echo $ctrlFrm->formSubmit('perintah', 'Simpan', $saveAtrib);
+					$resetAtrib = array("onclick"=>"javascript:commandSubmitReset();");
+						echo $ctrlFrm->formSubmit('perintah', 'Kosongkan', $resetAtrib);
+				?>
+</fieldset>
+</form>
+	<div class="back2">
+		<a href="#" onClick="javascript:commandSubmitBack();" class="back" title="Kembali">Kembali</a>
+	</div>
+</body>
+</html>

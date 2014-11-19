@@ -1,0 +1,124 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+   $thnskrg = date("Y");
+   $thnList = $thnskrg - 40;
+   $thnArrayList['#'] = '--';
+   for ($i = 0; $i < 40; $i++) {
+     $thnList = $thnList + 1;
+     $thnArrayList[$thnList] = $thnList;
+   } $blnArrayList['#'] = '--';	
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_barangkat").datepicker();
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataluarnegeri/listluarnegeri','<?php echo $this->basePath; ?>/sdmmodule/dataluarnegeri/luarnegerijs');">Luar Negeri</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Luar Negeri
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Luar Negeri</h2>	
+<div class="boxholder">					
+	<div class="panel">
+		<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<br>
+<form id="formluarnegeri" method="post" name="formluarnegeri">		
+	<div class="panel">
+		<div class="spacer"></div> 
+						<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Negara<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>
+						<?php 
+							$jmlNegaraList = count($this->negaraList);
+							$negaraList[''] = '--Pilih--';
+							for ($i = 0; $i < $jmlNegaraList; $i++) {
+								$negaraList[(string)$this->negaraList[$i]->c_negara] =(string)$this->negaraList[$i]->n_negara;	
+							}
+							echo $ctrlFrm->formSelect('c_negara', $this->c_negara, null,$negaraList)
+						?>	
+					</td>
+				</tr>
+				<tr>
+					<td>Tujuan<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="a_tujuan" id="a_tujuan" value="<?=$this->a_tujuan?>" size="70">
+					</td>
+				</tr>
+				<tr>
+					<td>Pembiayaan / Sponsor</td>
+					<td>:</td> 
+					<td>
+						<?
+								$biaya = array(""=>"--Pilih--","01"=>"Dinas","02"=>"Mandiri","03"=>"Penyelenggara","04"=>"Sponsor");
+								echo $ctrlFrm->formSelect('c_biaya', $this->c_biaya, null, $biaya); 							
+						?>
+						<input type="text" name="e_sponsor" id="e_sponsor" value="<?=$this->e_sponsor?>" size="30">
+					</td>
+				</tr>				
+				
+				<tr>
+					<td>Tanggal Berangkat<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_barangkat" id="d_barangkat" value="<?=$this->d_barangkat?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>	 
+					</td>
+				</tr>
+				<tr>
+					<td>Lama Kunjungan</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="q_hari" id="q_hari" value="<?=$this->q_hari?>" size="10"> Hari /
+						<input type="text" name="q_bulan" id="q_bulan" value="<?=$this->q_bulan?>" size="10"> Bulan /
+						<input type="text" name="q_tahun" id="q_tahun" value="<?=$this->q_tahun?>" size="10"> Tahun
+					</td>
+				</tr>
+				<tr>
+					<td>Keterangan</td>
+					<td>:</td> 
+					<td>
+					<?php 
+						$keteranganAtrib = array("rows"=>"3","cols"=>"25","maxlength"=>"100", "class"=>"medium"); 
+						echo $ctrlFrm->formTextarea('e_keterangan', $this->e_keterangan, $keteranganAtrib);
+					?>
+					</td>
+				</tr>
+	</table>
+	</div>
+	<br>
+	<div class="panel">
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">		
+				</tr>
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td>
+								<div class="right">
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataluarnegeri/listluarnegeri','');"> 
+									<input type="submit" value="<?=$this->par;?>" onClick="insertLuarnegeri()">
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+								</div>
+							</td>
+						</tr>			
+			</table>
+	</div>
+	</form>
+</div>	

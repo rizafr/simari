@@ -1,0 +1,251 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php'; 
+   
+	$ctrlDate = new oa_date();   
+   
+   $ctrlFrm = new Zend_View();
+   $thnskrg = date("Y");
+
+	$blnArr = array("#"=>"--","01"=>"Januari","02"=>"Februari","03"=>"Maret","04"=>"April","05"=>"Mei",
+					"06"=>"Juni","07"=>"Juli","08"=>"Agustus","09"=>"September","10"=>"Oktober","11"=>"November",
+					"12"=>"Desember");
+?>
+<script language="JavaScript" type="text/javascript">
+<!--// calculate the ASCII code of the given character
+function CalcKeyCode(aChar) {
+  var character = aChar.substring(0,1);
+  var code = aChar.charCodeAt(0);
+  return code;
+}
+
+function checkNumber(val) {
+  var strPass = val.value;
+  var strLength = strPass.length;
+  var lchar = val.value.charAt((strLength) - 1);
+  var cCode = CalcKeyCode(lchar);
+
+  if ((cCode < 48) || (cCode > 57)) {
+    var myNumber = val.value.substring(0, (strLength) - 1);
+    val.value = myNumber;
+  }
+  return false;
+}
+-->
+</script>
+
+<?
+$nip = $_REQUEST['nip'];
+$_SESSION['nip'] = $nip;
+
+	$jumAbsenList = count($this->absenList);
+   //echo $jumLatihList;
+   for ($j = 0; $j < $jumAbsenList; $j++) {
+     $absen[$j] = array("i_peg_nip"  		=>(string)$this->absenList[$j]['i_peg_nip'],
+						  "tglAbsen"		=>(string)$this->absenList[$j]['tglAbsen'],
+	                      "kdAbsen"      	=>(string)$this->absenList[$j]['kdAbsen'],
+	                      "nmAbsen"      	=>(string)$this->absenList[$j]['nmAbsen'],
+						  "jamMasuk"  		=>(string)$this->absenList[$j]['jamMasuk'],
+						  "jamKeluar"  		=>(string)$this->absenList[$j]['jamKeluar'],
+						  "keterangan"  	=>(string)$this->absenList[$j]['keterangan']);	
+//echo "coba=".$this->latihList[0]['keterangan'];						  
+   } 
+
+	$pesan = $this->pesan;
+
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'absensi');
+   echo $this->render('absensijs.phtml'); 
+   
+   
+?>
+<div class="contentdata-modul" id="modul">
+	<h3 class="title">MELIHAT DATA ABSENSI PEGAWAI</h3>
+	&nbsp;&nbsp;&nbsp;&nbsp;Menu ini digunakan untuk melihat absensi pegawai. 
+	<div class="spacer"></div>
+	<a name="top"></a>	
+	
+	<form id="frmAbsen1" action="<?php echo $this->basePath; ?>/sdm/absensi/viewdataabsensi" method="post" name="frmAbsen1">
+		<div class="search-panel">
+			<b>Periode&nbsp;:&nbsp;</b>
+			<?php 
+			$hr1 = $_POST['hr1'];
+			$bln1 = $_POST['bln1'];
+			$thn1 = $_POST['thn1'];
+			$hr2 = $_POST['hr2'];
+			$bln2 = $_POST['bln2'];
+			$thn2 = $_POST['thn2'];
+			$tgl1 = $thn1."-".$bln1."-".$hr1;
+			$tgl2 = $thn2."-".$bln2."-".$hr2;
+			 
+			if (($hr1 == '--') || ($bln1 == '--') || ($thn1 == null)) {
+				$tgl1 = '1900-01-01';
+			}
+			if (($hr2 == '--') || ($bln2 == '--') || ($thn2 == null)) {
+				$tgl2 = '2100-01-01';				
+			}
+ 			
+			?>
+			<?php echo $ctrlDate->formTanggal_oa('hr1',$hr1,'bln1',$bln1,'thn1',$thn1); ?> &nbsp;<b>s/d</b>&nbsp;
+		    <?php echo $ctrlDate->formTanggal_oa('hr2',$hr2,'bln2',$bln2,'thn2',$thn2);  ?>&nbsp;
+			<?
+			  $atribSubmit = array("onclick"=>"javascript:cariDataAbsensi();");
+			  echo $ctrlFrm->formSubmit('perintah', 'CARI', $atribSubmit)."&nbsp;";
+			?>
+		</div>
+		<fieldset class="panel-form3">
+			<b>
+			<dl>
+				<dd class="col-left">NIP</dd>
+				<dd class="dot2">:</dd>
+				<dd class="col-right2">
+				<? 
+					$nip = $_REQUEST['nip'];
+					if ($nip == ''){
+					$nip = $this->escape($this->nip);
+					}
+					echo $nip;
+				?>
+				</dd>	
+				<dd class="col-left">&nbsp;</dd>
+				<dd class="dot2">&nbsp;</dd>
+			</dl>
+			<dl>
+				<dd class="col-left">Nama</dd>
+				<dd class="dot2">:</dd>
+				<dd class="col-right2">
+				
+				<?
+					$namaPegawai = $this->escape($this->namaPegawai);
+					echo $namaPegawai;
+				?>
+				</dd>
+			</dl>
+			<dl>
+				<dd class="col-left">Unit Kerja</dd>
+				<dd class="dot2">:</dd>
+				<dd class="col-right">
+			<?php echo $this->escape($this->namaUnitKerja);?>
+				</dd>
+				<!--<dd class="col-left">&nbsp;</dd>
+				<dd class="dot2">&nbsp;</dd>-->
+			</dl>
+			</b>
+		</fieldset>	
+
+<!--		<a href="#"  title="Tambah Data" class="link" onClick="javascript:tambahAbsen('TAMBAH','<?php echo $nip; ?>')" >
+			<div class="add">
+			</div>
+		</a>-->
+
+
+		<div class="space-line"></div>
+		<fieldset class="fields">
+			<div class="title2">Melihat Data Absensi Pegawai</div>
+
+			<? if (!$pesan == null) {
+			?>
+				<div class="spacer"> </div>
+			<!--	<fieldset id="message" class="confirm"><? echo $pesan; ?></fieldset>-->
+			<?	echo "<font color='red'>$pesan</font>"; ?>
+				<div class="spacer"> </div>	
+			<?}?>
+
+<?
+	if ($jumAbsenList == 0) {
+		//echo "Data Absensi Tidak Ditemukan";
+		echo "<font color='red'>Data Absensi $namaPegawai Tidak Ditemukan</font>";
+?>
+	
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+				<tr>
+			    <th width="10%">Tanggal</th>
+				<th width="30%">Jenis Absen</th>
+				<th width="15%">Jam Masuk</th>
+				<th width="15%">Jam Keluar</th>
+				<th width="24%">Keterangan</th>
+			<!--	<th width="6%">&nbsp;</th>-->
+				</tr>
+		</table>
+<? } else { ?>
+	<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+				<tr>
+			    <th width="10%">Tanggal</th>
+				<th width="30%">Jenis Absen</th>
+				<th width="15%">Jam Masuk</th>
+				<th width="15%">Jam Keluar</th>
+				<th width="24%">Keterangan</th>
+				<!--<th width="6%">&nbsp;</th>-->
+				</tr>
+		<?php foreach ($absen as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+			
+				<?php
+				$tglAbsen = $this->escape($val['tglAbsen']);
+					$thnAbsen = substr($tglAbsen,0,4);
+					$blnAbsen = substr($tglAbsen,5,2);
+					$hrAbsen = substr($tglAbsen,8,2);
+					$tanggalAbsen = $hrAbsen."-".$blnAbsen."-".$thnAbsen;
+
+/* 				 $kdAbsen = $this->escape($val['kdAbsen']);
+				if ($kdAbsen == 'CT') {
+					$jenisAbsen = 'Cuti';
+				}
+				else if ($kdAbsen == 'DL') {
+					$jenisAbsen = 'Dinas Luar';
+				}
+				else if ($kdAbsen == 'HK') {
+					$jenisAbsen = 'Hari Kerja';
+				}
+				else if ($kdAbsen == 'HL') {
+					$jenisAbsen = 'Hari Libur';
+				}
+				else if ($kdAbsen == 'SK') {
+					$jenisAbsen = 'Sakit';
+				}
+				else if ($kdAbsen == 'TM') {
+					$jenisAbsen = 'Ijin Tidak Masuk';
+				}
+				else if ($kdAbsen == 'TK') {
+					$jenisAbsen = 'Absen Tanpa Keterangan';
+				}
+				else if ($kdAbsen == 'TB') {
+					$jenisAbsen = 'Tugas Belajar';
+				}
+ */				?>
+				<td class="clcenter"><?php echo $tanggalAbsen;?> </a></td>
+				<!--<td>&nbsp;<?php echo $jenisAbsen;?></td>-->
+				<td> &nbsp;<?php echo $this->escape($val['nmAbsen']);?></td>
+				<td class="clcenter"> <?php echo $this->escape($val['jamMasuk']);?></td>
+				<td class="clcenter"> <?php echo $this->escape($val['jamKeluar']);?></td>
+				<td>&nbsp;<?php echo $this->escape($val['keterangan']);?></td>
+		  </tr>
+	<?php endforeach;?> 		  	  
+		</table>
+	<? } ?>
+
+			<div class="spacer"></div>
+			<div class="right">
+				<input type="button" value="Batal" onClick="javascript:kembaliAbsen1();">
+		<!--		<input type="reset" value="Ulangi"> -->
+			<?php 
+			  echo $ctrlFrm->formHidden('nipH', $nip, null)."&nbsp;";
+			?>
+			</div>
+	
+	
+		</fieldset>
+	</form>
+		  	<div class="space-line"></div>
+		  	<div><a href="#top" class="top" title="Kembali ke atas">Kembali ke atas</a></div>	  	
+
+</div>
+	
+	
+<!--			<div class="back2">
+			  <a href="#" onClick="javascript:kembaliAbsen();" class="back" title="Kembali">Kembali</a>
+			</div>
+-->

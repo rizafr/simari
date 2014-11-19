@@ -1,0 +1,124 @@
+<div id="backgroundPopup" >
+	<center>
+	<div id="popupContact" style="height:400px; width:550px;" >	
+
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+			<tr class="event">
+				<td align="left">
+					<h3>Help : Identitas Lain</h3>
+				</td>
+				<td align="right">
+					<div class="delete" title="Close" onclick="closeDetil()"></div>
+				</td>
+			</tr>
+		</table>
+			<form onsubmit="xjxmW.closeWindow(' .  . ')xajax_add('HELP','querylahir',document.getElementById('keyd').value);return false;" id="fd1" name="fd1" enctype="multipart/form-data" method="post">
+			
+			
+			<table border="0" width="100%" class="table">
+		
+		<tbody><tr class="row1">
+             <td>Hobi</td>
+			 <td>
+			<input type="text" value="" id="hobi" name="hobi" size="30">
+					</td>
+			 <td>
+				<input type="button" onclick="var strg = document.getElementById('query_nip').value;  if (document.getElementById('hobi').value != '' ) {document.getElementById('query_nip').value = strg + ' upper(n_peg_hobi) like ' + '\'%'+ document.getElementById('hobi').value.toUpperCase() + '%\''; }" value="Masukan!" tabindex="55" name="bt_input1" id="bt_input1">
+				</td>
+		</tr>
+		<tr class="row">
+             <td>Warna Kulit</td>
+			 <td>
+			<input type="text" value="" id="kulit" name="kulit" size="30">
+					</td>
+			 <td>
+				<input type="button" onclick="var strg = document.getElementById('query_nip').value;  if (document.getElementById('kulit').value != '' ) {document.getElementById('query_nip').value = strg + ' upper(n_peg_warnakulit) like ' + '\'%'+ document.getElementById('kulit').value.toUpperCase() + '%\''; }" value="Masukan!" tabindex="56" name="bt_input2" id="bt_input2">
+				</td>
+		</tr>
+		<tr class="row1">
+             <td>Ciri Khas</td>
+			 <td>
+			<input type="text" value="" id="cr_khas" name="cr_khas" size="30">
+					</td>
+			 <td>
+				<input type="button" onclick="var strg = document.getElementById('query_nip').value;  if (document.getElementById('cr_khas').value != '' ) {document.getElementById('query_nip').value = strg + ' upper(n_peg_cirikhas) like ' + '\'%'+ document.getElementById('cr_khas').value.toUpperCase() + '%\''; }" value="Masukan!" tabindex="57" name="bt_input3" id="bt_input3">
+				</td>
+		</tr>
+		<tr class="row">
+             <td>Rambut</td>
+			 <td>
+			<input type="text" value="" id="rbt" name="rbt" size="30">
+					</td>
+			 <td>
+				<input type="button" onclick="var strg = document.getElementById('query_nip').value;  if (document.getElementById('rbt').value != '' ) {document.getElementById('query_nip').value = strg + ' upper(n_peg_rambut) like ' + '\'%'+ document.getElementById('rbt').value.toUpperCase() + '%\''; }" value="Masukan!" tabindex="58" name="bt_input4" id="bt_input4">
+				</td>
+		</tr>
+		<tr class="row1">
+             <td> Bentuk Muka</td>
+			 <td>
+			<input type="text" value="" id="bt_muka" name="bt_muka" size="30">
+					</td>
+			 <td>
+				<input type="button" onclick="var strg = document.getElementById('query_nip').value;  if (document.getElementById('bt_muka').value != '' ) {document.getElementById('query_nip').value = strg + ' upper(n_peg_btkmuka) like ' + '\'%'+ document.getElementById('bt_muka').value.toUpperCase() + '%\''; }" value="Masukan!" tabindex="59" name="bt_input5" id="bt_input5">
+				</td>
+		</tr>
+		
+		<tr class="row">
+             <td>Tinggi</td>
+			 <td>
+				<select id="operand" name="operand">
+					<option value="=">Sama dengan</option>
+					<option value="&gt;">Lebih Tinggi</option>
+					<option value="&lt;">Lebih Rendah</option>
+				
+				</select>&nbsp;	
+				<input type="text" onkeypress="return justnumber(event)" value="" id="tinggi" name="tinggi" size="10">
+			</td>
+			 <td>
+				<input type="button" onclick="var strg = document.getElementById('query_nip').value;  if (document.getElementById('tinggi').value != '' ) {var oprand = document.getElementById('operand').value;document.getElementById('query_nip').value = strg + ' q_peg_tinggibdn ' + oprand +  '\''+ document.getElementById('tinggi').value + '\''; }" value="Masukan!" tabindex="60" name="bt_input6" id="bt_input6">
+				</td>
+		</tr>
+		<tr class="row1">
+             <td>Berat</td>
+			 <td>
+				<select id="operand1" name="operand1">
+					<option value="=">Sama dengan</option>
+					<option value="&gt;">Lebih Tinggi</option>
+					<option value="&lt;">Lebih Rendah</option>
+				
+				</select>&nbsp;	
+				<input type="text" onkeypress="return justnumber(event)" value="" id="berat" name="berat" size="10">
+			</td>
+			 <td>
+				<input type="button" onclick="var strg = document.getElementById('query_nip').value;  if (document.getElementById('berat').value != '' ) {var oprand = document.getElementById('operand1').value;document.getElementById('query_nip').value = strg + ' q_peg_beratbdn ' +  oprand + '\''+ document.getElementById('berat').value + '\''; }" value="Masukan!" tabindex="61" name="bt_input7" id="bt_input7">
+				</td>
+		</tr>	
+			 
+         
+		<tr>
+             <td align="center" colspan="3" class="row">&nbsp;
+     			</td>
+         </tr>
+		 <tr>
+             <td align="center" colspan="3" class="row1">
+			 <textarea cols="70" rows="5" id="query_nip" name="query_nip"></textarea>
+						</td>
+         </tr>
+		 <tr class="row1">
+             <td align="left" colspan="2">
+					&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg == '') {document.getElementById('query_nip').value = 'OR ';}  else {document.getElementById('query_nip').value = document.getElementById('query_nip').value + ' OR ';} document.getElementById('bt_input0').disabled= false;document.getElementById('bt_input1').disabled= false;document.getElementById('bt_input2').disabled= false;document.getElementById('bt_input3').disabled= false;document.getElementById('bt_input4').disabled= false;" value=" OR " tabindex="56" name="bt0">
+			 	&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg == '') {document.getElementById('query_nip').value = 'AND ';}  else {document.getElementById('query_nip').value = document.getElementById('query_nip').value + ' AND ';} document.getElementById('bt_input0').disabled= false;document.getElementById('bt_input1').disabled= false;document.getElementById('bt_input2').disabled= false;document.getElementById('bt_input3').disabled= false;document.getElementById('bt_input4').disabled= false;" value=" AND " tabindex="57" name="bt2">
+				&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = document.getElementById('query_nip').value + '(';" value=" ( " tabindex="56" name="bt1">
+			 	&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = document.getElementById('query_nip').value + ')';" value=" ) " tabindex="57" name="bt2">
+			</td>
+			 <td align="right">
+			 <input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg != '') {document.getElementById('query_result').value = document.getElementById('query_result').value + ' ' + strg;closeDetil()}" value="OK !" tabindex="58" name="bt3">
+			 </td>
+         </tr></tbody></table>      
+			</form>
+			
+			</fieldset>
+	
+	</div>
+	</center>
+</div>	

@@ -1,0 +1,367 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+?>
+
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Utama</a> 
+				<strong> &#8250; </strong> SDM 
+				<strong> &#8250; </strong> Statistik
+				<strong> &#8250; </strong> Statistik Tingkat Pendidikan
+			</div>
+<div id="top"></div>
+
+	
+<h2 class="title">Statistik Tingkat Pendidikan</h2>
+<?php $opr='statpdk';include "$this->leftMenu/statistiklink.phtml";?>
+<form id="formresult" name="formresult" method="post" action="<?php echo $this->basePath; ?>/sdmmodule/statistikpendidikan/viewmatriks"  target=_new>
+	<div class="boxholder">	
+	<div class="panel">
+		<div class="spacer"></div> 
+			
+			<h3 class="title"><b><u>UNIT KERJA</u></b><h3>
+<!--
+	<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+		<tr>
+			<td width="25%">Status Kepegawaian</td>
+			<td width="2%">:</td>
+			<td>
+							<?php 
+									   // $jmlStatusKePegRef = count($this->statusKePegRef);
+									   // $statkepegList[''] = '--Pilih--';
+									   // for ($i = 0; $i < $jmlStatusKePegRef; $i++) {									   
+										// $statkepegList[(string)$this->statusKePegRef[$i]->c_status_kepegawaian] = (string)$this->statusKePegRef[$i]->n_status_kepegawaian;			 
+									   // }
+									   // $statkepegAtrib = array("onChange"=>"javascript:getStatPeg()");
+									  // echo $ctrlFrm->formSelect('c_status_kepegawaian', $this->c_status_kepegawaian,$statkepegAtrib, $statkepegList)
+								?>							
+			</td>
+		</tr>		
+		<tr>
+			<td width="25%">Eselon</td>
+			<td width="2%">:</td> 
+			<td>				
+									<?
+										// $jmlEslList=count($this->eselonList);
+										// $eslList[''] = '--Pilih--';
+											// for ($i = 0; $i < $jmlEslList; $i++) {
+												// $eslList[(string)$this->eselonList[$i]->c_eselon] = (string)$this->eselonList[$i]->n_eselon;			 
+											// }
+										// $eslAtrib = array("onChange"=>"javascript:getEselon()"); 		
+										// echo $ctrlFrm->formSelect('c_eselon',$this->c_eselon, $eslAtrib, $eslList); 							
+									?>
+			</td>
+		</tr>
+	</table>
+-->	
+<? if ($this->c_lokasi_unitkerja=='1') {?>
+	<table border="0" cellpadding="0" cellspacing="1" class="std" id="listcombo"  width="100%">
+
+		<tr>
+			<td width="25%">Lokasi</td>
+			<td width="2%">:</td> 
+			<td>					
+									<?
+										$jmlLokList=count($this->lokasiList);
+										$lokList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmlLokList; $i++) {
+												$lokList[(string)$this->lokasiList[$i]->c_lokasi] = (string)$this->lokasiList[$i]->n_lokasi;			 
+											}
+										//$lokAtrib = array("style"=>"width: 300px","id"=>"c_lokasi_unitkerja","onChange"=>"javascript:cariCombo('targetesli')"); 
+										if ($this->c_eselon_i=='01'){
+										$lokAtrib = array("style"=>"width: 300px","id"=>"c_lokasi_unitkerja","onChange"=>"javascript:cariCombo('targetesli')"); 
+										}else{
+										$lokAtrib = array("style"=>"width: 300px","id"=>"c_lokasi_unitkerja"); }
+										echo $ctrlFrm->formSelect('c_lokasi_unitkerja',$this->c_lokasi_unitkerja,$lokAtrib,$lokList); 							
+									?>
+			</td>
+		</tr>
+		<tr>
+			<td>Eselon I</td>
+			<td>:</td> 
+			<td>					
+									<?
+										$jmleseloniList=count($this->eseloniList);
+										$eseloniList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniList; $i++) {
+												$eseloniList[(string)$this->eseloniList[$i]->c_eselon_i." ".(string)$this->eseloniList[$i]->n_unitkerja] = (string)$this->eseloniList[$i]->n_unitkerja;			 
+											}
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_i","onChange"=>"javascript:cariCombo('targeteslii')");  	
+										echo $ctrlFrm->formSelect('c_eselon_i',$this->c_eselon_i,$eslAtrib,$eseloniList); 							
+									?>
+			</td>
+		</tr>
+		<tr>
+			<td>Eselon II</td>
+			<td>:</td> 
+			<td>				
+									<?
+										$jmleseloniiList=count($this->eseloniiList);
+										$eseloniiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiList; $i++) {
+												$eseloniiList[(string)$this->eseloniiList[$i]->c_eselon_ii." ".(string)$this->eseloniiList[$i]->n_unitkerja] = (string)$this->eseloniiList[$i]->n_unitkerja;
+											}
+										if ($ceseloncpns>=3){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_ii","onChange"=>"javascript:cariCombo('targetesliii')");}
+										else {$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_ii","onChange"=>"javascript:cariCombo('targetesliii')");}
+										echo $ctrlFrm->formSelect('c_eselon_ii',$this->c_eselon_ii,$eslAtrib,$eseloniiList); 							
+									?>
+			</td>
+			</tr>						
+		<tr>
+			<td>Eselon III</td>
+			<td>:</td> 
+			<td>					
+									<?
+										$jmleseloniiiList=count($this->eseloniiiList);
+										$eseloniiiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiiList; $i++) {
+												$eseloniiiList[(string)$this->eseloniiiList[$i]->c_eselon_iii." ".(string)$this->eseloniiiList[$i]->n_unitkerja] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+											}
+										
+										if ($ceseloncpns>=5){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii","onChange"=>"javascript:cariCombo('targetesliv')");  	}										
+										else{	$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii","onChange"=>"javascript:cariCombo('targetesliv')");}
+										
+										echo $ctrlFrm->formSelect('c_eselon_iii',$this->c_eselon_iii, $eslAtrib, $eseloniiiList); 							
+									?>
+			</td>
+		</tr>
+		<tr>
+			<td>Eselon IV</td>
+			<td>:</td> 
+			<td>				
+									<?
+										$jmleselonivList=count($this->eselonivList);
+										$eselonivList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonivList; $i++) {
+												$eselonivList[(string)$this->eselonivList[$i]->c_eselon_iv." ".(string)$this->eselonivList[$i]->n_unitkerja] = (string)$this->eselonivList[$i]->n_unitkerja;			 
+											}
+										if ($ceseloncpns>=7){
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iv","onChange"=>"javascript:cariCombo('targeteslv')"); 
+										}
+										else{
+										$eslAtrib = array("style"=>"width: 300px", "id"=>"c_eselon_iv","onChange"=>"javascript:cariCombo('targeteslv')"); 
+										}
+										
+										
+										echo $ctrlFrm->formSelect('c_eselon_iv',$this->c_eselon_iv,$eslAtrib,$eselonivList); 							
+									?>
+			</td>
+		</tr>
+		<tr>
+			<td>Eselon V</td>
+			<td>:</td> 
+			<td>				
+									<?
+										$jmleselonvList=count($this->eselonvList);
+										$eselonvList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonvList; $i++) {
+												$eselonvList[(string)$this->eselonvList[$i]->c_eselon_v." ".(string)$this->eselonvList[$i]->n_unitkerja] = (string)$this->eselonvList[$i]->n_unitkerja;			 
+											}
+										if ($ceseloncpns>=9){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_v");}										
+										else{$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_v");}
+										echo $ctrlFrm->formSelect('c_eselon_v',$this->c_eselon_v, $eslAtrib, $eselonvList); 							
+									?>
+			</td>
+		</tr>
+<?} else {?>
+			<table border="0" cellpadding="0" cellspacing="1" class="std" id="listcombo"  width="100%">
+
+							<tr>
+								<td width="25%">Lokasi</td>
+								<td width="2%">:</td> 
+								<td>					
+									<?
+										$jmlLokList=count($this->lokasiList);
+										$lokList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmlLokList; $i++) {
+												$lokList[(string)$this->lokasiList[$i]->c_lokasi] = (string)$this->lokasiList[$i]->n_lokasi;			 
+											}
+										$lokAtrib = array("style"=>"width: 320px","id"=>"c_lokasi_unitkerja","onChange"=>"javascript:cariCombo('targetesli')"); 
+										echo $ctrlFrm->formSelect('c_lokasi_unitkerja',$this->c_lokasi_unitkerja,$lokAtrib,$lokList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon I</td>
+								<td>:</td> 
+								<td>					
+									<?
+										$jmleseloniList=count($this->eseloniList);
+										
+										$eseloniList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniList; $i++) {
+												$eseloniList[trim((string)$this->eseloniList[$i][c_eselon_i].";".(string)$this->eseloniList[$i][n_unitkerja])] = (string)$this->eseloniList[$i][n_unitkerja];			 
+											}
+										$eslAtrib = array("style"=>"width: 320px","id"=>"c_eselon_i","onChange"=>"javascript:cariCombo('targeteslii')");  	
+										echo $ctrlFrm->formSelect('c_eselon_i',$this->c_eselon_i,$eslAtrib,$eseloniList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+		<td align="left">Pengadilan Tk Banding</td>
+		<td align="left">:</td> 
+		<td align="left">							
+			
+									<?
+										$jmleseloniiList=count($this->eseloniiList);
+										$eseloniiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiList; $i++) {
+												$eseloniiList[trim((string)$this->eseloniiList[$i]->c_eselon_ii.";".(string)$this->eseloniiList[$i]->c_parent.";".(string)$this->eseloniiList[$i]->n_unitkerja)] = (string)$this->eseloniiList[$i]->n_unitkerja;
+											}
+										if ($ceseloncpns>=3){$eslAtrib = array("style"=>"width: 320px","id"=>"c_eselon_ii","onChange"=>"javascript:cariCombo('targetesliii')");}
+										else {$eslAtrib = array("style"=>"width: 320px","id"=>"c_eselon_ii","onChange"=>"javascript:cariCombo('targetesliii')");}
+										echo $ctrlFrm->formSelect('c_eselon_ii',$this->c_eselon_ii,$eslAtrib,$eseloniiList); 							
+									?>
+								</td>
+							</tr>						
+							<tr>
+		<td align="left">Pengadilan Tingkat I</td>
+		<td align="left">:</td> 
+		<td align="left">								
+					
+									<?
+										$jmleseloniiiList=count($this->eseloniiiList);
+										$eseloniiiList[''] = '--Pilih--';
+										
+											for ($i = 0; $i < $jmleseloniiiList; $i++) {
+												$eseloniiiList[trim((string)$this->eseloniiiList[$i]->c_eselon_ii.";".(string)$this->eseloniiiList[$i]->c_eselon_iii.";".(string)$this->eseloniiiList[$i]->c_satker.";".(string)$this->eseloniiiList[$i]->n_unitkerja)] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+												
+											}										
+										if ($ceseloncpns>=5){$eslAtrib = array("style"=>"width: 320px","id"=>"c_eselon_iii","onChange"=>"javascript:cariCombo('targetesliv')");  	}										
+										else{$eslAtrib = array("style"=>"width: 320px","id"=>"c_eselon_iii","onChange"=>"javascript:cariCombo('targetesliv')");}										
+										echo $ctrlFrm->formSelect('c_eselon_iii',$this->c_eselon_iii, $eslAtrib, $eseloniiiList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+		<td align="left">Unit Kerja</td>
+		<td align="left">:</td> 
+		<td align="left">			
+									<?
+										$jmleselonivList=count($this->eselonivList);
+										$eselonivList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonivList; $i++) {
+												$eselonivList[trim((string)$this->eselonivList[$i]->c_eselon_iv.";".(string)$this->eselonivList[$i]->n_unitkerja)] = (string)$this->eselonivList[$i]->n_unitkerja;			 
+											}
+										$eslAtrib = array("style"=>"width: 320px", "id"=>"c_eselon_iv","onChange"=>"javascript:cariCombo('targeteslv')"); 
+										echo $ctrlFrm->formSelect('c_eselon_iv',$this->c_eselon_iv,$eslAtrib,$eselonivList); 
+									?>
+								</td>
+							</tr>						
+			
+<?}?>
+</table>
+</span>
+			</td>
+		</tr>	
+<tr>
+			<td>Output Keluaran</td>
+			<td>:</td> 
+			<td>
+			<select name="j_output" id="j_output" 
+			onChange="if (this[this.selectedIndex].value == 'M') {document.getElementById('id_matriks').style.display = 'inline'; document.getElementById('id_grafik').style.display = 'none';} else {document.getElementById('id_matriks').style.display = 'none';document.getElementById('id_grafik').style.display = 'inline';}">
+			<option value="G">Grafik</option>
+			<option value="M">Matriks</option>
+			</select></td>
+		</tr>
+		<tr>
+			<td colspan="3"><span id="id_matriks" style="display:none">
+			<table width="100%">
+			<tr><td><input type=radio  name=j_lap id=j_lap value=g ><a href=# class="link" onClick="document.formresult.j_lap[0].checked=true;">Menurut Pendidikan per Tingkat Golongan</a></td></tr>
+			<tr><td><input type=radio  name=j_lap id=j_lap value=j ><a href=# class="link" onClick="document.formresult.j_lap[1].checked=true;">Menurut Pendidikan per per jenis jabatan</a></td></tr>
+			<tr><td><input type=radio  name=j_lap id=j_lap value=u ><a href=# class="link" onClick="document.formresult.j_lap[2].checked=true;">Menurut Pendidikan per kelas umur</a></td></tr>
+			<tr>
+				<td align="center">
+				<input type="button" value="View" onclick="document.getElementById('tipe').value= '';document.formresult.submit();"> &nbsp;
+				<input type="button" value="Cetak Excel" onclick="document.getElementById('tipe').value= 'xls';document.formresult.submit();"> 
+				<input type="hidden" name="tipe" id="tipe" value="">
+			
+			</td>
+			</tr>
+	</table>
+	</div>
+<br>	
+	<div class="panel">
+			<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+							<tr>
+								<td align="center">
+								<span id="id_grafik">
+								<input type="button" value="Grafik Bar" onclick="viewStatPend('bar');"> &nbsp;
+								<input type="button" value="Grafik Pie" onclick="viewStatPend('pie');"> 
+								</span>
+								</td>
+							</tr>	
+							
+			</table>
+	</div>
+<!--	
+<br>	
+<div class="panel">	
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+				<tr>
+				<td colspan="2" align="left">
+					<h3 class="title"><b>Jenis Laporan</b><h3>
+				</td>
+				</tr>
+				<tr>
+					<td width="50%">
+						<table>
+							<tr>					
+								<td>
+									<input type="radio" name="profilfoto" id="profilfoto-1" value="1"> Menurut Golongan Per Tingkat Pendidikan
+								</td>
+							</tr>
+							<tr>					
+								<td>
+									<input type="radio" name="profilfoto" id="profilfoto-1" value="1"> Menurut Golongan Per Kelas Umur
+								</td>
+							</tr>
+							<tr>					
+								<td>
+									<input type="radio" name="profilfoto" id="profilfoto-1" value="1"> Menurut Golongan Per Kelompok Fungsional
+								</td>
+							</tr>
+					
+						</table>	
+					</td>
+					<td width="50%">
+						<table>
+							<tr>					
+								<td>
+									<input type="radio" name="profilfoto" id="profilfoto-1" value="1"> Menurut Golongan Per Jenis Jabatan
+								</td>
+							<tr>					
+								<td>
+									<input type="radio" name="profilfoto" id="profilfoto-1" value="1"> Menurut Golongan Per Lokasi Unit Kerja
+								</td>
+							</tr>
+							<tr>					
+								<td>
+									<input type="radio" name="profilfoto" id="profilfoto-1" value="1"> Menurut Golongan Per Kelompok Fungsional (detil)
+								</td>
+							</tr>
+					
+							</tr>
+						</table>	
+					</td>					
+				</tr>
+		</table>
+</div>
+<br>
+	<div class="panel">		
+			<table width="100%">	
+				<tr>
+				<td align="center">
+					<input type="button" value="View Laporan" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datacpns/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datacpns/pegawaijs');">
+				</td>
+				</tr>
+				<tr>				
+			</table>				
+	</div>
+-->	
+</div>
+	<div id="popupview"></div>
+</form>	

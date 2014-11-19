@@ -1,0 +1,21 @@
+<?php 
+require_once 'share/halaman_list.php'; 
+$halaman = new halaman_list(); 
+?>
+<div id="backgroundPopup">
+	<div id="popupContact">
+	<font face="Bookman Old Style, Book Antiqua, Garamond" size="2"><b>MONITORING PEJABAT</b></font>
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+			<tr class="event">
+				<td>
+					<div class="delete" title="Close" onclick="closeDetil()"></div>
+					<div class="view" title="Cetak Excel" onclick="viewExl()"></div>
+				</td>
+			</tr>
+		</table>
+		<?
+		echo $this->view;
+		?>	
+		
+	</div>
+</div>	

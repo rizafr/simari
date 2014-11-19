@@ -1,0 +1,48 @@
+<? require_once 'Zend/View.php';
+   
+   $ctrlFrm = new Zend_View();
+$jumorganisasiList = count($this->organisasiList); 
+	if ($jumorganisasiList == 0) {      
+		echo "<font color=\"red\">Data organisasi Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+		<tr>
+		    <th width="20%">Jenis Organisasi</th>
+			<th width="30%">Nama Organisasi</th>
+			<th width="10%">Thn Daftar</th>
+			<th width="20%">Jabatan</th>
+			<th width="20%">Tempat</th>
+		</tr>
+<?
+	if ($jumorganisasiList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->organisasiList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					?>
+			
+				<td>
+					<a href="#" onclick="detilorganisasi('<?=$nip?>','<?=trim($this->escape($val['n_organisasi']))?>')"><?php echo strtoupper($this->escape($val['n_jenis_organisasi']));?></a>
+				</td>
+				<td><?php echo $this->escape($val['n_organisasi']);?></td>
+				<td class="clcenter"><?php echo $this->escape($val['d_daftar_organisasi']);?></td>
+				<td><?php  echo $this->escape($val['n_peran_organisasi']);?></td>
+				<td><?php  echo $this->escape($val['n_tempat_organisasi']);?></td>				
+		  </tr>
+	<?php endforeach;?> 		  	  
+<?	}	?>
+	</table>									

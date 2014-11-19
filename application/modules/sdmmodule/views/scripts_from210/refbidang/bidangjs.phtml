@@ -1,0 +1,56 @@
+function openFormBidang(par,c_bidang,n_bidang){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refbidang/bidangolahdata";
+	var opt = {par:par, c_bidang:c_bidang, n_bidang:n_bidang};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formbidang").ajaxForm(maintain_bidang);
+		});		
+} 
+
+function insertBidang(){
+	jQuery("#formbidang").ajaxForm(maintain_bidang);
+}
+
+var maintain_bidang = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formbidang").ajaxForm(maintain_bidang);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refbidang/insertbidang',
+	type: 'post',
+	resetForm: false
+};
+
+function updateBidang(){
+	jQuery("#formbidang").ajaxForm(update_bidang);
+}
+
+var update_bidang = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formbidang").ajaxForm(maintain_bidang);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refbidang/updatebidang',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusBidang(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refbidang/deletebidang';
+		var opt = {c_bidang : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

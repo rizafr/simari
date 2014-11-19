@@ -1,0 +1,182 @@
+<? require_once 'Zend/View.php';
+require_once "share/ma_message.php";
+require_once 'share/halaman_list.php';
+
+$halaman = new halaman_list(); 
+$pesan = new ma_message();
+$ctrlFrm = new Zend_View();
+
+?>
+ <div class="navlink">
+	<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+	<strong> &#8250; </strong> SDM 
+	<strong> &#8250; </strong> Referensi
+	<strong> &#8250; </strong> Kode Jabatan CPNS
+</div>
+
+<h2 class="title">Kode Jabatan CPNS</h2>
+<a name="top"></a>
+<div class="blank"></div>
+<div class="search-panel">
+	<fieldset class="panel-form3">
+		<form method="post" name="frmCariJabatancpns" id="frmCariJabatancpns">
+			<dl>
+				<dt>
+				<?
+					$kategoriAttrib = array("onChange" => "aturDivCari()");
+					$isiKategoriCari = array(""	=> "Semua",
+											"y_tahun" => "Tahun",
+											"c_jabatan" => "Kode Jabatan",
+											"n_jabatan" => "Nama Jabatan",
+											"n_kualifikasi_pend" => "Kualifikasi Pendidikan",
+											"c_pend" => "Jenjang Pendidikan");
+					echo $ctrlFrm->formSelect('kategoriCari', $this->kategoriCari, $kategoriAttrib, $isiKategoriCari);
+				?>
+				</dt>
+				<dd class="dot2">:</dd> 
+				<dd class="col-right3">
+					<? if ($this->kategoriCari == 'y_tahun'){?>
+						<div id="tahun" style="display:block">
+					<? } else { ?>
+						<div id="tahun" style="display:none">
+					<? } ?>
+						<?php
+						$thn = date('Y');		
+						$thn2 = $thn + 5;
+						for($x=$thn; $x<=$thn2; $x++){
+							$thnArr[$x] = $x;
+						}
+						echo "nnn = ".$this->katakunciCari;
+						echo $ctrlFrm->formSelect('y_tahun', $this->katakunciCari, null, $thnArr);
+						?>
+						<input type="button" value="Cari" onClick="javascript:prosesCariJabatancpns();">
+					</div>
+					
+					<? if (($this->kategoriCari == 'c_jabatan') ||
+						   ($this->kategoriCari == 'n_jabatan') ||
+						   ($this->kategoriCari == 'n_kualifikasi_pend')){?>
+					
+						<div id="umum" style="display:block">
+					<? } else { ?>
+						<div id="umum" style="display:none">
+					<? }?>
+						<?php
+						$attrib = array("size" => 50);
+						echo $ctrlFrm->formText('katakunciCari', $this->katakunciCari, $attrib);
+						?>
+						<input type="button" value="Cari" onClick="javascript:prosesCariJabatancpns();">
+					</div>
+					
+					<? if ($this->kategoriCari == 'c_pend') { ?>
+						<div id="cPend" style="display:block">
+					<?php } else { ?>
+						<div id="cPend" style="display:none">
+					<?php }?>
+					
+						<?php
+						for($x=0; $x<count($this->jenjangPendidikan); $x++){
+							$cPend = $this->jenjangPendidikan[$x]->c_pend;
+							$nPend = $this->jenjangPendidikan[$x]->n_pend;
+							
+							$jenjangPendidikan[$cPend] = $nPend;
+						}
+						
+						echo $ctrlFrm->formSelect('jenjangPendidikan', $this->katakunciCari, null, $jenjangPendidikan); 
+						
+						?>
+						<input type="button" value="Cari" onClick="javascript:prosesCariJabatancpns();">
+					</div>
+					
+					<? if ($this->kategoriCari == '') { ?>
+						<div id="semua" style="display:block">
+					<?php } else { ?>
+						<div id="semua" style="display:none">
+					<?php }?>
+					
+						<input type="button" value="Cari" onClick="javascript:prosesCariJabatancpns();">
+					</div>
+				</dd> 
+			</dl>
+		</form>
+	</fieldset>
+</div>
+
+<br>
+
+<? 
+$status = $this->hasil;
+$proses = $this->proses;
+$keterangan = $this->keterangan;
+
+$pesan->show_message($proses, $keterangan, "$status" ); 
+?>
+<fieldset class="fields">
+	<div class="add" title="Tambah Data" onClick="javascript:refcpnsOlahdata();"></div>
+	<br><br>
+	<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+		<tr>
+			<th width="5%">No.</th>
+			<th width="10%">Kode Jabatan</th>
+			<th width="35%">Nama Jabatan</th>
+			<th width="40%">Kualifikasi Pendidikan</th>
+			<!--th width="10%">Golongan</th-->
+			<th width="10%">Keterangan</th>
+			<th width="10%">Tindakan</th>
+		</tr>
+		
+<?
+	if (count($this->dataJabatancpns) == 0) {
+	?>
+		<tr>
+			<td colspan="7">
+				<font color="red">
+					<?echo "Data Tidak Ditemukan";?>
+				</font>
+		</tr>
+<? } else { 
+		$noAwal = $this->numToDisplay*($this->currentPage -1)+1;
+		//var_dump($this->dataJabatancpns);
+		for($y=0; $y<count($this->dataJabatancpns); $y++){
+			$noUrut = $noAwal+$a;
+			$id 		= $this->dataJabatancpns[$y]->id;
+			$y_tahun 	= $this->dataJabatancpns[$y]->y_tahun;
+			$c_jabatan 	= $this->dataJabatancpns[$y]->c_jabatan;
+			$n_jabatan	= $this->dataJabatancpns[$y]->n_jabatan;
+			$n_kualifikasi_pend	= $this->dataJabatancpns[$y]->n_kualifikasi_pend;
+					
+			if($y_tahun != $thnLama){
+				?>
+				<tr>
+					<td colspan="7" bgcolor="00ced1"><b> Tahun : <?php echo $y_tahun; ?></b></td>
+				</tr>
+				<?php
+			}
+			if ($y%2==0) { ?>
+			  <tr class="event">
+			<? } else if ($y%2==1) { ?>
+			  <tr class="event2">
+			<? } ?>
+			
+				<td class="clleft">&nbsp;<?php echo $noUrut; ?></td>
+				<td class="clleft">&nbsp;<?php echo $c_jabatan; ?></td>
+				<td class="clleft">&nbsp;<?php echo $n_jabatan; ?></td>
+				<td class="clleft">&nbsp;<?php echo $n_kualifikasi_pend; ?></td>
+				<td class="clleft">&nbsp;</td>
+				<td align="center">
+					<div class="edit" title="Ubah Data" onClick="javascript:ubahjabatancpns('<? echo $id; ?>');"></div>	
+					<div class="delete" title="Hapus Data"  onClick="javascript:hapusjabatancpns('Kode Jabatan CPNS', '<? echo "$id"; ?>', '<? echo "$c_jabatan"; ?>', '<? echo "$n_jabatan"; ?>')"></div-->
+				</td>
+			</tr>
+					
+		<?php
+			$thnLama = $y_tahun;
+		}
+
+} ?>
+	</table>
+	<br>
+	<?
+	$modul = $this->basePath."/sdmmodule/referensicpns/jabatancpns?kategoriCari=".$this->kategoriCari."&katakunciCari=".$this->katakunciCari; 
+	echo $halaman->halamanList($this->totData, $this->numToDisplay, $this->currentPage, $modul)
+	?>
+</fieldset>

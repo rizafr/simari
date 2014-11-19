@@ -1,0 +1,128 @@
+function refcpnsOlahdata(){
+	var handler = '<?php echo $this->basePath; ?>/sdmmodule/referensicpns/referensicpnsolahdata';
+	var opt = {};
+	jQuery.get(handler,opt,function(data) {
+			$("#tableview").html(data);	
+		 });
+}
+
+function insertJabatancpns(){
+	jQuery("#frmrefcpnsinsert").ajaxForm(tambahJabatancpns_opt);
+}
+
+var tambahJabatancpns_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/sdmmodule/referensicpns/maintainjabatancpns',
+	beforeSubmit : function(){
+	},
+	success : function() {
+		doCount(5);
+	},
+	type: 'post', 
+	resetForm: false
+};
+
+function ubahjabatancpns(id){
+	var handler = '<?php echo $this->basePath; ?>/sdmmodule/referensicpns/referensicpnsolahdata';
+	var jenisForm = 'ubah';
+	var opt = {id:id, jenisForm:jenisForm};
+	jQuery.get(handler,opt,function(data) {
+			$("#tableview").html(data);	
+		 });
+}
+
+function updateJabatancpns(){
+	jQuery("#frmrefcpnsubah").ajaxForm(ubahJabatancpns_opt);
+}
+
+var ubahJabatancpns_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/sdmmodule/referensicpns/maintainjabatancpns',
+	beforeSubmit : function(){
+	},
+	success : function() {
+		doCount(5);
+	},
+	type: 'post', 
+	resetForm: false
+};
+
+function hapusjabatancpns(param1, param2, param3, param4)
+{ 
+	
+	if(ConfirmDelete(param1, param4))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/referensicpns/maintainjabatancpns';
+		var opt = {id : param2, cJabatan : param3 };
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	}
+} 
+
+function aturDivCari(){
+	var kategoriCari = document.getElementById('kategoriCari').value;
+	
+	if(kategoriCari == 'y_tahun'){
+		document.getElementById('tahun').style.display = 'block';
+		document.getElementById('umum').style.display = 'none';
+		document.getElementById('cPend').style.display = 'none';
+		document.getElementById('semua').style.display = 'none';
+		
+		document.getElementById('katakunciCari').value = '';
+		document.getElementById('jenjangPendidikan').value = '';
+		document.getElementById('y_tahun').value = '';
+	} else if ((kategoriCari == 'c_jabatan') ||
+			   (kategoriCari == 'n_jabatan') ||
+			   (kategoriCari == 'n_kualifikasi_pend')){
+		document.getElementById('tahun').style.display = 'none';
+		document.getElementById('umum').style.display = 'block';
+		document.getElementById('cPend').style.display = 'none';
+		document.getElementById('semua').style.display = 'none';
+		
+		document.getElementById('y_tahun').value = '';
+		document.getElementById('jenjangPendidikan').value = '';
+		document.getElementById('katakunciCari').value = '';
+	} else if (kategoriCari == 'c_pend'){
+		document.getElementById('tahun').style.display = 'none';
+		document.getElementById('umum').style.display = 'none';
+		document.getElementById('cPend').style.display = 'block';
+		document.getElementById('semua').style.display = 'none';
+		
+		document.getElementById('y_tahun').value = '';
+		document.getElementById('katakunciCari').value = '';
+		document.getElementById('jenjangPendidikan').value = '';
+		
+	} else {
+		document.getElementById('tahun').style.display = 'none';
+		document.getElementById('umum').style.display = 'none';
+		document.getElementById('cPend').style.display = 'none';
+		document.getElementById('semua').style.display = 'block';
+	}
+}
+
+function prosesCariJabatancpns(){
+	var handler 		= '<?php echo $this->basePath; ?>/sdmmodule/referensicpns/jabatancpns';
+	var kategoriCari 	= document.getElementById('kategoriCari').value;
+	var katakunciCari 	= document.getElementById('katakunciCari').value;
+	var y_tahun 		= document.getElementById('y_tahun').value;
+	var jenjangPendidikan = document.getElementById('jenjangPendidikan').value;
+	
+	if(kategoriCari == 'y_tahun'){
+		katakunciCari = y_tahun;
+	} else if (kategoriCari == 'c_pend'){
+		katakunciCari = jenjangPendidikan;
+	} else if ((kategoriCari == 'c_jabatan') ||
+			   (kategoriCari == 'n_jabatan') ||
+			   (kategoriCari == 'n_kualifikasi_pend')) {
+		katakunciCari = katakunciCari;
+	} else {
+		katakunciCari = '';
+	}
+	
+	var opt = {kategoriCari:kategoriCari, katakunciCari:katakunciCari};
+	jQuery.get(handler,opt,function(data) {
+			$("#tableview").html(data);	
+		 });
+}

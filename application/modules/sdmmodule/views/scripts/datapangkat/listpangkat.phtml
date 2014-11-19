@@ -1,0 +1,137 @@
+<? require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+$jumPangkatList = count($this->pangkatList);   
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+		   <div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+			<strong> &#8250; </strong>Riwayat Kepangkatan
+			</div>
+	        <a name="top"></a>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+	<h2 class="title">Riwayat Kepangkatan</h2>
+
+<?php $opr='rpkt';include "$this->leftMenu/linkriwayat.phtml";?>
+<div class="boxholder">	
+	<div class="panel">
+	<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+ <?if ($this->c_izin=='000002' || $this->c_izin=='000003'){ ?>	 
+	<?
+	if($this->maintainAllowed){
+	?>
+		<div class="add" title="Tambah Datax" onclick="PangkatM('insert','<?echo $this->nip;?>');"></div>
+	<? } ?>
+<?}	if ($jumPangkatList == 0) {
+		echo "<font color=\"red\">Data Riwayat Kepangkatan Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+		<tr>
+		    <th width="17%">Golongan/Pangkat</th>
+			<th width="7%">TMT</th>
+			<th width="9%">Masa Kerja Golongan</th>
+			<th width="12%">SK Pejabat</th>
+			<th width="15%">Nomor SK</th>
+			<th width="7%">Tanggal SK</th>
+			<th width="12%">Jenis Kenaikan</th>
+			<th width="8%">Keterangan</th>
+			<th width="4%" colspan="2">&nbsp;</th>
+		</tr>
+<?	if ($jumPangkatList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>			
+	</table>
+<? } else { ?>	
+	
+		<?php foreach ($this->pangkatList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					?>
+				<?php
+					$id = $this->escape($val['id']);
+					$gol = $this->escape($val['c_golongan']);
+					$ngol = $this->escape($val['n_golongan']);
+					$nmPangkat = $this->escape($val['n_pangkat']);
+					$golPangkat = $ngol." - ".$nmPangkat;				
+					$tmt = $this->escape($val['d_tmt_golongan']);
+					$thnTmt = substr($tmt,0,4);
+					$blnTmt = substr($tmt,5,2);
+					$hrTmt = substr($tmt,8,2);
+					$tglTmt = $hrTmt."-".$blnTmt."-".$thnTmt;
+					
+					if ($thnTmt == ''){$tglTmt = null;}
+					if ($blnTmt == '#'){$tglTmt = null;}
+					if ($hrTmt == '#'){$tglTmt = null;}					
+					$tglSK = $this->escape($val['d_sk_golongan']);
+					$thnSK = substr($tglSK,0,4);
+					$blnSK = substr($tglSK,5,2);
+					$hrSK = substr($tglSK,8,2);
+					$tglSK = $hrSK."-".$blnSK."-".$thnSK;
+					if ($thnSK == ''){$tglSK = null;}
+					if ($blnSK == '#'){$tglSK = null;}
+					if ($hrSK == '#'){$tglSK = null;}			
+					$golTmt = $gol." TMT: ".$tglTmt;
+					// $jenis = $this->escape($val['c_jenis_naik']);
+					// if ($jenis == 'KP') {
+						// $jenis = 'Kenaikan Golongan Pangkat';
+					// }
+					// else if ($jenis == 'KGB') {
+						// $jenis = 'Kenaikan Gaji Berkala';
+					// }
+					// else if ($jenis == 'PNS') {
+						// $jenis = 'Pengangkatan PNS';
+					// }
+					// else if ($jenis == 'CPNS') {
+						// $jenis = 'Pengangkatan CPNS';
+					// }
+					$kerjaThn =$this->escape($val['q_masakerja_tahun']);		
+					$kerjaBln =$this->escape($val['q_masakerja_bulan']);	
+					if ($kerjaThn == null) {$kerjaThn = 0;}
+					if ($kerjaBln == null) {$kerjaBln = 0;}
+					$masaKerja = $kerjaThn." thn ".$kerjaBln." bln ";
+				?>
+				<td><?php echo $golPangkat;?></td>
+				<td class="clcenter"> <?php echo $tglTmt;?></td>
+				<td class="clcenter"> <?php echo $masaKerja;?></td>
+				<td><?php echo $this->escape($val['i_sk_pejabat']);?></td>
+				<td><?php echo $this->escape($val['i_sk_golongan']);?></td>
+				<td class="clcenter"><?php echo $tglSK;?></td>
+				<td><?php echo $this->escape($val['n_jenis_naik']);?></td>
+				<td><?php echo $this->escape($val['e_keterangan']);?></td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data"  onClick="javascript:PangkatM2('update','<? echo $this->escape($val['id']); ?>')"></div>	
+				</td>
+<?if ($this->c_izin=='000002' || $this->c_izin=='000003'){ ?>					
+				<td class="clcenter">			
+					<div class="delete" title="Hapus Data"  onClick="javascript:HapusDataPangkat('<?=$nip?>','<? echo $this->escape($val['id']); ?>')"></div>
+				</td>	
+<?}?>				
+		  </tr>
+	<?php endforeach;?>
+	<? } ?>
+	</table>									
+	</div>		 
+	</form>
+	

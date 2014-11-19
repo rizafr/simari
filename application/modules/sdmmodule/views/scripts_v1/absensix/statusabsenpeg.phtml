@@ -1,0 +1,162 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php';
+   require_once 'share/oa_page.php';
+   
+   $ctrlFrm = new Zend_View();
+   $convDate = new oa_date();
+   $halaman = new oa_page();
+   $bulanDesc = array("01"=>"Januari",
+                      "02"=>"Februari",
+                      "03"=>"Maret",
+                      "04"=>"April",
+                      "05"=>"Mei",
+                      "06"=>"Juni",
+                      "07"=>"Juli",
+                      "08"=>"Agustus",
+                      "09"=>"September",
+                      "10"=>"Oktober",
+                      "11"=>"November",
+                      "12"=>"Desember");
+	$hari = array("Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu");
+	$serviceE = $this->serviceE;
+	//$idORG = $this->orgku;
+	$idORG = $this->org;
+	$tanggal = date('d');
+	$bulan = date('m');
+	$tahun = date('Y');
+	
+    $hr = date("w", mktime(0, 0, 0, $bulan, $tanggal, $tahun));
+    $jmlPegawaiList = count($this->pegawaiList);
+	echo "jmlPegawaiList= ".$jmlPegawaiList."<br>";
+    for ($j = 0; $j < $jmlPegawaiList; $j++) 
+	{
+     $pegawai[$j] = array("i_peg_nip"  =>(string)$this->pegawaiList[$j]['i_peg_nip'],
+	                 "n_peg"      =>(string)$this->pegawaiList[$j]['n_peg'],
+					 "i_orgb"    =>(string)$this->pegawaiList[$j]['i_orgb'], 
+					 "c_unit_kerja"  =>(string)$this->pegawaiList[$j]['c_unit_kerja'],
+					 "i_nip_baru"  =>(string)$this->pegawaiList[$j]['i_nip_baru']);
+						  
+    }
+    $jmlUnitKerjaList = count($this->unitKerjaList);
+	//echo "jumlah data org  ".$jmlUnitKerjaList."<br>";
+	for ($i=0; $i<$jmlUnitKerjaList; $i++)
+	{
+	   $orgList[(string)$this->unitKerjaList[$i]['i_orgb']] = (string)$this->unitKerjaList[$i]['n_orgb'];
+	}
+    $numToDisplay = $this->numToDisplay;
+	$currentPage = $this->currentPage;
+	$nip = $this->nip;
+	$nama = $this->nama;
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'absensi');
+   echo $this->render('absensijs.phtml'); 
+echo "
+<div class='contentdata-modul' id='modul'>
+	<div class='navlink'>
+		<a  href='".$this->basePath."/home/index/main'>Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Absensi
+		<strong> &#8250; </strong> Status Absensi Pegawai 
+	</div>
+	<h3 class='title'>Absensi Pegawai Hari ".$hari[$hr].", tanggal ".$tanggal." ".
+	$bulanDesc[$bulan]." ".$tahun."</h3>
+	<div class='spacer'></div>
+	<a name='top'></a>
+
+	<div class='search-panel'>
+		<fieldset class='panel-form4'>
+			<form id='fiStatusAbsensiPeg' name='fnStatusAbsensiPeg'>
+				<dl>
+					<dt>Unit Kerja</dt>
+					<dd class='dot2'>:</dd> 
+					<dd class='col-right3'>";
+						echo $ctrlFrm->formSelect('idORG', $idORG, null, $orgList);
+						echo $ctrlFrm->formHidden('c','A',null);
+						//echo $ctrlFrm->formHidden('c',$this->category,null);
+echo "
+					</dd> 
+				</dl>
+				<dl>
+					<dt class='col-right2'>Nip / Nama </dt>";
+					//$ctrlFrm->formSelect('sKatagori', $sKatagori, null, $kategoriList)."</dt>
+echo "
+					<dd class='dot2'>:</dd> 
+					<dd class='col-right4'>";
+	                    $nippegAtr = array ("style"=>"width:70px","maxlength"=>"10","readonly"=>"true");
+	                    $namapegAtr = array ("style"=>"width:300px","maxlength"=>"50","readonly"=>"true");
+						echo $ctrlFrm->formText('itNip', $nip, $nippegAtr);
+						echo $ctrlFrm->formText('itNama', $nama, $namapegAtr);
+						echo $ctrlFrm->formButton('ibiCariPeg', "..", $this->btnAttr);
+echo "
+					</dd> 
+				</dl>
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd class='dot2'>&nbsp;</dd> 
+					<dd class='col-right3'>
+				    <input type='button' id='iiCaristsPegAbs' class='isCaristsPegAbs' value='Cari'>
+					</dd> 
+				</dl>
+			</form>
+		</fieldset>
+	</div> 
+	
+	<div class='space-line'></div>
+	
+	<fieldset class='fields'>
+			<div class='title2'>Absensi Pegawai</div>
+		<div class='clright'>
+		<img src='".$this->basePath."/images/excel.gif' id='iiCetakXcl' class='link'>
+		<img src='".$this->basePath."/images/pdf.gif' id='iiCetakPdf' class='link'>
+		</div>";
+echo "
+		<div class='blank'></div>
+		<table align='center' width='90%' border='0' cellspacing='1' cellpadding='2' class='tbl'>
+			<tr>
+				<th width='4%'>No</th>			
+				<th width='7%'>Nip Lama</th>
+				<th width='13%'>Nip Baru</th>
+				<th width='66%'>Nama</th>
+				<th width='10%'>Status Absensi</th>
+			</tr>";
+			$noUrut = 0;
+			if ($jmlPegawaiList>0)
+			{
+			   foreach ($pegawai as $key => $val)
+               {			
+			      if ($key%2==0) { echo "<tr class='event'>"; } 
+			      else if ($key%2==1) { echo "<tr class='event2'>"; } 
+			      $noUrut = (($currentPage -1)* $numToDisplay) + $key +1;
+			      $statusMasuk = $this->serviceE->getAbsensiPegawai($val['i_peg_nip'],$tanggal.$bulan.$tahun,"01");
+			      $statusPulang = $this->serviceE->getAbsensiPegawai($val['i_peg_nip'],$tanggal.$bulan.$tahun,"04");
+			      if ($statusMasuk['i_term']!="") 
+			      { 
+			         if ($statusPulang['i_term']!="") 
+			         { $stsAbsen = "Tidak Ada"; }
+				     else { $stsAbsen = "Ada"; }
+			      } 
+			      else { $stsAbsen = "Tidak Ada"; }
+echo "
+				<td class='clright'>&nbsp;".$noUrut."</td>
+				<td class='clleft'>".$val['i_peg_nip']."</td>
+				<td class='clleft'>".$val['i_nip_baru']."</td>
+				<td class='clleft'>".$val['n_peg']."</td>
+				<td class='clcenter'>".$stsAbsen."</td>";
+echo "
+			</tr>";
+			   }
+			}
+echo "      </table>";
+$totalData = $this->totPegawai;			
+$modul = $this->basePath."/sdm/absensi/statusabsenpeg";
+$fungsi = 'searchabsview';
+if ($jmlPegawaiList>0)
+{
+   echo $halaman->showPage($totalData, $numToDisplay, $currentPage, $modul, $fungsi, $nip, $nama, $idORG,'');
+}
+echo "
+	</fieldset>
+    <div class='blank'></div>
+</div>";
+	
+?>	

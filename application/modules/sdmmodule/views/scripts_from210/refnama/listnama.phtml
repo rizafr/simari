@@ -1,0 +1,86 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/pesan.php';
+require_once 'share/halaman_list.php';
+
+   $ctrlFrm = new Zend_View();
+   $pesan = new pesan();
+   $halaman = new halaman_list();
+
+	  
+$jumnamaList = count($this->listNama);     
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong>Referensi II
+			</div>
+	        <a name="top"></a>
+<?
+$proses		= $this->proses;
+$keterangan	= $this->keterangan;
+$status		= $this->status;
+echo $pesan->show_message($proses, $keterangan, $status);
+?>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+	<h2 class="title">Referensi Nama Penjenjangan</h2>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+  
+<div class="add" title="Tambah Data" onclick="openFormNama('insert','','');"></div>
+<?	if ($jumnamaList == 0) {
+		echo "<font color=\"red\">Data Referensi Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center" width="50%">
+			<tr>
+		    <th width="10%">Kode jenjang</th>
+			<th width="70%">Nama jenjang</th>
+			<th width="10%">Kode Jenis</th>
+			<th colspan="2">&nbsp;</th>
+			</tr>		
+<?
+	if ($jumnamaList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->listNama as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					?>
+				
+				<td><?php  echo $this->escape($val['c_jenjang']);?></td>
+				<td><?php  echo $this->escape($val['n_jenjang']);?></td>
+				<td><?php  echo $this->escape($val['c_jenis']);?></td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data"  onclick="openFormNama('update','<?=trim($this->escape($val['c_jenjang']))?>');"></div>	
+				</td>
+				<td class="clcenter">			
+					<div class="delete" title="Hapus Data"  onClick="HapusNama('Nama Penjenjangan','<?=trim($this->escape($val['c_jenjang']))?>','<?=trim($this->escape($val['n_jenjang']))?>')"></div>
+				</td>	
+		  </tr>
+	<?php endforeach; ?> 		  	  
+<?	}	?>
+	</table>									
+	<?php
+	$totalData = $this->totalData;
+	$numToDisplay = $this->numToDisplay;
+	$currentPage = $this->currentPage;
+	$modul	= $this->basePath.'/sdmmodule/refnama/listnama';
+	echo $halaman->halamanList($totalData, $numToDisplay, $currentPage, $modul);
+
+	?>					
+									
+	</fieldset>		 
+	</form>

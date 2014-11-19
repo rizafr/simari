@@ -1,0 +1,204 @@
+function tambahTanggal1(d_cuti_mulai)
+{
+
+var i_surat_cuti = jQuery("#i_surat_cuti").val();
+var n_peg = jQuery("#n_peg").val();
+var i_peg_nip = jQuery("#i_peg_nip").val();
+var n_unitkerja = jQuery("#n_unitkerja").val();
+var i_sisa_cuti = jQuery("#i_sisa_cuti").val();
+var n_atasan = jQuery("#n_atasan").val();
+var i_peg_nip_atasan = jQuery("#i_peg_nip_atasan").val();
+var d_cuti_akhir = jQuery("#d_cuti_akhir").val();
+var c_jenis_cuti = jQuery("#c_jenis_cuti").val();
+var a_alamat_cuti = jQuery("#a_alamat_cuti").val();
+var a_cuti_propinsi = jQuery("#a_cuti_propinsi").val();
+var a_cuti_kota = jQuery("#a_cuti_kota").val();
+var a_cuti_rt = jQuery("#a_cuti_rt").val();
+var a_cuti_rw = jQuery("#a_cuti_rw").val();
+var a_cuti_kodepos = jQuery("#a_cuti_kodepos").val();
+var q_cuti_telponrumah = jQuery("#q_cuti_telponrumah").val();
+var q_cuti_telponhp = jQuery("#q_cuti_telponhp").val();
+var e_cuti_alasan = jQuery("#e_cuti_alasan").val();
+
+handler = '<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/pengajuancutiolahdata';
+var opt = {d_cuti_mulai:d_cuti_mulai,d_cuti_akhir:d_cuti_akhir};
+	jQuery.get(handler,opt,function(data){
+		$("#tableview").html(data);
+		jQuery("#i_surat_cuti").val(i_surat_cuti);
+		jQuery("#n_peg").val(n_peg);
+		jQuery("#i_peg_nip").val(i_peg_nip);
+		jQuery("#n_unitkerja").val(n_unitkerja);
+		jQuery("#i_sisa_cuti").val(i_sisa_cuti);
+		jQuery("#n_atasan").val(n_atasan);
+		jQuery("#i_peg_nip_atasan").val(i_peg_nip_atasan);
+		jQuery("#d_cuti_mulai").val(d_cuti_mulai);
+		jQuery("#d_cuti_akhir").val(d_cuti_akhir);
+		jQuery("#c_jenis_cuti").val(c_jenis_cuti);
+		jQuery("#a_alamat_cuti").val(a_alamat_cuti);
+		jQuery("#a_cuti_propinsi").val(a_cuti_propinsi);
+		jQuery("#a_cuti_kota").val(a_cuti_kota);
+		jQuery("#a_cuti_rt").val(a_cuti_rt);
+		jQuery("#a_cuti_rw").val(a_cuti_rw);
+		jQuery("#a_cuti_kodepos").val(a_cuti_kodepos);
+		jQuery("#q_cuti_telponrumah").val(q_cuti_telponrumah);
+		jQuery("#q_cuti_telponhp").val(q_cuti_telponhp);
+		jQuery("#e_cuti_alasan").val(e_cuti_alasan);
+	});
+
+}
+
+
+function cariPegawai(){
+var url='<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/listnamapejabat';
+var param={};
+
+jQuery.get(url,param,function(data){
+	jQuery("#popupview").html(data);
+	centerPopup();
+	loadPopup();
+	});
+}
+
+function cariPegawai2(){
+var url='<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/listnamapejabat';
+var param={};
+
+jQuery.get(url,param,function(data){
+	jQuery("#popupview").html(data);
+	centerPopup();
+	loadPopup();
+	});
+}
+
+function tambahTanggal2(d_cuti_akhir)
+{
+var i_surat_cuti = jQuery("#i_surat_cuti").val();
+var n_peg = jQuery("#n_peg").val();
+var i_peg_nip = jQuery("#i_peg_nip").val();
+var n_unitkerja = jQuery("#n_unitkerja").val();
+var i_sisa_cuti = jQuery("#i_sisa_cuti").val();
+var n_atasan = jQuery("#n_atasan").val();
+var i_peg_nip_atasan = jQuery("#i_peg_nip_atasan").val();
+var d_cuti_mulai = jQuery("#d_cuti_mulai").val();
+var c_jenis_cuti = jQuery("#c_jenis_cuti").val();
+var a_alamat_cuti = jQuery("#a_alamat_cuti").val();
+var a_cuti_propinsi = jQuery("#a_cuti_propinsi").val();
+var a_cuti_kota = jQuery("#a_cuti_kota").val();
+var a_cuti_rt = jQuery("#a_cuti_rt").val();
+var a_cuti_rw = jQuery("#a_cuti_rw").val();
+var a_cuti_kodepos = jQuery("#a_cuti_kodepos").val();
+var q_cuti_telponrumah = jQuery("#q_cuti_telponrumah").val();
+var q_cuti_telponhp = jQuery("#q_cuti_telponhp").val();
+var e_cuti_alasan = jQuery("#e_cuti_alasan").val();
+
+handler = '<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/pengajuancutiolahdata';
+var opt = {d_cuti_mulai:d_cuti_mulai,d_cuti_akhir:d_cuti_akhir};
+	jQuery.get(handler,opt,function(data){
+		$("#tableview").html(data);
+		jQuery("#i_surat_cuti").val(i_surat_cuti);
+		jQuery("#n_peg").val(n_peg);
+		jQuery("#i_peg_nip").val(i_peg_nip);
+		jQuery("#n_unitkerja").val(n_unitkerja);
+		jQuery("#i_sisa_cuti").val(i_sisa_cuti);
+		jQuery("#n_atasan").val(n_atasan);
+		jQuery("#i_peg_nip_atasan").val(i_peg_nip_atasan);
+		jQuery("#d_cuti_mulai").val(d_cuti_mulai);
+		jQuery("#d_cuti_akhir").val(d_cuti_akhir);
+		jQuery("#c_jenis_cuti").val(c_jenis_cuti);
+		jQuery("#a_alamat_cuti").val(a_alamat_cuti);
+		jQuery("#a_cuti_propinsi").val(a_cuti_propinsi);
+		jQuery("#a_cuti_kota").val(a_cuti_kota);
+		jQuery("#a_cuti_rt").val(a_cuti_rt);
+		jQuery("#a_cuti_rw").val(a_cuti_rw);
+		jQuery("#a_cuti_kodepos").val(a_cuti_kodepos);
+		jQuery("#q_cuti_telponrumah").val(q_cuti_telponrumah);
+		jQuery("#q_cuti_telponhp").val(q_cuti_telponhp);
+		jQuery("#e_cuti_alasan").val(e_cuti_alasan);
+	});
+
+}
+  
+
+/*function OpenFormulir1Olahdata(par,id,gol_ruang_gaji,jumlah){
+		
+		var thn_skr=jQuery(".thn_skr").html();
+		var thn_sblm=jQuery("#thn_sblm").html();
+		var tahun=jQuery("#tahun").val();
+		if(thn_skr == ""){
+		alert("Tampil Tahun Terlebih dahulu !");
+		return;
+		}
+		
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir1/formulir1olahdata';
+		
+		if(id==""){
+		par="Insert";
+		}else{
+		par="Update";
+		}
+		var opt = {par:par,id:id,gol_ruang_gaji:gol_ruang_gaji,jumlah:jumlah};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				jQuery("#gol_ruang_gaji").val(gol_ruang_gaji);
+				jQuery("#bezetting").val(jumlah);
+				jQuery(".thn_skr").html(thn_skr);
+				jQuery("#thn_sblm").html(thn_sblm);
+				jQuery("#thn_skrg2").val(thn_skr);
+				jQuery("#thn_sblm2").val(thn_sblm);
+				jQuery("#tahun").val(tahun);
+			 });
+
+}
+
+function OpenFormulir1(){
+		var thn_skr=jQuery(".thn_skr").html();
+		var thn_sblm=jQuery("#thn_sblm").html();
+		var tahun=jQuery("#tahun").val()
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir1/listformulir1';
+		
+		var opt = {tahun:tahun};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				jQuery("#tahun").val(tahun);
+				jQuery(".thn_skr").html(thn_skr);
+				jQuery("#thn_sblm").html(thn_sblm);
+			 });
+
+}
+*/
+function insertPengajuancuti(){
+		jQuery("#formpengajuancuti").ajaxForm(maintain_pengajuancuti);
+			
+}
+
+var maintain_pengajuancuti = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpengajuancuti").ajaxForm(maintain_pengajuancuti);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/insertpengajuancuti',
+	type: 'post',
+	resetForm: false
+};
+
+function updatePengajuancuti(){
+	jQuery("#formpengajuancuti").ajaxForm(update_pengajuancuti);
+}
+
+var update_pengajuancuti = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpengajuancuti").ajaxForm(update_pengajuancuti);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/updatepengajuancuti',
+	type: 'post',
+	resetForm: false
+};

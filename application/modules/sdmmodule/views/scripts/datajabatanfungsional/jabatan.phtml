@@ -1,0 +1,206 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+/* 		jQuery("#d_tmt_eselon").datepicker();
+		jQuery("#d_mulai_jabat").datepicker();
+		jQuery("#d_akhir_jabat").datepicker();
+		jQuery("#d_tmt_lantik").datepicker();
+		jQuery("#dd-mm-yyyy").datepicker(); */
+		$( "#d_tmt_eselon" ).datepicker({	changeMonth: true,changeYear: true});
+		$( "#d_mulai_jabat" ).datepicker({	changeMonth: true,changeYear: true});
+		$( "#d_akhir_jabat" ).datepicker({	changeMonth: true,changeYear: true});
+		$( "#d_tmt_lantik" ).datepicker({	changeMonth: true,changeYear: true});
+		$( "#dd-mm-yyyy" ).datepicker({	changeMonth: true,changeYear: true});
+		
+		
+		
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datariwayatpegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datariwayatpegawai/pegawaijs');">Data Riwayat</a>
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datajabatan/listjabatan','<?php echo $this->basePath; ?>/sdmmodule/datajabatan/jabatanjs');">Jabatan</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Jabatan Fungsional
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Jabatan Fungsional</h2>	
+<?php $opr='rfgs';include "$this->leftMenu/linkriwayat.phtml";?>
+<form id="formjabatan" method="post" name="formjabatan">		
+<div class="boxholder">					
+	<div class="panel">
+		<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<br>
+
+<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+
+<div class="panel">
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+	<tr>
+		<td>
+			<table width="100%">
+				<tr>
+					<td width="20%">Nama Jabatan</td>
+					<td width="2%">:</td> 
+					<td>					
+						<input type="hidden" name="c_jabatan" id="c_jabatan" value="<?=$this->c_jabatan?>">
+						<input type="text" name="n_jabatan" id="n_jabatan" value="<?=$this->n_jabatan?>" size="30">
+						<input type="hidden" name="d_tmt_lantik" id="d_tmt_lantik" value="<?=$this->d_tmt_lantik?>" size="30">
+						<input type="button" value="Cari" onClick="CariJabatan()">
+					</td>								
+				</tr>
+				
+				<tr>
+					<td>Status</td>
+					<td>:</td> 
+					<td>					
+					<?
+						
+						$ar_statfungsonal = array ("" => "--Pilih--",
+									"1" => "Pembebasan Sementara",
+									"2" => "Pengangkatan Kembali",
+									"3" => "Pengukuhan",
+									"4" => "Pemberhentian");
+						$arPar= array("onchange"=>"cariAlasan()");				
+						echo $ctrlFrm->formSelect('c_statusjabatan',$this->c_statusjabatan,$arPar,$ar_statfungsonal); 						
+						
+					?>
+					<input type="hidden" name="c_statusjabatan2" id="c_statusjabatan2" value="<?=$this->c_statusjabatan?>">
+					</td>
+				</tr>
+				<tr>
+					<td>Alasan</td>
+					<td>:</td> 
+					<td id="tgtalasan">					
+					<?
+						$jmlstatusJabatList=count($this->statusJabatList);
+						$statusJabatList[''] = '--Pilih--';
+						for ($i = 0; $i < $jmlstatusJabatList; $i++) {
+							$statusJabatList[(string)$this->statusJabatList[$i]->c_statusfung] = (string)$this->statusJabatList[$i]->n_statusfung;			 
+						}						
+						echo $ctrlFrm->formSelect('c_alasan',$this->c_alasan,null,$statusJabatList); 							
+					?>
+					<input type="hidden" name="c_alasan2" id="c_alasan2" value="<?=$this->c_alasan?>">	
+					</td>
+				</tr>
+				<tr>
+					<td>TMT. Jabatan</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_mulai_jabat" id="d_mulai_jabat" value="<?=$this->d_mulai_jabat?>" size="10"> s/d
+						<input type="text" name="d_akhir_jabat" id="d_akhir_jabat" value="<?=$this->d_akhir_jabat?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+						<input type="hidden" name="d_mulai_jabat2" id="d_mulai_jabat2" value="<?=$this->d_mulai_jabat?>">
+					</td>								
+				</tr>	
+				<tr>
+					<td>Jumlah Angka Kredit</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="q_angka_kredit" id="q_angka_kredit" value="<?=$this->q_angka_kredit?>" size="10" onkeyup="isNumber('q_angka_kredit')">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3"><h3 class="title"><b><u>SURAT KEPUTUSAN<u></b><h3></td>
+				</tr>
+				<tr>
+					<td>Nomor Surat Keputusan</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="i_sk_jabat" id="i_sk_jabat" value="<?=$this->i_sk_jabat?>" size="30">
+					</td>
+				</tr>
+				<tr>
+					<td>Tanggal Surat Keputusan</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_sk_jabat" id="d_sk_jabat" value="<?=$this->d_sk_jabat?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+					</td>
+				</tr>
+				<tr>
+					<td>Pejabat Penandatangan SK</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_sk_pejabat" id="n_sk_pejabat" value="<?=$this->n_sk_pejabat?>" size="50">
+					</td>
+				</tr>
+				<tr>
+					<td>File Surat Keputusan</td>
+					<td>:</td> 
+					<td>
+						<div class="fileinputs">
+							<input type="file" size=55 id="e_file_sk" name="e_file_sk"  value="<? echo $this->e_file_sk?>"onChange="setvalueuplfile(this.value,'efiledok','pdf')" />
+							<div class="fakefile">
+								<input type="text" size=54 name="a_file" id="a_file" value="<? echo $this->e_file_sk?>"/>
+							</div>
+						</div>
+						<input type="hidden" size=49 name="a_file2" id="a_file2"value="<? echo $e_file_sk?>"/>	
+
+					</td>
+				</tr>					
+				<tr>
+					<td>Lembaga</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_lembaga" id="n_lembaga" value="<?=$this->n_lembaga?>" size="80">
+					</td>
+				</tr>
+</table>
+	</table>
+	</div>
+	<br>
+	<div class="panel">
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">	
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td align="right">
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datajabatanfungsional/listjabatan','');"> 									
+									<input type="submit" value="<?=$this->par;?>" onClick="insertJabatan()">
+									<input type="hidden" id="proses" name="proses" value="<?=$this->par;?>">
+									<input type="hidden" id="id" name="id" value="<?=$this->id;?>">
+							</td>
+						</tr>
+					</table>
+
+
+
+</div>
+</form>
+</div>
+<div id="targetdetil"></div>
+<script>
+function CariJabatan(){
+var url = '<?php echo $this->basePath; ?>/sdmmodule/datajabatanfungsional/listnamajabatan';
+var param = {};
+jQuery.get(url,param,function(data) {
+jQuery("#targetdetil").html(data);
+centerPopup();
+loadPopup();});}
+
+function cariAlasan(){
+var c_kelompok= document.getElementById('c_statusjabatan').value;
+var url = '<?php echo $this->basePath; ?>/sdmmodule/datajabatanfungsional/listcombo';
+var param = {c_kelompok:c_kelompok};
+jQuery.get(url,param,function(data) {
+jQuery("#tgtalasan").html(data);
+
+});
+}
+
+</script>	
+

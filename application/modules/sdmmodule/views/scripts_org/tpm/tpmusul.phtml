@@ -1,0 +1,171 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+$ceseloncpns=$this->ceseloncpns*1;
+?>
+
+ 	<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#mod_date").datepicker();
+		
+	});
+	
+	</script>
+
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong><strong> &#8250; </strong> TPM &nbsp;
+				<strong> &#8250; </strong><?=$this->jdl;?> Usulan TPM
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+
+	
+<form id="formtpmusul" method="post" action="" name="formtpmusul"enctype="multipart/form-data" >
+<h2 class="title"><?=$this->jdl;?> Usulan TPM</h2>	
+<div class="panel">
+	<table>
+	<tr>
+		<td width="20%">Nomor Surat<span class="hightlight">*</span></td>
+		<td width="2%">:</td>
+		<td>
+			<input type="text" name="usulan_nomor" id="usulan_nomor" value="<?=$this->usulan_nomor?>" size="50">
+			<input type="hidden" name="usulan_id" id="usulan_id" value="<?=$this->usulan_id?>" size="50">
+		</td>
+	</tr>
+	<tr>
+		<td width="20%">Usulan</td>
+		<td width="2%">:</td>
+		<td>
+			<input type="text" name="usulan_keterangan" id="usulan_keterangan" value="<?=$this->usulan_keterangan?>" size="50">
+		</td>
+	</tr>	
+	<tr>
+		<td width="20%">Tanggal</td>
+		<td width="2%">:</td>
+		<td>
+			<input type="text" name="mod_date" id="mod_date" value="<?=$this->mod_date?>" size="10">&nbsp;<span class="hightlight">tgl-bln-thn</span>
+		</td>
+	</tr>
+	<tr>
+		<td width="20%">Istansi</td>
+		<td width="2%">:</td>
+		<td>
+			<input type="text" name="tvinstansi_kd" id="tvinstansi_kd" value="<?=$this->tvinstansi_kd?>" size="80">
+		</td>
+	</tr>
+	<tr>
+		<td width="20%">Periode</td>
+		<td width="2%">:</td>
+		<td>
+			<input type="text" name="periode_text" id="periode_text" value="<?=$this->periode_text?>" size="80">
+		</td>
+	</tr>		
+	<tr>
+		<td width="20%">Keterangan Periode</td>
+		<td width="2%">:</td>
+		<td>
+			<input type="text" name="periode_keterangan" id="periode_keterangan" value="<?=$this->periode_keterangan?>" size="80">
+		</td>
+	</tr>
+	</table>
+	
+	
+
+  
+</div>
+	<br>
+	<div class="panel">
+
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">	
+			<tr>
+				<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+				<td></td>
+				<td align="right">
+					<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/tpm/listusultpm','');"> 									
+					<input type="submit" value="<?=$this->par;?>" onClick="insertTpmUsul()">
+					<input type="hidden" id="proses" name="proses" value="<?=$this->par;?>">
+				</td>
+			</tr>
+		</table>
+
+	</div>
+<div id="popupview"></div>
+
+</form>
+
+<script>
+
+function hapusBarisx(r) {
+ 	document.getElementById("c_status_1").value="";
+	document.getElementById("c_jnskelamin_1").value="";
+	document.getElementById("n_pangkat_1").value=""; 
+	document.getElementById("c_golongan_1").value=""; 
+	document.getElementById("n_peg_1").value=""; 
+	document.getElementById("i_peg_nip_1").value=""; 	
+}
+function hapusBaris(induk,r) {
+	var i=r.parentNode.parentNode.rowIndex;
+	document.getElementById("tblIndikator_"+induk+"").deleteRow(i);
+	var counttbl=document.getElementById('counttable').value;
+	document.getElementById('counttable').value=counttbl*1-1;
+}
+function tambahBaris(par1){
+	var html="";
+	var countpar=par1*1+1;
+	var counttbl=document.getElementById('counttable').value;
+	var counttblx=counttbl*1+1;	
+if  (par1*1>=counttbl*1)
+{
+	html = html + '<table  align="center" border="0" cellspacing="1" cellpadding="2" class="tbl" id="tblIndikator_'+countpar+'">';
+	html = html + '<tr class="event" id="tr_'+countpar+'">';
+	html = html + '<td width="10%">';
+	html = html + '<input type="text" id="i_peg_nip_'+countpar+'" name="i_peg_nip_'+countpar+'" value="" size="30" >';
+	html = html + '</td>';
+	html = html + '<td width="70%">';
+	html = html + '<input type="text" id="n_peg_'+countpar+'" name="n_peg_'+countpar+'" value="" size = "110">';
+	html = html + '<input type="hidden" id="c_golongan_'+countpar+'" name="c_golongan_'+countpar+'" value="" size = "110">';
+	html = html + '<input type="hidden" id="n_pangkat_'+countpar+'" name="n_pangkat_'+countpar+'" value="" size = "110">';
+	html = html + '<input type="hidden" id="c_jnskelamin_'+countpar+'" name="c_jnskelamin_'+countpar+'" value="" size = "110">';
+	html = html + '</td>';					
+	html = html + '<td width="13%">';
+	html = html + '<select id="c_status_'+countpar+'"" name="c_status_'+countpar+'"">';
+	html = html + '<option label="--Pilih--" value="-">--Pilih--</option>';
+	html = html + '<option label="Diusulkan" value="1">Diusulkan</option>';
+	html = html + '<option label="Dipending" value="2">Dipending</option>';
+	html = html + '<option label="Disetujui" value="3">Disetujui</option>';
+	html = html + '</select>';
+	html = html + '</td>';
+	html = html + '<td width="7%">';
+	html = html + '<img src="/images/del.gif" title="Hapus Baris" class=link onclick=javascript:hapusBaris("'+countpar+'",this); >&nbsp;';
+	html = html + '<img src="/images/add_row.gif" title="Tambah Baris" class=link onclick=javascript:tambahBaris("'+countpar+'"); > ';
+	html = html + '</td>';
+	html = html + '</tr>';
+	html = html + '</table>';	
+	html = html + '<div id="tblind_'+countpar+'"></div>';
+	document.getElementById("tblind_"+par1+"").innerHTML = html;
+	document.getElementById('counttable').value=counttbl*1+1;	
+}
+	cariPegawai(par1);
+}
+
+function cariPegawai(nom){
+var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/listnamapejabatan';
+var param = {nom:nom};
+jQuery.get(url,param,function(data) {
+jQuery("#popupview").html(data);
+centerPopup();
+loadPopup();});
+}
+</script>	

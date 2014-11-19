@@ -1,0 +1,136 @@
+<SCRIPT src="<? echo $this->basePath;?>/js/jquery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="<? echo $this->basePath;?>/js/jquery.form.js" type="text/javascript"></SCRIPT>
+<script type="text/javascript">
+ var optCmdSubmit = {target : '#tableview'};
+ jQuery('#frmUsulnaik').ajaxForm(optCmdSubmit);
+ jQuery('#frmreguler').ajaxForm(optCmdSubmit);
+ jQuery('#frmSearch').ajaxForm(optCmdSubmit);
+ jQuery('#frmSetujukp').ajaxForm(optCmdSubmit);
+ jQuery('#frmrekapctk').ajaxForm(optCmdSubmit);
+ 
+ function simpanSetuju() {
+ //alert ('ya...');
+   jQuery('#perintah').bind('click',function () {
+                                       jQuery("#frmSetujukp").ajaxSubmit(optCmdSubmit); 
+									   return false;
+									 });
+ }
+ 
+ function kembaliIndex() {
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/pangkat/index';
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ }
+ 
+ function cariReguler() {
+ alert ('cariReguler...');
+   jQuery('#cari').bind('click',function () {
+                                       jQuery("#frmreguler").ajaxSubmit(optCmdSubmit); 
+									   return false;
+									 });
+ }
+ 
+ function cariRekapCtk() {
+// alert ('cariRekapCtk...');
+   jQuery('#perintah').bind('click',function () {
+                                       jQuery("#frmrekapctk").ajaxSubmit(optCmdSubmit); 
+									   return false;
+									 });
+ }
+ 
+ function cariRekapCtk2() {
+// alert ('cariRekapCtk...');
+   jQuery('#perintah2').bind('click',function () {
+                                       jQuery("#frmrekapctk").ajaxSubmit(optCmdSubmit); 
+									   return false;
+									 });
+ }
+  
+/*   function cetakRekap(idSetuju) {
+ //  var xparm = document.getElementById('idSetuju');
+   alert ("idSetuju = "+idSetuju);
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/pangkat/cetakrekap';
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ }   */ 
+ 
+ function SubmitInsert() {
+// alert ('test');
+   jQuery('#perintah').bind('click',function () {
+                                       jQuery("#frmUsulnaik").ajaxSubmit(optCmdSubmit); 
+									   return false;
+									 });
+ }
+ 
+ function cmdSubmitCari() {
+   var bulan = document.getElementById('xxxId');
+   var tahun = document.getElementById('thn');
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/pangkat/reg1?xxxId='+bulan+'&thn='+tahun;
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 jQuery.getScript('<?php echo $this->basePath; ?>/js/modul_perencanaan.js',function (data) {});
+	 // function () {}
+   });
+ } 
+ 
+/* function commandSubmit() {
+   jQuery('#perintah').bind('click',function () {
+                                       jQuery("#frmCVSearch").ajaxSubmit(optCmdSubmit); 
+									   return false;
+									 });
+ }  */
+ 
+ 
+ function commandSubmit() {
+   jQuery('#perintah').bind('click',function () {
+                                       jQuery("#frmSearch").ajaxSubmit(optCmdSubmit); 
+									   return false;
+									 });
+ } 
+ 
+ function prosesReguler() {
+   jQuery('#perintah').bind('click',function () {
+                                       jQuery("#frmreguler").ajaxSubmit(optCmdSubmit); 
+									   return false;
+									 });
+ }
+
+/* function kembaliSearch() {
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/pegawai/index';
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ }  
+
+ function kembaliCVView() {
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/cv/cvsearch';
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ }  */
+ 
+ function usul_kp(nip, tglUsul)
+{
+	//alert ("nip= "+nip+"tglUsul= "+tglUsul);
+	var url = '<?php echo $this->basePath; ?>/sdm/pangkat/setujukp?perintah=PROSES&nip='+nip+'&tglUsul='+tglUsul;;
+   jQuery.get(url, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+} 
+
+ function viewCV(nip) {
+	//alert ("Test"+nip);
+   var urlDepan = '<?php echo $this->basePath; ?>/sdm/pangkat/usulnaik?nip='+nip;
+   jQuery.get(urlDepan, function(data) {
+	 $("div#tableview").html(data);
+	 // function () {}
+   });
+ }  
+</script>

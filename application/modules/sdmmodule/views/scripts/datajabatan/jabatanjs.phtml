@@ -1,0 +1,126 @@
+
+function jabatanM(par,c_eselon,c_jabatan,d_mulai_jabat){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datajabatan/jabatan"	
+	var opt = {par:par,c_eselon:c_eselon,c_jabatan:c_jabatan,d_mulai_jabat:d_mulai_jabat};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#formjabatan").ajaxForm(maintain_jabatan);
+		});		
+} 
+function jabatanM2(par,id){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datajabatan/jabatan"	
+	var opt = {par:par,id:id};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#formjabatan").ajaxForm(maintain_jabatan);
+		});		
+}
+function d_check() {
+    var dl_sdt=document.getElementIdBy("d_mulai_jabat").value; //date one
+    var dl_endt=document.getElementIdBy("d_akhir_jabat").value; //date two
+
+    if((dl_sdt.substr(6,4)) > (dl_endt.substr(6,4))) {
+        alert("Tanggal Mulai lebih besar dari tanggal Selesai");
+        return false;
+    } else if((((dl_sdt.substr(0,2)) > (dl_endt.substr(0,2)))&&(frdt(dl_sdt.substr(3,2)) > (dl_endt.substr(3,2)))) || (((dl_sdt.substr(0,2)) > (dl_endt.substr(0,2))) && ((dl_sdt.substr(3,2)) < (dl_endt.substr(3,2)))) || (((dl_sdt.substr(0,2)) == (dl_endt.substr(0,2)))&&((dl_sdt.substr(3,2)) > (dl_endt.substr(3,2))))) {
+            alert("Tanggal Mulai lebih besar dari tanggal Selesai");
+        return false;
+    }
+
+    alert("second date is digher");
+    return true;
+}
+
+var maintain_jabatan = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formjabatan;
+		astr= "document.formjabatan";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/				
+				if((!c_eselon.value)){cekVal = sdmValidasiData(astr,"c_eselon","Eselon harus diisi....!");return false;break;}
+				if((!c_jabatan.value)){cekVal = sdmValidasiData(astr,"c_jabatan","Nama jabatan ke harus diisi....!");return false;break;}
+				if((!d_mulai_jabat.value)){cekVal = sdmValidasiData(astr,"d_mulai_jabat","Tanggal mulai menjabat ke harus diisi....!");return false;break;}	
+				if((!d_tmt_eselon.value)){cekVal = sdmValidasiData(astr,"d_tmt_eselon","TMT Eselon harus diisi....!");return false;break;}	
+				//if((!d_akhir_jabat.value)){cekVal = sdmValidasiData(astr,"d_akhir_jabat","Tanggal akhir menjabat ke harus diisi....!");return false;break;}	
+				
+				if (d_akhir_jabat.value && d_mulai_jabat.value){
+					cekVal = d_check();//compareDate(d_mulai_jabat.value,d_akhir_jabat.value);
+					if (cekVal == false) {return false;break;}						
+				}
+				break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjabatan").ajaxForm(maintain_jabatan);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datajabatan/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+function insertJabatan(){
+	jQuery("#formjabatan").ajaxForm(maintain_jabatan);
+}
+
+function HapusDatajabatan(nip,id)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/datajabatan/hapusdata"
+		var opt = {nip:nip,id:id};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}
+
+function Left(str, n){
+	if (n <= 0)
+	    return "";
+	else if (n > String(str).length)
+	    return str;
+	else
+	    return String(str).substring(3,n);
+}
+
+function Right(str, n){
+    if (n <= 0)
+       return "";
+    else if (n > String(str).length)
+       return str;
+    else {
+       var iLen = String(str).length;
+       return String(str).substring(iLen, iLen - n);
+    }
+}
+
+
+function setvalueuplfile(v,n,f) { 
+	  if (f!="") {
+	    var pass=false;
+	    var af=f.split("/");
+        var nval=eval("document.forms[0]."+n);
+		var ext=v.substring(v.lastIndexOf(".")+1,v.length);
+		ext=ext.toLowerCase();
+		if ((ext=='pdf')||(ext=='docx')||(ext=='doc')){ 
+		document.forms[0].a_file.value=v; 
+		}
+		else{
+		  alert ("Hanya untuk file berekstensi pdf,doc atau docx ");
+		  nval.value="";
+		  document.forms[0].a_file.value=""; 
+		  document.forms[0].e_file_sk.value=""; 		  
+		  return;	  
+		}
+	  }
+}

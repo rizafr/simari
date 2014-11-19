@@ -1,0 +1,212 @@
+<? 
+require_once 'Zend/View.php';
+require_once 'share/format_date.php';
+$format_date = new format_date();
+
+
+$mm= date('m');								
+$mm = $mm*1;		
+$namaBulanArr = array('1' =>'Januari', 'Pebuari', 'Maret', 'April',  'Mei', 'Juni',  'Juli', 'Agustus', 'September', 'Oktober', 'Nopember', 'Desember');
+$bln_srt = $namaBulanArr[$mm];		
+$curDate=date("d")."-".$bln_srt."-".date("Y");
+		
+$servernya = $_SERVER['SERVER_NAME'];								
+$pos = "http://".$servernya.$this->basePath."/images/logo.jpg";
+	   
+$html="";
+$html = $html.'
+<html><body>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td colspan="10"><div align="center"><font size = "3" >DAFTAR HADIR KULIAH '.strtoupper($this->Ajar_JenisMatkul).' </font></div></td>
+  </tr>
+  <tr>
+    <td colspan="10"><div align="center"><font size = "3" >PROGRAM STUDI '.strtoupper($this->n_prodi).'/ '.strtoupper($this->n_kelas).'</font></div></td>
+  </tr>
+  <tr>
+    <td colspan="10"><div align="center"><font size = "3" >SEMESTER  '.strtoupper($this->sem).' TA '.$this->tahun_ajaran.'</font></div></td>
+  </tr>
+  <tr>
+    <td colspan="10"><div align="center"><font size = "3" >MATAKULIAH : '.strtoupper($this->n_matakuliah).'  ('.strtoupper($this->v_jenis).') </font></div></td>
+  </tr>
+</table><BR>
+<table width="100%" border="1" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="3%" rowspan="2" ><font size = "3" ><div align="center">No </div></font></td>
+    <td width="12%"  rowspan="2"><font size = "3" ><div align="center">NPM</font></strong></td>
+    <td width="43%"  rowspan="2"><font size = "3" ><div align="center">Nama</font></div></td>
+    <td colspan="7"><font size = "3" ><div align="center">Tanggal Kuliah </font></div></td>
+  </tr>
+  <tr>
+    <td width="6%"><div align="center">&nbsp;</div></td>
+    <td width="6%"><div align="center">&nbsp;</div></td>
+    <td width="6%"><div align="center">&nbsp;</div></td>
+    <td width="6%"><div align="center">&nbsp;</div></td>
+    <td width="6%"><div align="center">&nbsp;</div></td>
+    <td width="6%"><div align="center">&nbsp;</div></td>
+    <td width="6%"><div align="center">&nbsp;</div></td>
+  </tr>';
+  if (count($this->LembarAbsenmahasiswa) == 0){ 
+				
+					$html = $html.'<tr ><td colspan="10"><font color="red">Data Tidak Ditemukan</font></td></tr>';
+				} else {
+						
+						foreach ($this->LembarAbsenmahasiswa as $key => $val): 
+						$id = $this->escape($val['id']); 
+						$c_perkuliahan = $this->escape($val['c_perkuliahan']); 
+						$n_kelas = $this->escape($val['n_kelas']); 
+						$n_matakuliah = $this->escape($val['n_matakuliah']);
+						$id_npm = $this->escape($val['id_npm']);
+						$n_mhs = $this->escape($val['n_mhs']);
+						$n_alasan = $this->escape($val['n_alasan']);
+						$noUrut = (($currentPage -1)* $numToDisplay) + $key +1;
+  $html = $html.'<tr  >
+    <td height = "1" align="center"><font size = "3" >'.$noUrut.'</font></td>
+    <td height = "1" align="center"><font size = "3" >'.$id_npm.'</font></td>
+    <td height = "1"><font size = "3" >'.$n_mhs.'</font></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>';
+  endforeach;
+				}
+  $html = $html.'<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3"><font size = "3" >PARAF KETUA KELAS </font></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3"><font size = "3" >PARAF DOSEN </font></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr></table>
+  <table width="100%" border="0">
+  <tr>
+    <td colspan="10"><div align="justify"><font size = "3" >Catatan : Kolom tanggal wajib diisi oleh Dosen. Mahasiswa yang tidak hadir karena sakit supaya melampiri surat keterangan sakit dari dokter. Mahasiswa yang tidak hadir tanpa ketarangan pada lajur/kolom ybs diberi tanda X. Mahasiswa yang tidak tercantum untuk sementsrs menuliskan NPM dan Nama, selanjutnya harus melakukan konfirmasi ke BAAK.</font></div></td>
+  </tr>
+</table>
+
+</body>
+</html>';  
+
+//EOD;
+//echo $html;
+
+
+ 	$formatToPdf = $html;
+
+	//$filename = 'd:\suratmemo.html';
+	$filename =$this->basePath/bak/cetakjdw.html;
+	$filepdf = 'cetakabsen.pdf';
+	
+	$ourFileHandle = fopen($filename, 'w+') or die("can't open file");
+	fclose($ourFileHandle);
+
+	$fh = fopen($filename, 'w+') or die("can't open file");
+	fwrite($fh, $formatToPdf);
+	fclose($fh);
+
+	//$options="--footer . --continuous --duplex --landscape --tocheader ht --left margin 0.5cm --right margin 0.5cm --size A5 top margin 0.5cm --bottom margin 0.5cm";
+	$options = "";
+
+	$options="-t pdf --webpage --size A4 --portrait --left 1.5cm --right 1.5cm --top 0.5cm --bottom 0.0cm";
+	//options="-t pdf --webpage --header ... --footer ..."
+	# Tell HTMLDOC not to run in CGI mode...
+     //  putenv("HTMLDOC_NOCGI=1");
+
+	# Write the content type to the client...
+	header("Content-Type: application/pdf");
+	header("Content-Disposition: attachment; filename=".$filepdf);
+	flush(); 
+	
+	# Run HTMLDOC to provide the PDF file to the user...
+	passthru("htmldoc -t pdf --quiet --jpeg --webpage $options $filename");  
+//$options="--footer --size A5 --portrait --left 1cm --right 1cm --top 1.5cm --bottom 1.5cm";
+?>
+
+<?
+function bulan ($par)
+{
+switch($par) {
+case "01":
+$bulan= "Januari";
+break;
+case "02":
+$bulan ="Pebruari";
+break;
+case "03":
+$bulan ="Maret";
+break;
+case "04":
+$bulan ="April";
+break;
+case "05":
+$bulan ="Mei";
+break;
+case "06":
+$bulan ="Juni";
+break;
+case "07":
+$bulan ="Juli";
+break;
+case "08":
+$bulan ="Agustus";
+break;
+case "09":
+$bulan ="September";
+break;
+case "10":
+$bulan ="Oktober";
+break;
+case "11":
+$bulan ="Nopember";
+break;
+case "12":
+$bulan ="Desember";
+break;
+
+}
+return $bulan;
+
+}
+
+
+?>

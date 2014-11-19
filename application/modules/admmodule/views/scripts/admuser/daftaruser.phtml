@@ -1,0 +1,262 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/ma_date.php";  
+require_once "share/ma_message.php";
+require_once "share/ldap.lib.php";
+require_once 'share/halaman_list.php';
+
+
+$halaman = new halaman_list(); 
+$tanggal = new ma_date();
+$pesan = new ma_message();
+$ctrlFrm = new Zend_View();
+$ldap_service = new ldap_services();
+$numToDisplay	= $this->numToDisplay;
+$currentPage	= $this->currentPage;
+if ($pesancek=='gagal'){$confirm ='confirmfail';}
+else {$confirm ='confirm';}
+
+?>
+		   
+<div class="navlink">
+	<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+	<strong> &#8250; </strong> Manajemen Aplikasi 
+	<strong> &#8250; </strong><?=$this->jdl;?> Administrasi User
+</div>
+<div id="top"></div>
+	
+<h2 class="title"><?=$this->jdl;?>Daftar User Login</h2>
+
+<div class="search-panel">
+	<fieldset class="panel-form3">
+		<form method="post" name="frmCariUser" id="frmCariUser">
+			<dl>
+				<dt>
+				<?
+				
+					$isiKategoriCari = array("userid" => "User Id",
+											"i_peg_nip" => "NIP",
+											"n_peg" => "Nama",
+											"n_group" => "Nama Group");
+					echo $ctrlFrm->formSelect('kategoriCari', $this->kategoriCari, null, $isiKategoriCari);
+				?>
+				</dt>
+				<dd class="dot2">:</dd> 
+				<dd class="col-right3">
+					<?php 
+						$kataKunciAtrib = array("size"=>"31",
+						"maxlength"=>"30",
+						"class"=>""
+						);
+						echo $ctrlFrm->formText('kataKunciCari', $this->kataKunciCari, $kataKunciAtrib);
+					?>
+				</dd> 
+			</dl>
+			<div class="center">
+				<? 
+				$buttonAtrib = array("onClick"=>"javascript:prosesCariUser();");
+				echo $ctrlFrm->formSubmit('cari', 'Cari', $buttonAtrib); 
+				?>
+			</div>
+		</form>
+	</fieldset>
+</div>
+
+<br>
+<? 
+$status = $this->hasil;
+$proses = $this->proses;
+$keterangan = $this->keterangan;
+
+$pesan->show_message($proses, $keterangan, "$status" ); 
+?>
+<br>
+	<div class="add" title="Tambah Data" onClick="javascript:displayAdminuserOlahdata();"></div>
+	<table width="100%" class="std" cellspacing="2" cellpadding="1">
+		<tbody>
+			
+			<table border="0" cellspacing="1" cellpadding="2" class="tbl">
+			<tr>
+				<th width="5%">No.</th>
+				<!--th>Status</th-->
+				<th width="15%">Userid</th>
+				<th width="15%">NIP</th>
+				<th width="25%">Nama</th>
+				<th width="30%">Unitkerja</th>				
+				<!--th width="30%">Group</th-->				
+				<th width="10%">Tindakan</th>
+			</tr>
+			<?php
+			if(count($this->dataPegawai)){
+				
+				
+				$noAwal = $numToDisplay*($currentPage -1)+1;
+				//loop untuk menyimpan data group per user
+				
+				foreach ($this->dataPegawai as $key => $val): 
+					//$noUrut = $noAwal+$a;
+					$iPegNip 		= $this->escape($val['i_peg_nip']);
+					$iPegNipNew		= $this->escape($val['i_peg_nip_new']);
+					$nPeg 			= $this->escape($val['n_peg']);
+					$userid			= $this->escape($val['userid']);
+					$nUnitkerja 	= $this->escape($val['n_unitkerja']);
+					$i_group 		= $this->escape($val['i_group']);
+					$n_group 		= $this->escape($val['n_group']);
+					//echo "<br>xx = $userid";
+					if($userid){
+						//check apakah userid sudah terdaftar di ldap server
+						//------------------------------------------------------------------
+						//echo "zzz = $userid";
+						/*
+						$userldap = $ldap_service->searchUser($userid);
+						//var_dump($userldap); 
+						if(count($userldap)){
+							for($x=0; $x<count($userldap); $x++){
+								$useridLDAP = $userldap[$x];
+								//echo "<br>yy = $useridLDAP";
+							}
+						}
+						
+						if($userid == $useridLDAP){
+							$userid = $useridLDAP;
+						} else {
+							$userid = "-";
+						}
+*/
+						//==============================================
+					} else {
+						$userid = "-";
+					}
+					if($userid != $useridLama) {
+						$b = 0;
+						$groupUser[$userid][$b] = $n_group;
+						
+					} else {
+						$b++;
+						$groupUser[$userid][$b] = $n_group;
+						
+					}
+					//echo "$userid / $n_group / $b<br>";
+					 
+					$useridLama = $userid;
+					
+					//$a++;
+				endforeach;
+				// end of loop untuk menyimpan data group per user
+				
+				$useridLama='';
+				foreach ($this->dataPegawai as $key => $val): 
+					//$noUrut = $noAwal+$a;
+					$iPegNip 		= $this->escape($val['i_peg_nip']);
+					$iPegNipNew		= $this->escape($val['i_peg_nip_new']);
+					$nPeg 			= $this->escape($val['n_peg']);
+					$nPegGelardepan = $this->escape($val['n_peg_gelardepan']);
+					$nPegGelarblkg 	= $this->escape($val['n_peg_gelarblkg']);
+					if ($nPegGelardepan){
+						if($nPegGelarblkg){
+							$nPegLengkap	= $nPegGelardepan.'. '.$nPeg.', '.$nPegGelarblkg;
+						} else {
+							$nPegLengkap	= $nPegGelardepan.'. '.$nPeg;
+						}
+					} else {
+						if($nPegGelarblkg){
+							$nPegLengkap	= $nPeg.', '.$nPegGelarblkg;
+						} else {
+							$nPegLengkap	= $nPeg;
+						}
+					}
+					
+					$userid			= $this->escape($val['userid']);
+					$nUnitkerja 	= $this->escape($val['n_unitkerja']);
+					$i_group 		= $this->escape($val['i_group']);
+					$n_group 		= $this->escape($val['n_group']);
+					//echo "<br>xx = $userid";
+					if($userid){
+						//check apakah userid sudah terdaftar di ldap server
+						//------------------------------------------------------------------
+						//echo "zzz = $userid";
+						/*
+						$userldap = $ldap_service->searchUser($userid);
+						//var_dump($userldap); 
+						if(count($userldap)){
+							for($x=0; $x<count($userldap); $x++){
+								$useridLDAP = $userldap[$x];
+								//echo "<br>yy = $useridLDAP";
+							}
+						}
+						
+						if($userid == $useridLDAP){
+							$userid = $useridLDAP;
+						} else {
+							$userid = "-";
+						}
+*/
+						//==============================================
+					} else {
+						$userid = "-";
+					}
+					
+					if($userid != $useridLama) {
+						$noUrut = $noAwal+$a;
+						if ($key%2==0) { ?>
+						  <tr class="event">
+						<? } else if ($key%2==1) { ?>
+						  <tr class="event2">
+						<? } ?>
+							<td class="clleft">&nbsp;<?php echo $noUrut; ?></td>
+							<td class="clleft">&nbsp;<?php echo $userid; ?></td>
+							<td class="clleft">&nbsp;<?php echo $iPegNipNew; ?></td>
+							<td class="clleft">&nbsp;<?php echo $nPegLengkap; ?></td>
+							<td class="clleft">&nbsp;<?php echo $nUnitkerja; ?></td>
+							<!--td class="clleft">
+								<?php
+								/* for($x=0; $x< count($groupUser[$userid]); $x++){
+									if($x == 0){
+										$namaGroup = trim($groupUser[$userid][$x]);
+									} else {
+										$namaGroup = $namaGroup.", <br>".trim($groupUser[$userid][$x]);
+									}
+								} 
+								echo $namaGroup; */
+								?>
+							</td-->
+							<td align="center">
+								<?php
+								if($userid){
+								?>
+									<div class="edit" title="Ubah Data" onClick="javascript:ubahuser('<? echo $userid; ?>','<? echo $iPegNip; ?>');"></div>	
+									<div class="chgpasswd" title="Reset Kata Kunci" onClick="javascript:resetpasswd('<? echo $userid; ?>','<? echo $iPegNip; ?>');" ></div>
+									<div class="delete" title="Hapus Data"  onClick="javascript:hapususer('User', '<? echo "$userid"; ?>','<? echo "$nPegLengkap"; ?>','<? echo $iPegNip; ?>','<?php echo $this->currentPage; ?>')"></div>
+								<?php
+								} else {
+								?>
+									&nbsp;
+								<?
+								}
+								?>
+							</td>
+						</tr>
+					<?
+						$a++;
+					}
+					?>
+				<?php
+					$useridLama = $userid;
+					
+					
+				endforeach;
+			} else {
+				?>
+				<tr class="event">
+					<td colspan="6"><font color="red">Data Tidak Ditemukan</font></td>
+				</tr>
+				<?
+			}
+			?>
+		</tbody>
+	</table>
+	
+	<?
+	$modul = $this->basePath."/admmodule/admuser/daftaruser?kategoriCari=".$this->kategoriCari."&nKatakunci=".$this->nKatakunci."&kdKatakunci=".$this->kdKatakunci; 
+	echo $halaman->halamanList($this->totalData, $this->numToDisplay, $this->currentPage, $modul)
+	?>	

@@ -1,0 +1,56 @@
+function openFormPend(par,c_pend,n_pend,c_pend_jenis){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refpend/pendolahdata";
+	var opt = {par:par, c_pend:c_pend, n_pend:n_pend,c_pend_jenis:c_pend_jenis};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formpend").ajaxForm(maintain_pend);
+		});		
+} 
+
+function insertPend(){
+	jQuery("#formpend").ajaxForm(maintain_pend);
+}
+
+var maintain_pend = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpend").ajaxForm(maintain_pend);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refpend/insertpend',
+	type: 'post',
+	resetForm: false
+};
+
+function updatePend(){
+	jQuery("#formpend").ajaxForm(update_pend);
+}
+
+var update_pend = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpend").ajaxForm(maintain_pend);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refpend/updatepend',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusPend(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refpend/deletepend';
+		var opt = {c_pend : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

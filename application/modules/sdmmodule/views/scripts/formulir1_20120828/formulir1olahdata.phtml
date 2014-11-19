@@ -1,0 +1,118 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+	
+	//var_dump($this->detailAgama);
+?>
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong>Formasi Kepegawaian<!--a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a-->
+				<strong> &#8250; </strong><?//=$this->jdl;?> Formulir 1
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Formulir 1</h2>	
+		
+<form id="formformulir1" method="post" name="formformulir1">	
+		<div align="center">PENYUSUNAN BEZETTING TAHUN <span class="thn_skr"></span></div>
+	<div class="panel">
+		<div class="spacer"></div> 
+			
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td width="40%">GOL. RUANG GAJI</span>
+					</td><input type="hidden" name="id" id="id" value="<? echo $this->id ?>">
+					<td width="1%">:</td> 
+					<td width="59%">	
+						<input type="text" name="gol_ruang_gaji" id="gol_ruang_gaji" value="<?//=$this->detailFormulir1['c_agama'];?>" size="25" readonly>
+					</td>
+				</tr><tr>
+					<td>BEZETTING 31-12-<span id="thn_sblm"></span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="bezetting" id="bezetting" value="<?//=$this->detailFormulir1['bezetting'];?>" size="25" readonly>
+						<input type="hidden" name="thn_skrg" id="thn_skrg2">
+						<input type="hidden" name="thn_sblm" id="thn_sblm2">
+						<input type="hidden" name="tahun" id="tahun">
+					</td>
+				</tr><tr>
+					<td>KENAIKAN PANGKT THN ANG <span class="thn_skr"></span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="knaikn_pngkt" id="knaikn_pngkt" value="<?=$this->detailFormulir1['knaikn_pngkt'];?>" size="25" >
+					</td>
+				</tr><tr>
+					<td>KEADAAN SETELAH KENAIKAN PANGKAT THN.ANG. <span class="thn_skr"></span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="stlh_naik_pgkt" id="stlh_naik_pgkt" value="<?=$this->detailFormulir1['stlh_naik_pgkt'];?>" size="25" >
+					</td>
+				</tr><tr>
+					<td>PENGANGKATAN PEGAWAI BARU TA. <span class="thn_skr"></span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="pengangkt_pgwai_br" id="pengangkt_pgwai_br" value="<?=$this->detailFormulir1['pengangkt_pgwai_br'];?>" size="25" >
+					</td>
+				</tr><tr>
+					<td>PERBANTUAN, PENARIKAN KEMBALI, PENGALIHAN JENIS KEPEG, PINDAH INST. DARI INST. LAIN TA <span class="thn_skr"></span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="pndah_dr_instasi_lain" id="pndah_dr_instasi_lain" value="<?=$this->detailFormulir1['pndah_dr_instasi_lain'];?>" size="25" >
+					</td>
+				</tr><tr><td colspan="3">&nbsp;</td></tr><tr>
+					<td>PERBANTUAN, PENARIKAN KEMBALI, PINDAH INST. KE INST. LAIN TA <span class="thn_skr"></span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="pndah_ke_instasi_lain" id="pndah_ke_instasi_lain" value="<?=$this->detailFormulir1['pndah_ke_instasi_lain'];?>" size="25" >
+					</td>
+				</tr><tr><td colspan="3">&nbsp;</td></tr><tr>
+					<td>PNS YANG BERHENTI TA. <span class="thn_skr"></span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="pns_yg_brhnti" id="pns_yg_brhnti" value="<?=$this->detailFormulir1['pns_yg_brhnti'];?>" size="25" >
+					</td>
+				</tr><tr>
+					<td>&nbsp;
+					</td>
+					<td>&nbsp;</td> 
+					<td>					
+						<input type="hidden" name="bezetting_lajur" id="bezetting_lajur" value="<?=$this->detailFormulir1['bezetting_lajur'];?>" size="25" >
+					</td>
+				</tr><tr>
+					<td>KET.</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="ket" id="ket" value="<?=$this->detailFormulir1['ket'];?>" size="25" >
+					</td>
+				</tr>
+				<tr>
+					<td align="left"></td>
+					<td></td>
+					<td>
+						<div class="center">
+							<input type="button" value="Batal" onclick="OpenFormulir1();"> 
+							<?if ($this->par == 'Insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertFormulir1()">
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updateFormulir1()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>

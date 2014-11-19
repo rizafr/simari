@@ -1,0 +1,187 @@
+<? 
+	require_once 'Zend/View.php';
+	require_once 'share/oa_date.php';
+	require_once 'share/oa_page.php';
+	require_once 'share/oa_message.php';
+	
+	$message = new oa_message();
+	$ctrlFrm = new Zend_View();
+	$halaman = new oa_page();
+	$convDate = new oa_date();
+	$ctrlDate = new oa_date();
+
+	$numToDisplay = $this->numToDisplay;
+	$currentPage  = $this->currentPage;
+
+	switch ($this->iSearch) {
+	case '0':
+	   $prolog= "Daftar Pegawai Dalam Proses Usulan Untuk Mendapat Kenaikan Pangkat ";
+		break;
+	case '2':
+	   $prolog= "Daftar Pegawai Yang Disetujui Untuk Mendapat Kenaikan Pangkat";
+		break;
+	case '3':
+	   $prolog= "Daftar Pegawai Yang Tidak Disetujui Untuk Diusulkan Mendapat Kenaikan Pangkat";
+		break;
+	default:
+	   $prolog= "Daftar Pegawai Dalam Proses Usulan Mendapat Kenaikan Pangkat";
+	}
+
+	$title="";
+	$isTgl1 = $this->isTgl1;
+	$isTgl2 = $this->isTgl2;
+	$tgl1 = $this->tglA;
+	$tgl2 = $this->tglB;
+	
+	if ($isTgl1=="true" && $isTgl2=="true") {
+		$title="Berdasarkan Periode Usulan dari tgl ".$convDate->formatTglLengkap($tgl1)." hingga ".$convDate->formatTglLengkap($tgl2);		
+	}else{
+		if ($isTgl1=="true") $title="Berdasarkan Periode Usulan dari tgl ".$convDate->formatTglLengkap($tgl1);
+		if ($isTgl2=="true") $title="Berdasarkan Periode Usulan hingga tgl ".$convDate->formatTglLengkap($tgl2);
+		}
+
+	$jumLstDataAju = count($this->setujuKgbList);
+	for ($j = 0; $j < $jumLstDataAju ; $j++) {
+		$dataAju[$j] = array("no"=>$j+1,
+			"nip"  		=>(string)$this->setujuKgbList[$j]['i_peg_nip'],
+			"nama"		=>(string)$this->setujuKgbList[$j]['n_peg'],
+			"gol"      	=>(string)$this->setujuKgbList[$j]['gol'],
+			"status"   	=>(string)$this->setujuKgbList[$j]['status'],
+			"jnsNaik"	=>(string)$this->setujuKgbList[$j]['jnsNaik'],
+			"tglUsul"   =>(string)$this->setujuKgbList[$j]['tglUsul'],
+			"pangkat"  	=>(string)$this->setujuKgbList[$j]['pangkat'],
+			"tmtMasuk"  =>(string)$this->setujuKgbList[$j]['tmtMasuk'],
+			"mkThn"  	=>(string)$this->setujuKgbList[$j]['mkThn'],
+			"mkBln"  	=>(string)$this->setujuKgbList[$j]['mkBln'],
+			"tmtKGB"  	=>(string)$this->setujuKgbList[$j]['tmtKGB']
+			);	
+	}
+
+	$today = $convDate->formatTglLengkap(date('Y-m-d'));
+
+
+ $html='
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+<style type="text/css">
+</style></head>
+<body>
+';
+
+$html = $html."		  <div class=\"blank\"></div>";
+$html = $html."		  <fieldset class=\"fields\">";
+$html = $html."			<div align=\"center\"><h3>KEMENTERIAN NEGARA BADAN USAHA MILIK NEGARA</h3></div>";
+$html = $html."			<div> </div>";
+$html = $html."			<div align=\"center\"><h3>$prolog</h3></div>";
+$html = $html."			<div align=\"center\"><h3>$title</h3></div>";
+$html = $html."			<br> ";
+$html = $html."			   <table align=\"center\" width=\"80%\" border=\"0\" cellspacing=\"2\" cellpadding=\"2\">";
+$html = $html."					<tr>";
+$html = $html."						<td align=\"right\">"; 
+$html = $html."			                           <table width=\"200\" border=\"0\" cellspacing=\"2\" cellpadding=\"2\">";
+$html = $html."					             	<tr>";
+$html = $html."						        	<td align=\"left\" width=60>Tanggal </td>"; 
+$html = $html."						        	<td align=\"left\" width=100>: ". $today."</td>"; 
+$html = $html."							</tr>";
+$html = $html."					             	<tr>";
+$html = $html."						        	<td align=\"left\" width=60>Halaman</td>"; 
+$html = $html."						        	<td align=\"left\" width=100>: $currentPage</td>"; 
+$html = $html."							</tr>";
+$html = $html."						  </table>";
+$html = $html."					</tr>";
+$html = $html."					</table>";
+$html = $html."				<table align=\"center\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\" class=\"tbl\">";
+
+$html = $html."		<table class=\"tbl\" cellspacing=\"1\" cellpadding=\"2\" border=\"1\" width=\"80%\" align=\"center\">";
+$html = $html."			<tr align=\"center\">";
+$html = $html."				<th>No.</th>";
+$html = $html."				<th>NIP</th>";
+$html = $html."				<th>NAMA</th>";
+$html = $html."				<th>Golongan <br>Pangkat</th>";
+$html = $html."				<th>Status</th>";
+$html = $html."				<th >Jenis <br>Kenaikan</th>";
+$html = $html."				<th >Tanggal <br>Usulan</th>";
+$html = $html."				<th>Persetujuan</th>";
+$html = $html."			</tr>";
+
+  if($jumLstDataAju > 0){   
+    $i = 1; foreach ($dataAju as $key => $val):   
+		/*	$vStatus = $this->escape($val['persetujuan']);
+			if ($vStatus == "1"){
+				$vStatus = "Pengusulan";
+			}else if ($vStatus == "2"){
+				$vStatus = "Setuju";
+			}else if ($vStatus == "3"){
+				$vStatus = "Ditolak";
+			}
+			if (trim($this->escape($val['jabatan']))=='' || $this->escape($val['jabatan'])==null) {
+				$jabat=='---';
+			}else{
+				$jabat=$this->escape($val['jabatan']);
+			}			
+		*/
+			$gol =  $this->escape($val['gol']);
+			$pangkat =  $this->escape($val['pangkat']);
+			$golPangkat = $gol." - ".$pangkat;
+				$jnsNaik =  $this->escape($val['jnsNaik']);
+				if ($jnsNaik == 'P') {
+				  $jnsNaik = 'Pilihan';
+				}else if ($jnsNaik == 'R') {
+				  $jnsNaik = 'Reguler';
+				}
+				if ($this->escape($val['status'])=="2") {
+				   $status = 'Disetujui';
+				}else if ($this->escape($val['status'])=="3") {
+				   $status = 'Ditolak';
+				}else
+					$status = '-';
+								
+		$tmtMasuk =	$this->escape($val['tmtMasuk']);
+$html = $html."	    <tr class=\"event\" >";
+$html = $html."		<td class=\"clleft\">$i</td>";
+$html = $html."		<td class=\"clcenter\">".$this->escape($val['nip'])."</td>";
+$html = $html."		<td class=\"clleft\">".$this->escape($val['nama'])."</td>";
+$html = $html."		<td class=\"clcenter\">".$golPangkat."</td>";
+$html = $html."		<td class=\"clcenter\">".$status."</td>";
+$html = $html."		<td class=\"clcenter\">".$jnsNaik."</td>";
+$html = $html."		<td class=\"clcenter\">".$this->escape($val['tglUsul'])."</td>"; 
+$html = $html."		<td class=\"clcenter\">$status</td>";
+$html = $html."	    </tr>";
+   $i++; endforeach; }
+$html = $html."					</table>";
+$html = $html."			  <br>";
+$html = $html."				  <div class=\"blank\"></div>";
+$html = $html."		</form>";
+$html = $html."</body></html>";
+//echo $html;
+	$filename = "/tmp/rekapList.html";
+	$filepdf = "/tmp/rekapList.pdf";
+
+	
+	$ourFileHandle = fopen($filename, 'w+') or die("can't open file");
+	fclose($ourFileHandle);
+
+	$fh = fopen($filename, 'w+') or die("can't open file");
+	fwrite($fh, $html);
+	fclose($fh);
+	
+//WriteToFile($filename, $html);
+
+	$options="--footer . --continuous --duplex --landscape --header . --left margin 3cm --right margin 3cm";
+
+	# Tell HTMLDOC not to run in CGI mode...
+       putenv("HTMLDOC_NOCGI=1");
+
+	# Write the content type to the client...
+	header("Content-Type: application/pdf");
+	header("Content-Disposition: attachment; filename=$filepdf");
+	flush();
+
+	# Run HTMLDOC to provide the PDF file to the user...
+	passthru("htmldoc -t pdf --quiet --jpeg --webpage $options '$filename'");
+
+?>
+			

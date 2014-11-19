@@ -1,0 +1,12 @@
+.confirm {background:#E3D5BD;}
+.confirm {border: 1px solid #B1A589;color: #634D38;}
+.confirmfail {
+	font-size:15px;
+	font-family:Verdana;
+	font-weight:bold;
+	background-color:#A10808;
+	color: #F4F4F4;
+	height:25px;
+	vertical-align:middle;
+    text-align:center;	
+}

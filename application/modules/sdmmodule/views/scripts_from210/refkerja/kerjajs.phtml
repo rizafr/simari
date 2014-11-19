@@ -1,0 +1,56 @@
+function openFormKerja(par,c_kerja,n_kerja){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refkerja/kerjaolahdata";
+	var opt = {par:par, c_kerja:c_kerja, n_kerja:n_kerja};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formkerja").ajaxForm(maintain_kerja);
+		});		
+} 
+
+function insertKerja(){
+	jQuery("#formkerja").ajaxForm(maintain_kerja);
+}
+
+var maintain_kerja = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formkerja").ajaxForm(maintain_kerja);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refkerja/insertkerja',
+	type: 'post',
+	resetForm: false
+};
+
+function updateKerja(){
+	jQuery("#formkerja").ajaxForm(update_kerja);
+}
+
+var update_kerja = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formkerja").ajaxForm(maintain_kerja);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refkerja/updatekerja',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusKerja(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refkerja/deletekerja';
+		var opt = {c_kerja : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

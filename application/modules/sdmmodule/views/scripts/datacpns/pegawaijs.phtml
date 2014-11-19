@@ -1,0 +1,127 @@
+
+function cariListPegawai(){
+	var statuspegcari=document.getElementById('statuspegcari').value;
+	var golcari=document.getElementById('golcari').value;
+	var namacari=document.getElementById('namacari').value;
+	var nipcari=document.getElementById('nipcari').value;	
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/datacpns/listpegawai';	
+	var param = {statuspegcari:statuspegcari,golcari:golcari,namacari:namacari,nipcari:nipcari};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);
+		});
+} 
+
+function CpnsM(par,nip){
+
+	var url = '<?php echo $this->basePath;?>/sdmmodule/datacpns/cpns';	
+	var param = {par:par,nip:nip};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);
+			jQuery("#formpegawai").ajaxForm(maintain_pegawai);
+		});
+}
+function PnsM(par,nip){
+
+	var url = '<?php echo $this->basePath;?>/sdmmodule/datapns/pns';	
+	var param = {par:par,nip:nip};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);			
+		});
+}
+
+function Left(str, n){
+	if (n <= 0)
+	    return "";
+	else if (n > String(str).length)
+	    return str;
+	else
+	    return String(str).substring(3,n);
+}
+
+function Right(str, n){
+    if (n <= 0)
+       return "";
+    else if (n > String(str).length)
+       return str;
+    else {
+       var iLen = String(str).length;
+       return String(str).substring(iLen, iLen - n);
+    }
+}
+/*
+function insertPegawaiCpns(){
+	jQuery("#formpegawai").ajaxForm(maintain_pegawaicpns);
+}
+var maintain_pegawaicpns = {
+	target:'#tableview',
+	beforeSubmit: function() {		
+		aobj= document.formpegawai;
+		astr= "document.formpegawai";
+		var cekVal="";
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/
+/*				
+				var c_status_kepegawaian=document.getElementById('c_status_kepegawaian').value;
+				
+				if (c_status_kepegawaian=='1' ||c_status_kepegawaian=='2'||c_status_kepegawaian=='3'){
+					if((!i_peg_nrp.value)){cekVal = sdmValidasiData(astr,"i_peg_nrp","NRP Pegawai harus diisi....!");return false;break;}
+				}
+				if (c_status_kepegawaian!='1' ||c_status_kepegawaian!='2'||c_status_kepegawaian!='3'){
+					if((!i_peg_nip.value)){cekVal = sdmValidasiData(astr,"i_peg_nip","NIPxxxxx Pegawai harus diisi....!");return false;break;}
+				}
+				if((!n_peg.value)){cekVal = sdmValidasiData(astr,"n_peg"," sNama Pegawai harus diisi....!");return false;break;}				
+				break;
+			}
+			
+		}
+		
+	
+	}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpegawai").ajaxForm(maintain_pegawai);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datacpns/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+*/
+
+
+function HapusDataPeg(nip)
+{
+	var where_to= confirm("Yakin anda akan hapus data NIP :"+nip);
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/datacpns/hapusdata"
+		var opt = {nip:nip};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}
+
+function setvalueuplpdf(v,n,f) { 
+
+	  if (f!="") {
+	    var pass=false;
+	    var af=f.split("/");
+        var nval=eval("document.forms[0]."+n);
+		var ext=v.substring(v.lastIndexOf(".")+1,v.length);
+		if ((ext==f)||(ext=='png')||(ext=='gif')){ 
+		document.forms[0].a_file.value=v; 
+		}
+		else{
+		  alert ("Hanya untuk file berekstensi '"+f+"',jpg,gif,png ");
+		  nval.value="";
+		  document.forms[0].a_file.value=""; 
+		  return;	  
+		}
+	  }
+}

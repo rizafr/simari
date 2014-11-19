@@ -1,0 +1,14 @@
+function cariListPegawai(){
+	jQuery("#frmSearch").ajaxForm(search);
+	
+}
+var search = {
+	target:'#tableview',
+	beforeSubmit: function() {	
+	}, 
+	success:function(){	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/pencarian/pencarian',
+	type: 'post',
+	resetForm: false
+};
+

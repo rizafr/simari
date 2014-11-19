@@ -1,0 +1,12 @@
+<?
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+
+	$jmllisjnslatih = count($this->lisjnslatih);
+	$lisjnslatih[''] = '--Pilih--';
+	for ($i = 0; $i < $jmllisjnslatih; $i++) {	 
+		$lisjnslatih[(string)$this->lisjnslatih[$i]->c_jenjang_fungsional ]= (string)$this->lisjnslatih[$i]->n_jenjang_fungsional;			 
+	} 						
+	$parlisliskellatih= array("onchange"=>"getNama()");
+	echo $ctrlFrm->formSelect('c_jns_kelompok', $this->c_jns_kelompok, $parlisliskellatih, $lisjnslatih);
+?>

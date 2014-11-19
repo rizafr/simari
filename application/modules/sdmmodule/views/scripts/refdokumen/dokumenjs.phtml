@@ -1,0 +1,56 @@
+function openFormDokumen(par,c_dokumen,n_dokumen){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refdokumen/dokumenolahdata";
+	var opt = {par:par, c_dokumen:c_dokumen, n_dokumen:n_dokumen};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formdokumen").ajaxForm(maintain_dokumen);
+		});		
+} 
+
+function insertDokumen(){
+	jQuery("#formdokumen").ajaxForm(maintain_dokumen);
+}
+
+var maintain_dokumen = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formdokumen").ajaxForm(maintain_dokumen);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refdokumen/insertdokumen',
+	type: 'post',
+	resetForm: false
+};
+
+function updateDokumen(){
+	jQuery("#formdokumen").ajaxForm(update_dokumen);
+}
+
+var update_dokumen = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formdokumen").ajaxForm(maintain_dokumen);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refdokumen/updatedokumen',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusDokumen(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refdokumen/deletedokumen';
+		var opt = {c_dokumen : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

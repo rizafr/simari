@@ -1,0 +1,188 @@
+<? 	
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tmt_golongan").datepicker();
+		jQuery("#d_sk_golongan").datepicker();
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datadptiga/listdptiga','<?php echo $this->basePath; ?>/sdmmodule/datadptiga/dptigajs');">Kinerja</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Penilaian Kinerja
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+	<h2 class="title"><?=$this->jdl;?> Penilaian Kinerja</h2>	
+<div class="boxholder">					
+<!--
+	<div class="panel">
+		<?php //include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<br>	
+-->	
+<form id="formpenilaian" method="post" name="formpenilaian">	
+	<div class="panel">
+<table width="100%">	
+	<tr>
+		<td width="15%">NIP</td>
+		<td width="2%">:</td>
+		<td><?=$this->nip?></td>
+	</tr>
+	<tr>
+		<td>Nama</td>
+		<td>:</td>
+		<td><?=$this->nama?></td>
+	</tr>
+	<tr>
+		<td>Tahun Penilaian</td>
+		<td>:</td>
+		<td><input type="text" size="5" name="d_nilai_kinerja" id="d_nilai_kinerja" value="<?echo $this->d_nilai_kinerja?>"></td>
+	</tr>	
+</table>	
+		
+
+	
+		<div class="spacer"></div> 
+						
+   <table width="100%" border="0" cellpadding="0" cellspacing="1" class="sortable">
+		<tr>
+			<th>No</th>
+			<th>Faktor Kinerja</th>
+			<th>Standar Kinerja</th>
+			<th>Pencapaian</th>
+			<th>Nilai</th>
+		</tr> 
+<? 		if (count($this->refpenilaianList) == 0) {?>
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>	
+<?}else{
+
+		foreach ($this->refpenilaianList as $key => $val): 
+				if ($key%2==0) { ?>
+				<tr class="event">
+				<? } else if ($key%2==1) { ?>
+				<tr class="event2">
+				<? } 
+				$c_nilai_kinerja=$this->escape($val['c_nilai_kinerja']);
+				$no++;
+				?>
+					<input type="hidden" name="c_nilai_kinerja<?=$no?>"  id="c_nilai_kinerja<?=$no?>" value="<?=$c_nilai_kinerja?>">
+					
+					<td><?php echo $no;?></td>
+					<td><?php echo $this->escape($val['n_faktor_kinerja']);?></td>
+					<td><?php echo $this->escape($val['n_standar_kinerja']);?></td>
+					<td class="clcenter">
+					
+					<?php 
+						$q_nilai_dibawah = $this->escape($val['q_nilai_dibawah']);
+						$q_nilai_perbaikan = $this->escape($val['q_nilai_perbaikan']);
+						$q_nilai_sesuai = $this->escape($val['q_nilai_sesuai']);
+						$q_nilai_diatas = $this->escape($val['q_nilai_diatas']);						
+						$q_nilai_kinerja = $this->escape($val['q_nilai_kinerja']);
+						$nilaitotala=$nilaitotala*1+$q_nilai_kinerja*1;
+					?>
+						<?
+							$cmbNilai = array(""=>"--Pilih--",
+									"$q_nilai_dibawah"=>"Dibawah Standar Kinerja",
+									"$q_nilai_perbaikan"=>"Perlu Perbaikan",
+									"$q_nilai_sesuai"=>"Sesuai Standar Kinerja",
+									"$q_nilai_diatas"=>"Di atas Standar Kinerja");
+							$varNilai= array("onclick"=>"getNilaiTot('$no')");								
+							echo $ctrlFrm->formSelect('q_nilai_hasil'.$no, $q_nilai_kinerja, $varNilai, $cmbNilai); 							
+						?>					
+					
+					</td>
+					<td class="clcenter"><input type="text" size="5" readonly="true" name="nilaitotal<?=$no?>" id="nilaitotal<?=$no?>" value="<?echo $q_nilai_kinerja?>"></td>					
+				</tr>
+				
+<?php 		endforeach;
+	}
+	
+	$nilaitotala=$nilaitotala*0.4;
+?>
+	<tr class="event2">
+		<td>&nbsp;</td>
+		<td colspan="3"><b>Total Nilai Generik (total nilai X 40%)</b>
+		<input type="hidden" name="totcount"  id="totcount" value="<?=$no?>">
+		</td>
+		<td><input type="text" size="5" readonly="true" name="nilaitotala" id="nilaitotala" value="<?=$nilaitotala?>"></td>
+	</tr>
+	<tr class="event">
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>	
+	<tr class="event">
+		<td>&nbsp;</td>
+		<td colspan="4"><b>Penilai Kinerja</b></td>
+	</tr>	
+	<tr class="event">
+		<td>&nbsp;</td>
+		<td><?=$this->penilai?></td>
+		<td colspan="3">
+			<input type="text" size="30" readonly="true" name="i_nip_penilai" id="i_nip_penilai" value="<?=$this->i_nip_penilai?>">
+			<input type="text" size="60" readonly="true" name="n_penilai" id="n_penilai" value="<?=$this->n_penilai?>"> 
+			<input type="button" value="Batal" onclick="getPenilai()">
+		</td>
+	</tr>
+	
+	</table>
+
+	</div>
+	<br>
+	<div class="panel">
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">							
+							<tr>
+								<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+								<td>
+									<div class="right">
+										<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/penilaianmil/listpenilaianmil?nip=<?=$this->i_peg_nip?>','');"> 
+										<input type="submit" value="<?=$this->par;?>" onClick="insertPenilaianMil()">
+										<input type="hidden" name="proses" value="<?=$this->par;?>">
+										<input type="hidden" name="c_pers_penilai" value="<?=$this->c_pers_penilai;?>">
+										<input type="hidden" name="i_peg_nip"  id="i_peg_nip" value="<?=$this->nip?>">
+										
+									</div>
+								</td>
+							</tr>							
+						</table>
+						
+			</form>
+</div>
+</div>
+<div id="popupview"></div>
+<script>
+function getNilaiTot(no){
+
+	var con=0;
+	var totcount=document.getElementById('totcount').value*1;
+	var i=1;
+	for (j = 0; j < totcount; j++) 
+	{
+		con=con*1+document.getElementById('q_nilai_hasil'+i).value*1;
+		i++;
+	}
+
+	document.getElementById('nilaitotala').value=(con*1)*0.4;
+
+	document.getElementById('nilaitotal'+no).value=document.getElementById('q_nilai_hasil'+no).value;
+
+}
+</script>

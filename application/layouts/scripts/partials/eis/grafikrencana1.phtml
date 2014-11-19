@@ -1,0 +1,21 @@
+			<div style="overflow: auto; padding: 15px width: 500px;">
+						<?echo $this->chartRencana1;?>
+			</div>			
+<?if (count($this->dataRencana1)!=0){?>	
+			<table border="0" width="100%" align="center" class="tbl2">
+		<?php foreach ($this->dataRencana1 as $key => $val): 
+				$nmgbkpk  = strtolower(rtrim($val['nmgbkpk']));
+				$nmgbkpk  = ucwords($nmgbkpk);
+				$jumlah  = $val['jumlah'];
+			if ($nmgbkpk){	
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+				<td class="clright" width="30%"><?php echo $nmgbkpk;?> :</td>
+				<td class="clright"><?php echo number_format($jumlah, 2, ',', '.')?></td>
+			</tr>
+		<?php }endforeach;?> 		  	  
+			</table>
+<?php }?> 		

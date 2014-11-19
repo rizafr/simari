@@ -1,0 +1,400 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+$ceseloncpns=$this->ceseloncpns*1;
+?>
+
+ 	<script type="text/javascript">
+	jQuery(function() {
+/* 		jQuery("#d_sk_pns").datepicker();
+		jQuery("#d_kesehatan_pns").datepicker();
+		jQuery("#d_sk_prajab").datepicker(); */
+		$( "#d_sk_pns" ).datepicker({	changeMonth: true,changeYear: true});
+		$( "#d_kesehatan_pns" ).datepicker({	changeMonth: true,changeYear: true});
+		$( "#d_sk_prajab" ).datepicker({	changeMonth: true,changeYear: true});
+		
+	});
+	
+	</script>
+
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong> SDM 
+				<strong> &#8250; </strong> <a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Data PNS
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+
+	
+<form id="formpegawai" method="post" action="" name="formpegawai"enctype="multipart/form-data" >
+<input type="hidden" size="25" maxlength="9" name="i_peg_nip" id="i_peg_nip" readonly="true" value="<?=$this->i_peg_nip?>">
+	<h2 class="title"><?=$this->jdl;?> Data PNS</h2>
+							<h3 class="tab" title="first"><div class="tabtxt"><a href="#Pns" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapns/pns','<?php echo $this->basePath; ?>/sdmmodule/datapns/pnsjs');">PNS</a></div></h3>
+							<h3 class="tab" title="first"><div class="tabtxt"><a href="#Cpns" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datacpns/cpns','<?php echo $this->basePath; ?>/sdmmodule/datacpns/cpnsjs');">CPNS</a></div></h3>
+							<h3 class="tab" title="first"><div class="tabtxt"><a href="#Pokok" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pokok</a></div></h3>
+							<h3 class="tab" title="first"><div class="tabtxt"><a href="#Riwayat" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapangkat/listpangkat','<?php echo $this->basePath; ?>/sdmmodule/datapangkat/pangkatjs');">Data Riwayat</a></div></h3>	
+						<? if ($this->statuspeg!='2CP'){?>
+							<h3 class="tab" title="first"><div class="tabtxt"><a href="#Diklat" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datadikpenjenjangan/listdiklat','<?php echo $this->basePath; ?>/sdmmodule/datadikpenjenjangan/dikpenjenjanganjs');">Diklat</a></div></h3>
+							<h3 class="tab" title="first"><div class="tabtxt"><a href="#Kinerja" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dptiga/listdptiga','<?php echo $this->basePath; ?>/sdmmodule/dptiga/dptigajs');">Kinerja</a></div></h3>
+							<h3 class="tab" title="first"><div class="tabtxt"><a href="#Kinerja" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/databahasa/listbahasa','<?php echo $this->basePath; ?>/sdmmodule/databahasa/bahasajs');">Penilaian</a></div></h3>
+						<?}?>
+						
+<div class="boxholder">
+<div class="panel">	
+		<div class="spacer"></div> 
+		<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+			<tr>
+				<td width="15%">&nbsp;&nbsp;Nama / NIP</td>
+				<td width="2%">:</td>
+				<td>
+					<b><? echo $this->n_peg." / ".$this->i_peg_nip_new;?></b>
+				</td>
+			</tr>	
+		</table>		
+		<br>
+<?if ($this->c_lokasi_unitkerja=='1'){?>			
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%"  id="listcombo">
+				<tr>
+					<td width="50%">
+					<table width="100%">
+							<tr>
+								<td><h3 class="title"><b><u>UNIT KERJA</u></b><h3></td>
+							</tr>
+					</table>
+					</td>
+				</tr>			
+				<tr>
+					<td width="50%">
+						<table width="100%">							
+							
+							<tr>
+								<td width="20%">Lokasi<span class="hightlight">*</span></td>
+								<td width="2%">:</td> 
+								<td>					
+									<?
+										$jmlLokList=count($this->lokasiList);
+										$lokList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmlLokList; $i++) {
+												$lokList[trim((string)$this->lokasiList[$i]->c_lokasi)] = (string)$this->lokasiList[$i]->n_lokasi;			 
+											}
+										$lokAtrib = array("style"=>"width: 300px","id"=>"c_lokasi_unitkerja","onChange"=>"javascript:cariComboPns('targetesli')"); 
+										echo $ctrlFrm->formSelect('c_lokasi_unitkerja',$this->c_lokasi_unitkerja,$lokAtrib,$lokList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon I</td>
+								<td>:</td> 
+								<td>					
+									<?
+										$jmleseloniList=count($this->eseloniList);
+										$eseloniList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniList; $i++) {
+												$eseloniList[trim((string)$this->eseloniList[$i]->c_eselon_i).";".(string)$this->eseloniList[$i]->n_unitkerja] = (string)$this->eseloniList[$i]->n_unitkerja;			 
+											}
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_i","onChange"=>"javascript:cariComboPns('targeteslii')");  	
+										echo $ctrlFrm->formSelect('c_eselon_i',$this->c_eselon_i,$eslAtrib,$eseloniList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon II</td>
+								<td>:</td> 
+								<td>				
+									<?
+										$jmleseloniiList=count($this->eseloniiList);
+										$eseloniiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiList; $i++) {
+												$eseloniiList[trim((string)$this->eseloniiList[$i]->c_eselon_ii).";".trim((string)$this->eseloniiList[$i]->n_unitkerja)] = (string)$this->eseloniiList[$i]->n_unitkerja;
+											}
+										if ($ceseloncpns>=3){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_ii","onChange"=>"javascript:cariComboPns('targetesliii')");}
+										else {$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_ii","onChange"=>"javascript:cariComboPns('targetesliii')");}
+										echo $ctrlFrm->formSelect('c_eselon_ii',$this->c_eselon_ii,$eslAtrib,$eseloniiList); 							
+									?>
+								</td>
+							</tr>						
+							<tr>
+								<td>Eselon III</td>
+								<td>:</td> 
+								<td>					
+									<?
+										$jmleseloniiiList=count($this->eseloniiiList);
+										$eseloniiiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiiList; $i++) {
+												$eseloniiiList[trim((string)$this->eseloniiiList[$i]->c_eselon_iii).";".trim((string)$this->eseloniiiList[$i]->n_unitkerja)] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+											}
+										
+										if ($ceseloncpns>=5){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii","onChange"=>"javascript:cariComboPns('targetesliv')");  	}										
+										else{	$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii","onChange"=>"javascript:cariComboPns('targetesliv')");}
+										
+										echo $ctrlFrm->formSelect('c_eselon_iii',$this->c_eselon_iii, $eslAtrib, $eseloniiiList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon IV</td>
+								<td>:</td> 
+								<td>				
+									<?
+										$jmleselonivList=count($this->eselonivList);
+										$eselonivList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonivList; $i++) {
+												$eselonivList[trim((string)$this->eselonivList[$i]->c_eselon_iv).";".trim((string)$this->eselonivList[$i]->n_unitkerja)] = (string)$this->eselonivList[$i]->n_unitkerja;			 
+											}
+										if ($ceseloncpns>=7){
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iv","onChange"=>"javascript:cariComboPns('targeteslv')"); 
+										}
+										else{
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iv","onChange"=>"javascript:cariComboPns('targeteslv')"); 
+										}
+										
+										
+										echo $ctrlFrm->formSelect('c_eselon_iv',$this->c_eselon_iv,$eslAtrib,$eselonivList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon V</td>
+								<td>:</td> 
+								<td>				
+									<?
+										$jmleselonvList=count($this->eselonvList);
+										$eselonvList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonvList; $i++) {
+												$eselonvList[trim((string)$this->eselonvList[$i]->c_eselon_v).";".trim((string)$this->eselonvList[$i]->n_unitkerja)] = (string)$this->eselonvList[$i]->n_unitkerja;			 
+											}
+										if ($ceseloncpns>=9){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_v");}										
+										else{$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_v");}
+										echo $ctrlFrm->formSelect('c_eselon_v',$this->c_eselon_v, $eslAtrib, $eselonvList); 							
+									?>
+								</td>
+							</tr>							
+						</table>
+					</td>
+										
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3">					
+									<textarea id="jabat_lengkap" name="jabat_lengkap" rows="5"><?=$this->jabat_lengkap?></textarea>
+								</td>
+							</tr>
+						</table>
+					</td>
+										
+				</tr>
+			</table>
+<?}  else{include ("listcombo2.phtml");}?>			
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+				<tr>
+					<td width="20%">Unit Kerja (tanpa kode)</td>
+					<td width="2%">:</td>
+					<td>
+						<textarea id="n_unitkerja_nokode" name="n_unitkerja_nokode" rows="3"><?=$this->n_unitkerja_nokode?></textarea>
+					</td>
+				</tr>
+			</table>
+				
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+				<tr>
+
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3"><h3 class="title"><b><u>SURAT KEPUTUSAN PNS</u></b><h3></td>
+							</tr>
+							<tr>
+								<td width="30%">Nomor<span class="hightlight">*</span></td>
+								<td width="2">:</td> 
+								<td>					
+									<input type="text" name="i_sk_pns" id="i_sk_pns" value="<?=$this->i_sk_pns?>" size="30">
+								</td>
+							</tr>
+							<tr>
+								<td>Tanggal<span class="hightlight">*</span></td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="d_sk_pns" id="d_sk_pns" value="<?=$this->d_sk_pns?>" size="10">
+									<span class="hightlight">dd-mm-yyyy</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Pejabat</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="n_sk_pejabatpns" id="n_sk_pejabatpns" value="<?=$this->n_sk_pejabatpns?>" size="50">
+								</td>
+							</tr>							
+						</table>
+					</td>
+
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b><u>SURAT TANDA LULUS KESEHATAN</u></b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td>Nomor</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="i_kesehatan_pns" id="i_kesehatan_pns" value="<?=$this->i_kesehatan_pns?>" size="25">
+								</td>
+							</tr>	
+							<tr>
+								<td>Tanggal</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="d_kesehatan_pns" id="d_kesehatan_pns" value="<?=$this->d_kesehatan_pns?>" size="10">
+									<span class="hightlight">dd-mm-yyyy</span>
+								</td>
+							</tr>	
+							<tr>
+								<td>Rumah Sakit</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="n_rumahsakit_pns" id="n_rumahsakit_pns" value="<?=$this->n_rumahsakit_pns?>" size="45">
+								</td>
+							</tr>	
+							<tr>
+								<td>Pejabat</td>
+								<td>:</td>
+								<td>
+									<input type="text" name="n_kesehatan_pejabatpns" id="n_kesehatan_pejabatpns" value="<?=$this->n_kesehatan_pejabatpns?>" size="50">
+								</td>
+							</tr>	
+									
+						</table>
+					</td>					
+				</tr>
+				<tr>
+					<td>
+						<h3 class="title"><b><u>SURAT TANDA LULUS PRA JABATAN</u></b><h3>
+					</td>
+				</tr>
+				<tr>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td width="30%">Nomor<span class="hightlight">*</span></td>
+								<td width="2">:</td> 
+								<td>					
+									<input type="text" name="i_sk_prajab" id="i_sk_prajab" value="<?=$this->i_sk_prajab?>" size="30">
+								</td>
+							</tr>
+							<tr>
+								<td>Tanggal<span class="hightlight">*</span></td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="d_sk_prajab" id="d_sk_prajab" value="<?=$this->d_sk_prajab?>" size="10">
+									<span class="hightlight">dd-mm-yyyy</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Pejabat</td>
+								<td>:</td> 
+								<td>					
+									<input type="text" name="n_sk_pejabatprajab" id="n_sk_pejabatprajab" value="<?=$this->n_sk_pejabatprajab?>" size="50">
+								</td>
+							</tr>							
+						</table>
+					</td>
+				</tr>				
+			</table>
+	</div>		
+<br>
+	<div class="panel">
+		<div class="spacer"></div> 				
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td align="right">
+								<div class="right">
+								<?if ($this->pns!='pns'){?>
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapns/pegawaijs');"> 
+								<?}else{?>	
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');"> 
+								<?}?>			
+									<input type="submit" value="<?=$this->par;?>" onClick="insertPns()">
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+								</div>
+							</td>
+						</tr>
+			</table>				
+	</div>
+	</div>
+	<div id="targetdetil"></div>
+</form>	
+<script>
+function CariJabatan(){
+var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/listnamajabatan';
+var param = {};
+jQuery.get(url,param,function(data) {
+jQuery("#targetdetil").html(data);
+centerPopup();
+loadPopup();});}
+
+function cariComboPns(){
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+	var eseloni=document.getElementById('c_eselon_i').value;
+	var eselonii=document.getElementById('c_eselon_ii').value;
+	var eseloniii=document.getElementById('c_eselon_iii').value;
+	var eseloniv=document.getElementById('c_eselon_iv').value;
+	
+	
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/datapns/listcombo'; 
+	var param = {c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+	jQuery.get(url, param, function(data) {
+		jQuery("#listcombo").html(data);
+	});
+}
+
+
+function insertPns(){
+	jQuery("#formpegawai").ajaxForm(maintain_pegawaipns);
+}
+var maintain_pegawaipns = {
+	target:'#tableview',
+	beforeSubmit: function() {		
+		aobj= document.formpegawai;
+		astr= "document.formpegawai";
+		var cekVal="";
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/
+				if((!i_peg_nip.value)){cekVal = sdmValidasiData(astr,"i_peg_nip","NIP Pegawai harus diisi....!");return false;break;}					
+				if((!c_lokasi_unitkerja.value)){cekVal = sdmValidasiData(astr,"c_lokasi_unitkerja","Lokasi harus diisi....!");return false;break;}
+				break;
+			}
+			
+		}
+		
+		//if (cekVal == false) {return false;}
+	
+	}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpegawai").ajaxForm(maintain_pegawaipns);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datapns/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+</script>

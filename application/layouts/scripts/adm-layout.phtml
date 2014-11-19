@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><?php echo $this->render('partials/adm/head.phtml'); ?></head>
+<body>
+<div id="main"><!--main start -->
+	<div id="header">
+		<!--header start -->
+		<?php echo $this->render('partials/adm/app_adm.phtml'); ?>
+    </div><!--header end -->
+    <div id="cont-nav">
+		<div id="nav-top">
+			<div class="username"><?php echo $this->ssologin->userid; ?> (<?php echo $this->ssologin->n_peg;?>) | <a href="/logout">Logout</a></div>
+			<div class="crdate"><span id="servertime"></span></div>
+		</div>
+		<div id="nav">
+				<?php 
+				//echo $this->render('partials/headMenu.phtml'); 
+				echo $this->render('partials/headMenu-db.phtml'); 
+				?>
+		</div>
+	</div>  
+
+	<div id="page">
+		<div id="content">
+			<div id="tableview">
+				<div class="navlink">Halaman Utama</div>
+				<div class="das2">
+					<div class="hd"></div>
+					<div class="bd">
+						<div id="targetchart">
+							<table border="0" width="100%" align="center">
+								<tr>
+									<td width="50%">
+										<div class="hideshow">
+											<table border="0" width="100%" align="center">
+												<tr>
+													<td align="left">
+														<? //echo $this->chartpagu;?>
+													</td>
+												</tr>
+											</table>			
+										</div>	
+									</td>
+									<td width="50%">&nbsp;
+										
+									</td>						
+								</tr>
+							</table>	
+						</div> 
+					</div>
+					<div class="ft"></div>
+				</div>	
+			
+				<div id="targetreminder"></div>		  
+			</div>
+		</div>                           
+		<div class="space2"></div>
+	</div>
+</DIV><!--main  end -->
+<div id="footer"><!--footer start -->
+<?php echo $this->render('partials/adm/footer.phtml'); ?>
+</div><!--footer end -->
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+<? 
+require_once 'Zend/View.php';
+require_once 'share/tanggal.php'; 
+   
+$ctrlDate = new tanggal();   
+$ctrlFrm = new Zend_View();
+$jumPendList = count($this->pendList);     
+
+	if ($jumPendList == 0) {
+		echo "<font color=\"red\">Data Pendidikan Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+				<tr>
+			    <th>Jenjang</th>
+				<th>Nama Sekolah</th>
+				<th>Jurusan</th>
+				<th>Alamat Sekolah</th>
+				<th>Nama Pimpinan</th>
+				<th>Tahun Masuk</th>
+				<th>Tahun Lulus</th>
+				<th>IPK / Nilai Ijazah</th>
+				<th>Nomor Ijazah / Tgl Ijazah</th>
+				<th>Sumber Biaya</th>
+				<th>Judul Skripsi</th>
+				</tr>
+
+<?
+	if ($jumPendList == 0) {
+?>				<tr class="event">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				</tr>
+<? } else { ?>				
+		<?php foreach ($this->pendList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+				<? 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					$c_pend=trim($this->escape($val['c_pend']));
+				?>
+				<td class="clcenter"><?php echo $this->escape($val['n_pend']);?></td>
+				<td><?php echo $this->escape($val['n_pend_lembaga']);?></td>
+				<td><?php echo ucwords(strtolower($this->escape($val['n_pend_jurusan'])));?></td>
+				<td><?php echo ucwords(strtolower($this->escape($val['a_pend_alamat'])));?></td>
+				<td><?php echo ucwords(strtolower($this->escape($val['n_pend_kepsek'])));?></td>
+				<td class="clcenter"><?php echo $this->escape($val['d_pend_mulai']);?></td>
+				<td class="clcenter"><?php echo $this->escape($val['d_pend_akhir']);?></td>
+				<td class="clcenter"><?php echo $this->escape($val['i_pend_ipk']);?></td>
+				<td class="clcenter"><?php echo $this->escape($val['i_pend_ijazah']);?><br><?php echo $this->escape($val['d_pend_ijazah']);?></td>
+				<td class="clcenter"><?php echo $this->escape($val['n_pend_sumberdana']);?></td>
+				<td class="clcenter"><?php echo $this->escape($val['e_pend_skripsi']);?></td>
+				
+		  </tr>
+	<?php endforeach;?> 	
+	<? } ?>
+	</table>									

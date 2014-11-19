@@ -1,0 +1,108 @@
+#nav ul.nav {
+	list-style: none;
+	color: #FFFFFF;
+	margin-top: -13px;
+	padding: 0 0 0 0;
+	}
+	
+#nav ul.nav li {
+	float: left;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	}
+	
+#nav ul.nav li a, #nav ul.nav li a:visited {
+	color: #EEE;
+	display: block;
+	font-family: Arial, Tahoma, Verdana;
+	font-size: 13px;
+    margin: 0;
+	padding: 6px 10px 5px 10px;
+	text-decoration: none;
+	/*text-shadow: #eee 1px 1px;*/
+	position: relative;
+	}
+
+#nav ul.nav li a:hover, #nav ul.nav li a:active, #nav ul.nav .current_page_item a {
+	background: #555;
+	color: #FFF;
+	text-decoration: none;
+	}
+	
+#nav ul.nav li a.sf-with-ul {
+	padding-right: 20px;
+	}	
+	
+#nav ul.nav li a .sf-sub-indicator {
+	background: url(../images/arrow-down.png);
+	display: block;
+	width: 10px;
+	height: 10px;
+	text-indent: -9999px;
+	overflow: hidden;
+	position: absolute;
+	top: 12px;
+	right: 5px;
+	}
+	
+#nav ul.nav li li a, #nav ul.nav li li a:link, #nav ul.nav li li a:visited {
+	background: #555;
+	width: 148px; 
+	color: #EEE;
+	font-family: Arial, Tahoma, Verdana;
+	font-size: 12px;
+	margin: 0;
+	padding: 5px 10px 5px 10px;
+	border-left: 1px solid #333;
+	border-right: 1px solid #333;
+	border-bottom: 1px solid #333;
+	text-transform: none;
+	position: relative;
+	}
+	
+#nav ul.nav li li a:hover, #nav ul.nav li li a:active {
+	background: #444;
+	color: #FFFFFF;
+	-moz-border-radius: 0px;
+	-khtml-border-radius: 0px;
+	-webkit-border-radius: 0px;	
+	}
+
+#nav ul.nav li li a .sf-sub-indicator {
+	background: url(../images/arrow-right.png);
+	top: 10px;
+	}
+
+#nav ul.nav li ul {
+	z-index: 9999;
+	position: absolute;
+	left: -999em;
+	height: auto;
+	width: 170px;
+	margin: 0;
+	padding: 0;
+	}
+
+#nav ul.nav li ul a { 
+	width: 150px;
+	}
+
+#nav ul.nav li ul a:hover, #nav ul.nav li ul a:active { 
+	}
+
+#nav ul.nav li ul ul {
+	margin: -31px 0 0 169px;
+	}
+
+#nav ul.nav li:hover ul ul, #nav ul.nav li:hover ul ul ul, #nav ul.nav li.sfHover ul ul, #nav ul.nav li.sfHover ul ul ul {
+	left: -999em;
+	}
+
+#nav ul.nav li:hover ul, #nav ul.nav li li:hover ul, #nav ul.nav li li li:hover ul, #nav ul.nav li.sfHover ul, #nav ul.nav li li.sfHover ul, #nav ul.nav li li li.sfHover ul {
+	left: auto;
+	}
+
+#nav ul.nav li:hover, #nav ul.nav li.sfHover { 
+	position: static;
+	}

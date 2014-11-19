@@ -1,0 +1,74 @@
+<div id="backgroundPopup" >
+	<center>
+	<div id="popupContact" style="height:400px; width:550px;" >	
+
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+			<tr class="event">
+				<td align="left">
+					<h3>Help : Eselon I</h3>
+				</td>
+				<td align="right">
+					<div class="delete" title="Close" onclick="closeDetil()"></div>
+				</td>
+			</tr>
+		</table>
+<fieldset><legend>Help : Eselon I</legend>
+			<form onsubmit="xjxmW.closeWindow(' .  . ')xajax_add('HELP','queryeselon1',document.getElementById('keyd').value,document.getElementById('query_nip').value,document.getElementById('valantar').value);return false;" id="fd1" name="fd1" enctype="multipart/form-data" method="post">
+			
+			
+			<table border="0" width="100%" class="table">
+		
+		<tbody><tr>
+             <td align="center" colspan="3" class="row1">
+			 <input type="radio" onclick="document.getElementById('valantar').value = '=';document.getElementById('val1').value = '';document.getElementById('val2').value = '';" checked="" value="=" id="tpnilai" name="tpnilai" tabindex="49'">Sama Persis&nbsp;
+			 <input type="radio" onclick="document.getElementById('valantar').value = '!=';document.getElementById('val1').value = '';document.getElementById('val2').value = '';" value="!=" id="tpnilai" name="tpnilai" tabindex="50">Selain&nbsp;
+			 <input type="hidden" value="" id="val1" name="val1">
+			 <input type="hidden" value="" id="val2" name="val1">
+			 <input type="hidden" value="=" id="valantar" name="valantar">
+			 
+			 </td>
+         </tr>
+		
+		 <tr>
+             <td align="center" colspan="3" class="row1">
+			 <textarea cols="70" rows="5" id="query_nip" name="query_nip"></textarea>
+						</td>
+         </tr>
+		 <tr class="row1">
+             <td align="left" colspan="2">
+				&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = document.getElementById('query_nip').value + '(';" value=" ( " tabindex="55" name="bt1">
+			 		&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg == '') {  document.getElementById('query_nip').value = ' OR ';} else {document.getElementById('query_nip').value = strg + ' OR ';}" value=" OR " tabindex="56" name="bt0">
+			 	&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg == '') {  document.getElementById('query_nip').value = ' AND ';} else {document.getElementById('query_nip').value = strg + ' AND ';}" value=" AND " tabindex="57" name="bt2">
+				&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = document.getElementById('query_nip').value + ')';" value=" ) " tabindex="57" name="bt2">
+			<!--input name='bt1' type='button' tabindex='55' value=' TES' onClick="var strg = document.getElementById('query_nip').value; alert(getlasstring(strg,2));")
+			</td-->
+			 </td><td align="right">
+			 <input type="button" onclick="document.getElementById('query_nip').value= ''" value=" Clear " tabindex="57" name="bt3">
+			 &nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg != '') {document.getElementById('query_result').value = document.getElementById('query_result').value + ' ' + strg;closeDetil()}" value="OK !" tabindex="58" name="bt3">
+			 </td>
+         </tr>
+		 <tr>
+             <td align="center" colspan="3" class="row">&nbsp;</td>
+         </tr>
+		 <tr>
+             <td align="center" colspan="3" class="text">Nama Unit <input type="text" tabindex="59" value="" name="keyd" id="keyd" size="30">
+     			<input type="button" onclick="xajax_add('HELP','queryeselon1',document.getElementById('keyd').value,document.getElementById('query_nip').value,document.getElementById('valantar').value,'','','','99');return false;" value="C a r i" tabindex="60" name="submit">
+			</td>
+         </tr>
+	<tr class="tdfield">
+                                                    <td align="center" width="2%" height="20">No.</td>
+                                                    <td align="center" width="48%">Eselon I</td>
+													<td align="center" width="50%">Lokasi</td>
+                                                  </tr>
+             
+			
+			</tbody></table>              
+			<input type="hidden" value="" id="nippenampungan" name="nippenampungan">
+			<input type="hidden" value="a.KDU1" id="jnippenampungan" name="jnippenampungan">
+			</form>
+			
+			</fieldset>
+	
+	</div>
+	</center>
+</div>	

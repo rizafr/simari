@@ -1,0 +1,62 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+?>
+ 	<script type="text/javascript">
+$( "#d_tmt_eselon" ).datepicker({changeMonth: true,changeYear: true});
+$( "#d_tmt_golongan" ).datepicker({changeMonth: true,changeYear: true});
+$( "#d_tmt_jabatan" ).datepicker({changeMonth: true,changeYear: true});
+$( "#d_tgl_lahir" ).datepicker({changeMonth: true,changeYear: true});	
+	</script>
+
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong> SDM 
+				<strong> &#8250; </strong> Laporan
+				<strong> &#8250; </strong> Monitoring Serbaguna
+			</div>
+<div id="top"></div>	
+
+<h2 class="title">Monitoring Serbaguna</h2>
+<?php //include "$this->leftMenu/laporanlink.phtml";?>
+<form id="formresult" method="post" action="" name="formresult">
+<div class="boxholder">		
+	
+
+	<? include("formsatu.phtml");?>	
+<br>	
+	<? //include("formdua.phtml");?>	
+
+	<? include("formtiga.phtml");?>		
+</div>
+<div id="popupview"></div>
+</form>	
+<script>
+function cetakExlSerA(){jQuery("#formresult").ajaxForm(getlaporanexl);}
+var getlaporanexl = {
+	target:'#popupview',
+	beforeSubmit: function() {}, 
+	success:function(){
+
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/cetakview?par=exl',
+	type: 'post',
+	resetForm: false};
+
+
+function cetakVSerA(){jQuery("#formresult").ajaxForm(getlaporan);}
+
+var getlaporan = {
+	target:'#popupview',
+	beforeSubmit: function() {}, 
+	success:function(){
+		centerPopup();
+		loadPopup();
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/monitoringserbaguna/cetakview',
+	type: 'post',
+	resetForm: false};
+</script>

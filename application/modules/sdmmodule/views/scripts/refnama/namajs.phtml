@@ -1,0 +1,56 @@
+function openFormNama(par,c_jenjang,n_jenjang,c_jenis){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refnama/namaolahdata";
+	var opt = {par:par, c_jenjang:c_jenjang, n_jenjang:n_jenjang,c_jenis:c_jenis};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formnama").ajaxForm(maintain_nama);
+		});		
+} 
+
+function insertNama(){
+	jQuery("#formnama").ajaxForm(maintain_nama);
+}
+
+var maintain_nama = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formnama").ajaxForm(maintain_nama);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refnama/insertnama',
+	type: 'post',
+	resetForm: false
+};
+
+function updateNama(){
+	jQuery("#formnama").ajaxForm(update_nama);
+}
+
+var update_nama = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formnama").ajaxForm(maintain_nama);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refnama/updatenama',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusNama(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refnama/deletenama';
+		var opt = {c_jenjang : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

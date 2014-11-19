@@ -1,0 +1,50 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+?>
+
+	<h3 class="title"><b>Riwayat Luar Negeri</b><h3>
+	<br>
+	<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+				<tr>
+					<td width="15%">Negara</td>
+					<td width="2%">:</td> 
+					<td>
+						<?php 
+							$jmlNegaraList = count($this->negaraList);
+							$negaraList[''] = '--Pilih--';
+							for ($i = 0; $i < $jmlNegaraList; $i++) {
+								$negaraList[(string)$this->negaraList[$i]->c_negara] =(string)$this->negaraList[$i]->n_negara;	
+							}
+							echo $ctrlFrm->formSelect('c_negara', $this->c_negara, null,$negaraList)
+						?>	
+					</td>
+				</tr>
+				<tr>
+					<td>Tujuan</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="a_tujuan" id="a_tujuan" value="<?=$this->a_tujuan?>" size="70">
+					</td>
+				</tr>
+				<tr>
+					<td>Pembiayaan / Sponsor</td>
+					<td>:</td> 
+					<td>
+						<?
+								$biaya = array(""=>"--Pilih--","01"=>"Dinas","02"=>"Mandiri","03"=>"Penyelenggara","04"=>"Sponsor");
+								echo $ctrlFrm->formSelect('c_biaya', $this->c_biaya, null, $biaya); 							
+						?>
+						<input type="text" name="e_sponsor" id="e_sponsor" value="<?=$this->e_sponsor?>" size="30">
+					</td>
+				</tr>	
+				<tr>
+					<td>Tahun</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_tahun_alteratif" id="d_tahun_alteratif" value="<?=$this->d_tahun_alteratif?>" size="10">
+					</td>
+				</tr>			
+	</table>

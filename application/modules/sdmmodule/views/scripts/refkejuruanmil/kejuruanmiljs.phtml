@@ -1,0 +1,56 @@
+function openFormKejuruanmil(par,c_kejuruanmil,n_kejuruanmil){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refkejuruanmil/kejuruanmilolahdata";
+	var opt = {par:par, c_kejuruanmil:c_kejuruanmil, n_kejuruanmil:n_kejuruanmil};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formkejuruanmil").ajaxForm(maintain_kejuruanmil);
+		});		
+} 
+
+function insertKejuruanmil(){
+	jQuery("#formkejuruanmil").ajaxForm(maintain_kejuruanmil);
+}
+
+var maintain_kejuruanmil = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formkejuruanmil").ajaxForm(maintain_kejuruanmil);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refkejuruanmil/insertkejuruanmil',
+	type: 'post',
+	resetForm: false
+};
+
+function updateKejuruanmil(){
+	jQuery("#formkejuruanmil").ajaxForm(update_kejuruanmil);
+}
+
+var update_kejuruanmil = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formkejuruanmil").ajaxForm(maintain_kejuruanmil);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refkejuruanmil/updatekejuruanmil',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusKejuruanmil(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refkejuruanmil/deletekejuruanmil';
+		var opt = {c_kejuruanmil : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

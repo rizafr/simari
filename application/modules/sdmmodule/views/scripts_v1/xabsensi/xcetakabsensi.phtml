@@ -1,0 +1,189 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php';
+
+   $convDate = new oa_date();
+   $jmlPegawaiList = count($this->absensiList);
+   for ($j = 0; $j < $jmlPegawaiList; $j++) {
+     $pegawai[$j] = array("i_peg_nip"  =>(string)$this->absensiList[$j]['i_peg_nip'],
+							"n_peg"  =>(string)$this->absensiList[$j]['n_peg']);
+   }
+   $idOrg = $this->idORG;
+   $sitgls = $this->sitgls;
+   $siblns = $this->siblns;
+   $sithns = $this->sithns;
+   $sitglf = $this->sitglf;
+   $siblnf = $this->siblnf;
+   $sithnf = $this->sithnf;
+   if ($sitgls=="#") $bsitgls = "01"; else $bsitgls = $sitgls;
+   if ($siblns=="#") $bsiblns = "01"; else $bsiblns = $siblns;
+   if ((int)$sithns<2000) $bsithns = "2000"; else $bsithns = $sithns;
+   if ($sitglf=="#") $bsitglf = "31"; else $bsitglf = $sitglf;
+   if ($siblnf=="#") $bsiblnf = "12"; else $bsiblnf = $siblnf;
+   if ((int)$sithnf<2000) $bsithnf = $this->yearNow; else $bsithnf = $sithnf;
+   if ((int)$bsiblns>0) $bsiblns = $convDate->getNamaBulan($bsiblns);
+   if ((int)$bsiblnf>0) $bsiblnf = $convDate->getNamaBulan($bsiblnf);
+   $tglAwal = $bsitgls." ".$bsiblns." ".$bsithns;
+   $tglAkhir = $bsitglf." ".$bsiblnf." ".$bsithnf;
+   
+$html = "";
+$html = $html.'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head>
+<body>';
+$html = $html. "
+<table cellpadding='0' cellspacing='0' border='0'>
+<tr>
+<td width='10'></td>
+<td colspan='3'><font size='4' face='arial'><u>Rekap Absensi Pegawai</u></font>
+</td>
+</tr>
+<tr height='15'><td colspan='4'></td></tr>
+<tr height='12'>
+<td width='10'></td>
+<td width='60'><font size='3' face='arial'>Unit Kerja</font></td>
+<td width='10'><font size='3' face='arial'>:</font></td>
+<td width='590'><font size='3' face='arial'>".$this->serviceE->getUnitKerjaDesc($idOrg)."</font></td>
+</tr>
+<tr height='12'>
+<td width='10'></td>
+<td width='60'><font size='3' face='arial'>Periode</font></td>
+<td width='10'><font size='3' face='arial'>:</font></td>
+<td width='590'><font size='3' face='arial'>".$tglAwal." s/d ".$tglAkhir."</font></td>
+</tr>
+<tr height='15'><td colspan='4'></td></tr>
+<tr height='12'>
+<td width='10'></td>
+<td colspan='3'>
+   <table cellpadding='0' cellspacing='0' border='1'>
+   <tr height='12'>
+   <td width='30' align='center' valign='middle'><font size='3' face='arial'>No</font></td>
+   <td width='150' align='center' valign='middle'><font size='3' face='arial'>Nama</font></td>
+   <td width='60' align='center' valign='middle'><font size='3' face='arial'>Nip</font></td>";
+   $jmlAbsensiDescList = count($this->absensiDescList);
+   for ($j=0; $j<$jmlAbsensiDescList; $j++)
+   {
+      $html = $html. "
+      <td width='30' align='center' valign='middle'>".$this->absensiDescList[$j]['c_absensi']."</td>";
+   }
+   $html = $html. "
+   </tr>
+   <tr height='1' bgcolor='#000'>
+   <td colspan='".(2+(int)$jmlAbsensiDescList)."'></td>
+   </tr>";
+   foreach ($pegawai as $key => $val)
+   {
+      if ($key%2==0) 
+      {
+         $html = $html. "
+	     <tr height='12' bgcolor=''>";
+      } 
+      else if ($key%2==1) 
+      { 
+         $html = $html. "
+	     <tr height='12' bgcolor=''>";
+      } 
+      $noUrut = $key +1; 
+      $html = $html. "
+      <td align='right'>&nbsp;".$noUrut."</td>
+      <td align='left'>&nbsp;".$this->escape($val['n_peg'])."</td>
+      <td align='center'>".$this->escape($val['i_peg_nip'])."</td>";
+      for ($j=0; $j<$jmlAbsensiDescList; $j++)
+      {
+         $html = $html. "
+         <td align='center'>".
+	     $this->serviceE->getAbsensiVal($val['i_peg_nip'],$this->absensiDescList[$j]['c_absensi'],$tglAwal,$tglAkhir)."</td>";
+      }   
+   }
+   $pejabatData = explode(";",$this->pejabat);
+   $nipPejabat = $pejabatData[0];
+   $jabatan = $pejabatData[1];
+   $namaPejabat = $pejabatData[2];
+   $tglCetak = $this->tglCetak;
+   $html = $html. "
+   <tr height='1' bgcolor='#000'><td colspan='".(2+(int)$jmlAbsensiDescList)."'></td></tr>
+   <tr height='15'><td colspan='".(2+(int)$jmlAbsensiDescList)."'></td></tr>
+   </table>
+   <table cellpadding='0' cellspacing='0' border='0'>
+   <tr><td align='top' width='500'>
+      <table cellpadding='0' cellspacing='0' border='0'>
+	  <tr><td colspan='3'><font size='3' face='arial'>Keterangan : </font></td></tr>";
+      $jmlAbsensiDescList = count($this->absensiDescList);
+      for ($j=0; $j<$jmlAbsensiDescList; $j++)
+      {
+         $html = $html. "
+         <tr>
+		 <td width='30' align='left'>".$this->absensiDescList[$j]['c_absensi']."</td>
+		 <td width='5'>:</td>
+		 <td width='150' align='left'>".$this->absensiDescList[$j]['n_absensi']."</td>
+		 <td width='5'></td>";
+		 if ($j+1<=$jmlAbsensiDescList)
+		 {
+            $html = $html. "
+		    <td width='30' align='left'>".$this->absensiDescList[$j+1]['c_absensi']."</td>
+		    <td width='5'>:</td>
+		    <td width='150' align='left'>".$this->absensiDescList[$j+1]['n_absensi']."</td>";
+		 }
+		 else
+		 {
+            $html = $html. "
+		    <td width='30' align='left'></td>
+		    <td width='5'>:</td>
+		    <td width='150' align='left'></td>";
+		 }
+         $html = $html. "
+		 </tr>"; $j++;
+      }
+      $html = $html. "
+	  </table>
+   </td>
+   <td align='top' width='200'>
+      <table cellpadding='0' cellspacing='0' border='0'>
+      <tr><td><font size='3' face='arial'>Jakarta, ".
+	  substr($tglCetak,0,2)." ".$convDate->getNamaBulan((int)substr($tglCetak,2,2))." ".
+      substr($tglCetak,4,4)."</font>
+      </td>
+      </tr>
+      <tr><td></td></tr>
+      <tr><td><font size='3' face='arial'>".$jabatan."</font></td></tr>
+      <tr height='50'><td></td></tr>
+      <tr><td><font size='3' face='arial'><u>".$namaPejabat."</u></font></td><tr>
+      <tr><td><font size='3' face='arial'>Nip : ".$nipPejabat."</font></td><tr>
+      </table>
+   </td>
+   </tr>
+   </table>
+</td>
+</tr>
+</table>
+</body>
+</html>";
+
+	$formatToPdf = $html;
+
+	$filename = "/tmp/test1.html";
+	$filepdf = "/tmp/test1.pdf";
+	
+	$ourFileHandle = fopen($filename, 'w+') or die("can't open file");
+	fclose($ourFileHandle);
+
+	$fh = fopen($filename, 'w+') or die("can't open file");
+	fwrite($fh, $formatToPdf);
+	fclose($fh);
+	
+
+	$options="--footer . --continuous --duplex --landscape --tocheader ht --left margin 3cm --right margin 1cm --size letter";
+
+	# Tell HTMLDOC not to run in CGI mode...
+       putenv("HTMLDOC_NOCGI=1");
+
+	# Write the content type to the client...
+	header("Content-Type: application/pdf");
+	header("Content-Disposition: attachment; filename=".$filepdf);
+	flush();
+
+	# Run HTMLDOC to provide the PDF file to the user...
+	passthru("htmldoc -t pdf --quiet --jpeg --webpage $options '$filename'");
+   
+?>

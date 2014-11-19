@@ -1,0 +1,197 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/tanggal.php'; 
+  require_once 'share/halaman_list.php';
+   
+$ctrlDate = new tanggal(); 
+   $halaman = new halaman_list();
+   
+   $ctrlFrm = new Zend_View();
+   $thnskrg = date("Y");
+
+	$blnArr = array("#"=>"--","01"=>"Januari","02"=>"Februari","03"=>"Maret","04"=>"April","05"=>"Mei",
+					"06"=>"Juni","07"=>"Juli","08"=>"Agustus","09"=>"September","10"=>"Oktober","11"=>"November",
+					"12"=>"Desember");
+?>
+<script language="JavaScript" type="text/javascript">
+<!--// calculate the ASCII code of the given character
+function CalcKeyCode(aChar) {
+  var character = aChar.substring(0,1);
+  var code = aChar.charCodeAt(0);
+  return code;
+}
+
+function checkNumber(val) {
+  var strPass = val.value;
+  var strLength = strPass.length;
+  var lchar = val.value.charAt((strLength) - 1);
+  var cCode = CalcKeyCode(lchar);
+
+  if ((cCode < 48) || (cCode > 57)) {
+    var myNumber = val.value.substring(0, (strLength) - 1);
+    val.value = myNumber;
+  }
+  return false;
+}
+-->
+</script>
+
+<?
+$nip = $_REQUEST['nip'];
+$_SESSION['nip'] = $nip;
+
+	$jumIjinList = count($this->ijinList);
+   $totalData = $this->totijinList;
+   $numToDisplay = $this->numToDisplay;
+   $currentPage = $this->currentPage;
+   (($currentPage -1)* $numToDisplay) + $key +1;
+   for ($j = 0; $j < $jumIjinList; $j++) 
+   {
+     $nomrE = (($currentPage -1)* $numToDisplay) + $j+1;
+     $ijin[$j] = array("no" =>$nomrE,
+						"nip"  			=>(string)$this->ijinList[$j]['nip'],
+						"nama"			=>(string)$this->ijinList[$j]['nama'],
+	                    "noSurat"     	=>(string)$this->ijinList[$j]['noSurat'],
+	                    "tanggal"     	=>(string)$this->ijinList[$j]['tanggal'],
+						"jamMulai"  	=>(string)$this->ijinList[$j]['jamMulai'],
+						"jamSelesai"  	=>(string)$this->ijinList[$j]['jamSelesai'],
+						"jenis"  		=>(string)$this->ijinList[$j]['jenis'],
+						"namaJenis"  	=>(string)$this->ijinList[$j]['namaJenis'],
+						"keterangan" 	=>(string)$this->ijinList[$j]['keterangan']);	
+   } 
+
+	$pesan = $this->pesan;
+	$tgl1 = $this->tgl1;
+	$tgl2 = $this->tgl2;
+
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'absensi');
+   echo $this->render('absensijs.phtml'); 
+   
+   
+?>
+<div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong> SDM 
+				<strong> &#8250; </strong>Absensi
+				<strong> &#8250; </strong>Melihat Absensi Pegawai
+</div>
+<a name="top"></a>
+
+	<div style="overflow: hidden;">
+		<div class="wrap">
+			<div class="panel">
+				<div class="inner">
+					<span class="corners-top"><span></span></span>
+					<h2 class="title">Melihat Absensi Pegawai</h2>
+			<table border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td width="2%">&nbsp;</td>
+					<td width="25%">Nomor Surat</td>
+					<td width="2%">:</td> 
+					<td>
+					<?
+						$noSurat = $_POST['noSurat'];
+					   if ($noSurat == null) {
+							$noSurat = $_REQUEST['param1'];
+					   }
+						$noSuratAtrib = array("size"=>"50",
+										 "maxlength"=>"30",
+										 "class"=>""); 
+						echo $ctrlFrm->formText('noSurat', $noSurat, $noSuratAtrib);
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>Nama</td>
+					<td>:</td> 
+					<td>
+					<?
+						$nama = $_POST['nama'];
+					   if ($nama == null) {
+							$nama = $_REQUEST['param2'];
+					   }
+						$namaAtrib = array("size"=>"50",
+										 "maxlength"=>"35",
+										 "class"=>""); 
+						echo $ctrlFrm->formText('nama', $nama, $namaAtrib);
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>NIP</td>
+					<td>:</td> 
+					<td>
+					<?
+						$nip = $_POST['nip'];
+					   if ($nip == null) {
+							$nip = $_REQUEST['param3'];
+					   }
+						$nipAtrib = array("size"=>"25",
+								 //"maxlength"=>"9",
+								 "maxlength"=>"20",
+								 "class"=>""); 
+						echo $ctrlFrm->formText('nip', $nip, $nipAtrib); 
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>Periode</td>
+					<td>:</td> 
+					<td>
+<?										
+						echo $ctrlDate->formatTanggal('d_pend_ijazah',$this->d_pend_ijazah)." s/d ".$ctrlDate->formatTanggal('d_pend_ijazah',$this->d_pend_ijazah);
+?>											
+					</td> 
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td> 
+					<td>
+					<?
+					  $atribSubmit = array("onclick"=>"javascript:cariDataIjin();");
+					  echo $ctrlFrm->formSubmit('perintah', 'CARI', $atribSubmit)."&nbsp;";
+					?>
+					</td>
+				</tr>
+				</table>
+			<div class="add" title="Tambah Data" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/absensi/tambahijin','');"></div>			
+			<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+				<tr>
+			    <th width="4%">No.</th>
+			    <th width="15%">Nomor Surat</th>
+			    <th width="20%">Nama</th>
+			    <th width="7%">NIP</th>
+			    <th width="8%">Tanggal</th>
+				<th width="8%">Jam Mulai</th>
+				<th width="8%">Jam Selesai</th>
+				<th width="10%">Jenis Absen</th>
+				<th width="14%">Keterangan</th>
+				<th width="6%">&nbsp;</th>
+				</tr>
+				<tr class="event">
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>	
+					<td>&nbsp;</td>					
+				</tr>				
+		</table>					
+					
+<?
+$modul = $this->basePath."/sdm/datapegawai/pegawaisearch";
+echo $halaman->halamanList($this->totalpegawaiList, $this->numToDisplay, $this->currentPage, $modul)
+?>							
+					<span class="corners-bottom"><span></span></span>
+				</div>
+			</div>
+		</div>
+	</div>

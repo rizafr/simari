@@ -1,0 +1,89 @@
+<script>
+(function(jQuery){adminMenu={init:function(){jQuery('#adminmenu div.wp-menu-toggle').each(function(){if(jQuery(this).siblings('.wp-submenu').length)jQuery(this).click(function(){adminMenu.toggle(jQuery(this).siblings('.wp-submenu'))});else jQuery(this).hide()});jQuery('#adminmenu li.menu-top .wp-menu-image').click(function(){window.location=jQuery(this).siblings('a.menu-top')[0].href});this.favorites();jQuery('.wp-menu-separator').click(function(){if(jQuery('#content').hasClass('folded')){adminMenu.fold(1)}else{adminMenu.fold()}})},restoreMenuState:function(){jQuery('#adminmenu li.wp-has-submenu').each(function(i,e){var v=getUserSetting('m'+i);if(jQuery(e).hasClass('wp-has-current-submenu'))return true;if('o'==v)jQuery(e).addClass('wp-menu-open');else if('c'==v)jQuery(e).removeClass('wp-menu-open')})},toggle:function(el){el['slideToggle'](150,function(){el.css('display','')}).parent().toggleClass('wp-menu-open');return false},fold:function(off){if(off){jQuery('#content').removeClass('folded');jQuery('#adminmenu li.wp-has-submenu').unbind()}else{jQuery('#content').addClass('folded')}},favorites:function(){jQuery('#favorite-inside').width(jQuery('#favorite-actions').width()-4);jQuery('#favorite-toggle, #favorite-inside').bind('mouseenter',function(){jQuery('#favorite-inside').removeClass('slideUp').addClass('slideDown');setTimeout(function(){if(jQuery('#favorite-inside').hasClass('slideDown')){jQuery('#favorite-inside').slideDown(100);jQuery('#favorite-first').addClass('slide-down')}},200)});jQuery('#favorite-toggle, #favorite-inside').bind('mouseleave',function(){jQuery('#favorite-inside').removeClass('slideDown').addClass('slideUp');setTimeout(function(){if(jQuery('#favorite-inside').hasClass('slideUp')){jQuery('#favorite-inside').slideUp(100,function(){jQuery('#favorite-first').removeClass('slide-down')})}},300)})}};jQuery(document).ready(function(){adminMenu.init()})})(jQuery);
+</script>
+<ul id="adminmenu" >
+				<li class="wp-menu-separator"><br></li>
+				<li title="Data Pokok" class="wp-has-submenu menu-top menu-top-first">					
+					<div class="wp-menu-toggle" style="display: none;"><br></div>
+					<a tabindex="1" class="menu-top" href="#DataPokok" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pokok<span class="count-0" id="awaiting-mod"><span class="pending-count">0</span></span></a>
+				</li>			
+				
+				<li title="Riwayat Pendidikan" class="wp-has-submenu menu-top">
+					<div class="wp-menu-toggle" style="display: none;"><br></div>
+					<a tabindex="1" class="wp-has-submenu menu-top" href="#RiwayatPendidikan" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapendidikan/listpendidikan','<?php echo $this->basePath; ?>/sdmmodule/datapendidikan/pendidikanjs');">Riwayat Pendidikan</a>
+				</li>
+
+				<li title="Pelatihan" class="wp-has-submenu menu-top">
+					<div class="wp-menu-toggle" style="display: none;"><br></div>
+					<a tabindex="1" class="wp-has-submenu menu-top" href="#Pelatihan" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapelatihan/listpelatihan','<?php echo $this->basePath; ?>/sdmmodule/datapelatihan/pelatihanjs');">Pelatihan</a>
+				</li>
+
+				<li title="Seminar" class="wp-has-submenu menu-top">
+					<div class="wp-menu-toggle" style="display: none;"><br></div>
+					<a tabindex="1" class="wp-has-submenu menu-top" href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataseminar/listseminar','<?php echo $this->basePath; ?>/sdmmodule/dataseminar/seminarjs');">Seminar</a>
+				</li>
+
+				<li title="Riwayat Kepangkatan" class="wp-has-submenu menu-top">
+					<div class="wp-menu-toggle" style="display: none;"><br></div>
+					<a tabindex="1" class="wp-has-submenu menu-top" href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapangkat/listpangkat','<?php echo $this->basePath; ?>/sdmmodule/datapangkat/pangkatjs');">Riwayat Kepangkatan</a>
+				</li>				
+
+				<li title="Riwayat Jabatan" class="wp-has-submenu menu-top">
+					<div class="wp-menu-toggle" style="display: none;"><br></div>
+					<a tabindex="1" class="wp-has-submenu menu-top" href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/jabatan','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Riwayat Jabatan</a>
+				</li>				
+
+				<li title="Sertifikasi" class="wp-has-submenu menu-top">
+					<div class="wp-menu-toggle" style="display: none;"><br></div>
+					<a tabindex="1" class="wp-has-submenu menu-top" href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/sertifikasi','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Sertifikasi</a>
+				</li>
+
+				<li title="Sertifikasi" class="wp-has-submenu menu-top">
+					<div class="wp-menu-toggle" style="display: none;"><br></div>
+					<a tabindex="1" class="wp-has-submenu menu-top" href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/organisasi','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Organisasi</a>
+				</li>				
+				
+				<li title="Penghargaan" class="wp-has-submenu menu-top">
+					<div class="wp-menu-toggle" style="display: none;"><br></div>
+					<a tabindex="1" class="wp-has-submenu menu-top" href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/penghargaan','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Penghargaan</a>
+				</li>
+
+				<li title="Riwayat Hukuman" class="wp-has-submenu menu-top">
+					<div class="wp-menu-toggle" style="display: none;"><br></div>
+					<a tabindex="1" class="wp-has-submenu menu-top" href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/hukuman','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Riwayat Hukuman</a>
+				</li>
+
+				<li title="Ke Luar Negeri" class="wp-has-submenu menu-top">
+					<div class="wp-menu-toggle" style="display: none;"><br></div>
+					<a tabindex="1" class="wp-has-submenu menu-top" href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/luarnegeri','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Ke Luar Negeri</a>
+				</li>
+				
+				<li title="Riwayat Kesehatan" class="wp-has-submenu menu-top">
+					<div class="wp-menu-toggle" style="display: none;"><br></div>
+					<a tabindex="1" class="wp-has-submenu menu-top" href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/kesehatan','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Riwayat Kesehatan</a>
+				</li>
+
+				<li title="Keluarga" class="wp-has-submenu menu-top">
+					<div class="wp-menu-toggle" style="display: none;"><br></div>
+					<a tabindex="1" class="wp-has-submenu menu-top" href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/keluarga','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Keluarga</a>
+				</li>				
+
+				<li title="Orang Tua & Kerabat" class="wp-has-submenu menu-top">
+					<div class="wp-menu-toggle" style="display: none;"><br></div>
+					<a tabindex="1" class="wp-has-submenu menu-top" href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/kerabat','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Orang Tua & Kerabat</a>
+				</li>	
+<!--				
+				<li title="Riwayat Alamat" class="wp-has-submenu menu-top">
+					<div class="wp-menu-toggle" style="display: none;"><br></div>
+					<a tabindex="1" class="wp-has-submenu menu-top" href="#" onclick="open_url_to_div('<?php //echo $this->basePath; ?>/sdmmodule/datapegawai/alamat','<?php //echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Riwayat Alamat</a>
+				</li>	
+-->
+				
+				<li title="Ambil Foto" class="wp-has-submenu menu-top menu-top-last">
+					<div class="wp-menu-toggle" style="display: none;"><br></div>				
+					<a tabindex="1" class="wp-has-submenu menu-top" href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/ambilfoto','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Ambil Foto</a>
+				</li>	
+				
+				<li class="wp-menu-separator"><br></li>
+</ul>
+

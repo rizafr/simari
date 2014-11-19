@@ -1,0 +1,157 @@
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><?php echo $this->render('partials/sdm/head.phtml'); ?></head>
+<body>
+<div id="main"><!--main start -->
+	<div id="header">
+		<?php echo $this->render('partials/sdm/app_sdm.phtml'); ?>
+<!--header start -->
+	</div><!--header end -->
+	<div id="cont-nav">
+	    <div id="nav-top">
+				<div class="username">Nama User : <?php echo $this->ssologin->userid; ?> | <a href="/logout">Logout</a></div>
+				<div class="crdate"><span id="servertime"></span></div>
+		</div>
+			<div id="nav">
+				<?php 
+				//echo $this->render('partials/sdm/headMenu.phtml'); 
+				echo $this->render('partials/headMenu-db.phtml'); 
+				?>
+			</div>
+	
+	</div>  
+
+
+	<div id="page">
+	 <div id="content">
+		<div id="tableview">
+			<div class="navlink">Halaman Utama</div>
+			
+			<div class="das2">
+
+				<div class="hd">Dashboard</div>
+					<div class="bd">
+					<center>
+					
+						<div class="space2"></div>
+						<div class="hr"></div>
+		
+						<div class="space2"></div>
+						<table border="0" width="100%" align="center" cellpadding="0" cellspacing="1">
+							<tr>
+								<td align="center">
+									<?echo $this->chartjmlpeg;?>
+									<table border="0" width="100%" align="center" class="tbl2" cellpadding="0" cellspacing="1">
+									<tr>
+										<th><25</th>
+										<th>26 s/d 35</th>
+										<th>36 s/d 45</th>
+										<th>46 s/d 55</th>
+										<th>>56</th>
+									</tr>
+									<tr class="event">
+										<td align="right"><?=$this->jml25?></td>
+										<td align="right"><?=$this->jml2635?></td>
+										<td align="right"><?=$this->jml3645?></td>
+										<td align="right"><?=$this->jml4655?></td>
+										<td align="right"><?=$this->jml56?></td>
+									</tr>
+									</table>
+								</td>
+								<td align="center">
+									<?echo $this->chartpend;?>
+									<table border="0" width="100%" align="center" class="tbl2" cellpadding="0" cellspacing="1">
+									<tr>
+										<th>SD</th>
+										<th>SMP</th>
+										<th>SMA</th>
+										<th>D1</th>
+										<th>D2</th>
+										<th>D3</th>
+										<th>S1</th>
+										<th>S2</th>
+										<th>S3</th>
+									</tr>
+									<tr class="event">
+										<td align="right"><?=$this->jmlsd?></td>
+										<td align="right"><?=$this->jmlsmp?></td>
+										<td align="right"><?=$this->jmlsma?></td>
+										<td align="right"><?=$this->jmld1?></td>
+										<td align="right"><?=$this->jmld2?></td>
+										<td align="right"><?=$this->jmld3?></td>
+										<td align="right"><?=$this->jmls1?></td>
+										<td align="right"><?=$this->jmls2?></td>
+										<td align="right"><?=$this->jmls3?></td>
+									</tr>
+									</table>	
+										
+								</td>
+								<td align="center">
+									<?echo $this->chartgol;?>
+									<table border="0" width="100%" align="center" class="tbl2" cellpadding="0" cellspacing="1">
+									<tr>
+										<th>I</th>
+										<th>II</th>
+										<th>III</th>
+										<th>IV</th>
+									</tr>
+									<tr class="event">
+										<td align="right"><?=$this->jmlgol1?></td>
+										<td align="right"><?=$this->jmlgol2?></td>
+										<td align="right"><?=$this->jmlgol3?></td>
+										<td align="right"><?=$this->jmlgol4?></td>
+									</tr>
+									</table>
+								</td>								
+							</tr>							
+						</table>
+				
+					</center> 
+				</div>
+			<div class="ft"></div>
+	    </div>	
+
+
+
+	  <div class="widget">
+		<h4 class="widgettitle">Reminder</h4>
+		<ul  class="nostyle">
+			<li> 
+				<?if ($this->remindPensiun!=0){?>
+					<a href="#targetreminder" onclick="listdata('pensiun')"> Daftar Pegawai yang akan pensiun 1 tahun ke depan <blink> (<?=$this->remindPensiun?>)</blink></a>
+				<?} else {?>
+					Daftar Pegawai yang akan pensiun 1 tahun ke depan(<?=$this->remindPensiun?>)
+				<?}?>
+			</li>
+			<li> 
+				<?if ($this->remindGolPangkat!=0){?>
+					<a href="#targetreminder" onclick="listdata('golongan')"> Daftar Pegawai yang akan naik Gol/Pangkat 6 bulan ke depan <blink> (<?=$this->remindGolPangkat?>)</blink></a>
+				<?} else {?>
+					Daftar Pegawai yang akan naik Gol/Pangkat 6 bulan ke depan(<?=$this->remindGolPangkat?>)
+				<?}?>
+			<li>
+				<?if ($this->remindKgb!=0){?>
+					<a href="#targetreminder" onclick="listdata('kgb')"> Daftar Pegawai yang akan menerima Kenaikan Gaji Berkala (KGB) 6 bulan ke depan <blink> (<?=$this->remindGolPangkat?>)</blink></a>
+				<?} else {?>
+					Daftar Pegawai yang akan menerima Kenaikan Gaji Berkala (KGB) 6 bulan ke depan(<?=$this->remindGolPangkat?>)
+				<?}?>	
+			
+			</li>
+		</ul>
+	  </div>			
+	<div id="targetreminder"></div>		  
+
+		</div>
+</div>				 
+		<div class="space2"></div>
+	 </div>
+
+	</div>
+</DIV><!--main  end -->
+<div id="footer"><!--footer start -->
+<?php echo $this->render('partials/sdm/footer.phtml'); ?>
+</div><!--footer end -->
+</body>
+
+</html>

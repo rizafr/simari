@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><?php echo $this->render('partials/cms/head.phtml'); ?></head>
+<body>
+<div id="loading" style="display:none;"><img src="<?echo $this->baseUrl;?>/images/ajaxLoading.gif" alt="loading..." /></div>
+<div id="head"><img src="<?echo $this->baseUrl;?>/images/logo.jpg" style="float:left">&nbsp;&nbsp;
+<h1>Content Management System<br></h1>Portal Internal Pemerintah Kota Cimahi <a href="/main" >[Lihat Portal]</a>
+<div class="clear"></div>
+</div>
+<div id="nav"><?php echo $this->render('partials/cms/headMenu.phtml'); ?></div>
+<div id="msg">
+<div class="user_info">Halo, <strong><?php echo $this->ssologin->userid?> (<?php echo $this->ssologin->n_peg?>) </strong>. [<a href="logout" title="Keluar log dari akun ini">Logout</a>]&nbsp;&nbsp;&nbsp;</div>
+</div>
+<div id="tableview" class="wrap">
+
+<?php echo $this->render('partials/cms/dashboard.phtml'); ?>
+
+</div>
+
+<?php echo $this->render('partials/cms/footer.phtml'); ?>
+</body>
+
+</html>

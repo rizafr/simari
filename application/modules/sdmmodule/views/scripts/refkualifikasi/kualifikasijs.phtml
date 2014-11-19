@@ -1,0 +1,56 @@
+function openFormKualifikasi(par,c_kualifikasi,n_kualifikasi){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refkualifikasi/kualifikasiolahdata";
+	var opt = {par:par, c_kualifikasi:c_kualifikasi, n_kualifikasi:n_kualifikasi};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formkualifikasi").ajaxForm(maintain_kualifikasi);
+		});		
+} 
+
+function insertKualifikasi(){
+	jQuery("#formkualifikasi").ajaxForm(maintain_kualifikasi);
+}
+
+var maintain_kualifikasi = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formkualifikasi").ajaxForm(maintain_kualifikasi);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refkualifikasi/insertkualifikasi',
+	type: 'post',
+	resetForm: false
+};
+
+function updateKualifikasi(){
+	jQuery("#formkualifikasi").ajaxForm(update_kualifikasi);
+}
+
+var update_kualifikasi = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formkualifikasi").ajaxForm(maintain_kualifikasi);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refkualifikasi/updatekualifikasi',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusKualifikasi(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refkualifikasi/deletekualifikasi';
+		var opt = {c_kualifikasi : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

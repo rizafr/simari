@@ -1,0 +1,32 @@
+<div class="navlink">
+	<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+	<strong> &#8250; </strong>User Manual Forum
+</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+</div>
+
+
+<h2>Download User Manual Forum</h2>
+<br>
+<div class="panel">
+<form id="formimport" method="post" name="formimport" enctype="multipart/form-data" action="">
+<table>
+<tr>
+	<td>Download File User Manual disini</td>
+	<td>:</td>
+	<td><a href="#"><span class="ico-pdf" title="Download File" onclick="ambilFilePdf()">&nbsp;&nbsp;&nbsp;&nbsp;</span></a></td>
+</tr>
+</table>
+
+	
+</form>
+</div>	
+	<div id="trgt" style="display: none">
+		<table>
+			<tr>
+				<td><h2>Harap bersabar proses pindah data sedang dilakukan....</h2></td>
+			</tr>
+		</table>
+	</div>

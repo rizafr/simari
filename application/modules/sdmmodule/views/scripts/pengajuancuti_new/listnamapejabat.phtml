@@ -1,0 +1,181 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+require_once 'share/halaman_list.php'; 
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$jmlnmPegList = count($this->PegawaiList);  
+$halaman = new halaman_list();
+//$nom =$this->nom;
+
+?>
+<div id="backgroundPopup"></div>
+	<div id="popupContact">
+	<div class="panel" style="height: 550px;overflow: auto;border: solid 1px #000;padding: 5px;" >
+			<div class="search-panel">				
+				Pencarian berdasarkan :
+					<?
+						$cCol = array(""=>"--Pilih--",
+									"i_peg_nip"=>"NIP",
+									"n_peg"=>"Nama",
+									"unitkerja"=>"Unit Kerja");
+							$varUnit = array("onchange"=>"javascript:cariDataUnit('')");  								
+							echo $ctrlFrm->formSelect('cCol', $this->cCol, $varUnit, $cCol); 							
+					?>
+					<span id="target" style="display:inline">
+					<?if (trim($this->cCol)=='c_golongan'){include("combogolongan.phtml");}					
+					else{
+					if (trim($this->cCol)!='unitkerja'){
+					?>
+						<input type="text" name="nCol" id="nCol" value="<?echo $this->nCol?>" size="50">
+					<?}}?>	
+					</span>
+					
+				<?if (trim($this->cCol)=='unitkerja'){?>					
+				<div id="targetcari" style="display:inline">
+				<?}else{?>
+				<div id="targetcari" style="display:none">
+				<?}
+				if ($this->c_lokasi_unitkerja=='1'){include("listcombox.phtml");}
+				else{include("listcombo2x.phtml");}
+				?>
+			</div>				
+		<div class="search-panel">	
+		
+			<input type="button" value="Cari" onclick="javascript:cariListPegawai();">
+		</div>	
+</form>
+					<center>
+					
+					<div class="inner" id="targettbl">					
+						<span class="corners-top"><span></span></span>
+						<div class="spacer"></div> 
+						<table width="80%">
+						<tr>
+						<td>
+						<div class="delete" title="Close" onclick="closeDetil()"></div><h2>Daftar Pegawai</h2>
+						   <table align="center" border="0" cellspacing="1" cellpadding="2" class="tbl">
+								<tr>
+									<th width="5%">No.</th>
+									<th width="10%">NIP</th>
+									<th width="15%">Nama</th>
+									<th width="30%">Unit Kerja</th>
+								</tr> 
+<? 		if (count($this->PegawaiList) == 0) {?>
+								<tr class="event">
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>	
+<?		}else{
+				foreach ($this->PegawaiList as $key => $val):  
+										if ($key%2==0) { ?>
+										<tr class="event">
+										<? } else if ($key%2==1) { ?>
+										<tr class="event2">
+										<? } 
+										$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
+										?>
+											<td class="clcenter"><?php echo $noUrut;?></td>
+											<td><a href="#" class="link" onclick="pilihData('<?php echo $this->escape($val['i_peg_nip']);?>','<?php echo $this->escape($val['n_peg']);?>','<?php echo $this->escape($val['n_unitkerja']);?>')"><?php echo $this->escape($val['i_peg_nip']);?></a></td>
+											<td><?php echo $this->escape($val['n_peg']);?></td>
+											<td><?php echo $this->escape($val['n_eselon']);?></td>											
+										</tr>
+<?php 
+				endforeach;
+		}
+?>
+						</table>
+	
+							
+<?	
+$orderBy=$this->orderBy;
+$modul = $this->basePath."/sdmmodule/pengajuancuti/listnamapejabat?orderBy=$orderBy&order=$this->orderbya&cCol=$this->cCol&nCol=$this->nCol&nom=$this->nom&c_lokasi_unitkerja=$this->c_lokasi_unitkerja&eseloni=$this->c_eselon_i&eselonii=$this->c_eselon_ii&eseloniii=$this->c_eselon_iii&eseloniv=$this->c_eselon_iv";
+echo $halaman->halamanListPopup($this->totalpegawaiList, $this->numToDisplay, $this->currentPage, $modul)
+?>
+						</td>
+						</tr>
+						</table>
+</center>						
+						<span class="corners-bottom"><span></span></span>
+					</div>
+				</div>
+			</div><!-- wrap -->	
+		</div>
+
+
+<script>
+function pilihData(nip,nama,n_unitkerja){
+	document.getElementById('i_peg_nip').value=nip;
+	document.getElementById('n_peg').value=nama;
+	document.getElementById('n_unitkerja').value=n_unitkerja;
+	closeDetil();
+}
+
+
+function cariListPegawai(){
+var cCol=document.getElementById('cCol').value;
+var nCol="";
+if (cCol!="unitkerja"){nCol=document.getElementById('nCol').value;}
+
+var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+var eseloni=document.getElementById('c_eselon_ix').value;
+var eselonii=document.getElementById('c_eselon_iix').value;
+var eseloniii=document.getElementById('c_eselon_iiix').value;
+var eseloniv=document.getElementById('c_eselon_ivx').value;
+	
+var url = '<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/listnamapejabat';
+var param = {cCol:cCol,nCol:nCol,c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+jQuery.get(url,param,function(data) {
+jQuery("#popupview").html(data);
+centerPopup();
+loadPopup();
+});}
+
+function cariDataUnit(){
+	var cCol =document.getElementById('cCol').value;
+	if (cCol=='unitkerja'){
+		$("#targetcari").css("display","block");
+		$("#target").css("display","none");
+		var url = '<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/listcombox';
+		var param = {cCol:cCol};
+		jQuery.get(url,param,function(data) {jQuery("#targetcari").html(data);});	
+	}
+	else{
+		$("#target").css("display","inline");
+		$("#targetcari").css("display","none");	
+		document.getElementById('nCol').value="";
+		var url = '<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listtext';
+		var param = {cCol:cCol};
+		jQuery.get(url,param,function(data) {jQuery("#target").html(data);});		
+	}
+}
+function cariCombo3(){
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+	var eseloni=document.getElementById('c_eselon_ix').value;
+	var eselonii=document.getElementById('c_eselon_iix').value;
+	var eseloniii=document.getElementById('c_eselon_iiix').value;
+	var eseloniv=document.getElementById('c_eselon_ivx').value;
+	
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/listcombox'; 
+	var param = {c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+	jQuery.get(url, param, function(data) {
+		jQuery("#listcombo").html(data);
+	});
+} 
+function cariCombonya(){
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+	var eseloni=document.getElementById('c_eselon_ix').value;
+	var eselonii=document.getElementById('c_eselon_iix').value;
+	var eseloniii=document.getElementById('c_eselon_iiix').value;
+	var eseloniv=document.getElementById('c_eselon_ivx').value;	
+	
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/pengajuancuti/listcombox'; 
+	var param = {c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+	jQuery.get(url, param, function(data) {
+		jQuery("#listcombo").html(data);
+	});
+}
+</script>

@@ -1,0 +1,71 @@
+function openFormJabatan(par,c_jabatan){
+	// , n_jabatan:n_jabatan,e_keterangan:e_keterangan,c_tkfgs:c_tkfgs,c_kelfgs:c_kelfgs,c_golr:c_golr,c_golt:c_golt,n_jenjang:n_jenjang, c_tanda:c_tanda,c_eselon:c_eselon,c_strata:c_strata,q_tunjangan:q_tunjangan,q_usia_pens:q_usia_pens,q_tktfgs:q_tktfgs,q_ak_minimal:q_ak_minimal
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refjabatan/jabatanolahdata";
+	var opt = {par:par, c_jabatan:c_jabatan};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formjabatan").ajaxForm(maintain_jabatan);
+		});		
+} 
+
+function insertJabatan(){
+	jQuery("#formjabatan").ajaxForm(maintain_jabatan);
+}
+
+var maintain_jabatan = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formjabatan;
+		astr= "document.formjabatan";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/								
+					if((!n_jabatan.value)){cekVal = sdmValidasiData(astr,"n_jabatan","Nama Jabatan harus diisi....!");return false;break;}
+					if((!q_usia_pens.value)){cekVal = sdmValidasiData(astr,"q_usia_pens","Usia Pensiun harus diisi....!");return false;break;}
+					
+				 break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjabatan").ajaxForm(maintain_jabatan);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refjabatan/insertjabatan',
+	type: 'post',
+	resetForm: false
+};
+
+function updateJabatan(){
+	jQuery("#formjabatan").ajaxForm(update_jabatan);
+}
+
+var update_jabatan = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjabatan").ajaxForm(maintain_jabatan);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refjabatan/updatejabatan',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusJabatan(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refjabatan/deletejabatan';
+		var opt = {c_jabatan : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

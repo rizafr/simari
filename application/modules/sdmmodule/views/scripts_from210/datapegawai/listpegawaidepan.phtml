@@ -1,0 +1,66 @@
+<? require_once 'Zend/View.php';
+    require_once 'share/halaman_list.php';
+  
+   $ctrlFrm = new Zend_View();
+   $halaman = new halaman_list(); 
+  
+    $jmlPegawaiList = count($this->pegawaiList);
+  $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}  
+?>
+<div id="backgroundPopup"></div>
+	<div id="popupContact">
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+			<tr class="event">
+				<td>
+					<div class="delete" title="Close" onclick="closeDetil()"></div>
+				</td>
+			</tr>
+		</table>		   
+   <table align="center" border="0" cellspacing="1" cellpadding="2" class="tbl">
+		<tr>
+			<th width="5%">No.</th>
+			<th width="12%">NIP</th>
+			<th width="25%">Alamat</th>
+			<th width="15%">Tlp. Kantor</th>
+			<th>Unit Kerja</th>
+		</tr> 
+<? 		if ($jmlPegawaiList == 0) {?>
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>	
+<?}else{
+				foreach ($this->pegawaiList as $key => $val): 
+				if ($key%2==0) { ?>
+				<tr class="event">
+				<? } else if ($key%2==1) { ?>
+				<tr class="event2">
+				<? } 
+				$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
+				?>
+					<td><?php echo $noUrut;?></td>				
+					<td><?php echo $this->escape($val['i_peg_nip_new']);?></td>
+					<td><?php echo $this->escape($val['n_peg']);?></td>
+					<td></td>
+					<td><?php echo $this->escape($val['unitkerjalengkap']);?></td>
+					
+				</tr>
+				<?php endforeach;}?>
+	
+	</table>
+<div id="targetdetil"></div>
+
+<?
+
+
+$orderBy=$this->orderBy;
+$modul = $this->basePath."/sdmmodule/datapegawai/listpegawaidepan?cCol=$this->cCol&nCol=$this->nCol"; 
+echo $halaman->halamanListPopup($this->totalpegawaiList, $this->numToDisplay, $this->currentPage, $modul)
+?>	
+	</fieldset>		 
+</div>	

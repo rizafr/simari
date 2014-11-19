@@ -1,0 +1,231 @@
+/*Credits: Vijit Patil */
+
+.tabZ{
+padding: 3px 0;
+margin-left: 0;
+font: bold 12px Trebuchet MS ;
+text-align: left;
+border-bottom: 1px solid gray;
+list-style-type: none;
+
+}
+
+.tabZ li{
+display: inline;
+margin: 0;
+}
+
+.tabZ li a{
+    text-decoration: none;
+    padding: 3px 7px;
+    margin-right: 3px;
+    border: 1px solid gray;
+    border-bottom: none;
+    background-color: #C0C0C0;
+    color: #FDEAFD;
+}
+
+.tabZ li a:visited{
+color: #FDEAFD;
+}
+
+.tabZ li a:hover{
+    background-color: #DCDCDC;
+    color: white;
+}
+
+.tabZ li a:active{
+color: white;
+}
+
+.tabZ li.selected a{/*selected tab*/
+  
+position: relative;
+    top: 1px;
+    padding-top: 4px;
+    background-color: #DCDCDC;
+    color: black;
+}
+
+/* batasnya yang baru */
+a{
+color: #fff;
+text-decoration: none;
+}
+a:hover{
+color: #DFE44F;
+}
+p{
+margin: 0;
+padding: 5px;
+line-height: 1.5em;
+text-align: justify;
+border: 1px solid #73A405;
+}
+#wrapper{
+width: 500px;
+margin: 0 auto;
+}
+.box{
+background: #fff;
+}
+.boxholder{
+clear: both;
+padding: 5px;
+#background: #8DC70A;
+background: #BDB9B9;
+}
+a.link{COLOR: #243D21; FONT: bold 11px verdana;text-decoration: none;}
+a.link:hover{COLOR: #9EF291; FONT: bold 11px verdana;text-decoration: none;}
+
+a.linksp2{COLOR: #fff; FONT: bold 11px verdana;text-decoration: none;}
+a.linksp2:hover{COLOR: #9EF291; FONT: bold 11px verdana;text-decoration: none;}
+
+a.linksp{COLOR: #0F5504; FONT: bold 11px verdana;text-decoration: none;}
+a.linksp:hover{COLOR: #0B1E08; FONT: bold 11px verdana;text-decoration: none;}
+
+.tab02{
+float: left;
+height: 32px;
+width: 132px;
+margin: 0 2px 0 0;
+text-align: center;
+color:#FFF;
+background: #506350;
+}
+.tab{
+float: left;
+height: 32px;
+width: 132px;
+margin: 0 2px 0 0;
+text-align: center;
+#background: #8DC70A url(../images/silvertab.jpg) no-repeat;
+background: #BDB9B9 url(../images/silvertab.jpg) no-repeat;
+}
+.tab2{
+float: left;
+height: 32px;
+width: 86px;
+margin: 0 2px 0 0;
+text-align: center;
+color:#0F5504;
+background: #BDB9B9;
+}
+.tab22{
+float: left;
+height: 32px;
+width: 86px;
+margin: 0 2px 0 0;
+text-align: center;
+color:#FFF;
+background: #506350;
+}
+
+.tabtxt{
+margin: 0;
+font-size: 12px;
+font-weight: bold;
+padding: 9px 0 0 0;
+}
+.tabtxt2{
+margin: 0;
+font-size: 12px;
+font-weight: bold;
+padding: 9px 0 0 0;
+}
+
+ /* MENU TAB */  
+    .tabs {
+      float:left;
+      font: bold 12px Verdana;
+      line-height:15px;
+      margin:0;
+      top:1px;
+      }
+    .tabs ul {
+	  margin:0;
+	  padding:10px 10px 0 50px;
+	  list-style:none;
+      }
+    .tabs li {
+      display:inline;
+      margin:0;
+      padding:0;
+      }
+    .tabs a, .tabs .selected {
+      float:left;
+      background:url("../images/tableft.gif") no-repeat left top;
+      margin:0 0 0 5px;
+      padding:0px 0 0 4px;
+      text-decoration:none;
+      }
+    .tabs a span, .tabs .selected span  {
+      float:left;
+      display:block;
+      background:url("../images/tabright.gif") no-repeat right top;
+      padding:6px 10px 5px 4px;
+      color:#222;
+      }
+    .tabs .selected span  {
+      background-position:100% -84px;
+      }
+    .tabs .selected  {
+      background-position:0% -84px;
+      }
+    .tabs a,
+    .tabs a:link,
+    .tabs a:visited,
+    .tabs a:active {
+      text-decoration:none;
+     }    
+    /* Commented Backslash Hack hides rule from IE5-Mac \*/
+    .tabs a span {float:none;}
+    /* End IE5-Mac hack */
+    .tabs a:hover span {
+	color: #428c1d;
+	  background-position:100% -42px;
+      }
+    .tabs a:hover {
+      background-position:0% -42px;
+      }
+    .tabs a:hover span {
+      background-position:100% -42px;
+	  }
+	  
+	  
+#loading {
+	position:absolute;
+	height:35px;
+	left:50%;
+	margin-left:-50px;
+	position:absolute;
+	top:50%; 
+	bottom:0;
+	visibility:visible;
+	width:120px;
+	z-index:1000;
+	padding:0;
+	text-align:left;
+	background-color:#FAFAFA;
+	border:3px solid #ddd;
+	}
+*html #loading {
+	width:130px;
+	}
+#loading .image {
+	float:left;
+	margin:0;
+	margin-left:5px;
+	text-align:left;
+	}
+#loading .load {
+	float:left;
+	margin:0;
+	font-size:11px;
+	padding:7px 10px 0 0;
+	line-height:13px;
+	text-align:left;
+	margin-left:10px;
+	font-family:Verdana, Tahoma, Arial, Helvetica, sans-serif;
+	color:#333;
+	}	  

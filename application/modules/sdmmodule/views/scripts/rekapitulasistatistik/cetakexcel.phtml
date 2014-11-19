@@ -1,0 +1,366 @@
+<? 
+
+	require_once 'Zend/View.php';
+	require_once 'share/halaman.php';
+	require_once "share/pesan.php";
+	require_once "service/rekapitulasi/rekapitulasi_demografi_Service.php";
+
+	$pesan = new pesan();
+	$ctrlFrm = new Zend_View();
+	$halaman = new halaman(); 
+	$rekapdemografi_serv = rekapitulasi_demografi_Service::getInstance();
+	
+	
+	$title="";
+	$prolog= "Rekapitulasi Demografi";
+$iColSpanKatg = 0;	
+if ($this->isPegKontr=='true') $iColSpanKatg = $iColSpanKatg + 1;
+if ($this->isPegTetap=='true') $iColSpanKatg = $iColSpanKatg + 1;
+
+$iColSpanKompos = 0;
+if ($this->isPegTrmp=='true') $iColSpanKompos = $iColSpanKompos + 1;
+if ($this->isPegOrgn=='true') $iColSpanKompos = $iColSpanKompos + 1;
+
+$iColSpanJabat = 0;
+if ($this->isPegDireksi=='true') $iColSpanJabat = $iColSpanJabat + 1;
+if ($this->isPegDireksi1=='true') $iColSpanJabat = $iColSpanJabat + 1;	
+if ($this->isPegDireksi2=='true') $iColSpanJabat = $iColSpanJabat + 1;	
+
+$iColSpanSex = 0;
+if ($this->isPegPria=='true') $iColSpanSex = $iColSpanSex + 1;
+if ($this->isPegPermp=='true') $iColSpanSex = $iColSpanSex + 1;	
+
+$iColSpanGelar = 0;
+if ($this->isPegGelarS3=='true') $iColSpanGelar = $iColSpanGelar + 1;
+if ($this->isPegGelarS2=='true') $iColSpanGelar = $iColSpanGelar + 1;
+if ($this->isPegGelarS1=='true') $iColSpanGelar = $iColSpanGelar + 1;
+if ($this->isPegGelarD3=='true') $iColSpanGelar = $iColSpanGelar + 1;
+if ($this->isPegGelarD2=='true') $iColSpanGelar = $iColSpanGelar + 1;
+if ($this->isPegGelarD1=='true') $iColSpanGelar = $iColSpanGelar + 1;
+if ($this->isPegGelarSma=='true') $iColSpanGelar = $iColSpanGelar + 1;
+if ($this->isPegGelarSmp=='true') $iColSpanGelar = $iColSpanGelar + 1;
+if ($this->isPegGelarSd=='true') $iColSpanGelar = $iColSpanGelar + 1;
+$iColSpanUsia = 0;
+if ($this->isPegUsia26=='true') $iColSpanUsia = $iColSpanUsia + 1;
+if ($this->isPegUsia2635=='true') $iColSpanUsia = $iColSpanUsia + 1;
+if ($this->isPegUsia3645=='true') $iColSpanUsia = $iColSpanUsia + 1;
+if ($this->isPegUsia4655=='true') $iColSpanUsia = $iColSpanUsia + 1;
+if ($this->isPegUsia56=='true') $iColSpanUsia = $iColSpanUsia + 1;
+$iCechkList = $iColSpanKatg + $iColSpanKompos + $iColSpanJabat + $iColSpanSex + $iColSpanGelar + $iColSpanUsia;
+	
+	
+	
+
+	$jumDatarekaplist_serv = count($this->datarekaplist_serv);	
+	for ($j = 0; $j < $jumDatarekaplist_serv; $j++) {
+		$dataList[$j] = array("no"=>$j+1,
+				"i_demografi"  		=>(string)$this->datarekaplist_serv[$j]['i_demografi'],
+				"i_bumn"  		=>(string)$this->datarekaplist_serv[$j]['i_bumn'],
+				"n_bumn"  		=>(string)$this->datarekaplist_serv[$j]['n_bumn'],
+				"i_tahun"  		=>(string)$this->datarekaplist_serv[$j]['i_tahun'],
+				"n_pegawai"		=>(string)$this->datarekaplist_serv[$j]['n_pegawai'],
+				"e_tetap"     =>(string)$this->datarekaplist_serv[$j]['e_tetap'],
+				"e_kontrak"  =>(string)$this->datarekaplist_serv[$j]['e_kontrak'],
+				"n_organik"  =>(string)$this->datarekaplist_serv[$j]['n_organik'],
+				"n_terampil"  	=>(string)$this->datarekaplist_serv[$j]['n_terampil'], 
+				
+				"n_direksi"  		=>(string)$this->datarekaplist_serv[$j]['n_direksi'],
+				"n_direksi_satu"  		=>(string)$this->datarekaplist_serv[$j]['n_direksi_satu'],
+				"n_direksi_dua"  		=>(string)$this->datarekaplist_serv[$j]['n_direksi_dua'],
+				"n_s_tiga"  		=>(string)$this->datarekaplist_serv[$j]['n_s_tiga'],
+				"n_s_dua"		=>(string)$this->datarekaplist_serv[$j]['n_s_dua'],
+				"n_s_satu"     =>(string)$this->datarekaplist_serv[$j]['n_s_satu'],
+				"n_d_tiga"  =>(string)$this->datarekaplist_serv[$j]['n_d_tiga'],
+				"n_d_dua"  		=>(string)$this->datarekaplist_serv[$j]['n_d_dua'],
+				"n_d_satu"  		=>(string)$this->datarekaplist_serv[$j]['n_d_satu'],
+				"n_sma"  		=>(string)$this->datarekaplist_serv[$j]['n_sma'],
+				"n_smp"  		=>(string)$this->datarekaplist_serv[$j]['n_smp'],
+				"n_sd"		=>(string)$this->datarekaplist_serv[$j]['n_sd'],
+				"n_laki"     =>(string)$this->datarekaplist_serv[$j]['n_laki'],
+				"n_perempuan"  =>(string)$this->datarekaplist_serv[$j]['n_perempuan'],
+				"n_umur_a"  =>(string)$this->datarekaplist_serv[$j]['n_umur_a'],
+				"n_umur_b"  =>(string)$this->datarekaplist_serv[$j]['n_umur_b'],
+				"n_umur_c"  =>(string)$this->datarekaplist_serv[$j]['n_umur_c'],
+				"n_umur_d"  =>(string)$this->datarekaplist_serv[$j]['n_umur_d'],
+				"n_umur_e"  =>(string)$this->datarekaplist_serv[$j]['n_umur_e'],
+				
+				"d_entry"  	=>(string)$this->datarekaplist_serv[$j]['d_entry']				
+					);	
+	} 
+//	$today = date('Y-m-d');
+	
+//$widthTh= "0%";$widthBumn= "0%";$widthNama= "0%";$widthTdkWjb= "0%";$widthWjb= "0%";
+//	if ($this->isBoxW1=='false' && $this->isBoxTW1=='false'){
+//		$widthTh= "15%";$widthBumn= "40%";$widthNama= "40%";
+//	}elseif ($this->isBoxW1=='true' && $this->isBoxTW1=='true'){
+//			$widthTh= "10%";$widthBumn= "30%";$widthNama= "15%";$widthTdkWjb= "10%";$widthWjbAll= "30%";
+//			$widthWjb = (30/($this->iColSpanKetr) * 1);
+//			$widthWjb = $widthWjb."%";
+//		}else{		
+//			if ($this->isBoxW1=='true'){
+//				$widthTh= "10%";$widthBumn= "35%";$widthNama= "20%";$widthWjbAll= "30%";
+//				$widthWjb = (30/($this->iColSpanKetr) * 1);
+//				$widthWjb = $widthWjb."%";
+//			}else{
+//				$widthTh= "10%";$widthBumn= "35%";$widthNama= "20%";$widthTdkWjb= "30%";
+//			}
+//	}
+
+
+	$iCek = $iCechkList * 1;
+	if ($iCek > 10) {
+		$iWidth = 80/$iCek;
+		$ixBumn = 90 - ((80/$iCek)*$iCek);
+		$widthBumn = $ixBumn."%";//"10%";
+		$widthTh = "5%";
+	}else{
+		$iWidth = 60/$iCek;
+		$ixBumn = 90 - ((60/$iCek)*$iCek);
+		$widthBumn = $ixBumn."%";//"25%";
+		$widthTh = "5%";
+	}
+  
+$widthAllPegawai = $iWidth."%";//
+$widthKatPegawai = $iWidth."%";//2
+$widthKompPegawai = $iWidth."%";//2
+$widthJabatPegawai = $iWidth."%";//3
+$widthSexPegawai = $iWidth."%";//2
+$widthGelarPegawai = $iWidth."%";//9	
+$widthUsiaPegawai = $iWidth."%";//9	
+  
+  
+function HeaderDemografi($isAllPegawai,$isPegKontr,$isPegTetap,$iColSpanKatg
+				,$isPegTrmp,$isPegOrgn,$iColSpanKompos,$isPegDireksi,$isPegDireksi1,$isPegDireksi2,$iColSpanJabat
+				,$isPegPria,$isPegPermp,$iColSpanSex
+				,$isPegGelarS3,$isPegGelarS2,$isPegGelarS1,$isPegGelarD3,$isPegGelarD2,$isPegGelarD1,$isPegGelarSma,$isPegGelarSmp,$isPegGelarSd,$iColSpanGelar
+				,$isPegUsia26,$isPegUsia2635,$isPegUsia3645,$isPegUsia4655,$isPegUsia56,$iColSpanUsia)
+{
+	$html="";
+	$html='
+		<th rowspan=2>No</th>
+		<th rowspan=2>Tahun</th>
+		<th rowspan=2>BUMN</th>';		
+		if($isAllPegawai=='true') {
+			$html=$html.'<th rowspan=2>Total Peg</th>';
+		}
+		if(($isPegKontr=='true')||($isPegTetap=='true')){	
+			$html=$html.'<th colspan='.$iColSpanKatg.'>Peg Kategori</th>';
+		}					
+		if(($isPegTrmp=='true')||($isPegOrgn=='true')){	
+			$html=$html.'<th colspan='.$iColSpanKompos.'>Peg Komposisi</th>';
+		}					
+		if(($isPegDireksi=='true')||($isPegDireksi1=='true') ||($isPegDireksi2=='true')){	
+			$html=$html.'<th colspan='.$iColSpanJabat.'>Jabat Dir</th>';
+		}					
+		if(($isPegPria=='true')||($isPegPermp=='true')){	
+			$html=$html.'<th colspan='.$iColSpanSex.'>Sex</th>';
+		}					
+		if(($isPegGelarS3=='true')||($isPegGelarS2=='true')||($isPegGelarS1=='true')||($isPegGelarD3=='true')||($isPegGelarD2=='true')||($isPegGelarD1=='true') ||($isPegGelarSma=='true')||($isPegGelarSmp=='true')||($isPegGelarSd=='true')){	
+			$html=$html.'<th colspan='.$iColSpanGelar.'>Pendidikan</th>';
+		}				
+		if(($isPegUsia26=='true')||($isPegUsia2635=='true')||($isPegUsia3645=='true')||($isPegUsia4655=='true')||($isPegUsia56=='true')){	
+			$html=$html.'<th colspan='.$iColSpanUsia.'>Usia</th>';
+		}			
+
+			
+	$html=$html.'<tr>';
+		if($isPegKontr=='true')	$html=$html.'<th>Kontr</th>';
+		if($isPegTetap=='true') $html=$html.'<th>Tetap</th>';
+
+		if($isPegTrmp=='true')	$html=$html.'<th>Tramp</th>';
+		if($isPegOrgn=='true') $html=$html.'<th>Organ</th>';
+		
+		if($isPegDireksi=='true')	$html=$html.'<th>Dir</th>';
+		if($isPegDireksi1=='true')	$html=$html.'<th>Dir Lv1</th>';
+		if($isPegDireksi2=='true')	$html=$html.'<th>Dir Lv2</th>';
+
+		if($isPegPria=='true')	$html=$html.'<th>Lk</th>';
+		if($isPegPermp=='true') $html=$html.'<th>Pr</th>';
+ 
+		if($isPegGelarS3=='true')	$html=$html.'<th>S3</th>';
+		if($isPegGelarS2=='true')	$html=$html.'<th>S2</th>';
+		if($isPegGelarS1=='true')	$html=$html.'<th>S1</th>';
+		if($isPegGelarD3=='true')	$html=$html.'<th>D3</th>';
+		if($isPegGelarD2=='true')	$html=$html.'<th>D2</th>';
+		if($isPegGelarD1=='true')	$html=$html.'<th>D1</th>';
+		if($isPegGelarSma=='true')	$html=$html.'<th>SMA</th>';
+		if($isPegGelarSmp=='true')	$html=$html.'<th>SMP</th>';
+		if($isPegGelarSd=='true')	$html=$html.'<th>SD</th>';
+		if($isPegUsia26=='true')	$html=$html.'<th>26</th>';
+		if($isPegUsia2635=='true')	$html=$html.'<th>26-35</th>';
+		if($isPegUsia3645=='true')	$html=$html.'<th>36-45</th>';
+		if($isPegUsia4655=='true')	$html=$html.'<th>46-55</th>';
+		if($isPegUsia56=='true')	$html=$html.'<th>56</th>';
+	$html=$html.'</tr>';		
+	return $html;
+}
+
+
+
+
+$file_type = "vnd.ms-excel";
+	$file_ending = "xls";
+	header("Content-Type: application/$file_type");
+	header("Content-Disposition: attachment; filename=rekapdmgr.$file_ending");
+	header("Pragma: no-cache");
+	header("Expires: 0");
+
+
+
+
+
+	
+
+ $html='
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+<style type="text/css">
+</style></head>
+<body>
+';
+
+$html = $html."		  <div class=\"blank\"></div>";
+$html = $html."		  <fieldset class=\"fields\">";
+$html = $html."			<div align=\"center\"><h3>KEMENTERIAN NEGARA BADAN USAHA MILIK NEGARA</h3></div>";
+$html = $html."			<div> </div>";
+$html = $html."			<br> ";
+$html = $html."				<table align=\"center\" width=\"100%\" border=\"1\" cellspacing=\"1\" cellpadding=\"2\" class=\"tbl\">";
+ // if (count($this->getRekapMDeputi) > 1){ 
+ // foreach ($this->getRekapMDeputi as $key1 => $val1): 
+	// echo "xxx:".$iDep = $this->escape($val1['i_deputi']);
+	// if ($rekapdemografi_serv->getRekapTdemografiByDepPage($iDep,0,0)) {	
+		$n_deputi = $this->escape($val1['n_deputi']);
+		$deputiTmp = $this->escape($val1['i_deputi']);
+		$html=$html.'
+		<table  width=\"100%\" align="center" border="1" cellspacing="1" cellpadding="2" >';
+	 
+		$headhtml=HeaderDemografi($this->isAllPegawai,$this->isPegKontr,$this->isPegTetap,$iColSpanKatg
+			,$this->isPegTrmp,$this->isPegOrgn,$iColSpanKompos,$this->isPegDireksi,$this->isPegDireksi1,$this->isPegDireksi2,$iColSpanJabat
+			,$this->isPegPria,$this->isPegPermp,$iColSpanSex
+			,$this->isPegGelarS3,$this->isPegGelarS2,$this->isPegGelarS1,$this->isPegGelarD3,$this->isPegGelarD2,$this->isPegGelarD1,$this->isPegGelarSma,$this->isPegGelarSmp,$this->isPegGelarSd,$iColSpanGelar
+			,$this->isPegUsia26,$this->isPegUsia2635,$this->isPegUsia3645,$this->isPegUsia4655,$this->isPegUsia56,$iColSpanUsia);
+
+		$html=$html.$headhtml.'
+		</tr>';
+	 
+
+	
+	
+	if (count($this->datarekaplist_serv) == 0){ 
+
+	$html = $html."	    	<tr class=\"event\">";
+	$html = $html."	    		<td><font color=\"red\">-</font></td>";
+	$html = $html."	    		<td>&nbsp;</td>";
+	
+	if ($this->isAllPegawai =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegKontr =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegTetap =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegTrmp =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegOrgn =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegDireksi =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegDireksi1 =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegDireksi2 =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegPria =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegPermp =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegGelarS3 =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegGelarS2 =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegGelarS1 =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegGelarD3 =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegGelarD2 =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegGelarD1 =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegGelarSma =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegGelarSmp =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegGelarSd =='true') $html = $html."	    		<td>&nbsp;</td>";
+	
+	if ($this->isPegUsia26 =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegUsia2635 =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegUsia3645 =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegUsia4655 =='true') $html = $html."	    		<td>&nbsp;</td>";
+	if ($this->isPegUsia56 =='true') $html = $html."	    		<td>&nbsp;</td>";
+			
+		
+			}else{
+	
+	    $i = 1; foreach ($dataList as $key => $val):   
+
+	$html = $html."	    <tr font face=\"arial\" size=\"0.5\" >";
+	$html = $html."		<td width=\"5%\" align=\"right\">$i</td>";
+						if ($this->escape($val['i_tahun'])* 1 < 1) $i_tahun = "-";
+						else $i_tahun = $this->escape($val['i_tahun']);
+	$html = $html."		<td width=".$widthTh." align=\"center\">".$i_tahun."</td>";
+	$html = $html."		<td width=".$widthBumn." align=\"left\">".$this->escape($val['n_bumn'])."</td>";
+		
+	if ($this->isAllPegawai =='true') $html = $html."		<td width=".$widthAllPegawai." align=\"right\">".$this->escape($val['n_pegawai'])."</td>";
+	if ($this->isPegKontr =='true') $html = $html."		<td width=".$widthKatPegawai." align=\"right\">".$this->escape($val['e_kontrak'])."</td>";
+	if ($this->isPegTetap =='true') $html = $html."		<td width=".$widthKatPegawai." align=\"right\">".$this->escape($val['e_tetap'])."</td>";
+	
+	if ($this->isPegTrmp =='true') $html = $html."		<td width=".$widthKompPegawai." align=\"right\">".$this->escape($val['n_terampil'])."</td>";
+	if ($this->isPegOrgn =='true') $html = $html."		<td width=".$widthKompPegawai." align=\"right\">".$this->escape($val['n_organik'])."</td>";
+	
+	if ($this->isPegDireksi =='true') $html = $html."		<td width=".$widthJabatPegawai." align=\"right\">".$this->escape($val['n_direksi'])."</td>";
+	if ($this->isPegDireksi1 =='true') $html = $html."		<td width=".$widthJabatPegawai." align=\"right\">".$this->escape($val['n_direksi_satu'])."</td>";
+	if ($this->isPegDireksi2 =='true') $html = $html."		<td width=".$widthJabatPegawai." align=\"right\">".$this->escape($val['n_direksi_dua'])."</td>";
+	
+	if ($this->isPegPria =='true') $html = $html."		<td width=".$widthSexPegawai." align=\"right\">".$this->escape($val['n_laki'])."</td>";
+	if ($this->isPegPermp =='true') $html = $html."		<td width=".$widthSexPegawai." align=\"right\">".$this->escape($val['n_perempuan'])."</td>";
+	
+	if ($this->isPegGelarS3 =='true') $html = $html."		<td width=".$widthGelarPegawai." align=\"right\">".$this->escape($val['n_s_tiga'])."</td>";
+	if ($this->isPegGelarS2 =='true') $html = $html."		<td width=".$widthGelarPegawai." align=\"right\">".$this->escape($val['n_s_dua'])."</td>";
+	if ($this->isPegGelarS1 =='true') $html = $html."		<td width=".$widthGelarPegawai." align=\"right\">".$this->escape($val['n_s_satu'])."</td>";
+	if ($this->isPegGelarD3 =='true') $html = $html."		<td width=".$widthGelarPegawai." align=\"right\">".$this->escape($val['n_d_tiga'])."</td>";
+	if ($this->isPegGelarD2 =='true') $html = $html."		<td width=".$widthGelarPegawai." align=\"right\">".$this->escape($val['n_d_dua'])."</td>";
+	if ($this->isPegGelarD1 =='true') $html = $html."		<td width=".$widthGelarPegawai." align=\"right\">".$this->escape($val['n_d_satu'])."</td>";
+	if ($this->isPegGelarSma =='true') $html = $html."		<td width=".$widthGelarPegawai." align=\"right\">".$this->escape($val['n_sma'])."</td>";
+	if ($this->isPegGelarSmp =='true') $html = $html."		<td width=".$widthGelarPegawai." align=\"right\">".$this->escape($val['n_smp'])."</td>";	
+	if ($this->isPegGelarSd =='true') $html = $html."		<td width=".$widthGelarPegawai." align=\"right\">".$this->escape($val['n_sd'])."</td>";
+	
+	if ($this->isPegUsia26 =='true') $html = $html."		<td width=".$widthUsiaPegawai." align=\"right\">".$this->escape($val['n_umur_a'])."</td>";
+	if ($this->isPegUsia2635 =='true') $html = $html."		<td width=".$widthUsiaPegawai." align=\"right\">".$this->escape($val['n_umur_b'])."</td>";
+	if ($this->isPegUsia3645 =='true') $html = $html."		<td width=".$widthUsiaPegawai." align=\"right\">".$this->escape($val['n_umur_c'])."</td>";
+	if ($this->isPegUsia4655 =='true') $html = $html."		<td width=".$widthUsiaPegawai." align=\"right\">".$this->escape($val['n_umur_d'])."</td>";
+	if ($this->isPegUsia56 =='true') $html = $html."		<td width=".$widthUsiaPegawai." align=\"right\">".$this->escape($val['n_umur_e'])."</td>";
+
+
+	$html = $html."	    </tr>";
+	   $i++; endforeach; 
+	   
+	   }
+
+	$html = $html."					</table>";
+	// }
+ // endforeach;
+ // }
+$html = $html."			  <br>";
+$html = $html."				  <div class=\"blank\"></div>";
+$html = $html."		</form>";
+$html = $html."</body></html>";
+echo $html;
+	// $filename = "/tmp/rekaplhkpn.html";
+	// $filepdf = "/tmp/rekaplhkpn.pdf";
+
+	
+	// $ourFileHandle = fopen($filename, 'w+') or die("can't open file");
+	// fclose($ourFileHandle);
+
+	// $fh = fopen($filename, 'w+') or die("can't open file");
+	// fwrite($fh, $html);
+	// fclose($fh);
+	
+// -----WriteToFile($filename, $html);
+
+	// $options="--footer . --continuous --duplex --landscape --header . --left margin 3cm --right margin 3cm";
+
+	// # Tell HTMLDOC not to run in CGI mode...
+       // putenv("HTMLDOC_NOCGI=1");
+
+	// # Write the content type to the client...
+	// header("Content-Type: application/pdf");
+	// header("Content-Disposition: attachment; filename=$filepdf");
+	// flush();
+
+	// # Run HTMLDOC to provide the PDF file to the user...
+	// passthru("htmldoc -t pdf --quiet --jpeg --webpage $options '$filename'");
+?>

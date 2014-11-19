@@ -1,0 +1,56 @@
+function openFormJenjangfungsi(par,c_jenjang_fungsional,n_jenjang_fungsional,c_fungsional){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refjenjangfungsi/jenjangfungsiolahdata";
+	var opt = {par:par, c_jenjang_fungsional:c_jenjang_fungsional, n_jenjang_fungsional:n_jenjang_fungsional,c_fungsional:c_fungsional};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formjenjangfungsi").ajaxForm(maintain_jenjangfungsi);
+		});		
+} 
+
+function insertJenjangfungsi(){
+	jQuery("#formjenjangfungsi").ajaxForm(maintain_jenjangfungsi);
+}
+
+var maintain_jenjangfungsi = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjenjangfungsi").ajaxForm(maintain_jenjangfungsi);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refjenjangfungsi/insertjenjangfungsi',
+	type: 'post',
+	resetForm: false
+};
+
+function updateJenjangfungsi(){
+	jQuery("#formjenjangfungsi").ajaxForm(update_jenjangfungsi);
+}
+
+var update_jenjangfungsi = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjenjangfungsi").ajaxForm(maintain_jenjangfungsi);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refjenjangfungsi/updatejenjangfungsi',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusJenjangfungsi(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refjenjangfungsi/deletejenjangfungsi';
+		var opt = {c_jenjang_fungsional : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

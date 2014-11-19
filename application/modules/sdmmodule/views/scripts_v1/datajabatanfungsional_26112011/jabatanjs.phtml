@@ -1,0 +1,97 @@
+function jabatanFM(par,c_statusjabatan,c_alasan,d_mulai_jabat){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datajabatanfungsional/jabatan"	
+	var opt = {par:par,c_statusjabatan:c_statusjabatan,c_alasan:c_alasan,d_mulai_jabat:d_mulai_jabat};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#formjabatan").ajaxForm(maintain_jabatan);
+		});		
+} 
+var maintain_jabatan = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formjabatan;
+		astr= "document.formjabatan";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				if((!c_jabatan.value)){cekVal = sdmValidasiData(astr,"c_jabatan","Nama jabatan ke harus diisi....!");return false;break;}
+				if((!c_statusjabatan.value)){cekVal = sdmValidasiData(astr,"c_statusjabatan","Status jabatan ke harus diisi....!");return false;break;}				
+				if((!c_alasan.value)){cekVal = sdmValidasiData(astr,"c_alasan","Alasan harus diisi....!");return false;break;}
+				if((!d_mulai_jabat.value)){cekVal = sdmValidasiData(astr,"d_mulai_jabat","Tanggal mulai menjabat ke harus diisi....!");return false;break;}	
+				if((!d_akhir_jabat.value)){cekVal = sdmValidasiData(astr,"d_akhir_jabat","Tanggal akhir menjabat ke harus diisi....!");return false;break;}	
+				if (d_akhir_jabat.value && d_mulai_jabat.value){
+					cekVal = compareDate(d_mulai_jabat.value,d_akhir_jabat.value);
+					if (cekVal == false) {return false;break;}						
+				}
+				break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formjabatan").ajaxForm(maintain_jabatan);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datajabatanfungsional/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+function insertJabatan(){
+	jQuery("#formjabatan").ajaxForm(maintain_jabatan);
+}
+
+function jabatanHM(nip,c_statusjabatan,c_alasan,d_mulai_jabat)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/datajabatanfungsional/hapusdata"
+		var opt = {nip:nip,c_statusjabatan:c_statusjabatan,c_alasan:c_alasan,d_mulai_jabat:d_mulai_jabat};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}
+
+function Left(str, n){
+	if (n <= 0)
+	    return "";
+	else if (n > String(str).length)
+	    return str;
+	else
+	    return String(str).substring(3,n);
+}
+
+function Right(str, n){
+    if (n <= 0)
+       return "";
+    else if (n > String(str).length)
+       return str;
+    else {
+       var iLen = String(str).length;
+       return String(str).substring(iLen, iLen - n);
+    }
+}
+
+function setvalueuplfile(v,n,f) { 
+	  if (f!="") {
+	    var pass=false;
+	    var af=f.split("/");
+        var nval=eval("document.forms[0]."+n);
+		var ext=v.substring(v.lastIndexOf(".")+1,v.length);
+		if ((ext=='pdf')||(ext=='PDF')){ 
+		document.forms[0].a_file.value=v; 
+		}
+		else{
+		  alert ("Hanya untuk file berekstensi pdf ");
+		  nval.value="";
+		  document.forms[0].a_file.value=""; 
+		  document.forms[0].e_file_sk.value=""; 		  
+		  return;	  
+		}
+	  }
+}

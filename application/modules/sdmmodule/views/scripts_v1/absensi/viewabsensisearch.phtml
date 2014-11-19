@@ -1,0 +1,167 @@
+<? require_once 'Zend/View.php';
+    require_once 'share/oa_page.php';
+  
+   $ctrlFrm = new Zend_View();
+   $halaman = new oa_page();
+
+
+   $jmlCvList = count($this->cvList);
+   //echo $jmlCvList;
+   for ($j = 0; $j < $jmlCvList; $j++) {
+     $cv[$j] = array("i_peg_nip"  =>(string)$this->cvList[$j]['i_peg_nip'],
+	                      "n_peg"      =>(string)$this->cvList[$j]['n_peg'],
+						 // "n_jabatan"  		=>(string)$this->cvList[$j]['n_jabatan'], //jabatan dr tabel pegawai
+						  "jabatan"  	=>(string)$this->cvList[$j]['jabatan'], //jabatan dari tabel jabatan
+						  "unitKerja"  =>(string)$this->cvList[$j]['unitKerja']);
+						  
+   }
+
+	$numToDisplay = $this->numToDisplay;
+	$currentPage = $this->currentPage;  
+
+	$pesan = $this->pesan;
+
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'absensi');
+   echo $this->render('lihatabsensijs.phtml'); 
+?>
+
+
+<div class="contentdata-modul" id="modul">
+	<div class="navlink">Halaman Utama Pegawai</div>
+	<h3 class="title">MELIHAT ABSENSI PEGAWAI</h3>
+	&nbsp;&nbsp;&nbsp;&nbsp;Menu ini digunakan untuk melihat absensi pegawai.
+	<div class="spacer"></div>
+	<a name="top"></a>	
+	<div class="search-panel">
+		<fieldset class="panel-form3">
+			<form id="frmViewAbsensiSearch" action="<?php echo $this->basePath; ?>/sdm/absensi/viewabsensisearch" method="post" name="frmViewAbsensiSearch">
+				<dl>
+					<dt>NIP&nbsp;&nbsp;&nbsp;&nbsp;</dt>
+					<dd class="dot2">:</dd> 
+					<dd class="col-right3">
+					<? 
+						$nip = $_POST['nip'];
+						if ($nip == null) {
+							$nip = $_REQUEST['param1'];
+						}
+						if (($nip == 'undefined') || ($nip == null)) {
+							$nip = '';
+						}
+						$nipAtrib = array("size"=>"10",
+										 "maxlength"=>"9",
+										 "class"=>""); 
+						echo $ctrlFrm->formText('nip', $nip, $nipAtrib); 
+					?>
+					</dd>
+				</dl>
+				<dl>
+					<dt>Nama</dt>
+					<dd class="dot2">:</dd> 
+					<dd class="col-right3">
+					<?
+						$nama = $_POST['nama'];
+						//echo "nama>> ".$nama."<br>";
+						if ($nama == null) {
+							$nama = $_REQUEST['param2'];
+						}
+						if (($nama == 'undefined') || ($nama == 'null')){
+							$nama = '';
+						}
+						$namaAtrib = array("size"=>"30",
+										 "maxlength"=>"35",
+										 "class"=>""); 
+						echo $ctrlFrm->formText('nama', $nama, $namaAtrib);
+					?>
+					</dd>
+				</dl>
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd class="dot2">&nbsp;</dd> 
+					<dd class="col-right3">
+					<?
+						$atribSubmit = array("onclick"=>"javascript:commandSubmit1();");
+						echo $ctrlFrm->formSubmit('perintah', 'CARI', $atribSubmit)."&nbsp;";
+					?>
+					</dd>
+				</dl>
+			</form>
+		</fieldset>
+	</div> <!--end div Search Panel-->
+
+	<div class="space-line"></div>
+	<fieldset class="fields">
+		<div class="title2">Daftar Pegawai</div>
+
+		<? if (!$pesan == null) {
+		?>
+			<div class="spacer"> </div>
+		<!--	<fieldset id="message" class="confirm"><? echo $pesan; ?></fieldset>-->
+		<?	echo "<font color='red'>$pesan</font>"; ?>
+			<div class="spacer"> </div>	
+		<?}?>
+
+<?
+	if ($jmlCvList == 0) {
+		echo "<font color=\"red\">Data Tidak Ditemukan</font>";
+?>
+		<table align="center" width="80%" border="0" cellspacing="1" cellpadding="2" class="tbl">
+		   <tr>
+			<th width="4%">No.</th>
+			<th width="18%">Nama Pegawai</th>
+		    <th width="6%">NIP</th>
+			<th width="24%">Jabatan</th>
+			<th width="28%">Unit Kerja</th>
+	  	</tr> 
+		</table>
+</p>
+<?
+	} else {
+?>
+		<table align="center" width="80%" border="0" cellspacing="1" cellpadding="2" class="tbl">
+		   <tr>
+			<th width="4%">No.</th>
+			<th width="18%">Nama Pegawai</th>
+		    <th width="6%">NIP</th>
+			<th width="24%">Jabatan</th>
+			<th width="28%">Unit Kerja</th>
+	  	</tr> 
+	  			<?php 
+					   foreach ($cv as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+					<?
+					$noUrut = (($currentPage -1)* $numToDisplay) + $key +1;
+					
+					?>
+			<td class="clcenter">&nbsp;<?php echo $noUrut;?></td>
+		    <td>&nbsp;
+				<a href="#" onClick="javascript:viewAbsen1('<? echo $this->escape($val['i_peg_nip']); ?>');" class="link" title="Lihat Absensi"><?php echo $this->escape($val['n_peg']);?> </a></td>
+		    <td>&nbsp;<?php echo $this->escape($val['i_peg_nip']);?></td>
+			<!--<td>&nbsp;<?php echo $this->escape($val['n_jabatan']);?></td>     jabatan dr tbl pegawai-->
+			<td>&nbsp;<?php echo $this->escape($val['jabatan']);?></td> <!--jabatan dr tabel jabatan-->
+		    <td>&nbsp;<?php echo $this->escape($val['unitKerja']);?></td>
+		  </tr>
+	<?php endforeach;?> 	
+
+	</table>
+			<a name="pageCursor"></a>
+			<?			
+ 			$totalData = $this->totPegawai;			
+			$modul = $this->basePath."/sdm/absensi/viewabsensisearch";
+			$fungsi = 'searchabsview';
+			//echo $halaman->showPage($totalData, $numToDisplay, $currentPage, $modul, $fungsi, '', '','','');
+			echo $halaman->showPage($totalData, $numToDisplay, $currentPage, $modul, $fungsi, $nip, $nama,'','');
+ 			
+			?>
+<? } ?>
+	</fieldset>
+</div>
+
+<!--			<div class="back2">
+			  <a href="#" onClick="javascript:kembaliSearch();" class="back" title="Kembali">Kembali</a>
+			</div>
+-->

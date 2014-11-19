@@ -1,0 +1,17 @@
+<graph caption='Pagu Anggaran' PYAxisName='Realisasi'
+ numberPrefix='Rp' showvalues='0'  numDivLines='4' formatNumberScale='0' decimalPrecision='0'
+anchorSides='10' anchorRadius='3' anchorBorderColor='009900'>
+<categories>
+<category name='DIREKTORAT JENDERAL BADAN PERADILAN MILITER DAN PERADILAN TATA USAHA NEGARA ' />
+</categories>
+<dataset seriesName='Target penyerapan anggaran' color='AFD8F8' showValues='0'>
+<set value='678696000000' />
+</dataset>
+<dataset seriesName='Realisasi' color='F6BD0F' showValues='0' >
+<set value='107273062200' />
+</dataset>
+<!--<dataset seriesName='Sisa' color='8BBA00' showValues='0'  >
+<set value='45000' />
+<set value='44835' />
+</dataset> -->
+</graph>

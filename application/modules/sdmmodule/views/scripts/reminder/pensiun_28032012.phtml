@@ -1,0 +1,27 @@
+<table width="70%">
+<tr>
+<td>
+Daftar Pegawai yang akan pensiun 1 tahun ke depan
+<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+	<th width="20%">NIP</th>
+	<th width="80%">Nama</th>
+	
+		<?php foreach ($this->remindPensiun as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+				<? 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					$nama=trim($this->escape($val['n_peg']));
+				?>
+	<td><?=$nip?></td>
+	<td><?=$nama?></td>	
+				
+					</tr>
+	<?php endforeach;?> 	
+</table>
+</tr>
+</td>
+</table>						

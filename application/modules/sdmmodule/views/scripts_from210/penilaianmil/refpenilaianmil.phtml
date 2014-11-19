@@ -1,0 +1,141 @@
+<? 	
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datadptiga/listdptiga','<?php echo $this->basePath; ?>/sdmmodule/datadptiga/dptigajs');">Kinerja</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Refferensi Penilaian Kinerja
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+	<h2 class="title"><?=$this->jdl;?> Refferensi Penilaian Kinerja</h2>	
+<div class="boxholder">					
+<form id="formnilai" method="post" name="formnilai">	
+	<div class="panel">
+		<div class="spacer"></div> 
+						
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+			<tr>
+				<td width="20%">Faktor Kinerja<span class="hightlight">*</span></td>
+				<td width="2%">:</td> 
+				<td>					
+					<input size="50" type="text" name="n_faktor_kinerja" id="n_faktor_kinerja" value="<?=$this->n_faktor_kinerja?>">
+					<input size="50" type="hidden" name="c_nilai_kinerja2" id="c_nilai_kinerja2" value="<?=$this->c_nilai_kinerja?>">
+				</td>
+			</tr>	
+			<tr>
+				<td>Standar Kinerja<span class="hightlight">*</span></td>
+				<td>:</td> 
+				<td>					
+					<textarea id="n_standar_kinerja" name="n_standar_kinerja" rows="5"><?=$this->n_standar_kinerja?></textarea>
+				</td>
+			</tr>	
+			<tr>
+				<td colspan="3"><b><h3 class="title">Pencapaian Kinerja</h3></b></td>
+			</tr>	
+			<tr>
+				<td>Dibawah Standar Kinerja</td>
+				<td>:</td> 
+				<td>					
+					<input size="10" type="text" name="q_nilai_dibawah" id="q_nilai_dibawah" value="<?=$this->q_nilai_dibawah?>" onKeyup="javascript:isNumber('v_gaji_pokok');">
+				</td>
+			</tr>	
+			<tr>
+				<td>Perlu Perbaikan</td>
+				<td>:</td> 
+				<td>					
+					<input size="10" type="text" name="q_nilai_perbaikan" id="q_nilai_perbaikan" value="<?=$this->q_nilai_perbaikan?>" onKeyup="javascript:isNumber('v_gaji_pokok');">
+				</td>
+			</tr>	
+			<tr>
+				<td>Sesuai Standar Kinerja</td>
+				<td>:</td> 
+				<td>					
+					<input size="10" type="text" name="q_nilai_sesuai" id="q_nilai_sesuai" value="<?=$this->q_nilai_sesuai?>" onKeyup="javascript:isNumber('v_gaji_pokok');">
+				</td>
+			</tr>	
+			<tr>
+				<td>Diatas Standar Kinerja</td>
+				<td>:</td> 
+				<td>					
+					<input size="10" type="text" name="q_nilai_diatas" id="q_nilai_diatas" value="<?=$this->q_nilai_diatas?>" onKeyup="javascript:isNumber('v_gaji_pokok');">
+				</td>
+			</tr>				
+		</table>
+<br>
+	<div class="panel">
+		<div class="spacer"></div> 				
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">				
+			<tr>
+				<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+				<td></td>
+				<td>
+				<div class="right">
+					<input type="submit" value="<?=$this->par;?>" onClick="insertRefNilai()">
+					<input type="hidden" name="proses" value="<?=$this->par;?>">
+				</div>
+				</td>
+			</tr>			
+		</table>
+	</div>						
+	</form>
+
+	
+</div>
+</div>
+<? 		
+if (count($this->refpenilaianList) != 0) {?>
+<div class="panel">
+   <table width="100%" border="0" cellpadding="0" cellspacing="1" class="tbl">
+		<tr>
+			<th rowspan="2">No</th>
+			<th rowspan="2">Faktor Kinerja</th>
+			<th rowspan="2">Standar Kinerja</th>
+			<th colspan="4">Pencapaian</th>
+			<th width="5%" colspan="2">&nbsp;</th>
+		</tr> 
+		<tr>
+			<th>Dibawah Standar Kinerja</th>
+			<th>Perlu Perbaikan</th>
+			<th>Sesuai Standar Kinerja</th>
+			<th>Diatas Standar Kinerja</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+		</tr>	
+<?
+		foreach ($this->refpenilaianList as $key => $val): 
+				if ($key%2==0) { ?>
+				<tr class="event">
+				<? } else if ($key%2==1) { ?>
+				<tr class="event2">
+				<? } 
+				$c_nilai_kinerja=$this->escape($val['c_nilai_kinerja']);
+				$no++;
+				?>
+					<td><?php echo $no;?></td>
+					<td><?php echo $this->escape($val['n_faktor_kinerja']);?></td>
+					<td><?php echo $this->escape($val['n_standar_kinerja']);?></td>
+					<td class="clcenter"><?php echo $this->escape($val['q_nilai_dibawah']);?></td>
+					<td class="clcenter"><?php echo $this->escape($val['q_nilai_perbaikan']);?></td>
+					<td class="clcenter"><?php echo $this->escape($val['q_nilai_sesuai']);?></td>
+					<td class="clcenter"><?php echo $this->escape($val['q_nilai_diatas']);?></td>					
+					<td class="clcenter">
+						<div class="edit" title="Ubah Data" onclick="refpenilaianM('update','<?=$c_nilai_kinerja?>');"></div>	
+					</td>
+					<td class="clcenter">
+						<div class="delete" title="Hapus Data"  onClick="javascript:HapusDatadptiga('<?=$i_peg_nip?>','<?=$d_peg_pnilai?>')"></div>
+					</td>					
+				</tr>
+				<?php endforeach;?>
+	
+	</table>
+</div>
+<?}?>	

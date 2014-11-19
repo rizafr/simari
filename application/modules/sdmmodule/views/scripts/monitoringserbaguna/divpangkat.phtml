@@ -1,0 +1,32 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+?>
+	<h3 class="title"><b><u>PANGKAT</u></b><h3>
+	<br>
+	<table border="0" cellpadding="0" cellspacing="1" class="std" id="listcombo"  width="100%">
+		<tr>
+			<td width="15%">Golongan</td>
+			<td width="1%">:</td>
+			<td>
+					<?
+						$jmlgolref = count($this->statusGolRef);												   
+						$golonganReff[''] = '--Pilih--';
+						for ($i = 0; $i < $jmlgolref; $i++) {
+								$n_peg_pangkat=trim($this->statusGolRef[$i]['n_peg_pangkat']);
+								$c_peg_golongan=trim($this->statusGolRef[$i]['c_peg_golongan']);										   
+								$golonganReff[trim((string)$this->statusGolRef[$i]['c_peg_golongan'])] = $c_peg_golongan."-".$n_peg_pangkat;											   
+						}												 
+						 echo $ctrlFrm->formSelect('c_golongan', $this->c_golongan, null, $golonganReff);
+					?>
+			&nbsp;Jenis : 					
+					<?php 
+						$jenisList = array("-"=>"--Pilih--","KP"=>"Kenaikan Pangkat","KGB"=>"Kenaikan Gaji Berkala","CPNS"=>"Pengangkatan CPNS","PNS"=>"Pengangkatan PNS");	
+						echo $ctrlFrm->formSelect('c_jenis_naik', $this->c_jenis_naik, null, $jenisList);
+					?>				
+			&nbsp;Tahun TMT : <input maxlength="2" type="text" size="10" name="q_masakerja_tahun" id="q_masakerja_tahun" value="<?=$this->q_masakerja_tahun?>" onKeyup="javascript:isNumber('q_masakerja_tahun');">
+			</td>						
+		</tr>						
+	</table>

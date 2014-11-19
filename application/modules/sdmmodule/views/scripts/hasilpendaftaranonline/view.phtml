@@ -1,0 +1,207 @@
+<div id="backgroundPopup"></div>
+	<div id="popupContact">
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+			<tr class="event">
+				<td>
+					<div class="delete" title="Close" onclick="closeDetil()"></div>
+				</td>
+			</tr>
+		</table>	
+
+
+		<div class="spacer"></div> 
+			<table border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+						<table border="0" cellpadding="0" cellspacing="1" class="std">
+							<tr>
+								<td width="35%">Nomor Pendaftaran</td>
+								<td width="2%">:</td>
+								<td>
+									<?=$this->q_nomor_daftar?>
+								</td>
+							</tr>						
+							<tr>
+								<td>Posisi Jabatan</td>
+								<td>:</td>
+								<td>
+									<?=$this->n_posisi_jabatan?>									
+								</td>
+							</tr>	
+							<tr>
+								<td>Wilayah Pengadilan Tinggi</td>
+								<td>:</td>
+								<td>
+									<?=$this->n_wilayah?> - <?=$this->n_pengadilan?>									
+								</td>
+							</tr>	
+							
+							<tr>
+								<td>Nomor KTP</td>
+								<td>:</td>
+								<td>
+									<?=$this->i_ktp?>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>Nama Lengkap</td>
+								<td>:</td>
+								<td>
+									<?=$this->n_pendaftar?>
+								</td>
+							</tr>
+						
+							<tr>
+								<td>Jenis Kelamin</td>
+								<td>:</td> 
+								<td>					
+								<?php
+									if ($this->c_jeniskelamin=="L"){echo "Laki-laki";}
+									if ($this->c_jeniskelamin=="P"){echo "Perempuan";}
+								?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Agama</td>
+								<td>:</td>
+								<td>
+									<?php													   
+										for ($i = 0; $i < count($this->agamaList); $i++) {
+											if($this->agamaList[$i]['c_agama']==$this->c_agama){echo trim($this->agamaList[$i]['n_agama']);}
+										}
+									?>									
+								</td>
+							</tr>	
+							<tr>
+								<td>Pendidikan</td>
+								<td>:</td>
+								<td>
+									<?php
+										for ($i = 0; $i < count($this->nmJenjangList); $i++) {											
+											if($this->nmJenjangList[$i]['c_pend']==trim($this->c_pend)){echo $this->nmJenjangList[$i]['n_pend'];}
+										}
+									?>									
+								</td>
+							</tr>	
+							<tr id="idjur">
+								<td>Jurusan</td>
+								<td>:</td> 
+								<td>
+								<?php 
+									echo $this->n_pend_jurusan;
+								?>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b>KELAHIRAN</b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td>Propinsi</td>
+								<td>:</td>
+								<td>
+								<?php 
+									   for ($i = 0; $i < count($this->propinsiList); $i++) {
+										
+										if((string)$this->propinsiList[$i]->c_propinsi==trim($this->c_propinsi_lahir)){echo(string)$this->propinsiList[$i]->n_propinsi;}
+									   }
+									
+								?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Kabupaten</td>
+								<td>:</td>
+								<td>
+								<?php 
+									$jmlKabList = count($this->kabupatenList);
+										$kabupatenList[''] = '--Pilih--';
+										for ($i = 0; $i < $jmlKabList; $i++) {	
+										if((string)$this->kabupatenList[$i]->c_kabupaten==trim($this->a_kota_lahir)){echo(string)$this->kabupatenList[$i]->n_kabupaten;}
+									}
+								?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Tanggal</td>
+								<td>:</td>
+								<td>
+									<?=$this->d_lahir?>
+								</td>
+							</tr>								
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b>ALAMAT</b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td width="16%">Jalan</td>
+								<td width="2%">:</td>
+								<td>
+									<?=$this->a_rumah?>
+								</td>
+							</tr>	
+							<tr>
+								<td>RT / RW</td>
+								<td>:</td>
+								<td>
+									<?=$this->a_rt?>/<?=$this->a_rw?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Desa/Keluarahan</td>
+								<td>:</td>
+								<td>
+									<?=$this->a_kelurahan?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Kecamatan</td>
+								<td>:</td>
+								<td>
+									<?=$this->a_kecamatan?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Propinsi</td>
+								<td>:</td>
+								<td>
+									<?php 
+									
+									   for ($i = 0; $i < count($this->propinsiList); $i++) {
+										if((string)$this->propinsiList[$i]->c_propinsi==trim($this->a_propinsi)){echo(string)$this->propinsiList[$i]->n_propinsi;}
+									   }
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Kabupaten</td>
+								<td>:</td>
+								<td id="targetkabupaten">
+									<?php 
+										$jmlKabList = count($this->kabupatenList);
+										$kabupatenList[''] = '--Pilih--';
+										for ($i = 0; $i < $jmlKabList; $i++) {											
+											if((string)$this->kabupatenList[$i]->c_kabupaten==trim($this->a_kota)){echo(string)$this->kabupatenList[$i]->n_kabupaten;}	
+										}										
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Kode Pos</td>
+								<td>:</td>
+								<td>
+									<?=$this->a_kodepos?>
+								</td>
+							</tr>
+								
+						</table>
+		
+
+
+</div>
+

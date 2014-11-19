@@ -1,0 +1,35 @@
+#loading {
+	position:absolute;
+	height:32px;
+	left:50%;
+	margin-left:-50px;
+	position:absolute;
+	top:50%;
+	visibility:visible;
+	width:120px;
+	z-index:1000;
+	padding:0;
+	text-align:left;
+	background-color:#FAFAFA;
+	border:3px solid #ddd;
+	}
+*html #loading {
+	width:130px;
+	}
+#loading .image {
+	float:left;
+	margin:0;
+	margin-left:5px;
+	text-align:left;
+	}
+#loading .load {
+	float:left;
+	margin:0;
+	font-size:11px;
+	padding:7px 10px 0 0;
+	line-height:13px;
+	text-align:left;
+	margin-left:10px;
+	font-family:Verdana, Tahoma, Arial, Helvetica, sans-serif;
+	color:#333;
+	}

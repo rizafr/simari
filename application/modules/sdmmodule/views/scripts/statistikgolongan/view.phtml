@@ -1,0 +1,45 @@
+<div id="backgroundPopup"></div>
+	<div id="popupContact">
+		<table width="100%" border="0" cellpadding="0" cellspacing="1">
+			<tr>
+				<td align="center">
+					<?echo $this->judul;?>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">
+					<input type="button" value="Keluar"  onclick="closeDetil()">
+				</td>
+			</tr>
+		</table>	
+		<center>
+		<div class="hideshow">
+			<table border="0" width="100%" align="center">
+				<tr>
+					<td align="center">
+						<?echo $this->chart;?>
+						<table border="0" width="50%" align="center" class="tbl2">
+							<tr>
+								<th>Gol I</th>
+								<th>Gol II</th>
+								<th>Gol III</th>
+								<th>Gol IV</th>
+								<th>Data Kosong</th>
+								<th>Total</th>
+							</tr>
+							<tr class="event2">
+								<td align="right"><?=$this->jmlgol1?></td>
+								<td align="right"><?=$this->jmlgol2?></td>
+								<td align="right"><?=$this->jmlgol3?></td>
+								<td align="right"><?=$this->jmlgol4?></td>
+								<td align="right"><?=$this->jmlkosong?></td>
+								<td align="right"><?=($this->jmlgol1+$this->jmlgol2+$this->jmlgol3+$this->jmlgol4+$this->jmlkosong)?></td>
+							</tr>
+						</table>
+					</td>
+				</tr>		
+			</table>		
+		</div>	
+		</center>
+	</div>
+	

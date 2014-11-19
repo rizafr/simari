@@ -1,0 +1,41 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+?>
+
+	<h3 class="title"><b>Riwayat Organisasi</b><h3>
+	<br>
+	<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+				<tr>	
+					<td>Jenis Organisasi</td>
+					<td>:</td> 
+					<td>					
+					<?php
+						$darahList = array(""=>"--Pilih--","profesi"=>"Profesi","kemasyarakatan"=>"Kemasyarakatan","sebelum menjadi pns"=>"Sebelum Menjadi PNS");	
+						echo $ctrlFrm->formSelect('n_jenis_organisasi', $this->n_jenis_organisasi,null, $darahList); 
+					?>
+						<input type="hidden" name="n_jenis_organisasi2" value="<?=$this->n_jenis_organisasi?>">
+					</td>
+				</tr>
+				<tr>
+					<td>Nama Organisasi</td>
+					<td>:</td> 
+					<td>
+					<?php 
+						$noSerAtrib = array("size"=>"50",
+										 "maxlength"=>"50",
+										 "class"=>""); 
+						echo $ctrlFrm->formText('n_organisasi', $this->n_organisasi, $noSerAtrib);
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td>Jabatan</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="n_peran_organisasi" id="n_peran_organisasi" value="<?=$this->n_peran_organisasi?>" size="35">
+					</td>
+				</tr>				
+	</table>

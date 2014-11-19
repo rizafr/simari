@@ -1,0 +1,190 @@
+<? require_once 'Zend/View.php';
+    require_once 'share/halaman_list.php';
+  
+   $ctrlFrm = new Zend_View();
+   $halaman = new halaman_list(); 
+  
+    $jmldataskList = count($this->dataskList);
+  $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}  
+?>
+	<div class="navlink">
+	<a href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a>
+	<strong> &#8250; </strong> <a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datask/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datask/dataskjs');">Daftar SK Pegawai</a>
+	&#8250;</strong>&nbsp;Data SK Pegawai&nbsp;
+	</div>
+
+	<div id="top"></div>
+	<div id="confirm" class="<?=$confirm?>" style="display: none">
+		<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+	</div>
+	<h2 class="title">Data SK Pegawai</h2>
+	<div class="panel">
+		<div class="spacer"></div> 
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+			<tr>
+				<td width="10%">NIP</td>
+				<td width="2%">:</td>
+				<td><input type="text" name="i_peg_nip" id="i_peg_nip" value="<?=$this->i_peg_nip?>" size="30"></td>
+			</tr>
+			<tr>
+				<td>Nama</td>
+				<td>:</td>
+				<td><input type="text" name="n_peg" id="n_peg" value="<?=$this->n_peg?>" size="70"></td>
+			</tr>			
+		</table>
+	</div>
+
+	<br>		
+	<table align="center" border="0" cellspacing="1" cellpadding="2" class="tbl">
+		<tr>
+			<th>Nomor SK</th>
+			<th>Tanggal SK</th>
+			<th>Nama File</th>
+		</tr>
+<?
+if (count($this->pangkatList)!=0){
+?>
+	<tr class="event">
+		<td colspan="3"><b>Pangkat</b></td>
+	</tr>
+<?	
+	foreach ($this->pangkatList as $key => $val):
+		$tglSK = $this->escape($val['d_sk_golongan']);
+		$thnSK = substr($tglSK,0,4);
+		$blnSK = substr($tglSK,5,2);
+		$hrSK = substr($tglSK,8,2);
+		$tglSK = $hrSK."-".$blnSK."-".$thnSK;
+		if ($key%2==0) { ?>
+	<tr class="event">
+	<? } else if ($key%2==1) { ?>
+	<tr class="event2">
+	<? } ?>
+	<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->escape($val['i_sk_golongan']);?></td>
+	<td class="clcenter"><?php echo $tglSK;?></td>
+	<td>	
+		<?php 	
+			if($this->escape($val['e_file_sk']))
+			{
+				$f_file=$this->escape($val['e_file_sk']);
+		?>
+				<a href="#" class="pdf" onClick="javascript:GetFile('<?php echo "/sdm/pangkat/".$f_file ?>');"></a>
+		<?	}
+		?>
+	</td>	
+	</tr>
+<?endforeach;}?>
+	<tr class="event">
+		<td colspan="3"><b>&nbsp;</b></td>
+	</tr>
+<?
+
+if (count($this->jabatanList)!=0){
+?>
+	<tr class="event">
+		<td colspan="3"><b>Jabatan Struktural</b></td>
+	</tr>
+<?	
+	foreach ($this->jabatanList as $key => $val): 
+	if ($key%2==0) { ?>
+	<tr class="event">
+	<? } else if ($key%2==1) { ?>
+	<tr class="event2">
+	<? } ?>
+	<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->escape($val['i_sk_jabat']);?></td>
+	<td class="clcenter"><?php  echo $this->escape($val['d_sk_jabat']);?></td>
+	<td>		<?php 	
+			if($this->escape($val['e_file_sk']))
+			{
+				$f_file=$this->escape($val['e_file_sk']);
+		?>
+				<a href="#" class="pdf" onClick="javascript:GetFile('<?php echo "/sdm/struktural/".$f_file ?>');"></a>
+		<?	}
+		?>
+	</td>	
+	</tr>
+<?endforeach;}?>
+	<tr class="event">
+		<td colspan="3"><b>&nbsp;</b></td>
+	</tr>
+<?
+if (count($this->jabatanFungList)!=0){
+?>
+	<tr class="event">
+		<td colspan="3"><b>Jabatan Fungsional</b></td>
+	</tr>
+<?	
+	foreach ($this->jabatanFungList as $key => $val): 
+	if ($key%2==0) { ?>
+	<tr class="event">
+	<? } else if ($key%2==1) { ?>
+	<tr class="event2">
+	<? } ?>
+	<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->escape($val['i_sk_jabat']);?></td>
+	<td class="clcenter"><?php  echo $this->escape($val['d_sk_jabat']);?></td>
+	<td>		
+		<?php 	
+			if($this->escape($val['e_file_sk']))
+			{
+				$f_file=$this->escape($val['e_file_sk']);
+		?>
+				<a href="#" class="pdf" onClick="javascript:GetFile('<?php echo "/sdm/fungsional/".$f_file ?>');"></a>
+		<?	}
+		?>
+	</td>	
+	</tr>
+<?endforeach;}?>
+	<tr class="event">
+		<td colspan="3"><b>&nbsp;</b></td>
+	</tr>
+<?
+if (count($this->hukumanList)!=0){
+?>
+	<tr class="event">
+		<td colspan="3"><b>Sanksi / Hukuman</b></td>
+	</tr>
+<?	
+	foreach ($this->hukumanList as $key => $val): 
+	if ($key%2==0) { ?>
+	<tr class="event">
+	<? } else if ($key%2==1) { ?>
+	<tr class="event2">
+	<? } ?>
+	<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->escape($val['i_sk_sanksi']);?></td>
+	<td class="clcenter"><?php  echo $this->escape($val['d_sk_sanksi']);?></td>
+	<td>		<?php 	
+			if($this->escape($val['e_file_sk']))
+			{
+				$f_file=$this->escape($val['e_file_sk']);
+		?>
+				<a href="#" class="pdf" onClick="javascript:GetFile('<?php echo "/sdm/hukuman/".$f_file ?>');"></a>
+		<?	}
+		?>
+	</td>	
+	</tr>
+<?endforeach;}?>		
+	</table>
+
+
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">		
+			<tr>
+				<td>
+					<div class="right">
+						<input type="button" value="Kembali" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datask/listpegawai','');"> 
+					</div>
+				</td>
+			</tr>			
+		</table>	
+	</fieldset>		 
+	</form>
+
+<script>
+function DataSkM(par,i_peg_nip,n_peg,c_jns_dokumen_sk,i_dokumen_sk){
+var url = '<?php echo $this->basePath; ?>/sdmmodule/datask/datask';
+var param = {par:par,i_peg_nip:i_peg_nip,n_peg:n_peg,c_jns_dokumen_sk:c_jns_dokumen_sk,i_dokumen_sk:i_dokumen_sk};
+	jQuery.get(url, param, function(data) {
+		jQuery("#tableview").html(data);getEselon();
+	});
+}
+</script>		

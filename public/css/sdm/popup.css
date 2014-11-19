@@ -1,0 +1,67 @@
+#backgroundPopup{  
+display:none;  
+position:fixed;  
+_position:absolute; /* hack for internet explorer 6*/  
+height:100%;  
+width:100%;  
+top:5px;  
+left:0;  
+background:#000000;  
+border:1px solid #cecece;  
+z-index:1;  
+}  
+#popupContact{  
+display:none;  
+position:fixed;  
+_position:absolute; /* hack for internet explorer 6*/  
+background:#ffffff;  
+border:2px solid #cecece;  
+z-index:1;  
+padding:12px;  
+font-size:13px;  
+top:30px;
+left:10px; 
+right:10px; 
+}  
+
+#popupContact h1{  
+text-align:left;  
+color:#6FA5FD;  
+font-size:22px;  
+font-weight:700;  
+border-bottom:1px dotted #D3D3D3;  
+padding-bottom:2px;  
+margin-bottom:20px;  
+}  
+#popupContactClose{  
+font-size:14px;  
+line-height:14px;  
+right:6px;  
+top:4px;  
+position:absolute;  
+color:#6fa5fd;  
+font-weight:700;  
+display:block;  
+}  
+
+
+.hideshow {
+	-moz-border-radius-topleft:6px;
+	-moz-border-radius-topright:6px;
+	background:#EEEEEE;
+	border-color:#CCCCCC;
+	border-style:solid;
+	padding: 6px 10px;
+	margin: 4px;
+	min-height:14px;
+	border:1px solid #CCCCCC;
+	font-size:13px;
+	font-weight:bold;
+	-moz-border-radius-bottomleft:6px;
+	-moz-border-radius-bottomright:6px;	
+	}
+*html .hideshow {height:14px}
+a.show{
+    float:left;
+	text-decoration:none;
+}

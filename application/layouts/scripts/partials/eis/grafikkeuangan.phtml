@@ -1,0 +1,48 @@
+			<div style="overflow: auto; padding: 15px width: 500px;">
+						<?echo $this->chartKeuangan;?>
+			</div>			
+			<table border="0" width="100%" align="center">
+				<tr>
+					<td align="center">
+						
+						<table border="0" width="100%" align="center" class="tbl2">
+							<tr>
+								<th><font face="arial" size="1">Eselon I</font></th>
+								<th><font face="arial" size="1">Target Penyerapan Anggaran</font></th>
+								<th><font face="arial" size="1">Realisasi</font></th>
+							</tr>
+							<tr class="event">
+								<td align="left">Badilag</td>
+								<td align="right">Rp. <?echo number_format($this->jmlbadilagTpa, 2, ',', '.');?></td>
+								<td align="right">Rp. <?echo number_format($this->jmlbadilagReal, 2, ',', '.');?></td>
+							</tr>
+							<tr class="event2">
+								<td align="left">Badilum</td>
+								<td align="right">Rp. <?echo number_format($this->jmlbadilumTpa, 2, ',', '.');?></td>
+								<td align="right">Rp. <?echo number_format($this->jmlbadilumReal, 2, ',', '.');?></td>
+							</tr>
+			
+							<tr class="event">
+								<td align="left">BUA</td>
+								<td align="right">Rp. <?echo number_format($this->jmlbuaTpa, 2, ',', '.');?></td>
+								<td align="right">Rp. <?echo number_format($this->jmlbuaReal, 2, ',', '.');?></td>
+							</tr>
+							<tr class="event2">
+								<td align="left">Badimiltun</td>
+								<td align="right">Rp. <?echo number_format($this->jmlbadimilTpa, 2, ',', '.');?></td>
+								<td align="right">Rp. <?echo number_format($this->jmlbadimilReal, 2, ',', '.');?></td>
+							</tr>
+							<tr class="event">
+								<td align="left">Balitbangkumdil</td>
+								<td align="right">Rp. <?echo number_format($this->jmlbpppphpTpa, 2, ',', '.');?></td>
+								<td align="right">Rp. <?echo number_format($this->jmlbpppphpReal, 2, ',', '.');?></td>
+							</tr>
+							<tr class="event2">
+								<td align="left">Bawas</td>
+								<td align="right">Rp. <?echo number_format($this->jmlbawasTpa, 2, ',', '.');?></td>
+								<td align="right">Rp. <?echo number_format($this->jmlbawasReal, 2, ',', '.');?></td>
+							</tr>
+						</table>
+					</td>
+				</tr>		
+			</table>

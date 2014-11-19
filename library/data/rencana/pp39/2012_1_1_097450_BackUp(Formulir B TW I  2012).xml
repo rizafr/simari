@@ -1,0 +1,1079 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>teknisi</Author>
+  <LastAuthor>Direktorat PEPP</LastAuthor>
+  <LastPrinted>2008-05-07T06:42:43Z</LastPrinted>
+  <Created>2004-05-18T07:56:16Z</Created>
+  <LastSaved>2008-05-07T06:44:47Z</LastSaved>
+  <Company>bappenas</Company>
+  <Version>11.5606</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>6540</WindowHeight>
+  <WindowWidth>11340</WindowWidth>
+  <WindowTopX>360</WindowTopX>
+  <WindowTopY>15</WindowTopY>
+  <TabRatio>764</TabRatio>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  
+  <Style ss:ID="m36375860">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="2"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="2"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+   <Font x:Family="Swiss" ss:Size="11" ss:Bold="1"/>
+   <Interior/>
+  </Style>
+  <Style ss:ID="s21">
+   <Font x:Family="Swiss"/>
+  </Style>
+ 
+  <Style ss:ID="s195">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Font x:Family="Swiss" ss:Size="11"/>
+  </Style>
+ </Styles>
+<Worksheet ss:Name="Sheet1">
+<Table ss:ExpandedColumnCount="28" ss:ExpandedRowCount="18" x:FullColumns="1" x:FullRows="1">
+
+<Row ss:AutoFitHeight="0">
+<Cell><Data ss:Type="String">18IdDataUmum</Data></Cell>
+<Cell><Data ss:Type="String">Triwulan</Data></Cell>
+<Cell><Data ss:Type="String">TahunAnggaran</Data></Cell>
+<Cell><Data ss:Type="String">KodeKementerian</Data></Cell>
+<Cell><Data ss:Type="String">KodeUnitOrganisasi</Data></Cell>
+<Cell><Data ss:Type="String">NamaUnitKerja</Data></Cell>
+<Cell><Data ss:Type="String">KodeFungsi</Data></Cell>
+<Cell><Data ss:Type="String">KodeSubFungsi</Data></Cell>
+<Cell><Data ss:Type="String">KodeProgram</Data></Cell>
+<Cell><Data ss:Type="String">KodeIku</Data></Cell>
+<Cell><Data ss:Type="String">KodeKegiatan</Data></Cell>
+<Cell><Data ss:Type="String">KodeIkk</Data></Cell>
+<Cell><Data ss:Type="String">LokasiPenandatanganan</Data></Cell>
+<Cell><Data ss:Type="String">JangkaWaktu</Data></Cell>
+<Cell><Data ss:Type="String">PenanggungJawab</Data></Cell>
+<Cell><Data ss:Type="String">NipPenanggungJawab</Data></Cell>
+<Cell><Data ss:Type="String">Jabatan</Data></Cell>
+<Cell><Data ss:Type="String">Alamat</Data></Cell>
+<Cell><Data ss:Type="String">NomorDipa</Data></Cell>
+<Cell><Data ss:Type="String">KodeKementerianDipa</Data></Cell>
+<Cell><Data ss:Type="String">KodeUnitOrganisasiDipa</Data></Cell>
+<Cell><Data ss:Type="String">Kewenangan</Data></Cell>
+<Cell><Data ss:Type="String">JenisDipa</Data></Cell>
+<Cell><Data ss:Type="String">Kanwil</Data></Cell>
+<Cell><Data ss:Type="String">TahunAnggaranDipa</Data></Cell>
+<Cell><Data ss:Type="String">JenisAnggaran</Data></Cell>
+<Cell><Data ss:Type="String">Tingkat</Data></Cell>
+<Cell><Data ss:Type="String">JenisFormulir</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">2889</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">005.03</Data></Cell>
+<Cell><Data ss:Type="String">Direktorat Pembinaan Administrasi Peradilan Umum</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">03.04</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07.01&#10;&#10;005.03.07.02&#10;&#10;005.03.07.03&#10;&#10;005.03.07.04</Data></Cell>
+<Cell><Data ss:Type="String">1051</Data></Cell>
+<Cell><Data ss:Type="String">1051.01</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String">1 Tahun</Data></Cell>
+<Cell><Data ss:Type="String">Atmadirja, SH</Data></Cell>
+<Cell><Data ss:Type="String">19580625 198011 1 001</Data></Cell>
+<Cell><Data ss:Type="String">Pejabat Pembuat Komitmen Direktorat Pembinaan Administrasi Peradilan Umum</Data></Cell>
+<Cell><Data ss:Type="String">Jl Jend A. Yani Kav.58 Bypass Cempaka Putih Timur Jakarta Pusat</Data></Cell>
+<Cell><Data ss:Type="String">0008</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">01</Data></Cell>
+<Cell><Data ss:Type="String">00</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">FORMULIR-B-KL</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">2890</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">005.03</Data></Cell>
+<Cell><Data ss:Type="String">Direktorat Pembinaan Administrasi Peradilan Umum</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">03.04</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07.01&#10;&#10;005.03.07.02&#10;&#10;005.03.07.03&#10;&#10;005.03.07.04</Data></Cell>
+<Cell><Data ss:Type="String">1052</Data></Cell>
+<Cell><Data ss:Type="String">1052.02&#10;&#10;1052.03&#10;&#10;1052.04&#10;&#10;1052.05</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String">1 Tahun</Data></Cell>
+<Cell><Data ss:Type="String">Atmadirja, SH</Data></Cell>
+<Cell><Data ss:Type="String">19580625 198011 1 001</Data></Cell>
+<Cell><Data ss:Type="String">Pejabat Pembuat Komitmen Direktorat Pembinaan Administrasi Peradilan Umum</Data></Cell>
+<Cell><Data ss:Type="String">Jl Jend A. Yani Kav.58 Bypass Cempaka Putih Timur Jakarta Pusat</Data></Cell>
+<Cell><Data ss:Type="String">0008</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">01</Data></Cell>
+<Cell><Data ss:Type="String">00</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">FORMULIR-B-KL</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">2891</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">005.03</Data></Cell>
+<Cell><Data ss:Type="String">Sekretariat Direktorat Jenderal Badan Peradilan Umum</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">03.04</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07.01&#10;&#10;005.03.07.02&#10;&#10;005.03.07.03&#10;&#10;005.03.07.04</Data></Cell>
+<Cell><Data ss:Type="String">1046</Data></Cell>
+<Cell><Data ss:Type="String">1046.03</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String">1 Tahun</Data></Cell>
+<Cell><Data ss:Type="String">Drs. Subarji, SH</Data></Cell>
+<Cell><Data ss:Type="String">19600601 199103 1 002</Data></Cell>
+<Cell><Data ss:Type="String">Pejabat Pembuat Komitmen Sekretariat Direktorat Jenderal Badan Peradilan Umum</Data></Cell>
+<Cell><Data ss:Type="String">Jl. Jenderal Ahmad Yani Kav.58 - Bypass Cempaka Putih Timur</Data></Cell>
+<Cell><Data ss:Type="String">0008</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">01</Data></Cell>
+<Cell><Data ss:Type="String">00</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">FORMULIR-B-KL</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">2892</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">005.03</Data></Cell>
+<Cell><Data ss:Type="String">Sekretariat Direktorat Jenderal Badan Peradilan Umum</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">03.04</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07.01&#10;&#10;005.03.07.02&#10;&#10;005.03.07.03&#10;&#10;005.03.07.04</Data></Cell>
+<Cell><Data ss:Type="String">1052</Data></Cell>
+<Cell><Data ss:Type="String">1052.01&#10;&#10;1052.02&#10;&#10;1052.03&#10;&#10;1052.04&#10;&#10;1052.05</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String">1Tahun</Data></Cell>
+<Cell><Data ss:Type="String">Drs. Subarji, SH</Data></Cell>
+<Cell><Data ss:Type="String">19600601 199103 1 002</Data></Cell>
+<Cell><Data ss:Type="String">Pejabat Pembuat Komitmen Sekretariat Direktorat Jenderal Badan Peradilan Umum</Data></Cell>
+<Cell><Data ss:Type="String">Jl. Jenderal Ahmad Yani Kav.58 - Bypass Cempaka Putih Timur</Data></Cell>
+<Cell><Data ss:Type="String">0008</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">01</Data></Cell>
+<Cell><Data ss:Type="String">00</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">FORMULIR-B-KL</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">2893</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">005.03</Data></Cell>
+<Cell><Data ss:Type="String">Direktorat Pranata dan Tata Laksana Perkara Pidana/Perdata</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">03.04</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07.01&#10;&#10;005.03.07.02&#10;&#10;005.03.07.03&#10;&#10;005.03.07.04</Data></Cell>
+<Cell><Data ss:Type="String">1047</Data></Cell>
+<Cell><Data ss:Type="String">1047.01&#10;&#10;1047.02&#10;&#10;1047.03&#10;&#10;1047.04</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String">1 Tahun</Data></Cell>
+<Cell><Data ss:Type="String">Novita Aprilianti Rosabita, SH, MH</Data></Cell>
+<Cell><Data ss:Type="String">19840425 200604 2 002</Data></Cell>
+<Cell><Data ss:Type="String">Pejabat Pembuat Komitmen Direktorat Pranata dan Tata Laksana Perkara Pidana/Perdata</Data></Cell>
+<Cell><Data ss:Type="String">Jl. Medan Merdeka Utara No.9-13</Data></Cell>
+<Cell><Data ss:Type="String">0008</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">01</Data></Cell>
+<Cell><Data ss:Type="String">00</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">FORMULIR-B-KL</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">2894</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">005.03</Data></Cell>
+<Cell><Data ss:Type="String">Direktorat Pranata dan Tata Laksana Perkara Pidana/Perdata</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">03.04</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07.01&#10;&#10;005.03.07.02&#10;&#10;005.03.07.03&#10;&#10;005.03.07.04</Data></Cell>
+<Cell><Data ss:Type="String">1048</Data></Cell>
+<Cell><Data ss:Type="String">1048.01&#10;&#10;1048.02&#10;&#10;1048.03&#10;&#10;1048.04</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String">1 Tahun</Data></Cell>
+<Cell><Data ss:Type="String">Novita Aprilianti Rosabita, SH, MH</Data></Cell>
+<Cell><Data ss:Type="String">19840425 200604 2 002</Data></Cell>
+<Cell><Data ss:Type="String">Pejabat Pembuat Komitmen Direktorat Pranata dan Tata Laksana Perkara Pidana/Perdata</Data></Cell>
+<Cell><Data ss:Type="String">Jl. Medan Merdeka Utara No.9-13</Data></Cell>
+<Cell><Data ss:Type="String">0008</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">01</Data></Cell>
+<Cell><Data ss:Type="String">00</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">FORMULIR-B-KL</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">2895</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">005.03</Data></Cell>
+<Cell><Data ss:Type="String">Direktorat Pembinaan Tenaga Teknis Peradilan Umum</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">03.04</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07.01&#10;&#10;005.03.07.02&#10;&#10;005.03.07.03&#10;&#10;005.03.07.04</Data></Cell>
+<Cell><Data ss:Type="String">1046</Data></Cell>
+<Cell><Data ss:Type="String">1046.01&#10;&#10;1046.02&#10;&#10;1046.03&#10;&#10;1046.04</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String">1 Tahun</Data></Cell>
+<Cell><Data ss:Type="String">Sunardiyana, SH</Data></Cell>
+<Cell><Data ss:Type="String">19670730 198903 1 002</Data></Cell>
+<Cell><Data ss:Type="String">Pejabat Pembuat Komitmen Direktorat Pembinaan Tenaga Teknis Peradilan Umum</Data></Cell>
+<Cell><Data ss:Type="String">Jl Jend A Yani Kav-58 Bypass Cempaka Putih Timur, Jakarta Pusat</Data></Cell>
+<Cell><Data ss:Type="String">0008</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">01</Data></Cell>
+<Cell><Data ss:Type="String">00</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">FORMULIR-B-KL</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">2896</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">005.03</Data></Cell>
+<Cell><Data ss:Type="String">Direktorat Pembinaan Tenaga Teknis Peradilan Umum</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">03.04</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07.01&#10;&#10;005.03.07.02&#10;&#10;005.03.07.03&#10;&#10;005.03.07.04</Data></Cell>
+<Cell><Data ss:Type="String">1052</Data></Cell>
+<Cell><Data ss:Type="String">1052.01&#10;&#10;1052.02&#10;&#10;1052.03&#10;&#10;1052.04&#10;&#10;1052.05</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String">1 Tahun</Data></Cell>
+<Cell><Data ss:Type="String">Sunardiyana, SH</Data></Cell>
+<Cell><Data ss:Type="String">19670730 198903 1 002</Data></Cell>
+<Cell><Data ss:Type="String">Pejabat Pembuat Komitmen Direktorat Pembinaan Tenaga Teknis Peradilan Umum</Data></Cell>
+<Cell><Data ss:Type="String">Jl Jend A Yani Kav-58 Bypass Cmpaka Putih Timur, Jakarta Pusat</Data></Cell>
+<Cell><Data ss:Type="String">0008</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">03</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">01</Data></Cell>
+<Cell><Data ss:Type="String">00</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">FORMULIR-B-KL</Data></Cell>
+</Row>
+</Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+</Worksheet>
+
+<Worksheet ss:Name="Sheet2">
+<Table ss:ExpandedColumnCount="25" ss:ExpandedRowCount="28" x:FullColumns="1" x:FullRows="1" ss:DefaultRowHeight="15">
+<Row ss:AutoFitHeight="0">
+<Cell><Data ss:Type="String">28IdDataKeuangan</Data></Cell>
+<Cell><Data ss:Type="String">IdDataUmum</Data></Cell>
+<Cell><Data ss:Type="String">KodeOutput</Data></Cell>
+<Cell><Data ss:Type="String">PHLN</Data></Cell>
+<Cell><Data ss:Type="String">Rupiah</Data></Cell>
+<Cell><Data ss:Type="String">Total</Data></Cell>
+<Cell><Data ss:Type="String">IndikatorOutput</Data></Cell>
+<Cell><Data ss:Type="String">Satuan</Data></Cell>
+<Cell><Data ss:Type="String">Unit</Data></Cell>
+<Cell><Data ss:Type="String">SKeuangan1</Data></Cell>
+<Cell><Data ss:Type="String">RKeuangan1</Data></Cell>
+<Cell><Data ss:Type="String">SFisik1</Data></Cell>
+<Cell><Data ss:Type="String">RFisik1</Data></Cell>
+<Cell><Data ss:Type="String">SKeuangan2</Data></Cell>
+<Cell><Data ss:Type="String">RKeuangan2</Data></Cell>
+<Cell><Data ss:Type="String">SFisik2</Data></Cell>
+<Cell><Data ss:Type="String">RFisik2</Data></Cell>
+<Cell><Data ss:Type="String">SKeuangan3</Data></Cell>
+<Cell><Data ss:Type="String">RKeuangan3</Data></Cell>
+<Cell><Data ss:Type="String">SFisik3</Data></Cell>
+<Cell><Data ss:Type="String">RFisik3</Data></Cell>
+<Cell><Data ss:Type="String">Lokasi</Data></Cell>
+<Cell><Data ss:Type="String">Kendala</Data></Cell>
+<Cell><Data ss:Type="String">TindakLanjut</Data></Cell>
+<Cell><Data ss:Type="String">Pihak</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8296</Data></Cell>
+<Cell><Data ss:Type="String">2889</Data></Cell>
+<Cell><Data ss:Type="String">1051.001</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">247750000</Data></Cell>
+<Cell><Data ss:Type="String">247750000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">55.00</Data></Cell>
+<Cell><Data ss:Type="String">126700000</Data></Cell>
+<Cell><Data ss:Type="String">55.00</Data></Cell>
+<Cell><Data ss:Type="String">51.14</Data></Cell>
+<Cell><Data ss:Type="String">55</Data></Cell>
+<Cell><Data ss:Type="String">126700000</Data></Cell>
+<Cell><Data ss:Type="String">55</Data></Cell>
+<Cell><Data ss:Type="String">51.14</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8297</Data></Cell>
+<Cell><Data ss:Type="String">2890</Data></Cell>
+<Cell><Data ss:Type="String">1052.002</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">911900000</Data></Cell>
+<Cell><Data ss:Type="String">911900000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">5.00</Data></Cell>
+<Cell><Data ss:Type="String">38208610</Data></Cell>
+<Cell><Data ss:Type="String">5.00</Data></Cell>
+<Cell><Data ss:Type="String">4.19</Data></Cell>
+<Cell><Data ss:Type="String">5</Data></Cell>
+<Cell><Data ss:Type="String">38208610</Data></Cell>
+<Cell><Data ss:Type="String">5</Data></Cell>
+<Cell><Data ss:Type="String">4.19</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8298</Data></Cell>
+<Cell><Data ss:Type="String">2890</Data></Cell>
+<Cell><Data ss:Type="String">1052.003</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">9968025000</Data></Cell>
+<Cell><Data ss:Type="String">9968025000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8299</Data></Cell>
+<Cell><Data ss:Type="String">2890</Data></Cell>
+<Cell><Data ss:Type="String">1052.004</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">163410000</Data></Cell>
+<Cell><Data ss:Type="String">163410000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8300</Data></Cell>
+<Cell><Data ss:Type="String">2891</Data></Cell>
+<Cell><Data ss:Type="String">1046.003</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">17400000000</Data></Cell>
+<Cell><Data ss:Type="String">17400000000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">15.00</Data></Cell>
+<Cell><Data ss:Type="String">1908780000</Data></Cell>
+<Cell><Data ss:Type="String">15.00</Data></Cell>
+<Cell><Data ss:Type="String">10.97</Data></Cell>
+<Cell><Data ss:Type="String">15</Data></Cell>
+<Cell><Data ss:Type="String">1908780000</Data></Cell>
+<Cell><Data ss:Type="String">15</Data></Cell>
+<Cell><Data ss:Type="String">10.97</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8301</Data></Cell>
+<Cell><Data ss:Type="String">2892</Data></Cell>
+<Cell><Data ss:Type="String">1052.001</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">14866832000</Data></Cell>
+<Cell><Data ss:Type="String">14866832000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">20.00</Data></Cell>
+<Cell><Data ss:Type="String">2422222721</Data></Cell>
+<Cell><Data ss:Type="String">20.00</Data></Cell>
+<Cell><Data ss:Type="String">16.29</Data></Cell>
+<Cell><Data ss:Type="String">20</Data></Cell>
+<Cell><Data ss:Type="String">2422222721</Data></Cell>
+<Cell><Data ss:Type="String">20</Data></Cell>
+<Cell><Data ss:Type="String">16.29</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8302</Data></Cell>
+<Cell><Data ss:Type="String">2892</Data></Cell>
+<Cell><Data ss:Type="String">1052.002</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">2516174000</Data></Cell>
+<Cell><Data ss:Type="String">2516174000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">5.00</Data></Cell>
+<Cell><Data ss:Type="String">28181149</Data></Cell>
+<Cell><Data ss:Type="String">5.00</Data></Cell>
+<Cell><Data ss:Type="String">1.12</Data></Cell>
+<Cell><Data ss:Type="String">5</Data></Cell>
+<Cell><Data ss:Type="String">28181149</Data></Cell>
+<Cell><Data ss:Type="String">5</Data></Cell>
+<Cell><Data ss:Type="String">1.12</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8303</Data></Cell>
+<Cell><Data ss:Type="String">2892</Data></Cell>
+<Cell><Data ss:Type="String">1052.003</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">2038230000</Data></Cell>
+<Cell><Data ss:Type="String">2038230000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">15.00</Data></Cell>
+<Cell><Data ss:Type="String">239084379</Data></Cell>
+<Cell><Data ss:Type="String">15.00</Data></Cell>
+<Cell><Data ss:Type="String">11.73</Data></Cell>
+<Cell><Data ss:Type="String">15</Data></Cell>
+<Cell><Data ss:Type="String">239084379</Data></Cell>
+<Cell><Data ss:Type="String">15</Data></Cell>
+<Cell><Data ss:Type="String">11.73</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8304</Data></Cell>
+<Cell><Data ss:Type="String">2892</Data></Cell>
+<Cell><Data ss:Type="String">1052.004</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">618260000</Data></Cell>
+<Cell><Data ss:Type="String">618260000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">5.00</Data></Cell>
+<Cell><Data ss:Type="String">19475190</Data></Cell>
+<Cell><Data ss:Type="String">5.00</Data></Cell>
+<Cell><Data ss:Type="String">3.15</Data></Cell>
+<Cell><Data ss:Type="String">5</Data></Cell>
+<Cell><Data ss:Type="String">19475190</Data></Cell>
+<Cell><Data ss:Type="String">5</Data></Cell>
+<Cell><Data ss:Type="String">3.15</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8305</Data></Cell>
+<Cell><Data ss:Type="String">2893</Data></Cell>
+<Cell><Data ss:Type="String">1047.001</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">166575000</Data></Cell>
+<Cell><Data ss:Type="String">166575000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8306</Data></Cell>
+<Cell><Data ss:Type="String">2893</Data></Cell>
+<Cell><Data ss:Type="String">1047.002</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">937899000</Data></Cell>
+<Cell><Data ss:Type="String">937899000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">5.00</Data></Cell>
+<Cell><Data ss:Type="String">36296691</Data></Cell>
+<Cell><Data ss:Type="String">5.00</Data></Cell>
+<Cell><Data ss:Type="String">3.87</Data></Cell>
+<Cell><Data ss:Type="String">5</Data></Cell>
+<Cell><Data ss:Type="String">36296691</Data></Cell>
+<Cell><Data ss:Type="String">5</Data></Cell>
+<Cell><Data ss:Type="String">3.87</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8307</Data></Cell>
+<Cell><Data ss:Type="String">2894</Data></Cell>
+<Cell><Data ss:Type="String">1048.001</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">166575000</Data></Cell>
+<Cell><Data ss:Type="String">166575000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8308</Data></Cell>
+<Cell><Data ss:Type="String">2894</Data></Cell>
+<Cell><Data ss:Type="String">1048.002</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">937899000</Data></Cell>
+<Cell><Data ss:Type="String">937899000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">5.00</Data></Cell>
+<Cell><Data ss:Type="String">34983633</Data></Cell>
+<Cell><Data ss:Type="String">5.00</Data></Cell>
+<Cell><Data ss:Type="String">3.73</Data></Cell>
+<Cell><Data ss:Type="String">5</Data></Cell>
+<Cell><Data ss:Type="String">34983633</Data></Cell>
+<Cell><Data ss:Type="String">5</Data></Cell>
+<Cell><Data ss:Type="String">3.73</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8309</Data></Cell>
+<Cell><Data ss:Type="String">2895</Data></Cell>
+<Cell><Data ss:Type="String">1046.001</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">765120000</Data></Cell>
+<Cell><Data ss:Type="String">765120000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">10.00</Data></Cell>
+<Cell><Data ss:Type="String">38332512</Data></Cell>
+<Cell><Data ss:Type="String">10.00</Data></Cell>
+<Cell><Data ss:Type="String">5.01</Data></Cell>
+<Cell><Data ss:Type="String">10</Data></Cell>
+<Cell><Data ss:Type="String">38332512</Data></Cell>
+<Cell><Data ss:Type="String">10</Data></Cell>
+<Cell><Data ss:Type="String">5.01</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8310</Data></Cell>
+<Cell><Data ss:Type="String">2895</Data></Cell>
+<Cell><Data ss:Type="String">1046.002</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">935945000</Data></Cell>
+<Cell><Data ss:Type="String">935945000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8311</Data></Cell>
+<Cell><Data ss:Type="String">2895</Data></Cell>
+<Cell><Data ss:Type="String">1046.003</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">1176825000</Data></Cell>
+<Cell><Data ss:Type="String">1176825000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">5.00</Data></Cell>
+<Cell><Data ss:Type="String">23183453</Data></Cell>
+<Cell><Data ss:Type="String">5.00</Data></Cell>
+<Cell><Data ss:Type="String">1.97</Data></Cell>
+<Cell><Data ss:Type="String">5</Data></Cell>
+<Cell><Data ss:Type="String">23183453</Data></Cell>
+<Cell><Data ss:Type="String">5</Data></Cell>
+<Cell><Data ss:Type="String">1.97</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8312</Data></Cell>
+<Cell><Data ss:Type="String">2895</Data></Cell>
+<Cell><Data ss:Type="String">1046.004</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">72615000</Data></Cell>
+<Cell><Data ss:Type="String">72615000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8313</Data></Cell>
+<Cell><Data ss:Type="String">2896</Data></Cell>
+<Cell><Data ss:Type="String">1052.003</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">252500000</Data></Cell>
+<Cell><Data ss:Type="String">252500000</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0.00</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">0</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+</Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<PageSetup>
+<Header x:Margin="0.3"/>
+<Footer x:Margin="0.3"/>
+<PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+</PageSetup>
+<Unsynced/>
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+</Worksheet>
+
+<Worksheet ss:Name="Sheet3">
+<Table ss:ExpandedColumnCount="5" ss:ExpandedRowCount="10" x:FullColumns="1" x:FullRows="1" ss:DefaultRowHeight="15">
+<Row ss:AutoFitHeight="0">
+<Cell><Data ss:Type="String">10IdLoan</Data></Cell>
+<Cell><Data ss:Type="String">IdDataKeuangan</Data></Cell>
+<Cell><Data ss:Type="String">IdDataUmum</Data></Cell>
+<Cell><Data ss:Type="String">NomorLoan</Data></Cell>
+<Cell><Data ss:Type="String">NilaiLoan</Data></Cell>
+</Row>
+</Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<PageSetup>
+<Header x:Margin="0.3"/>
+<Footer x:Margin="0.3"/>
+<PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+</PageSetup>
+<Unsynced/>
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+</Worksheet>
+
+<Worksheet ss:Name="Sheet4">
+<Table ss:ExpandedColumnCount="10" ss:ExpandedRowCount="15" x:FullColumns="1" x:FullRows="1" ss:DefaultRowHeight="15">
+<Row ss:AutoFitHeight="0">
+<Cell><Data ss:Type="String">15IdKendalaKegiatan</Data></Cell>
+<Cell><Data ss:Type="String">Triwulan</Data></Cell>
+<Cell><Data ss:Type="String">TahunAnggaran</Data></Cell>
+<Cell><Data ss:Type="String">KodeKementerian</Data></Cell>
+<Cell><Data ss:Type="String">KodeUnitOrganisasi</Data></Cell>
+<Cell><Data ss:Type="String">KodeProgram</Data></Cell>
+<Cell><Data ss:Type="String">KodeKegiatan</Data></Cell>
+<Cell><Data ss:Type="String">Kendala</Data></Cell>
+<Cell><Data ss:Type="String">TindakLanjut</Data></Cell>
+<Cell><Data ss:Type="String">PihakPembantu</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">1030</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">005.03</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07</Data></Cell>
+<Cell><Data ss:Type="String">1046</Data></Cell>
+<Cell><Data ss:Type="String">-</Data></Cell>
+<Cell><Data ss:Type="String">-</Data></Cell>
+<Cell><Data ss:Type="String">-</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">1031</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">005.03</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07</Data></Cell>
+<Cell><Data ss:Type="String">1047</Data></Cell>
+<Cell><Data ss:Type="String">-</Data></Cell>
+<Cell><Data ss:Type="String">-</Data></Cell>
+<Cell><Data ss:Type="String">-</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">1032</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">005.03</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07</Data></Cell>
+<Cell><Data ss:Type="String">1048</Data></Cell>
+<Cell><Data ss:Type="String">-</Data></Cell>
+<Cell><Data ss:Type="String">-</Data></Cell>
+<Cell><Data ss:Type="String">-</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">1033</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">005.03</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07</Data></Cell>
+<Cell><Data ss:Type="String">1051</Data></Cell>
+<Cell><Data ss:Type="String">-</Data></Cell>
+<Cell><Data ss:Type="String">-</Data></Cell>
+<Cell><Data ss:Type="String">-</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">1034</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">005.03</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07</Data></Cell>
+<Cell><Data ss:Type="String">1052</Data></Cell>
+<Cell><Data ss:Type="String">-</Data></Cell>
+<Cell><Data ss:Type="String">-</Data></Cell>
+<Cell><Data ss:Type="String">-</Data></Cell>
+</Row>
+</Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<PageSetup>
+<Header x:Margin="0.3"/>
+<Footer x:Margin="0.3"/>
+<PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+</PageSetup>
+<Unsynced/>
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+</Worksheet>
+
+
+
+<Worksheet ss:Name="Sheet5">
+<Table ss:ExpandedColumnCount="10" ss:ExpandedRowCount="10" x:FullColumns="1" x:FullRows="1">
+
+<Row ss:AutoFitHeight="0">
+<Cell><Data ss:Type="String">10IdKonsolidasiProgram</Data></Cell>
+<Cell><Data ss:Type="String">Triwulan</Data></Cell>
+<Cell><Data ss:Type="String">TahunAnggaran</Data></Cell>
+<Cell><Data ss:Type="String">KodeKementerian</Data></Cell>
+<Cell><Data ss:Type="String">KodeUnitOrganisasi</Data></Cell>
+<Cell><Data ss:Type="String">KodeProgram</Data></Cell>
+<Cell><Data ss:Type="String">KodeIku</Data></Cell>
+<Cell><Data ss:Type="String">PenanggungJawab</Data></Cell>
+<Cell><Data ss:Type="String">NipPenanggungJawab</Data></Cell>
+<Cell><Data ss:Type="String">Jabatan</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">36</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">2012</Data></Cell>
+<Cell><Data ss:Type="String">005</Data></Cell>
+<Cell><Data ss:Type="String">005.03</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07</Data></Cell>
+<Cell><Data ss:Type="String">005.03.07.01&#10;005.03.07.02&#10;005.03.07.03&#10;005.03.07.04</Data></Cell>
+<Cell><Data ss:Type="String">MUGYANA SUKANDAR, S.H., M.H.</Data></Cell>
+<Cell><Data ss:Type="String">19541006 198303 1 001</Data></Cell>
+<Cell><Data ss:Type="String">Sekretaris Direktorat Jenderal Badan Peradilan Umum Selaku Pengguna Anggaran </Data></Cell>
+</Row>
+</Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+</Worksheet>
+
+<Worksheet ss:Name="Sheet6">
+<Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="15" x:FullColumns="1" x:FullRows="1" ss:DefaultRowHeight="15">
+<Row ss:AutoFitHeight="0">
+<Cell><Data ss:Type="String">15IdKonsolidasiKegiatan</Data></Cell>
+<Cell><Data ss:Type="String">IdKonsolidasiProgram</Data></Cell>
+<Cell><Data ss:Type="String">KodeKegiatan</Data></Cell>
+<Cell><Data ss:Type="String">KodeIkk</Data></Cell>
+<Cell><Data ss:Type="String">Satuan</Data></Cell>
+<Cell><Data ss:Type="String">Unit</Data></Cell>
+<Cell><Data ss:Type="String">Lokasi</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">5377</Data></Cell>
+<Cell><Data ss:Type="String">36</Data></Cell>
+<Cell><Data ss:Type="String">1046</Data></Cell>
+<Cell><Data ss:Type="String">1046.01&#10;1046.02&#10;1046.03&#10;1046.04</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">5378</Data></Cell>
+<Cell><Data ss:Type="String">36</Data></Cell>
+<Cell><Data ss:Type="String">1047</Data></Cell>
+<Cell><Data ss:Type="String">1047.01&#10;1047.02&#10;1047.03&#10;1047.04</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">5379</Data></Cell>
+<Cell><Data ss:Type="String">36</Data></Cell>
+<Cell><Data ss:Type="String">1048</Data></Cell>
+<Cell><Data ss:Type="String">1048.01&#10;1048.02&#10;1048.03&#10;1048.04</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">5380</Data></Cell>
+<Cell><Data ss:Type="String">36</Data></Cell>
+<Cell><Data ss:Type="String">1051</Data></Cell>
+<Cell><Data ss:Type="String">1051.01</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">5381</Data></Cell>
+<Cell><Data ss:Type="String">36</Data></Cell>
+<Cell><Data ss:Type="String">1052</Data></Cell>
+<Cell><Data ss:Type="String">1052.01&#10;1052.02&#10;1052.03&#10;1052.04&#10;1052.05</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Tahun</Data></Cell>
+<Cell><Data ss:Type="String">Jakarta</Data></Cell>
+</Row>
+</Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<PageSetup>
+<Header x:Margin="0.3"/>
+<Footer x:Margin="0.3"/>
+<PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+</PageSetup>
+<Unsynced/>
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+</Worksheet>
+
+
+</Workbook>

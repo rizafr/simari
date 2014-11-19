@@ -1,0 +1,85 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+require_once 'share/halaman_list.php'; 
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$jmlnmPegList = count($this->PegawaiList);  
+$halaman = new halaman_list(); 
+?>
+<div id="backgroundPopup">
+
+	<div id="popupContact">
+
+		<div style="overflow: hidden;">
+			<div class="wrap">
+				<div class="panel" style="height: 500px;overflow: auto;border: solid 1px #000;padding: 5px;" >
+					<h2 class="title">Usulan TPM</h2>					
+					<div class="inner" id="targettbl">					
+						<span class="corners-top"><span></span></span>
+						<div class="spacer"></div>
+	<div class="delete" title="Close" onclick="closeDetil()"></div>
+   <table width="100%" border="0" cellpadding="0" cellspacing="1" class="tbl">
+		<tr>
+			<th>Nomor Surat</th>
+			<th>Usulan</th>
+			<th>Tanggal</th>
+			<th>Instansi</th>
+			<th>Periode</th>
+			<th>Keterangan</th>
+		</tr> 
+<? 		if (count($this->dataTpmUsul) == 0) {?>
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>	
+<?}else{
+								
+				foreach ($this->dataTpmUsul as $key => $val): 
+				if ($key%2==0) { ?>
+				<tr class="event">
+				<? } else if ($key%2==1) { ?>
+				<tr class="event2">
+				<? } 
+				$usulan_id=$this->escape($val['usulan_id']);
+				$usulan_keterangan=$this->escape($val['usulan_keterangan']);
+				$mod_date=$this->escape($val['mod_date']);
+				$tvinstansi_kd=$this->escape($val['tvinstansi_kd']);
+				$periode_text=$this->escape($val['periode_text']);
+				$periode_keterangan=$this->escape($val['periode_keterangan']);
+				$usulan_nomor=$this->escape($val['usulan_nomor']);				
+				
+				?>
+					<td><a href="#" onclick="pilihData('<?php echo $usulan_id;?>','<?php echo $usulan_nomor;?>','<?php echo $usulan_keterangan;?>','<?php echo $mod_date;?>','<?php echo $tvinstansi_kd;?>','<?php echo $periode_text;?>','<?php echo $periode_keterangan;?>')"><?php echo $this->escape($val['usulan_nomor']);?></a></td>
+					<td align="left"><?php echo $this->escape($val['usulan_keterangan']);?></td>					
+					<td align="center"><?php echo $this->escape($val['mod_date']);?></td>
+					<td align="left"><?php echo $this->escape($val['tvinstansi_kd']);?></td>
+					<td align="left"><?php echo $this->escape($val['periode_text']);?></td>
+					<td align="left"><?php echo $this->escape($val['periode_keterangan']);?></td>
+				</tr>
+				<?php endforeach;}?>	
+	</table>
+				<span class="corners-bottom"><span></span></span>
+					</div>
+				</div>
+			</div><!-- wrap -->	
+		</div>
+		</div>
+	</div>
+</div>	
+<script>
+function pilihData(usulan_id,usulan_nomor,usulan_keterangan,mod_date,tvinstansi_kd,periode_text,periode_keterangan){
+	document.getElementById('usulan_id').value=usulan_id;
+	document.getElementById('usulan_nomor').value=usulan_nomor;	
+	document.getElementById('usulan_keterangan').value=usulan_keterangan;	
+	document.getElementById('mod_date').value=mod_date;
+	document.getElementById('tvinstansi_kd').value=tvinstansi_kd;
+	document.getElementById('periode_text').value=periode_text;
+	document.getElementById('periode_keterangan').value=periode_keterangan;
+	closeDetil();
+}
+</script>

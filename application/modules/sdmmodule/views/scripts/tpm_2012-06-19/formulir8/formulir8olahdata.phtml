@@ -1,0 +1,218 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+	
+	//var_dump($this->detailAgama);
+?>
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong>Formasi Kepegawaian<!--a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a-->
+				<strong> &#8250; </strong><?//=$this->jdl;?> Formulir 8
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Formulir 8</h2>	
+		
+<form id="formformulir8" method="post" name="formformulir8">	
+		<div align="center">DAFTAR JUMLAH PEGAWAI YANG BERHENTI, PENSIUN, DAN MENINGGAL DUNIA <br> TAHUN ANGGARAN <span class="thn_skr"></span></div>
+	<div class="panel">
+		<div class="spacer"></div> 
+			
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<!--td width="40%">UNIT ORGANISASI
+					</td>
+					<td width="1%">:</td> 
+					<td width="59%">	
+						<select name="unit_organisasi" id="unit_organisasi">
+						<?if($this->unit_organisasi != ""){
+							echo "<option value='".$this->unit_organisasi."'>".$this->unit_organisasi."</option>";?>
+						 <option>Unit Kerja</option>
+						<? 
+						foreach ($this->listUnit as $key => $val):
+							echo "<option value='".$this->escape($val['nama_satker'])."'>".$this->escape($val['nama_satker'])."</option>";
+						endforeach;
+						}else{
+						?>
+						<option>Unit Kerja</option>
+						<? 
+						foreach ($this->listUnit as $key => $val):
+							echo "<option value='".$this->escape($val['nama_satker'])."'>".$this->escape($val['nama_satker'])."</option>";
+						endforeach;
+						}
+						?> 
+						 </select>
+					</td>
+				</tr--><tr><td colspan="3"><u>UNIT KERJA</u></td></tr><tr>
+					<td>Lokasi
+					</td>
+					<td>:</td> 
+					<td>	<input type="hidden" name="id" id="id" value="<? echo $this->id ?>">				
+						<select name="lokasi" id="lokasi" onchange="AmbilLokasi('<?=$this->par; ?>');">
+						<?if($this->c_lokasi != "" && $this->n_lokasi != ""){
+							echo "<option value='".$this->c_lokasi.",".$this->n_lokasi."'>".$this->n_lokasi."</option>";?>
+						 <option>--Pilih--</option>
+						<? 
+						foreach ($this->listLokasi as $key => $val):
+							echo "<option value='".$this->escape($val['c_lokasi']).",".$this->escape($val['n_lokasi'])."'>".$this->escape($val['n_lokasi'])."</option>";
+						endforeach;
+						}else{
+						?>
+						<option>--Pilih--</option>
+						<? 
+						foreach ($this->listLokasi as $key => $val):
+							echo "<option value='".$this->escape($val['c_lokasi']).",".$this->escape($val['n_lokasi'])."'>".$this->escape($val['n_lokasi'])."</option>";
+						endforeach;
+						}
+						?> 
+						 </select>
+					</td>
+				</tr><tr>
+					<td>Eselon I
+					</td>
+					<td>:</td> 
+					<td>	
+						<select name="eselon1" id="eselon1" width="150" onchange="AmbilEselon1('<?=$this->par; ?>');">
+						<?if($this->c_eselon1 != ""){
+							echo "<option value='".$this->c_eselon1.",".$this->n_eselon1."'>".$this->n_eselon1."</option>";?>
+						 <option>--Pilih--</option>
+						<? 
+						foreach ($this->listEselon1 as $key => $val):
+							echo "<option value='".$this->escape($val['c_eselon_i']).",".$this->escape($val['n_unitkerja'])."'>".$this->escape($val['n_unitkerja'])."</option>";
+						endforeach;
+						}else{
+						?>
+						<option>--Pilih--</option>
+						<? 
+						foreach ($this->listEselon1 as $key => $val):
+							echo "<option value='".$this->escape($val['c_eselon_i']).",".$this->escape($val['n_unitkerja'])."'>".$this->escape($val['n_unitkerja'])."</option>";
+						endforeach;
+						}
+						?> 
+						 </select>
+					</td>
+				</tr><tr>
+					<td>Eselon II
+					</td>
+					<td>:</td> 
+					<td>	
+						<select name="eselon2" id="eselon2" width="150" onchange="AmbilEselon2('<?=$this->par; ?>')">
+						<?if($this->c_eselon2 != ""){
+							echo "<option value='".$this->c_eselon2.",".$this->c_eselon22.",".$this->n_eselon2."'>".$this->n_eselon2."</option>";?>
+						 <option>--Pilih--</option>
+						<? 
+						foreach ($this->listEselon2 as $key => $val):
+							echo "<option value='".$this->escape($val['c_eselon_ii']).",".$this->listEselon2[$key+1]['c_eselon_ii'].",".$this->escape($val['n_unitkerja'])."'>".$this->escape($val['n_unitkerja'])."</option>";
+						endforeach;
+						}else{
+						?>
+						<option>--Pilih--</option>
+						<? foreach ($this->listEselon2 as $key => $val):
+							echo "<option value='".$this->listEselon2[$key+1]['c_eselon_ii'].",".$this->escape($val['c_eselon_ii']).",".$this->escape($val['n_unitkerja'])."'>".$this->escape($val['n_unitkerja'])."</option>";
+						   endforeach;
+						 } ?>
+						 </select>
+					</td>
+				</tr><tr>
+					<td>Eselon III
+					</td>
+					<td>:</td> 
+					<td>			
+						<select name="eselon3" id="eselon3" width="150" onchange="AmbilEselon3('<?=$this->par; ?>')">
+						<?if($this->c_eselon23 != ""){
+							echo "<option value='".$this->c_eselon23.",".$this->c_eselon3.",".$this->n_eselon3."'>".$this->n_eselon3."</option>";?>
+						 <option>--Pilih--</option>
+						<? 
+						foreach ($this->listEselon3 as $key => $val):
+							echo "<option value='".$this->escape($val['c_eselon_ii']).",".$this->escape($val['c_eselon_iii']).",".$this->escape($val['n_unitkerja'])."'>".$this->escape($val['n_unitkerja'])."</option>";
+						endforeach;
+						}else{
+						?>
+						<option>--Pilih--</option>
+						<? 
+						foreach ($this->listEselon3 as $key => $val):
+							echo "<option value='".$this->escape($val['c_eselon_ii']).",".$this->escape($val['c_eselon_iii']).",".$this->escape($val['n_unitkerja'])."'>".$this->escape($val['n_unitkerja'])."</option>";
+						endforeach;
+						}
+						?> 
+						 </select>
+					</td>
+				</tr><!--tr>
+					<td>NAMA JABATAN
+					</td>
+					<td>:</td> 
+					<td>					
+						<select name="nm_jabatan" id="nm_jabatan" >
+						<?if($this->nm_jabatan != ""){
+							echo "<option value='".$this->c_jabatan.",".$this->nm_jabatan."'>".$this->nm_jabatan."</option>";?>
+						 <option>Nama Jabatan</option>
+						<? 
+						foreach ($this->listNamaJabatan as $key => $val):
+							echo "<option value='".$this->escape($val['c_jabatan']).",".$this->escape($val['n_jabatan'])."'>".$this->escape($val['n_jabatan'])."</option>";
+						endforeach;
+						}else{
+						?>
+						<option>Nama Jabatan</option>
+						<? 
+						foreach ($this->listNamaJabatan as $key => $val):
+							echo "<option value='".$this->escape($val['c_jabatan']).",".$this->escape($val['n_jabatan'])."'>".$this->escape($val['n_jabatan'])."</option>";
+						endforeach;
+						}
+						?> 
+						 </select>
+					</td>
+				</tr--><tr>
+					<td>BERHENTI
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="berhenti" id="berhenti" value="<?=$this->detailFormulir8['berhenti'];?>" size="25" >
+						<input type="hidden" name="thn_skrg" id="thn_skrg2">
+						<input type="hidden" name="tahun" id="tahun">
+						
+					</td>
+				</tr><tr>
+					<td>PENSIUN
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="pensiun" id="pensiun" value="<?=$this->detailFormulir8['pensiun'];?>" size="25" >
+					</td>
+				</tr><tr>
+					<td>MENINGGAL DUNIA
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="meninggal_dunia" id="meninggal_dunia" value="<?=$this->detailFormulir8['meninggal_dunia'];?>" size="25" >
+					</td>
+				</tr><tr><td colspan="8">&nbsp;</td></tr><tr>
+					<td>KETERANGAN</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="ket" id="ket" value="<?=$this->detailFormulir8['ket'];?>" size="25" >
+					</td>
+				</tr>
+				<tr>
+					<td align="left"></td>
+					<td></td>
+					<td>
+						<div class="center">
+							<input type="button" value="Batal" onclick="OpenFormulir8();"> 
+							<?if ($this->par == 'Insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertFormulir8()">
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updateFormulir8()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>

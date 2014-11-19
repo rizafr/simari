@@ -1,0 +1,495 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+
+$vFoto = $this->basePath."/upld/Uploaddata/getphoto?f=".trim($this->filephoto);
+
+?>
+<script type="text/javascript">
+	$(function() {
+		$("#d_peg_lahir").datepicker();
+	
+	
+	});
+</script>
+
+		<div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+			<strong> &#8250; </strong><?=$this->jdl;?> Data Diri
+		</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+
+	
+<form name="formpegawai" id="formpegawai" enctype="multipart/form-data" method="post" action="">
+<h2 class="title"><?=$this->jdl;?> Data Diri</h2>
+	<?if ($this->par=='Ubah'){$readonly="readonly='true'"?>	                    
+<?php include "$this->leftMenu/linkdatapokok.phtml";?>
+
+
+	<?php 
+	}?>
+	<div class="boxholder">
+	<div class="panel">	
+
+		<div class="spacer"></div> 
+			<table border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+			<table border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td width="70%">
+						<table width="100%">
+							<tr>
+								<td width="35%">NIP / NIP Baru<span class="hightlight">*</span></td>
+								<td width="2%">:</td>
+								<td>
+									<input type="text" size="15" maxlength="20" name="i_peg_nip" id="i_peg_nip" <?echo $readonly?> value="<?=$this->i_peg_nip?>"> /
+									<input type="text" size="25" maxlength="20" name="i_peg_nip_new" id="i_peg_nip_new" <?echo $readonly?> value="<?=$this->i_peg_nip_new?>">
+								</td>
+							</tr>
+							<tr>
+								<td>Nama Lengkap<span class="hightlight">*</span></td>
+								<td>:</td>
+								<td>
+									<input type="text" size="40" maxlength="35" name="n_peg" id="n_peg" value="<?=$this->n_peg?>" >
+								</td>
+							</tr>
+							<tr>
+								<td>Gelar Depan / Gelar Blk</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="5" name="n_peg_gelardepan" id="n_peg_gelardepan" value="<?=$this->n_peg_gelardepan?>">
+											&nbsp;/
+									<input type="text" size="15" name="n_peg_gelarblkg" id="n_peg_gelarblkg" value="<?=$this->n_peg_gelarblkg?>">
+								</td>
+							</tr>
+							<tr>
+								<td>Gol. Darah / Status Nikah</td>
+								<td>:</td>
+								<td>
+										<?php
+											$darahList = array("-"=>"--Pilih--","A"=>"A","B"=>"B","AB"=>"AB","O"=>"O");	
+											echo $ctrlFrm->formSelect('c_golongan_darah', $this->c_golongan_darah,null, $darahList); 
+										?>	
+											&nbsp;/
+										<?php 
+											$stsNikah = $this->escape($this->stsNikah);
+											if (($stsNikah == '') || ($stsNikah == null)) {
+												$stsNikah = $_POST['stsNikah'];
+											} 
+											$stsNikahOpsi = array("-"=>"--Pilih--","M"=>"Menikah","B"=>"Belum Menikah","J"=>"Janda","D"=>"Duda"); 
+											echo $ctrlFrm->formSelect('c_peg_statusnikah', $this->c_peg_statusnikah, $stsNikah, $stsNikahOpsi, "&nbsp;"); 
+										?>	
+								</td>
+							</tr>
+							<tr>
+								<td>Jenis Kelamin</td>
+								<td>:</td> 
+								<td>					
+								<?php 
+									$jenisKel = array("-"=>"--Pilih--","L"=>"Laki-laki","P"=>"Perempuan");	
+									echo $ctrlFrm->formSelect('c_peg_jeniskelamin', $this->c_peg_jeniskelamin, null, $jenisKel);
+								?>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>Agama</td>
+								<td>:</td> 
+								<td>					
+								<?php 
+									   $jmlPropList = count($this->agamaList);
+									   $agamaList[''] = '--Pilih--';
+									   for ($i = 0; $i < $jmlPropList; $i++) {
+										$agamaList[(string)$this->agamaList[$i]->c_agama] = (string)$this->agamaList[$i]->n_agama;			 
+									   }
+										echo $ctrlFrm->formSelect('c_agama', $this->c_agama,null, $agamaList)
+								?>
+								</td>
+							</tr>							
+							<tr>
+								<td>Hobi</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="60" name="n_peg_hobi" id="n_peg_hobi" value="<?=$this->n_peg_hobi?>">
+								</td>
+							</tr>
+						</table>
+					</td>					
+					<td width="30%">
+						<table width="100%">
+							<tr>
+								<td align="right">
+									<img src="<?=$vFoto?>" width="90" height="100" ><br>
+									<!--<input type=checkbox name="del_photo"> Hapus-->
+								</td>
+								<!--
+								<td valign="bottom">
+									<div class="fileinputs">
+										<input type="file" size=15 id="a_filex" name="a_filex"  value="<? //echo $a_file?>"onChange="setvalueuplpdf(this.value,'a_filex','jpg')" />
+											<div class="fakefile">
+												<input type="text" size=14 name="a_file" id="a_file" value="<? //echo $a_file?>"/>
+											</div>
+									</div>
+									<input type="hidden" size=49 name="a_file2" id="a_file2"value="<? //echo $a_file?>"/>								
+								</td>
+								-->
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+				<tr>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b>KELAHIRAN</b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td>Propinsi<span class="hightlight">*</span></td>
+								<td>:</td>
+								<td>
+								<?php 
+									   $jmlPropList = count($this->propinsiList);
+									   $propinsiList[''] = '--Pilih--';
+									   for ($i = 0; $i < $jmlPropList; $i++) {
+										$propinsiList[(string)$this->propinsiList[$i]->c_propinsi] = (string)$this->propinsiList[$i]->n_propinsi;			 
+									   }
+										$propAtrib = array("id"=>"propinsiLahir","onClick"=>"javascript:cariKabupaten('targetkablhr','propinsiLahir')"); 
+										echo $ctrlFrm->formSelect('c_peg_propinsi_lahir', $this->c_peg_propinsi_lahir, $propAtrib, $propinsiList)
+								?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Kabupaten<span class="hightlight">*</span></td>
+								<td>:</td>
+								<td id="targetkablhr">
+								<?php 
+									$jmlKabList = count($this->kabupatenListLahir);
+									$kabupatenListLahir[''] = '--Pilih--';
+									for ($i = 0; $i < $jmlKabList; $i++) {
+										$kabupatenListLahir[(string)$this->kabupatenListLahir[$i]->c_kabupaten] = (string)$this->kabupatenListLahir[$i]->n_kabupaten;			 
+									}
+									echo $ctrlFrm->formSelect('a_peg_kota_lahir', $this->a_peg_kota_lahir,null, $kabupatenListLahir);
+								?>
+								</td>
+							</tr>
+							<tr>
+								<td>Kecamatan</td>
+								<td>:</td>
+								<td><input type="text" id="a_peg_kecamatan_lahir" name="a_peg_kecamatan_lahir" value="<?=$this->a_peg_kecamatan_lahir?>" size="40"></td>
+							</tr>
+							<tr>
+								<td>Kelurahan</td>
+								<td>:</td>
+								<td><input type="text" id="a_peg_kelurahan_lahir" name="a_peg_kelurahan_lahir" value="<?=$this->a_peg_kelurahan_lahir?>" size="40"></td>
+							</tr>							
+							<tr>
+								<td>Tanggal<span class="hightlight">*</span></td>
+								<td>:</td>
+								<td>
+									<input type="text" id="d_peg_lahir" name="d_peg_lahir" value="<?=$this->d_peg_lahir?>" size="10"> tgl-bln-thn
+								</td>
+							</tr>							
+						</table>
+					</td>
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b>CIRI-CIRI FISIK</b><h3>
+								</td>								
+							</tr>
+							<tr>
+								<td>Tinggi (cm) / Berat (kg)</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="10" name="q_peg_tinggibdn" id="q_peg_tinggibdn" value="<?=$this->q_peg_tinggibdn?>"  onkeyup="isNumber('q_peg_tinggibdn')"> /
+									<input type="text" size="10" name="q_peg_beratbdn" id="q_peg_beratbdn" value="<?=$this->q_peg_beratbdn?>"  onkeyup="isNumber('q_peg_beratbdn')">
+								</td>
+							</tr>	
+							<tr>
+								<td>Rambut / Bentuk Muka</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="10" name="n_peg_rambut" id="n_peg_rambut" value="<?=$this->n_peg_rambut?>"> /
+									<input type="text" size="10" name="n_peg_btkmuka" id="n_peg_btkmuka" value="<?=$this->n_peg_btkmuka?>">
+								</td>
+							</tr>
+							<tr>
+								<td>Warna Kulit / Ciri Khas</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="10" name="n_peg_warnakulit" id="n_peg_warnakulit" value="<?=$this->n_peg_warnakulit?>"> /
+									<input type="text" size="10" name="n_peg_cirikhas" id="n_peg_cirikhas" value="<?=$this->n_peg_cirikhas?>">
+								</td>
+							</tr>	
+						</table>
+					</td>
+				</tr>
+			</table>	
+
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b>ALAMAT</b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td width="20%">Jalan<span class="hightlight">*</span></td>
+								<td width="2%">:</td>
+								<td>
+									<textarea rows="1" name="a_peg_rumah" id="a_peg_rumah"><?=$this->a_peg_rumah?></textarea>
+								</td>
+							</tr>	
+							<tr>
+								<td>RT / RW</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="5" name="a_peg_rt" id="a_peg_rt" value="<?=$this->a_peg_rt?>" onkeyup="isNumber('a_peg_rt')" > /
+									<input type="text" size="5" name="a_peg_rw" id="a_peg_rw" value="<?=$this->a_peg_rw?>" onkeyup="isNumber('a_peg_rw')">
+								</td>
+							</tr>	
+							<tr>
+								<td>Desa/Keluarahan</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="55" name="a_peg_kelurahan" id="a_peg_kelurahan" value="<?=$this->a_peg_kelurahan?>">
+								</td>
+							</tr>	
+							<tr>
+								<td>Kecamatan</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="55" name="a_peg_kecamatan" id="a_peg_kecamatan" value="<?=$this->a_peg_kecamatan?>">
+								</td>
+							</tr>	
+							<tr>
+								<td>Propinsi</td>
+								<td>:</td>
+								<td>
+									<?php 
+									   $jmlPropList = count($this->propinsiList);
+									   $propinsiList[''] = '--Pilih--';
+									   for ($i = 0; $i < $jmlPropList; $i++) {
+									   $propinsiList[(string)$this->propinsiList[$i]->c_propinsi] = (string)$this->propinsiList[$i]->n_propinsi;			 
+									   }
+										$propAtrib = array("id"=>"propinsiSelect","onClick"=>"javascript:cariKabupaten('targetkabupaten','propinsiSelect')"); 
+										echo $ctrlFrm->formSelect('a_peg_propinsi', $this->a_peg_propinsi, $propAtrib, $propinsiList)
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Kabupaten</td>
+								<td>:</td>
+								<td id="targetkabupaten">
+									<?php 
+										$jmlKabList = count($this->kabupatenList);
+										$kabupatenList[''] = '--Pilih--';
+										for ($i = 0; $i < $jmlKabList; $i++) {
+											$kabupatenList[(string)$this->kabupatenList[$i]->c_kabupaten] = (string)$this->kabupatenList[$i]->n_kabupaten;			 
+										}
+										echo $ctrlFrm->formSelect('a_peg_kota', $this->a_peg_kota,null, $kabupatenList);
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Kode Pos</td>
+								<td>:</td>
+								<td>
+									<input type="text" maxlength="5"  size="10" name="a_peg_kodepos" id="a_peg_kodepos" value="<?=$this->a_peg_kodepos?>" onkeyup="isNumber('a_peg_kodepos')">
+								</td>
+							</tr>	
+							<tr>
+								<td>Telp/HP</td>
+								<td>:</td>
+								<td>
+							<?
+								$fieldId="i_peg_telponrumah";
+								$value=$this->i_peg_telponrumah;
+								$val = explode("-",$value);
+								$size="10";
+								if (!$size) $size = Array(5,10);
+								$xsize = $size[0]+$size[1]+1;
+								$event = "  onkeyup=javascript:isNumber(this); ";
+								$h = $f."<input id='".$fieldId."1' name='".$fieldId."1' type='text' size='".$size[0]."' maxlength='3' title='".$title."' value='".$val[0]."' onkeyup=javascript:isNumber('".$fieldId."1');>";
+								$h .= "<b>-</b>&nbsp;";
+								$h .= "<input id='".$fieldId."2' name='".$fieldId."2' type='text' size='".$size[1]."' maxlength='10' title='".$title."' value='".$val[1]."' onkeyup=javascript:isNumber('".$fieldId."2')>".$d;
+								$h .= "<input id='".$fieldId."' name='".$fieldId."' type='hidden' size='".$xsize."' maxlength='".$xsize."' class='".$c." validate-telp' title='".$title."' value='".$value."'>";
+								echo $h;
+							?>
+							/ <input type="text" size="16" name="i_peg_telponhp" id="i_peg_telponhp" value="<?=$this->i_peg_telponhp?>" onkeyup="isNumber('i_peg_telponhp')">
+							
+								</td>
+							</tr>
+							
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b>NOMOR KARTU</b><h3>
+								</td>								
+							</tr>
+							<tr>
+								<td>Nomor KARPEG</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="30" name="i_peg_karpeg" id="i_peg_karpeg" value="<?=$this->i_peg_karpeg?>">
+								</td>
+							</tr>	
+							<tr>
+								<td>Nomor KARIS / KARSU</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="30" name="i_peg_karis" id="i_peg_karis" value="<?=$this->i_peg_karis?>">
+								</td>
+							</tr>
+							<tr>
+								<td>Nomor TASPEN</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="30" name="i_peg_taspen" id="i_peg_taspen" value="<?=$this->i_peg_taspen?>">
+								</td>
+							</tr>
+							<tr>
+								<td>Nomor KORPRI</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="30" name="i_peg_korpri" id="i_peg_korpri" value="<?=$this->i_peg_korpri?>">
+								</td>
+							</tr>
+							<tr>
+								<td>Nomor KTP</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="30" name="i_peg_ktp" id="i_peg_ktp" value="<?=$this->i_peg_ktp?>">
+								</td>
+							</tr>
+							<tr>
+								<td>Nomor ASKES</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="30" name="i_peg_askes" id="i_peg_askes" value="<?=$this->i_peg_askes?>">
+								</td>
+							</tr>
+							<tr>
+								<td>Nomor Rekening</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="30" name="i_peg_rekening" id="i_peg_rekening" value="<?=$this->i_peg_rekening?>" onkeyup="isNumber('i_peg_rekening')">
+									&nbsp;&nbsp;&nbsp;Nama Bank : 
+									<?php 
+										$jmlbankList = count($this->bankList);
+										$bankList[''] = '--Pilih--';
+										for ($i = 0; $i < $jmlbankList; $i++) {
+											$bankList[(string)$this->bankList[$i]->c_bank] = (string)$this->bankList[$i]->n_bank;			 
+										}
+										echo $ctrlFrm->formSelect('c_peg_bank', $this->c_peg_bank,null, $bankList);
+									?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Nomor NPWP</td>
+								<td>:</td>
+								<td>
+								<?
+
+								 $hx="";
+									$fieldIdx="i_peg_npwp";
+									$valxue=$this->i_peg_npwp;
+									$valx = explode(".",$valxue);
+									$valxx2 = explode("-",$valx[3]);
+									$event1 = "  onkeyup=javascript:isNumber('i_peg_npwp1'); ";
+									$event2 = "  onkeyup=javascript:isNumber('i_peg_npwp2'); ";
+									$event3 = "  onkeyup=javascript:isNumber('i_peg_npwp3'); ";
+									$event4 = "  onkeyup=javascript:isNumber('i_peg_npwp4'); ";
+									$event5 = "  onkeyup=javascript:isNumber('i_peg_npwp5'); ";
+									$event6 = "  onkeyup=javascript:isNumber('i_peg_npwp6'); ";
+									if (!$sizex) $sizex = Array(2,3,3,1,3,3);
+									$xsize = $sizex[0]+$sizex[1]+$sizex[2]+$sizex[3]+$sizex[4]+$sizex[5]+5;
+					
+									$hx .= $f."<input id='".$fieldIdx."1' name='".$fieldIdx."1' type='".$type."' size='".$sizex[0]."' maxlength='".$sizex[0]."' title='".$title."' value='".$valx[0]."' ".$event1.">";
+									$hx .= "<b>.</b>&nbsp;";
+									$hx .= "<input id='".$fieldIdx."2' name='".$fieldIdx."2' type='text' size='".$sizex[1]."' maxlength='".$sizex[1]."' title='".$title."' value='".$valx[1]."' ".$event2.">";
+									$hx .= "<b>.</b>&nbsp;";
+									$hx .= "<input id='".$fieldIdx."3' name='".$fieldIdx."3' type='text' size='".$sizex[2]."' maxlength='".$sizex[2]."' title='".$title."' value='".$valx[2]."' ".$event3.">";
+									$hx .= "<b>.</b>&nbsp;";
+									$hx .= "<input id='".$fieldIdx."4' name='".$fieldIdx."4' type='text' size='".$sizex[3]."' maxlength='".$sizex[3]."' title='".$title."' value='".$valxx2[0]."' ".$event4.">";
+									$hx .= "<b>-</b>&nbsp;";
+									$hx .= "<input id='".$fieldIdx."5' name='".$fieldIdx."5' type='text' size='".$sizex[4]."' maxlength='".$sizex[4]."' title='".$title."' value='".$valxx2[1]."' ".$event5.">".$d;
+									$hx .= "<b>.</b>&nbsp;";
+									$hx .= "<input id='".$fieldIdx."6' name='".$fieldIdx."6' type='text' size='".$sizex[5]."' maxlength='".$sizex[5]."' title='".$title."' value='".$valx[4]."' ".$event6.">".$d;
+									$hx .= "<input id='".$fieldIdx."' name='".$fieldIdx."' type='hidden' size='".$xsize."' maxlength='".$xsize."' class='".$c." validate-npwp' title='".$title."' value='".$valxue."'>";
+									echo $hx;
+								?>
+									
+								</td>
+							</tr>							
+			</table>
+	</div>		
+<br>
+	<div class="panel">
+		<div class="spacer"></div>			
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td align="right">
+								<div class="right">
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');"> 
+									<?if ($this->c_izin=='000002' || $this->c_izin=='000003'){?>
+									<input type="submit" value="<?=$this->par;?>" onClick="insertPegawai()">
+									<?}?>
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+								</div>
+							</td>
+						</tr>
+			</table>	
+</div>			
+	</div>
+</form>	
+
+<script type="text/javascript">
+
+function windowListTempat(){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/pegawai/listtempat";
+	var selectWindow = window.open(url,"Selection","menubar=no,toolbar=no,scrollbars=Yes,width=740,height=530");
+} 
+function cariSatker(){
+	var i_org_parent=document.getElementById('orgSelect').value;
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listcombosatker';	
+	var param = {i_org_parent:i_org_parent};
+	jQuery.get(url, param, function(data) {
+		jQuery("#targetsatker").html(data);
+
+	});
+}
+function cariKabupaten(target,target2){
+	var c_propinsi=document.getElementById(target2).value;
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listcombokabupaten';	
+	var param = {c_propinsi:c_propinsi,target:target};
+	jQuery.get(url, param, function(data) {
+		jQuery("#"+target).html(data);
+
+	});
+}
+
+
+
+</script>

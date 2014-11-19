@@ -1,0 +1,102 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/pesan.php';
+require_once 'share/halaman_list.php';
+
+   $ctrlFrm = new Zend_View();
+   $pesan = new pesan();
+   $halaman = new halaman_list();
+
+	  
+$jumnilaiList = count($this->listNilai);     
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong>Referensi
+			</div>
+	        <a name="top"></a>
+<?
+$proses		= $this->proses;
+$keterangan	= $this->keterangan;
+$status		= $this->status;
+echo $pesan->show_message($proses, $keterangan, $status);
+?>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>					
+</div>
+	<h2 class="title">Referensi Form Penilaian</h2>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+  
+<div class="add" title="Tambah Data" onclick="openFormNilai('insert','','');"></div>
+<?	if ($jumnilaiList == 0) {
+		echo "<font color=\"red\">Data Referensi Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center" width="50%">
+			<tr>
+		    <th width="10%">Kode Nilai Kerja</th>
+			<th width="20%">Nama Faktor Kinerja</th>
+			<th width="20%">Nama Standar Kinerja</th>
+			<th width="10%">Tanggal Nilai Kinerja</th>
+			<th width="10%">Nilai Dibawah</th>
+			<th width="10%">Nilai Perbaikan</th>
+			<th width="10%">Nilai Sesuai</th>
+			<th width="10%">Nilai Diatas</th>
+			<th colspan="2">&nbsp;</th>
+			</tr>		
+<?
+	if ($jumnilaiList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->listNilai as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					?>
+				
+				<td><?php  echo $this->escape($val['c_nilai_kinerja']);?></td>
+				<td><?php  echo $this->escape($val['n_faktor_kinerja']);?></td>
+				<td><?php  echo $this->escape($val['n_standar_kinerja']);?></td>
+				<td><?php 	if($this->escape($val['d_nilai_kinerja']) == "") {
+						echo $this->escape($val['d_nilai_kinerja']);
+						
+						}else{
+						echo date('d-m-Y',strtotime($this->escape($val['d_nilai_kinerja'])));
+						}
+						;?></td>
+				<td><?php  echo $this->escape($val['q_nilai_dibawah']);?></td>
+				<td><?php  echo $this->escape($val['q_nilai_perbaikan']);?></td>
+				<td><?php  echo $this->escape($val['q_nilai_sesuai']);?></td>
+				<td><?php  echo $this->escape($val['q_nilai_diatas']);?></td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data"  onclick="openFormNilai('update','<?=trim($this->escape($val['c_nilai_kinerja']))?>');"></div>	
+				</td>
+				<td class="clcenter">			
+					<div class="delete" title="Hapus Data"  onClick="HapusNilai('Form Penilaian','<?=trim($this->escape($val['c_nilai_kinerja']))?>','<?=trim($this->escape($val['n_faktor_kinerja']))?>')"></div>
+				</td>	
+		  </tr>
+	<?php endforeach; ?> 		  	  
+<?	}	?>
+	</table>									
+	<?php
+	$totalData = $this->totalData;
+	$numToDisplay = $this->numToDisplay;
+	$currentPage = $this->currentPage;
+	$modul	= $this->basePath.'/sdmmodule/refnilai/listnilai';
+	echo $halaman->halamanList($totalData, $numToDisplay, $currentPage, $modul);
+
+	?>					
+									
+	</fieldset>		 
+	</form>

@@ -1,0 +1,50 @@
+<div class="widget">
+	<h4 class="widgettitle"><?=$this->judul?></h4>
+	<table width="100%">
+	<tr>
+	<td>
+	<?
+		require_once 'Zend/View.php';
+		require_once 'share/halaman_list.php';  
+		$ctrlFrm = new Zend_View();
+		$halaman = new halaman_list(); 
+	?>   
+
+	<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+		<th width="5%">No</th>
+		<th width="20%">NIP</th>
+		<th width="50%">Nama</th>
+		<th width="25%">Gol & TMT</th>	
+			<?php 
+			$no=0;
+			foreach ($this->remindPensiun as $key => $val): 
+			$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
+				if ($key%2==0) { ?>
+				<tr class="event">
+						<? } else if ($key%2==1) { ?>
+				<tr class="event2">
+						<? } ?>
+					<? 
+						$nip=trim($this->escape($val['i_peg_nip']));
+						$nipnew=trim($this->escape($val['i_peg_nip_new']));
+						$nama=trim($this->escape($val['n_peg']));
+						$d_tmt_golongan=trim($this->escape($val['d_tmt_golongan']));
+						$n_pangkat=trim($this->escape($val['n_pangkat']));
+						
+					?>
+				<td><?=$noUrut?></td>
+				<td><?=($nipnew ? $nipnew: $nip)?></td>
+				<td><?=$nama?></td>	
+				<td><?=($n_pangkat? "$n_pangkat, ":"").$d_tmt_golongan?></td>	
+				</tr>
+		<?php endforeach;?> 	
+	</table>
+		<?
+		//echo "noer ".$this->totaldata." <> ". $this->numToDisplay." <> ".$this->currentPage;
+		$modul = $this->basePath."/sdmmodule/reminder/pensiun?par=$this->par"; 
+		echo $halaman->halamanListReminder($this->totaldata, $this->numToDisplay, $this->currentPage, $modul)
+		?>
+	</tr>
+	</td>
+	</table>
+</div>	

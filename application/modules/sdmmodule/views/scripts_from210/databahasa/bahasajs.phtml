@@ -1,0 +1,55 @@
+function BahasaM(par,d_test){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/databahasa/bahasa"	
+	var opt = {par:par,d_test:d_test};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			jQuery("#formbahasa").ajaxForm(maintain_bahasa);
+		});		
+} 
+var maintain_bahasa = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formbahasa;
+		astr= "document.formbahasa";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/				
+				if((!e_bahasa.value)){cekVal = sdmValidasiData(astr,"e_bahasa","Jenis Bahasa harus diisi....!");return false;break;}
+				if((!e_tujuan.value)){cekVal = sdmValidasiData(astr,"e_tujuan","Tujuan harus diisi....!");return false;break;}
+				if((!q_nilai.value)){cekVal = sdmValidasiData(astr,"q_nilai","Nilai harus diisi....!");return false;break;}
+				if((!d_test_kemampuan.value)){cekVal = sdmValidasiData(astr,"d_test_kemampuan","Tanggal Test harus diisi....!");return false;break;}
+				break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formbahasa").ajaxForm(maintain_bahasa);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/databahasa/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+
+function insertBahasa(){
+	jQuery("#formbahasa").ajaxForm(maintain_bahasa);
+}
+
+function HapusDataBahasa(nip,d_test_kemampuan)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/databahasa/hapusdata"
+		var opt = {nip:nip,d_test_kemampuan:d_test_kemampuan};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}

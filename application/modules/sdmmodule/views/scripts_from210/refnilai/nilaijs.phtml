@@ -1,0 +1,56 @@
+function openFormNilai(par,c_nilai_kinerja,n_faktor_kinerja,n_standar_kinerja,d_nilai_kinerja,q_nilai_dibawah,q_nilai_perbaikan,q_nilai_sesuai,q_nilai_diatas){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refnilai/nilaiolahdata";
+	var opt = {par:par, c_nilai_kinerja:c_nilai_kinerja, n_faktor_kinerja:n_faktor_kinerja,n_standar_kinerja:n_standar_kinerja,d_nilai_kinerja:d_nilai_kinerja,q_nilai_dibawah:q_nilai_dibawah,q_nilai_perbaikan:q_nilai_perbaikan,q_nilai_sesuai:q_nilai_sesuai,q_nilai_diatas:q_nilai_diatas};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formnilai").ajaxForm(maintain_nilai);
+		});		
+} 
+
+function insertNilai(){
+	jQuery("#formnilai").ajaxForm(maintain_nilai);
+}
+
+var maintain_nilai = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formnilai").ajaxForm(maintain_nilai);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refnilai/insertnilai',
+	type: 'post',
+	resetForm: false
+};
+
+function updateNilai(){
+	jQuery("#formnilai").ajaxForm(update_nilai);
+}
+
+var update_nilai = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formnilai").ajaxForm(maintain_nilai);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refnilai/updatenilai',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusNilai(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refnilai/deletenilai';
+		var opt = {c_nilai_kinerja : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

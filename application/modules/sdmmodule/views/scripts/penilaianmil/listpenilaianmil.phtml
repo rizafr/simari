@@ -1,0 +1,129 @@
+<? require_once 'Zend/View.php';
+    require_once 'share/halaman_list.php';
+  
+	$ctrlFrm = new Zend_View();
+	$halaman = new halaman_list(); 
+  
+	$jmldptigaList = count($this->dptigaList);
+
+	$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';} 
+$array_data = array("1" => "Pejabat Penilai","2" => "Rekan Kerja I","3" => "Rekan Kerja II");	
+?>
+	<div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+			<strong>&#8250;</strong>Penilaian Kinerja
+	</div>
+
+	<div id="top"></div>
+	<div id="confirm" class="<?=$confirm?>" style="display: none">
+		<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+	</div>
+	<h2 class="title">Penilaian Kinerja</h2>
+<?php $opr='kkgn';include "$this->leftMenu/linkdatakinerja.phtml";?>
+<div class="boxholder">	
+	<div class="panel">
+	<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<form action="" method="post"> 
+
+
+<h2 class="title"><?=$this->judul?></h2>	
+
+
+&nbsp; Tahun Penilaian : 
+<select name="d_nilai_kinerja" id="d_nilai_kinerja" onChange="penilaianV('<?=$this->nip?>')">
+<?
+for ($d= date(Y); $d > (date(Y)-10);$d--){
+	$selx='';
+	if( $d == $this->tahun) $selx='selected';
+	?><option value="<?=$d?>" <?=$selx?>><?=$d?></option><?
+}
+?>
+</select>
+  <?
+if ($this->c_izin=='000002' || $this->c_izin=='000003'){ ?>	
+<div class="add" title="Tambah Data" onclick="penilaianM('insert','<?=$this->nip?>');"></div>
+	<?
+	if (count($this->penilaianList) != 0){?>
+		<div class="delete" title="Hapus Data"  onClick="HapusData('<?=$this->nip?>')"></div>
+	<?
+	}
+}
+?>
+   <table width="100%" border="0" cellpadding="0" cellspacing="1" class="tbl">
+		<tr>
+			<th rowspan="2">No</th>
+			<th rowspan="2">Faktor Kinerja</th>
+			<th rowspan="2">Standar Kinerja</th>
+			<th colspan="4">Pencapaian</th>
+		</tr> 
+		<tr>
+			<th>Dibawah Standar Kinerja</th>
+			<th>Perlu Perbaikan</th>
+			<th>Sesuai Standar Kinerja</th>
+			<th>Diatas Standar Kinerja</th>
+		</tr>	
+<? 
+	$no=0;$nb=0;
+	if (count($this->penilaianList) != 0) {
+		foreach ($this->penilaianList as $key => $val): 
+			$no++;
+			$c_pers_penilai=$this->escape($val['c_pers_penilai']);
+			$arraydata[$no] =	$c_pers_penilai;
+			$d_nilai_kinerja=$this->escape($val['d_nilai_kinerja']);
+				
+				if($arraydata[$no] != $arraydata[$no-1]) {
+				$nb=0;
+				?>
+				<tr class="event">
+				<td colspan=6><b><?=$array_data[$c_pers_penilai]?></b></td>
+				<td><div class="add" title="Ubah Data <?=$array_data[$c_pers_penilai]?>" onclick="penilaianMM('update','<?=$this->nip?>','<?=$c_pers_penilai?>','<?=$d_nilai_kinerja?>');"></div></td>	
+				</tr>
+				<?
+			}
+			$nb++;
+				if ($key%2==0) { ?>
+				<tr class="event">
+				<? } else if ($key%2==1) { ?>
+				<tr class="event2">
+				<? } 
+				$c_nilai_kinerja=$this->escape($val['c_nilai_kinerja']);
+				?>
+					<td><?php echo $nb;?></td>
+					<td><?php echo $this->escape($val['n_faktor_kinerja']);?></td>
+					<td><?php echo $this->escape($val['n_standar_kinerja']);?></td>
+					<td class="clcenter">
+					<?php 
+					if ($this->escape($val['q_nilai_dibawah'])==$this->escape($val['q_nilai_kinerja'])){?>
+					<img src='../images/check.gif'>
+					<?}?>
+					</td>
+					<td class="clcenter">
+					<?php 
+					if ($this->escape($val['q_nilai_perbaikan'])==$this->escape($val['q_nilai_kinerja'])){?>
+					<img src='../images/check.gif'>
+					<?}?>
+					</td>
+					<td class="clcenter">
+					<?php 
+					if ($this->escape($val['q_nilai_sesuai'])==$this->escape($val['q_nilai_kinerja'])){?>
+					<img src='../images/check.gif'>
+					<?}?>
+					</td>
+					<td class="clcenter">
+					<?php 
+					if ($this->escape($val['q_nilai_diatas'])==$this->escape($val['q_nilai_kinerja'])){?>
+					<img src='../images/check.gif'>
+					<?}?>
+					</td>					
+				
+				</tr>
+				<?php endforeach;}?>
+	
+	</table>
+</div>		 
+</form>

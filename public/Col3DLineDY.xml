@@ -1,0 +1,32 @@
+<graph caption='Rekapitulasi Pengajuan - Persetujuan' PYAxisName='Jumlah' 
+ numberPrefix='' showvalues='0'  numDivLines='4' formatNumberScale='0' decimalPrecision='0'
+anchorSides='10' anchorRadius='3' anchorBorderColor='009900'>
+<categories>
+<category name='Maret' />
+<category name='April' />
+<category name='Mei' />
+<category name='Juni' />
+<category name='Juli' />
+</categories>
+<dataset seriesName='Pengajuan' color='AFD8F8' showValues='0'>
+<set value='11' />
+<set value='15' />
+<set value='10' />
+<set value='11' />
+<set value='13' />
+</dataset>
+<dataset seriesName='Persetujuan' color='F6BD0F' showValues='0' >
+<set value='10' /> 
+<set value='13' />
+<set value='10' />
+<set value='11' />
+<set value='10' />
+</dataset>
+<dataset seriesName='Total Jumlah' color='8BBA00' showValues='0' parentYAxis='S' >
+<set value='11' />
+<set value='15' />
+<set value='10' />
+<set value='11' />
+<set value='13' />
+</dataset>
+</graph>

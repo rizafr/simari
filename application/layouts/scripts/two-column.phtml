@@ -1,0 +1,14 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><?php echo $this->render('partials/test/head.phtml'); ?></head>
+<body>
+<div class="container" >
+  <div class="span-16 prepend-8 last"  style="text-align: center" id="headMenu"><?php echo $this->render('partials/test/headMenu.phtml'); ?></div>
+  <h2 class="clear prepend-1" id="header"><a href="#" title="Admissionoffice.net">Admissionoffice.net</a></h2>
+  <div class="clear span-5"  id = "nav"><?php echo $this->render('partials/test/leftColumn.phtml'); ?></div>
+  <div class="span-16 prepend-1 append-1 last" id="content"><?php echo $this->layout()->content; ?></div>
+  <hr class="myhr"/>
+  <div class="clear span-24 last" style="text-align: center" id="footer"><?php echo $this->render('partials/test/footer.phtml'); ?></div>
+</div>
+</body>
+</html>

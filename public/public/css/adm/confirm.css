@@ -1,0 +1,17 @@
+.confirm {background:#E3D5BD;	
+    font-size:13px;
+	font-family:tahoma,Verdana,Helvetica,Arial,sans-serif;
+	font-weight:bold;
+	height:45px;
+	vertical-align:middle;
+    text-align:justify; padding:1px 3px;	}
+.confirm {border: 1px solid #B1A589;color: #634D38;}
+.confirmfail {
+	font-size:8px;
+	font-family:tahoma,Verdana,Helvetica,Arial,sans-serif;
+	font-weight:bold;
+	background-color:#A10808;
+	color: #F4F4F4;
+	height:50px;
+	vertical-align:middle;
+    text-align:justify;	padding:1px 3px;}

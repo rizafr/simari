@@ -1,0 +1,85 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+	
+	//var_dump($this->detailAgama);
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tanggal_lahir").datepicker();
+		jQuery("#d_tanggal_nikah").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Jam Hari kerja
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Referensi Jam Hari kerja</h2>	
+		
+<form id="formjamkerja" method="post" name="formjamkerja">		
+	<div class="panel">
+		<div class="spacer"></div> 
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Kode Hari<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>	
+						<input type="text" name="c_hari" id="c_hari" value="<?=$this->detailJamkerja['c_hari'];?>" size="70" >
+					</td>
+				</tr><tr>
+					<td>Jam Kerja Mulai<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_jamkerja_mulai" id="d_jamkerja_mulai" value="<?=$this->detailJamkerja['d_jamkerja_mulai'];?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Jam Kerja Selesai<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_jamkerja_selesai" id="d_jamkerja_selesai" value="<?=$this->detailJamkerja['d_jamkerja_selesai'];?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Jam Istirahat Mulai<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_jamistrht_mulai" id="d_jamistrht_mulai" value="<?=$this->detailJamkerja['d_jamistrht_mulai'];?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Jam Istirahat Selesai<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_jamistrht_selesai" id="d_jamistrht_selesai" value="<?=$this->detailJamkerja['d_jamistrht_selesai'];?>" size="70">
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/refjamkerja/listjamkerja','<?php echo $this->basePath; ?>/sdmmodule/refjamkerja/jamkerjajs');"> 
+							<?if ($this->par == 'insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertJamkerja()">
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updateJamkerja()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>

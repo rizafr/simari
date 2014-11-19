@@ -1,0 +1,103 @@
+<? require_once 'Zend/View.php';
+    require_once 'share/halaman_list.php';
+  
+	$ctrlFrm = new Zend_View();
+	$halaman = new halaman_list(); 
+  
+	$jmlakList = count($this->akList);
+
+	$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}  
+?>
+	<div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+			<strong>&#8250;</strong>Angka Kredit
+	</div>
+
+	<div id="top"></div>
+	<div id="confirm" class="<?=$confirm?>" style="display: none">
+		<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+	</div>
+	<h2 class="title">Daftar Angka Kredit</h2>
+<?php $opr='kakr';include "$this->leftMenu/linkdatakinerja.phtml";?>
+<div class="boxholder">	
+	<div class="panel">
+	<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<form action="" method="post"> 
+		<fieldset class="fields"> 
+  <?if ($this->c_izin=='000002' || $this->c_izin=='000003'){ ?>			
+			   <div class="add" title="Tambah Data" onclick="AngkaKreditM('insert','<?=$this->nip?>');"></div>
+<?}?>			   
+   <table width="100%" border="0" cellpadding="0" cellspacing="1" class="sortable">
+		<tr>
+			<th rowspan="3">Tahun</th>
+			<th colspan="5">Materi Penilaian</th>
+			<th rowspan="3">Lembaga</th>
+			<th rowspan="3">Nomor SK</th>
+			<th rowspan="3">Tanggal SK</th>
+			<th width="5%" colspan="2" rowspan="3">&nbsp;</th>
+		</tr>
+		<tr>
+			<th colspan=3>Utama</th>
+			<th rowspan="2">Penunjang</th>
+			<th rowspan="2">Jumlah Total</th>
+		<tr>
+			<th>Pendidikan</th>
+			<th>Kegiatan Teknis</th>
+			<th>Pengembangan Profesi</th>
+		</tr>	
+			
+<? 		if ($jmlakList == 0) {?>
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>	
+<?}else{
+				foreach ($this->akList as $key => $val): 
+				if ($key%2==0) { ?>
+				<tr class="event">
+				<? } else if ($key%2==1) { ?>
+				<tr class="event2">
+				<? } 
+				$id= $this->escape($val['id']);
+				$i_peg_nip= $this->escape($val['i_peg_nip']);
+				$d_peg_pnilai= $this->escape($val['d_peg_pnilai']);
+				$q_utama = $this->escape($val['q_pendidikan']) + $this->escape($val['q_keg_teknis']) + $this->escape($val['q_profesi']);
+				$q_totalnilai = $q_utama + $this->escape($val['q_penunjang']);
+				?>
+					<td><?php echo $this->escape($val['d_peg_pnilai']);?></td>
+					<td><?php echo $this->escape($val['q_pendidikan']);?></td>
+				    <td><?php echo $this->escape($val['q_keg_teknis']);?></td>
+				    <td><?php echo $this->escape($val['q_profesi']);?></td>
+					<td><?php echo $this->escape($val['q_penunjang']);?></td>
+					<td><?php echo $q_totalnilai;?></td>
+					<td><?php echo $this->escape($val['a_lembaga']);?></td>
+					<td><?php echo $this->escape($val['i_sk']);?></td>
+					<td><?php echo $this->escape($val['d_sk']);?></td>
+					<td class="clcenter">
+						<div class="edit" title="Ubah Data" onclick="AngkaKreditM('update','<?=$i_peg_nip?>','<?=$id?>');"></div>	
+					</td>
+  <?if ($this->c_izin=='000002' || $this->c_izin=='000003'){ ?>						
+					<td class="clcenter">
+						<div class="delete" title="Hapus Data"  onClick="javascript:HapusDataangkakredit('<?=$i_peg_nip?>','<?=$id?>')"></div>
+					</td>			
+<?}?>					
+				</tr>
+				<?php endforeach;}?>
+	
+	</table>
+	</div>		 
+	</form>

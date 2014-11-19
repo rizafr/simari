@@ -1,0 +1,86 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php';
+   require_once 'share/oa_page.php';
+
+   $halaman = new oa_page();
+   $ctrlFrm = new Zend_View();
+   $bulanDesc = array("01"=>"Januari",
+                      "02"=>"Februari",
+                      "03"=>"Maret",
+                      "04"=>"April",
+                      "05"=>"Mei",
+                      "06"=>"Juni",
+                      "07"=>"Juli",
+                      "08"=>"Agustus",
+                      "09"=>"September",
+                      "10"=>"Oktober",
+                      "11"=>"November",
+                      "12"=>"Desember");
+//$thnSekarang = $this->thnSekarang;
+//$blnSekarang = $this->blnSekarang;
+$srvc = $this->srviceE;
+//$jmlHariKerja = $srvc->cekHariKerja($thnSekarang,$blnSekarang);
+   $JmlDataAbsensiLst = count($this->dataAbsensiLst);
+   for ($j = 0; $j < $JmlDataAbsensiLst; $j++) 
+   {
+      $dataAbsensi[$j] = array("i_peg_nip"  =>(string)$this->dataAbsensiLst[$j]['i_peg_nip'],
+							   "n_peg"  =>(string)$this->dataAbsensiLst[$j]['n_peg'],
+							   "d_peg_absensi"  =>(string)$this->dataAbsensiLst[$j]['d_peg_absensi'],
+							   "d_peg_jam"  =>(string)$this->dataAbsensiLst[$j]['d_peg_jam'],
+							   "c_absensi_peg"  =>(string)$this->dataAbsensiLst[$j]['c_absensi_peg']);
+   }
+
+echo "<div class='contentdata-modul' id='modul'>
+	<div class='navlink'>
+		<a  href='".$this->basePath."/home/index/main'>Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Absensi
+		<strong> &#8250; </strong> Validasi Data Absensi
+	</div>
+	<h3 class='title'>Validasi Data Absensi</h3>
+	<div class='spacer'></div>
+	<a name='top'></a>
+	<form method='post' id='fIBuatUbhHariKerja'>";
+echo "
+	<fieldset class='fields' id='fiIsiHariKerja'>
+			<table align='center' border='1' cellspacing='0' cellpadding='2' class='tbl'>
+				<tr>
+					<th>No</th>			
+					<th>Nip</th>
+					<th>Nama</th>
+					<th>Tanggal</th>
+					<th>Kode Absen</th>		
+					<th>Jam Absen</th>		
+				</tr>";
+	   $noUrut=0;
+	   foreach ($dataAbsensi as $key => $val)
+       //for ($j = 0; $j < $JmlDataAbsensiLst; $j++) 
+       {
+		   $noUrut++;
+		   if ($key%2==0) 
+		   {  echo "<tr class='event'>"; }
+		   else if ($key%2==1) 
+		   {  echo "<tr class='event2'>";  }
+echo "				
+		   <td class='clright'>".$noUrut."</td>
+		   <td class='clleft'>".$val['i_peg_nip']."</td>
+		   <td class='clleft'>".$val['n_peg']."</td>
+		   <td class='clcenter'>".$val['d_peg_absensi']."</td>
+		   <td class='clcenter'>".$val['c_absensi_peg']."</td>
+		   <td class='clcenter'>".$val['d_peg_jam']."</td>
+		   </tr>
+";
+       }
+echo "
+			</table>
+			<a name='pageCursor'></a>";
+			$modul = $this->basePath.'/sdm/absensi/validasiabsensi';
+			$fungsi = $this->basePath.'/sdm/absensi/absensijs';
+			//echo $halaman->showPage($this->jmlDataAbsensi, $this->numToDisplay, $this->currentPage, $modul, $fungsi);
+echo "
+	</fieldset>
+	</div> 
+	</form>
+</div>";
+	
+	

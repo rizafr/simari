@@ -1,0 +1,27 @@
+<?php
+$jumagendaPubList = count($this->agendaPubList);
+if ($jumagendaPubList!=0) {?>
+<ul class="boxmod">
+<?
+ foreach ($this->agendaPubList as $val3): 
+$idagenda=trim($this->escape($val3['c_agenda']));
+$jdlagenda=trim($this->escape($val3['n_judul']));
+$detilagenda=trim($this->escape($val3['n_detil']));
+$tempat=trim($this->escape($val3['n_tempat']));
+$tanggal=gettgl(trim($this->escape($val3['d_agenda'])));
+$bulan=getbln(trim($this->escape($val3['d_agenda'])));
+
+ ?>		
+	               <li class="bggrad">
+		         <div class="cont-date">
+		           <span class="mon"><?=$bulan?></span>
+		           <span class="day"><?=$tanggal?></span>
+			 </div>
+			 <div class="cont-title">
+			   <span class="title"><a href="#" onclick="showDetilmed('<?php echo $this->basePath; ?>/portalmodule/agenda/agendadetil','<?=$idagenda?>','<?php echo $this->basePath; ?>/portalmodule/agenda/indeksagenda','<?php echo $this->basePath; ?>/portalmodule/agenda/agendajs','Agenda');"><?php echo $jdlagenda; ?></a></span>
+			   <br><span class="place">Tempat : <?echo $tempat;?></a></span>
+			 </div>  
+		       </li>
+	<?php endforeach;?> 
+	             </ul>	
+<?php } else echo "<center class=\"highlight\"> Tidak ada Agenda</center>\n"; ?>

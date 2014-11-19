@@ -1,0 +1,138 @@
+/*style for panel-login */
+body{
+	background:#EEE url(../images/bg_login.png) repeat-x;
+	font: 68% Verdana, Arial, Geneva, Helvetica, sans-serif;
+	line-height:130%;
+	text-align:center;
+	color:#333;
+}
+h1 {display:none}
+h2 {font-size:1.8em;font-weight:normal}
+h4 {font-size:1em;}
+a:link,a:active,a:visited {
+	color: #FFF;
+}
+
+a:hover {
+	color: #FFF;
+	text-decoration:none;
+}
+fieldset {
+	border: none;
+	padding: 3px;
+}
+
+div#page { /* explorer 5.5+ */
+	width: 744px;
+	height: 399px;
+	margin:80px auto 0 auto;
+	background:url(../images/login.jpg) no-repeat;
+	position:relative;
+	}
+div#container-login {
+	width: 500px;
+	text-align:center;
+	font-size:13px;
+	}
+.footer {color:#666;}
+
+
+fieldset.panel-form{
+	position:absolute;
+	top:180px;
+	left:40px;
+	text-align:left;
+	color:#24140d;
+	font-weight:bold;
+	}	
+.panel-login {
+	float:left;
+	width:228px; 
+	margin:10px 0 0 20px;
+	border:0px solid;
+	font-size:12px;
+	}
+#msg {display:none}
+.note {
+ background: rgba(255, 255, 255, 0.6); border:1px solid white; border-color: rgba(255, 255, 255, 0.8); margin:auto; position:relative; width:980px; padding:10px; -webkit-background-clip: padding-box; -moz-box-shadow: 0 0 4px rgba(50, 50, 50, 0.5);-webkit-box-shadow: 0 0 4px rgba(50, 50, 50, 0.5);box-shadow: 0 0 4px rgba(50, 50, 50, 0.5); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#33FFFFFF,endColorstr=#33FFFFFF); 
+	position:absolute;
+	top:130px;
+	left:15px;
+	width:330px; 
+	height:20px;
+	line-height:20px;
+	padding:10px;
+	font-size:1em;
+	}
+.panel-form h2{color:#24140d;text-align:left;font-family:Arial;margin:35px 0 0 0px;line-height:120%}	
+.panel-form h4 {color:#025200;font-size:1em;margin:0 0 0 80px}
+
+form label {
+display: block;
+float: left; 
+width:280px; 
+padding: 0; 
+margin: 5px 0 0;
+text-align: left; 
+}
+
+form textarea, form select {
+width:100%; 
+margin:0;
+border:1px solid #9a7f02;
+background-color:#EEE;
+padding:3px;
+}
+form input:hover, form textarea:hover, form select:hover{
+border:1px solid #5e8f00;
+background-color:#FAFAFA;
+}
+.textbox {
+width:100%; 
+margin:0;
+border:1px solid #9a7f02;
+background-color:#EEE;
+padding:3px;
+}
+.textbox2 {
+width:auto; 
+margin:0;
+border:1px solid #9a7f02;
+background-color:#EEE;
+padding:3px;
+}
+
+input.buttonsubmit {
+background:#bdcd56 url(../images/grad.gif) top repeat-x;
+font-weight:bold;
+padding:2px 3px;
+width:auto;
+border:1px solid #9a7f02;
+cursor:pointer;
+margin-top:10px;
+}
+input.buttonsubmit:hover {
+border:1px solid #5e8f00;
+}
+
+form br {
+clear:left;
+}
+.alignright {
+	float: right;
+}
+#result { position:absolute; top:-60px;left:0px;margin:0 auto;background-color: #F0FFED; border: 1px solid #215800; padding: 10px; width: 380px; margin-bottom: 20px; text-align:left;}
+#loading {
+	background-color:#FAFAFA;
+	border:3px solid #DDDDDD;
+	height:28px;
+	left:50%;
+	margin-left:-50px;
+	padding:0;
+	position:absolute;
+	text-align:left;
+	top:50%;
+	visibility:visible;
+	width:120px;
+	z-index:1000;
+}

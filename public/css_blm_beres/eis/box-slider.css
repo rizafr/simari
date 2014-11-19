@@ -1,0 +1,146 @@
+.bx-prev, .bx-next{display:none}
+
+.bx-pager{
+	text-align: center;
+	font-family: tahoma, verdana,Arial, Helvetica, sans-serif;
+	margin-top:10px;
+	font-size: 1em;
+	font-weight: bold;
+	color:#444444;
+	}
+/*How to align pagination links: "left", "center", or "right"
+background: white; /*always declare an explicit background color for fade effect to properly render in IE*/
+/*
+ Total contenttoggler width: 350px+5px+5px=360px
+	Or total width of wrapper div (counting wrapper border/padding)
+*/
+.bx-pager a{
+	display: -moz-inline-box;
+	display: inline-block;
+	border-right: 1px solid #aaa;
+	padding: 3px 10px 2px 10px;
+	margin-right: 0px;
+	font-weight: bold;
+	text-decoration: none;
+	background-image: url(../images/bg_toggle.gif);
+	color:#444444;
+	}
+.bx-pager a.pager-active{ /*style for selected page's toggler link. ".selected" class auto generated! */
+	background-image: url(../images/bg_toggle.gif);
+	background-position: 100% -21px;
+	color:#444444;
+	text-decoration: none;
+	}
+
+.bx-pager a:hover{
+	background-image: url(../images/bg_toggle.gif);
+	background-position: 100% -21px;
+	color:#444444;
+	text-decoration: none;
+	}
+.bx-pager a.pager-link{ /*style for individual toggler links (page 1, page 2, etc). ".toc" class auto generated! */
+	text-decoration: none;
+	}
+.bx-pager a.prev,.bx-pager a.nextx { /*style for "prev" and "next" toggler links. ".prev" and ".next" classes auto generated! */
+	background-image: url(../images/bg_toggle_prev.gif);
+	text-decoration: none;
+	padding: 3px 16px 2px 17px;
+	}
+.bx-pager a.next{ /*style for "prev" and "next" toggler links. ".prev" and ".next" classes auto generated! */
+	background-image: url(../images/bg_toggle_next.gif);
+	text-decoration: none;
+	padding: 3px 16px 2px 17px;
+	background-repeat: no-repeat;
+	/*overflow: hidden;*/
+	}
+
+bx-pager a.prev:hover, .bx-pager a.next:hover{
+	background-image: url(../images/bg_toggle_next.gif);
+	background-position: 100% -21px;
+color:#444444;
+	text-decoration: none;
+}
+/*Sample CSS used for the Virtual Pagination Demos. Modify/ remove as desired*/
+
+.virtualpage, .virtualpage2, .virtualpage3{
+/*hide the broken up pieces of contents until script is called. Remove if desired*/
+display: none;
+}
+.paginationstyle{ /*Style for demo pagination divs*/
+	width: 820px;
+	text-align: right;
+	padding: 2px ;
+	margin: 2px 0px 5px 0px;
+	}
+.paginationstyle select{ /*Style for demo pagination divs' select menu*/
+	border: 1px solid navy;
+	margin: 0 15px;
+	}
+.paginationstyle a{ /*Pagination links style*/
+	padding: 0px 5px 0px 5px;
+	text-decoration: none;
+	border: 1px solid #ffffff;
+	color: #444444;
+	font-size:14px;
+	font-weight:bold;
+	background-color: #99CCFF;
+	font-family:verdana;
+	}
+.paginationstyle a:hover, .paginationstyle a.selected{
+	color: #ffffff;
+	background-color: #999999;
+	}
+.paginationstyle a.imglinks{ /*Pagination Image links style (class="imglinks") */
+	border: 0;
+	padding: 0;
+	}
+.paginationstyle a.imglinks img{
+	vertical-align: bottom;
+	border: 0;
+	}
+.paginationstyle a.imglinks a:hover{
+	background: none;
+	}
+.paginationstyle .flatview a:hover, .paginationstyle1 .flatview a.selected{ /*Pagination div "flatview" links style*/
+	color: #000;
+	background-color: yellow;
+	}
+.paginationstyle1{ /*Style for demo pagination divs*/
+	width: 820px;
+	text-align: right;
+	padding: 2px 0;
+	margin: 2px 0px 5px 0px;
+	}
+.paginationstyle1 select{ /*Style for demo pagination divs' select menu*/
+	border: 1px solid navy;
+	margin: 0 15px;
+	}
+.paginationstyle1 a{ /*Pagination links style*/
+	padding: 0px 5px 0px 5px;
+	text-decoration: none;
+	color: #333333;
+	background-color: #CCCCCC;
+	font-size:14px;
+	font-weight:bold;
+	font-family:verdana;
+	}
+.paginationstyle1 a:hover, .paginationstyle a.selected{
+	color: #ffffff;
+	background-color: #999999;
+	}
+	
+.paginationstyle1 a.imglinks{ /*Pagination Image links style (class="imglinks") */
+	border: 0;
+	padding: 0;
+	}
+.paginationstyle1 a.imglinks img{
+	vertical-align: bottom;
+	border: 0;
+	}
+.paginationstyle1 a.imglinks a:hover{
+	background: none;
+	}
+.paginationstyle1 .flatview a:hover, .paginationstyle1 .flatview a.selected{ /*Pagination div "flatview" links style*/
+	color: #000;
+	background-color: yellow;
+	}

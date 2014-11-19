@@ -1,0 +1,102 @@
+<?
+   $jmldatajabatan = count($this->datajabatan);
+    for ($j = 0; $j < $jmldatajabatan; $j++) {
+		$datalistjabatan[$j] = array(	
+								"i_nip"=>(string)$this->datajabatan[$j]['i_nip'],
+								"c_jabatan"=>(string)$this->datajabatan[$j]['c_jabatan'],
+								"d_jabatan"=>(string)$this->datajabatan[$j]['d_jabatan'],
+								"i_sk"=>(string)$this->datajabatan[$j]['i_sk'],
+								"d_sk"=>(string)$this->datajabatan[$j]['d_sk'],
+								"n_pejabat_sk"=>(string)$this->datajabatan[$j]['n_pejabat_sk'],
+								"d_jabatan"=>(string)$this->datajabatan[$j]['d_jabatan'],								
+								"q_tahun_kerja"=>(string)$this->datajabatan[$j]['q_tahun_kerja'],
+								"q_kerja_tahun"=>(string)$this->datajabatan[$j]['q_kerja_tahun'],
+								"c_verifikasi"=>(string)$this->datajabatan[$j]['c_verifikasi'],
+								"n_jabatan"=>(string)$this->datajabatan[$j]['n_jabatan']
+								);
+					}	
+
+?>
+<div id="viewjabatan">
+<h4 align="left">2. Jabatan Fungsional Perencana</h4>	
+	<?
+					if($jmldatajabatan == 0)
+					{
+						echo '<font color="red">Data Jabatan Fungsional Perencana Tidak Ditemukan</font>';
+					}	
+	?>	
+    <table cellspacing="1" cellpadding="2" border="0" align="center" width="100%" class="tbl2">
+					<th width=5%>No</th>
+					 <th width=50%>Jenjang Jabatan</th> 
+					 <th width=10%>TMT. Jabatan</th> 
+		      	     <th width=20%>No. SK Jabatan</th>
+		      	     <th width=10%>Tanggal SK Jabatan</th>
+					 <th width=5%>Verifikasi</th>
+			     
+<?
+					if($jmldatajabatan == 0)
+					{
+						echo '<tr class="event">
+							<td><font color="red" face="tahoma">-</td></td>	
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							</tr>';
+					}
+					else
+					{			  
+			  			  
+			  $j=1;	$no=0;
+			  $x=0;
+ foreach ($datalistjabatan as $key => $val):
+  $no = (($currentPage -1)* $numToDisplay) + $key +1;						
+			  if ($key%2==0) { ?>
+			<tr class="event">
+			  <?php } else if ($key%2==1) { ?>
+			<tr class="event2">
+			  <?php } ?>
+	        <td class="clright">
+				<?php echo $no;?>&nbsp;&nbsp
+			</td>
+
+					
+			<td class="clleft">
+				
+				<?php 
+					echo $this->escape($val['n_jabatan']);
+				
+				?>					
+	
+			</td>			
+			<td class="clcenter">
+					<?php
+							$tgljabatan	= substr($this->escape($val['d_jabatan']),8,2);
+							$blnjabatan	= substr($this->escape($val['d_jabatan']),5,2);
+							$thnjabatan	= substr($this->escape($val['d_jabatan']),0,4);	
+							 echo $tgljabatan."-".$blnjabatan."-".$thnjabatan;
+		
+					?>				
+			</td>
+	 
+			<td class="clleft"><?php echo $this->escape($val['i_sk']);?></td>
+			<td class="clcenter">
+					<?php
+							$tgltmtsk	= substr($this->escape($val['d_sk']),8,2);
+							$blntmtsk	= substr($this->escape($val['d_sk']),5,2);
+							$thntmtsk	= substr($this->escape($val['d_sk']),0,4);	
+							 echo $tgltmtsk."-".$blntmtsk."-".$thntmtsk;
+		
+					?>				
+			</td>
+			<?if ($this->escape($val['c_verifikasi'])=='1'){$check="checked";}else{$check="unchecked";}?>
+			<td class="center"><input type="checkbox" <?=$check;?> name="cek_jabatan_<?=$i?>" id="cek_jabatan_<?=$i?>" onClick="return cekVerJabatan('<?php echo $this->escape($val['i_nip']);?>','<?php echo $this->escape($val['c_jabatan']);?>','<?php echo $i;?>')"></td>
+			</tr>
+ <?php $i++; $x++;
+endforeach; 
+  }
+ ?>	
+			
+</table>
+</div>

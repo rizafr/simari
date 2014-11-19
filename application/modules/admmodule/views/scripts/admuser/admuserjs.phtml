@@ -1,0 +1,296 @@
+function displayAdminuserOlahdata()
+{
+	var currentPage = $(this).attr("currentPage");
+	var handler = '<?php echo $this->basePath; ?>/admmodule/admuser/admuserolahdata';
+	var opt = {};
+	jQuery.get(handler,opt,function(data) {
+			$("#tableview").html(data);
+			jQuery("#frmbuatuserinsert").ajaxForm(tambahUser_opt);
+		 });
+}
+
+function ubahuser(userid, iPegNip)
+{
+	var jenisForm = 'ubah';
+	var handler = '<?php echo $this->basePath; ?>/admmodule/admuser/admuserolahdata';
+	var opt = {jenisForm : jenisForm, userid : userid, iPegNip : iPegNip};
+	jQuery.get(handler,opt,function(data) {
+			$("#tableview").html(data);
+			jQuery("#frmbuatuserubah").ajaxForm(ubahUser_opt);
+		 });
+}
+
+function prosesCariUser(){
+	/* var currentPage = $(this).attr("currentPage");
+	var kategoriCari = document.getElementById('kategoriCari').value;
+	var kataKunciCari = document.getElementById('kataKunciCari').value;
+	var handler = '<?php echo $this->basePath; ?>/admmodule/admuser/daftarpeg';
+	var opt = {kategoriCari:kategoriCari, kataKunciCari:kataKunciCari};
+	jQuery.get(handler,opt,function(data) {
+			$("#targetPopup").html(data); */
+			jQuery("#frmCariUser").ajaxForm(cariUser_opt);
+	//	 });
+}
+
+var cariUser_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/admmodule/admuser/daftaruser',
+	beforeSubmit : function(){
+	},
+	success : function() {
+		jQuery("#frmCariUser").ajaxForm(cariUser_opt);
+	},
+	type: 'post', 
+	resetForm: false
+};
+
+function prosesCariPeg(){
+	/* var currentPage = $(this).attr("currentPage");
+	var kategoriCari = document.getElementById('kategoriCari').value;
+	var kataKunciCari = document.getElementById('kataKunciCari').value;
+	var handler = '<?php echo $this->basePath; ?>/admmodule/admuser/daftarpeg';
+	var opt = {kategoriCari:kategoriCari, kataKunciCari:kataKunciCari};
+	jQuery.get(handler,opt,function(data) {
+			$("#targetPopup").html(data); */
+			jQuery("#frmCariUser2").ajaxForm(cariUser2_opt);
+	//	 });
+}
+
+var cariUser2_opt = {
+	target : '#targetPopup',
+	url: '<?php echo $this->basePath; ?>/admmodule/admuser/daftarpeg',
+	beforeSubmit : function(){
+	},
+	success : function() {
+		jQuery("#frmCariUser2").ajaxForm(cariUser2_opt);
+		centerPopup();
+		loadPopup();
+	},
+	type: 'post', 
+	resetForm: false
+};
+
+function displayDaftarUser()
+{
+	var currentPage = $(this).attr("currentPage");
+	var handler = '<?php echo $this->basePath; ?>/admmodule/admuser/daftaruser';
+	var opt = {};
+	jQuery.get(handler,opt,function(data) {
+			$("#tableview").html(data);
+		 });
+}
+
+function selectPeg(kategoriCari, katakunciCari){
+	url = "<?php echo $this->basePath; ?>/admmodule/admuser/daftarpeg"	
+	var opt = {kategoriCari:kategoriCari, katakunciCari:katakunciCari};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#targetPopup").html(data);
+			centerPopup();
+			loadPopup();
+		});	 
+}
+
+function checkParent(idMenu){
+	
+	var idMenuArr = idMenu.split('_');
+	var iAplikasi = idMenuArr[0];
+	var cMenuLevel = idMenuArr[1];
+	
+	var len_cMenuLevel = cMenuLevel.length;
+	
+	
+	if(len_cMenuLevel == 8){
+		document.getElementById(iAplikasi+'_'+cMenuLevel.substr(0,6)).checked="true";
+		document.getElementById(iAplikasi+'_'+cMenuLevel.substr(0,4)).checked="true";
+		document.getElementById(iAplikasi+'_'+cMenuLevel.substr(0,2)).checked="true";
+	} else if(len_cMenuLevel == 6){
+		document.getElementById(iAplikasi+'_'+cMenuLevel.substr(0,4)).checked="true";
+		document.getElementById(iAplikasi+'_'+cMenuLevel.substr(0,2)).checked="true";
+	} else if(len_cMenuLevel == 4){
+		document.getElementById(iAplikasi+'_'+cMenuLevel.substr(0,2)).checked="true";
+	}  
+}
+
+var tambahUser_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/admmodule/admuser/admusertambah',
+	beforeSubmit : function(){
+		if(document.getElementById('userid').value == ''){
+			alert('Userid Harus Diisi.');
+			document.getElementById('userid').focus();
+			return false;
+		} else if (document.getElementById('iPegNip').value == ''){
+				alert('NIP Harus Diisi.');
+				document.getElementById('iPegNip').focus();
+				return false;
+		} else if (document.getElementById('nPeg').value == ''){
+				alert('Nama Pegawai Harus Diisi.');
+				document.getElementById('nPeg').focus();
+				return false;
+		} else if (document.getElementById('nPeg').value == ''){
+				alert('Nama Pegawai Harus Diisi.');
+				document.getElementById('nPeg').focus();
+				return false;
+		} else if (document.getElementById('userPasswd').value){
+			if(document.getElementById('userPasswd').value != document.getElementById('userPasswd2').value){
+				alert('Password dan Ulangi Password Harus Sama.');
+				document.getElementById('userPasswd2').focus();
+				return false;
+			}
+		} else if ((!document.getElementById('userPasswd').value) || (!document.getElementById('userPasswd2').value)) {
+			alert('Password Harus Diisi.');
+			document.getElementById('userPasswd').focus();
+			return false;
+		}
+	},
+	success : function() {
+		jQuery("#frmbuatuserinsert").ajaxForm(tambahUser_opt);
+		doCount(5);
+	},
+	type: 'post', 
+	resetForm: false
+};
+
+function setPenanggungjawab(rowKe){
+//alert('cSatker_'+rowKe);
+		//var cSatker = document.getElementById('cSatker_'+rowKe).value;
+		//var nSatker = document.getElementById('nSatker_'+rowKe).value;
+		var iPegNip = document.getElementById('iPegNip_'+rowKe).value;
+		var iPegNipNew = document.getElementById('iPegNipNew_'+rowKe).value;
+		var nPegLengkap = document.getElementById('nPegLengkap_'+rowKe).value;
+		var cGolongan = document.getElementById('cGolongan_'+rowKe).value;
+		var nJabatan = document.getElementById('nJabatan_'+rowKe).value;
+		var cJabatan = document.getElementById('cJabatan_'+rowKe).value;
+		var nUnitkerja = document.getElementById('nUnitkerja_'+rowKe).value;
+		
+		document.getElementById('iPegNip').value = iPegNip;
+		document.getElementById('iPegNipNew').value = iPegNipNew;
+		document.getElementById('nPeg').value = nPegLengkap;
+		document.getElementById('cGolongan').value = cGolongan;
+		document.getElementById('cJabatan').value = cJabatan;
+		document.getElementById('nJabatan').value = nJabatan;
+		document.getElementById('nJabatan').value = nJabatan;
+		document.getElementById('nUnitkerja').value = nUnitkerja;
+		
+		closeDetil();
+}
+
+function checkPasswd(){
+	var pwd1 = document.getElementById('userPasswd').value;
+	var pwd2 = document.getElementById('userPasswd2').value;
+	
+	if(pwd1 != pwd2){
+		alert('Password dan Ulangi Password Harus Sama.');
+		document.getElementById('userPasswd2').value = '';
+		//document.getElementById('userPasswd2').focus();
+	}
+}
+
+var ubahUser_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/admmodule/admuser/admuserubah',
+	beforeSubmit : function(){
+		if(document.getElementById('userid').value == ''){
+			alert('Userid Harus Diisi.');
+			document.getElementById('userid').focus();
+			return false;
+		} else if (document.getElementById('iPegNip').value == ''){
+				alert('NIP Harus Diisi.');
+				document.getElementById('iPegNip').focus();
+				return false;
+		} else if (document.getElementById('nPeg').value == ''){
+				alert('Nama Pegawai Harus Diisi.');
+				document.getElementById('nPeg').focus();
+				return false;
+		} else if (document.getElementById('nPeg').value == ''){
+				alert('Nama Pegawai Harus Diisi.');
+				document.getElementById('nPeg').focus();
+				return false;
+		}
+	},
+	success : function() {
+		jQuery("#frmbuatuserinsert").ajaxForm(tambahUser_opt);
+		doCount(5);
+	},
+	type: 'post', 
+	resetForm: false
+};
+
+function listMenuPerAplikasi()
+{
+	var iAplikasi = document.getElementById('i_aplikasi').value;
+	var jmlaplikasi = document.getElementById('jmlAplikasi').value;
+	
+	
+	for(var a=1; a<jmlaplikasi; a++){
+		if(a == iAplikasi){
+			if(document.getElementById('targetMenu_'+a)){
+				document.getElementById('targetMenu_'+a).style.display = "block";
+			}
+				
+		} else {
+			if(document.getElementById('targetMenu_'+a)){
+				document.getElementById('targetMenu_'+a).style.display = "none";
+			}
+		}
+	}
+	
+}
+
+function resetpasswd(userid, iPegNip){
+	url = "<?php echo $this->basePath; ?>/admmodule/admuser/admuserolahdata"
+	var jenisForm = 'resetPassword';
+	var opt = {jenisForm : jenisForm , userid:userid, iPegNip:iPegNip};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		jQuery("#frmbuatuserresetpassword").ajaxForm(resetPassword_opt);
+	});	 
+}
+
+var resetPassword_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/admmodule/admuser/admuserresetpassword',
+	beforeSubmit : function(){
+		//checkPasswd();
+	},
+	success : function() {
+		jQuery("#frmbuatuserresetpassword").ajaxForm(resetPassword_opt);
+		doCount(5);
+	},
+	type: 'post', 
+	resetForm: false
+};
+
+
+
+function checkIdYM(){
+	var iYM = document.getElementById('iYM').value;
+	if (iYM){
+		var iYMarr = iYM.split('@');
+		if(iYMarr){
+			var iYMExt = iYMarr[1];
+			if((iYMExt.toLowerCase() != 'yahoo.com') && (iYMExt.toLowerCase() != 'yahoo.co.id')){
+				alert('Id Yahoo Salah');
+				document.getElementById('iYM').value = '';
+				document.getElementById('iYM').focus();
+			} 
+		} else {
+			alert('Id Yahoo Salah');
+			document.getElementById('iYM').value = '';
+			document.getElementById('iYM').focus();
+		}
+	}
+}
+
+function hapususer(keterangan, iUser, nUser,iPegNipUser, currentPage)
+{
+	if(ConfirmDelete(keterangan, iUser))
+	{	
+		handler = '<?php echo $this->basePath; ?>/admmodule/admuser/hapususer';
+		var opt = {i_user : iUser, n_peg : nUser, i_peg_nip : iPegNipUser, currentPage : currentPage};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	}
+} 

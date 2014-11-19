@@ -1,0 +1,48 @@
+<div id="backgroundPopup"></div>
+	<div id="popupContact">
+		<table width="100%" border="0" cellpadding="0" cellspacing="1">
+			<tr>
+				<td align="center">
+					<?echo $this->judul;?>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">
+					<input type="button" value="Keluar"  onclick="closeDetil()">
+				</td>
+			</tr>
+		</table>	
+		<center>
+		<div class="hideshow">
+			
+			<table border="0" width="100%" align="center">
+				<tr>
+					<td align="center">
+						<?echo $this->chart;?>
+						<table border="0" width="50%" align="center" class="tbl2">
+							<tr>
+								<th>Islam</th>
+								<th>Katholik</th>
+								<th>Protestan</th>
+								<th>Hindu</th>
+								<th>Budha</th>
+								<th>Data Kosong</th>
+								<th>Total</th>
+							</tr>
+							<tr class="event">
+								<td align="right"><?=$this->islam?></td>
+								<td align="right"><?=$this->katolik?></td>
+								<td align="right"><?=$this->protestan?></td>
+								<td align="right"><?=$this->hindu?></td>
+								<td align="right"><?=$this->budha?></td>
+								<td align="right"><?=$this->jmlkosong?></td>
+								<td align="right"><?=($this->islam+=$this->katolik+$this->hindu+$this->protestan+$this->budha+$this->jmlkosong)?></td>
+							</tr>
+						</table>
+					</td>
+				</tr>		
+			</table>		
+		</div>	
+		</center>
+	</div>
+	

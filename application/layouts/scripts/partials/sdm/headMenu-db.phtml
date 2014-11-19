@@ -1,0 +1,245 @@
+<?php
+require_once "service/adm/Adm_Admmenu_Service.php";
+require_once "service/adm/Adm_Admaplikasi_Service.php";
+require_once "service/adm/Adm_Adminuser_Service.php";
+
+
+$admmenu_serv = Adm_Admmenu_Service::getInstance();
+$admaplikasi_serv = Adm_Admaplikasi_Service::getInstance();
+$adminuser_serv = Adm_Adminuser_Service::getInstance();
+
+$aplikasiId = $admaplikasi_serv->getAplikasiId($this->aplikasi);
+//echo "cccc = $aplikasiId"." ".$this->aplikasi;
+$menuList = $admmenu_serv->readMenuMapPerLevel($aplikasiId,'');
+$masukanOtoritasMenu = array("userid"	=> $this->userid,
+							 "password"	=> $this->password,
+							 "iAplikasi"=> $aplikasiId);
+							 
+$otoritasMenu = $adminuser_serv->getOtoritasMenu($masukanOtoritasMenu);
+//echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+//var_dump($otoritasMenu);
+?>
+				<h2 class="accessibility">Navigation</h2>
+					<ul class="nav">
+					      <li><a href="main">Beranda</a></li>
+						  
+						  <?
+						  //var_dump($this->menuList);
+							foreach ($menuList as $key => $val): 
+								$i_menu 		= $this->escape($val['i_menu']);
+								$l1 			= $this->escape($val['l1']);
+								$l2 			= $this->escape($val['l2']);
+								$l3 			= $this->escape($val['l3']);
+								$l4 			= $this->escape($val['l4']);
+								$n_aplikasi 	= $this->escape($val['n_aplikasi']);
+								$c_menu_level 	= $this->escape($val['c_menu_level']);
+								$c_menu_levelArr= explode(".",$c_menu_level);
+								$level			= count($c_menu_levelArr);
+								$c_menu_statuscb= $this->escape($val['c_menu_statuscb']);
+								$n_menu 		= htmlentities($this->escape($val['n_menu']));
+								$e_menu 		= $this->escape($val['e_menu']);
+								$n_action 		= $this->escape($val['n_action']);
+								$nActionArr		= explode(",",$n_action);
+								$phpAction		= trim($nActionArr[0]);
+								if(substr($phpAction,0,1) == '/'){
+									$phpAction		= substr($phpAction, 1, strlen($phpAction)-1);
+								} 
+								$jsAction		= trim($nActionArr[1]);
+								if(substr($jsAction,0,1) == '/'){
+									$jsAction		= substr($jsAction, 1, strlen($jsAction)-1);
+								} 
+								
+								if(in_array($c_menu_level, $otoritasMenu)){
+									?>
+									<li>
+										<?php
+										if($c_menu_statuscb == 'N'){
+										?>
+											<a href="#"><?php echo $n_menu;?><!--[if IE 7]><!--></a><!--<![endif]-->
+										<?php
+										} else {
+										?>
+											<a href="#<?php echo $n_menu;?>" onclick="open_url_to_div('<?php echo $this->basePath."/$phpAction"; ?>','<?php echo $this->basePath."/$jsAction"; ?>');"><?php echo $n_menu;?><!--[if IE 7]><!--></a><!--<![endif]-->
+										<?php
+										}
+										?>
+														
+										
+									<?php
+								
+										if($c_menu_statuscb == 'N'){
+											$menuList2 = $admmenu_serv->readMenuMapPerLevel("$aplikasiId","$c_menu_level");
+											
+											?>
+											<ul>
+											<?php
+											foreach ($menuList2 as $key => $val): 
+												$i_menu2 		= $this->escape($val['i_menu']);
+												$l12 			= $this->escape($val['l1']);
+												$l22 			= $this->escape($val['l2']);
+												$l32 			= $this->escape($val['l3']);
+												$l42 			= $this->escape($val['l4']);
+												$n_aplikasi2 	= $this->escape($val['n_aplikasi']);
+												$c_menu_level2 	= $this->escape($val['c_menu_level']);
+												$c_menu_levelArr2= explode(".",$c_menu_level2);
+												$level2			= count($c_menu_levelArr2);
+												$c_menu_statuscb2= $this->escape($val['c_menu_statuscb']);
+												$n_menu2 		= $this->escape($val['n_menu']);
+												$e_menu2 		= $this->escape($val['e_menu']);
+												$n_action2 		= $this->escape($val['n_action']);
+												$nActionArr2		= explode(",",$n_action2);
+												$phpAction2		= trim($nActionArr2[0]);
+												if(substr($phpAction,0,1) == '/'){
+													$phpAction2		= substr($phpAction2, 1, strlen($phpAction2)-1);
+												} 
+								
+												
+												$jsAction2		= trim($nActionArr2[1]);
+												if(substr($jsAction2,0,1) == '/'){
+													$jsAction2		= substr($jsAction2, 1, strlen($jsAction2)-1);
+												} 
+												
+												if(in_array($c_menu_level2, $otoritasMenu)){
+										
+													?>
+													<li>
+														<?php
+														if($c_menu_statuscb2 == 'N'){
+														?>
+															<a href="#"><?php echo $n_menu2;?><!--[if IE 7]><!--></a><!--<![endif]-->
+														<?php
+														} else {
+														?>
+															<a href="#<?php echo $n_menu2?>" onclick="open_url_to_div('<?php echo $this->basePath."/$phpAction2"; ?>','<?php echo $this->basePath."/$jsAction2"; ?>');"><?php echo $n_menu2;?><!--[if IE 7]><!--></a><!--<![endif]-->
+														<?php
+														}
+														?>
+														
+													
+													<?php
+												////////////////////////////////////////////////////////////////
+														if($c_menu_statuscb2 == 'N'){
+															$menuList3 = $admmenu_serv->readMenuMapPerLevel("$aplikasiId","$c_menu_level2");
+															
+															?>
+															<ul>
+															<?php
+															foreach ($menuList3 as $key => $val): 
+																$i_menu3 		= $this->escape($val['i_menu']);
+																$l13 			= $this->escape($val['l1']);
+																$l23 			= $this->escape($val['l2']);
+																$l33 			= $this->escape($val['l3']);
+																$l43 			= $this->escape($val['l4']);
+																$n_aplikasi3 	= $this->escape($val['n_aplikasi']);
+																$c_menu_level3 	= $this->escape($val['c_menu_level']);
+																$c_menu_levelArr3= explode(".",$c_menu_level3);
+																$level3			= count($c_menu_levelArr3);
+																$c_menu_statuscb3= $this->escape($val['c_menu_statuscb']);
+																$n_menu3 		= $this->escape($val['n_menu']);
+																$e_menu3 		= $this->escape($val['e_menu']);
+																$n_action3 		= $this->escape($val['n_action']);
+																$nActionArr3		= explode(",",$n_action3);
+																$phpAction3		= trim($nActionArr3[0]);
+																if(substr($phpAction3,0,1) == '/'){
+																	$phpAction3		= substr($phpAction3, 1, strlen($phpAction3)-1);
+																} 
+																$jsAction3		= trim($nActionArr3[1]);
+																if(substr($jsAction3,0,1) == '/'){
+																	$jsAction3		= substr($jsAction3, 1, strlen($jsAction3)-1);
+																} 
+																
+																if(in_array($c_menu_level3, $otoritasMenu)){
+														
+																	?>
+																	<li>
+																		<?php
+																		if($c_menu_statuscb3 == 'N'){
+																		?>	
+																			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath."/$phpAction3"; ?>','<?php echo $this->basePath."/$jsAction3"; ?>');"><?php echo $n_menu3;?><!--[if IE 7]><!--></a><!--<![endif]-->
+																		<?php
+																		} else {
+																		?>
+																			<a href="#<?php echo $n_menu3?>" onclick="open_url_to_div('<?php echo $this->basePath."/$phpAction3"; ?>','<?php echo $this->basePath."/$jsAction3"; ?>');"><?php echo $n_menu3;?><!--[if IE 7]><!--></a><!--<![endif]-->
+																		<?php
+																		}
+																		?>
+																		
+																	
+																	<?php
+																		// level 4
+																		if($c_menu_statuscb3 == 'N'){
+																			$menuList4 = $admmenu_serv->readMenuMapPerLevel("$aplikasiId","$c_menu_level3");
+																			
+																			?>
+																			<ul>
+																			<?php
+																			foreach ($menuList4 as $key => $val): 
+																				$i_menu4 		= $this->escape($val['i_menu']);
+																				$l14 			= $this->escape($val['l1']);
+																				$l24 			= $this->escape($val['l2']);
+																				$l34 			= $this->escape($val['l3']);
+																				$l44 			= $this->escape($val['l4']);
+																				$n_aplikasi4 	= $this->escape($val['n_aplikasi']);
+																				$c_menu_level4 	= $this->escape($val['c_menu_level']);
+																				$c_menu_levelArr4= explode(".",$c_menu_level4);
+																				$level4			= count($c_menu_levelArr4);
+																				$c_menu_statuscb4= $this->escape($val['c_menu_statuscb']);
+																				$n_menu4 		= $this->escape($val['n_menu']);
+																				$e_menu4 		= $this->escape($val['e_menu']);
+																				$n_action4 		= $this->escape($val['n_action']);
+																				$nActionArr4		= explode(",",$n_action4);
+																				$phpAction4		= trim($nActionArr4[0]);
+																				if(substr($phpAction4,0,1) == '/'){
+																					$phpAction4		= substr($phpAction4, 1, strlen($phpAction4)-1);
+																				} 
+																				$jsAction4		= trim($nActionArr4[1]);
+																				if(substr($jsAction4,0,1) == '/'){
+																					$jsAction4		= substr($jsAction4, 1, strlen($jsAction4)-1);
+																				} 
+																				
+																				if(in_array($c_menu_level4, $otoritasMenu)){
+																		
+																					?>
+																					<li>
+																						<a href="#<?php echo $n_menu4?>" onclick="open_url_to_div('<?php echo $this->basePath."/$phpAction4"; ?>','<?php echo $this->basePath."/$jsAction4"; ?>');"><?php echo $n_menu3;?><!--[if IE 7]><!--></a><!--<![endif]-->
+																					
+																					
+																					</li>
+																				<?php
+																				}
+																			endforeach;
+																			?>
+																			</ul>
+																			<?php
+																		}
+																		//end level 4
+																	?>
+																	</li>
+																<?php
+																}
+															endforeach;
+															?>
+															</ul>
+															<?php
+														}
+												
+												///////////////////////////////////////////////////////////////		
+													?>
+													</li>
+												<?php
+												}
+											endforeach;
+											?>
+											</ul>
+											<?php
+										}
+									?>
+									</li>
+								
+								<?php
+								}
+							endforeach;
+						  ?>
+						
+					</ul>
+

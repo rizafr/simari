@@ -1,0 +1,56 @@
+function openFormCuti(par,c_cuti,n_cuti){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refcuti/cutiolahdata";
+	var opt = {par:par, c_cuti:c_cuti, n_cuti:n_cuti};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formcuti").ajaxForm(maintain_cuti);
+		});		
+} 
+
+function insertCuti(){
+	jQuery("#formcuti").ajaxForm(maintain_cuti);
+}
+
+var maintain_cuti = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formcuti").ajaxForm(maintain_cuti);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refcuti/insertcuti',
+	type: 'post',
+	resetForm: false
+};
+
+function updateCuti(){
+	jQuery("#formcuti").ajaxForm(update_cuti);
+}
+
+var update_cuti = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formcuti").ajaxForm(maintain_cuti);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refcuti/updatecuti',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusCuti(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refcuti/deletecuti';
+		var opt = {c_cuti : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

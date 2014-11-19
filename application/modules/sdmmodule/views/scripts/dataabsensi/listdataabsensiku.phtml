@@ -1,0 +1,149 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+require_once "share/halaman.php";  
+
+$tanggal = new tanggal();
+$halaman = new halaman();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+/*
+$jmllokasilist = count($this->lokasilist);
+for ($i=0; $i<$jmllokasilist; $i++)
+{
+	$datalokasilist[(string)$this->lokasilist[$i]['c_lokasi']] = (string)$this->lokasilist[$i]['n_lokasi'];
+}
+$jmleselon1lst = count($this->eselon1lst);
+for ($i=0; $i<$jmleselon1lst; $i++)
+{
+	$dataeselon1lst[(string)$this->eselon1lst[$i]['c_eselon_i']] = (string)$this->eselon1lst[$i]['n_unitkerja'];
+}
+$jmleselon2lst = count($this->eselon2lst);
+for ($i=0; $i<$jmleselon2lst; $i++)
+{
+	$dataeselon2lst[(string)$this->eselon2lst[$i]['c_eselon_ii']] = (string)$this->eselon2lst[$i]['n_unitkerja'];
+}
+
+$jmlLokasiList = count($this->LokasiList);
+for ($i=0; $i<$jmlLokasiList; $i++)
+{
+	$kdLokasiList[(string)$this->LokasiList[$i]['kd_lokasi']] = (string)$this->LokasiList[$i]['kd_lokasi'].". ".(string)$this->LokasiList[$i]['ur_upb'];
+}
+*/
+	   $harilst = array("Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu");
+	   $bulanLst = array("01"=>"Januari","02"=>"Februari","03"=>"Maret","04"=>"April","05"=>"Mei","06"=>"Juni","07"=>"Juli",
+	   "08"=>"Agustus","09"=>"September","10"=>"Oktober","11"=>"November","12"=>"Desember");
+	   $absensilst = array("V"=>"Hadir & Pulang Tepat Waktu",
+	                       "DL"=>"Dinas Luar",
+						   "CB"=>"Cuti Bersama",
+						   "C"=>"Cuti",
+						   "S"=>"Sakit",
+						   "I"=>"Ijin",
+						   "TK"=>"Tanpa Keterangan",
+						   "L"=>"Terlambat Datang",
+						   "E"=>"Pulang Cepat");
+					  
+//$thnSekarang = $this->tahunabsen;
+//$blnSekarang = $this->bulanabsen;
+//$periode = $thnSekarang.'-'.$blnSekarang; 
+$thnSekarang = $this->tahunabsen;
+$blnSekarang = $this->bulanabsen;
+$thnSekarang2 = $this->tahunabsen2;
+$blnSekarang2 = $this->bulanabsen2;
+$periode = $thnSekarang.'-'.$blnSekarang; 
+$periode2 = $thnSekarang2.'-'.$blnSekarang2; 
+     $kodeijinlst = $this->absensimsn_serv->getKodeIjinLst();
+     $jmlkodeijinlst = count($kodeijinlst);
+
+?>
+   <input type='hidden' id='mode' name='mode' value='0'>
+	<table width="100%" class="tbl">
+		<tbody>
+			<tr>
+				<th rowspan='2'>No</th>
+				<th rowspan='2'>Nip</th>
+				<th rowspan='2'>Nama</th>
+				<th colspan='<?=$jmlkodeijinlst?>'>Absensi</th>
+			</tr>
+			<tr>
+<?
+     for ($i=0; $i<$jmlkodeijinlst; $i++)
+     {
+        echo "<th>".$kodeijinlst[$i]['n_ijin']."</th>";
+     }
+?>
+<!---
+				<th>Hdr & Plg Tepat Waktu</th>
+				<th>Dinas Luar</th>
+				<th>Cuti Bersama</th>
+				<th>Cuti</th>
+				<th>Sakit</th>
+				<th>Ijin</th>
+				<th>Tanpa Keterangan</th>
+				<th>Terlambat Datang</th>
+				<th>Pulang Cepat</th>
+!--->
+			</tr>
+			<?php
+			if(count($this->pegawaidatalst)){
+			    //$i = $this->currentPage;
+				$jmlmasukkerja = $this->absensimsn_serv->getJmlHariKerja($periode);
+				$ipage = (($this->currentPage-1)*($this->numToDisplay))+1;
+				foreach ($this->pegawaidatalst as $key => $val): 
+				    $jmlhadir = $this->absensimsn_serv->getJmlMasukKerja($this->escape($val['i_peg_nip']), $periode);
+					$jmlsrtIjin = $this->absensimsn_serv->getJmlSuratIjin($this->escape($val['i_peg_nip']), $periode);
+					if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+					<td class="clright"><?=$ipage?></td>
+					<td class="clleft" >
+					<a href="#" onClick="rekapabsenpeg('<?=$this->escape($val['i_peg_nip'])?>','<?=$this->escape($val['n_peg'])?>')"><?=$this->escape($val['i_peg_nip'])?></a></td>
+					<td class="clleft"><?=$this->escape($val['n_peg'])?></td>
+<?
+     for ($i=0; $i<$jmlkodeijinlst; $i++)
+     {
+        //echo "<td class='clright'>".$this->escape($val['i_peg_nip'])."::".$periode."::".$periode2."::".$kodeijinlst[$i]['c_ijin']."</td>";
+        echo "<td class='clright'>".$this->absensimsn_serv->getJmlDataIjin($this->escape($val['i_peg_nip']), $periode, $periode2, $kodeijinlst[$i]['c_ijin'])."</td>";
+     }
+?>
+<!---
+					<td class="clright"><?=$this->absensimsn_serv->getJmlIjinV($this->escape($val['i_peg_nip']), $periode)?></td>
+					<td class="clright"><?=$this->absensimsn_serv->getJmlIjin($this->escape($val['i_peg_nip']), $periode, 'DL')?></td>
+					<td class="clright"><?=$this->absensimsn_serv->getJmlIjin($this->escape($val['i_peg_nip']), $periode, 'CB')?></td>
+					<td class="clright"><?=$this->absensimsn_serv->getJmlIjin($this->escape($val['i_peg_nip']), $periode, 'C')?></td>
+					<td class="clright"><?=$this->absensimsn_serv->getJmlIjin($this->escape($val['i_peg_nip']), $periode, 'S')?></td>
+					<td class="clright"><?=$this->absensimsn_serv->getJmlIjin($this->escape($val['i_peg_nip']), $periode, 'I')?></td>
+					<td class="clright"><?=$jmlmasukkerja-($jmlhadir-$jmlsrtIjin)?></td>
+					<td class="clright"><?=$this->absensimsn_serv->getJmlTerlambat($this->escape($val['i_peg_nip']), $periode)?></td>
+					<td class="clright"><?=$this->absensimsn_serv->getJmlCepatPlg($this->escape($val['i_peg_nip']), $periode)?></td>
+!--->
+					</tr>
+					<?php
+					$ipage++;
+				endforeach;
+			}
+			?>
+		</tbody>
+	</table>
+   <div class="panel">
+   <div class="right">
+<?
+       
+       $totalData 		= $this->pegawaidatalstJml;
+	$numToDisplay	= $this->numToDisplay;
+	$currentPage = $this->currentPage;
+	$fungsi = $this->basePath.'/sdmmodule/dataabsensi/listdataabsensiku';
+	$fungsijs = $this->basePath.'/sdmmodule/dataabsensi/lstdataabsensijs';
+	$param1 = $this->c_lokasi_unitkerja;
+	$param2 = $blnSekarang.'-'.$thnSekarang;
+	$param3 = $blnSekarang2.'-'.$thnSekarang2;
+	$param4 = $this->c_eselon;    //$this->c_eselon_i."::".$this->c_eselon_ii."::".$this->c_eselon_iii."::".$this->c_eselon_iv;
+	$modul = "pentry";
+	$halaman->showPagebr($totalData, $numToDisplay, $currentPage, $modul, $fungsi, $fungsijs, $param1, $param2, $param3, $param4);
+?>
+   </div>
+   <br>
+   <br>
+   </div>

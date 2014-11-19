@@ -1,0 +1,230 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+?>
+
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong> SDM 
+				<strong> &#8250; </strong> Struktural
+				<strong> &#8250; </strong> Monitoring Jabatan
+			</div>
+<div id="top"></div>
+
+	
+<form id="formpegawai" method="post" action="" name="formpegawai"enctype="multipart/form-data" >
+<h2 class="title">Monitoring Jabatan</h2>
+			<ul class="tabZ">
+				<li  class="selected"><a href="#jabatan" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/monitoringsjabatan/monitoringsjabatan','<?php echo $this->basePath; ?>/sdmmodule/monitoringsjabatan/monitoringsjabatanjs');">Monitoring Jabatan</a></li>
+				<li><a href="#kp">Monitoring Kenaikan Pangkat</a></li>
+				<li><a href="#pensiun" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/underconstruktion/index','');">Monitoring Pensiun</a></li>
+				<li><a href="#pa" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/underconstruktion/index','');">Ketentuan PA</a></li>
+				<li><a href="#pa" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/underconstruktion/index','');">PA Eselon II</a></li>
+				<li><a href="#pa" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/underconstruktion/index','');">PA Eselon III</a></li>
+				<li><a href="#pa" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/underconstruktion/index','');">PA Eselon IV</a></li>				
+				
+			</ul>
+	<div class="panel">
+		<div class="spacer"></div> 
+			
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b>UNIT KERJA</b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td width="20%">Lokasi</td>
+								<td width="2%">:</td> 
+								<td>					
+									<?
+										$jmlLokList=count($this->lokasiList);
+										$lokList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmlLokList; $i++) {
+												$lokList[(string)$this->lokasiList[$i]->c_lokasi] = (string)$this->lokasiList[$i]->n_lokasi;			 
+											}
+										$lokAtrib = array("style"=>"width: 300px","id"=>"c_lokasi_unitkerja_cpns","onChange"=>"javascript:cariEselon('targetesli')"); 
+										echo $ctrlFrm->formSelect('c_lokasi_unitkerja_cpns',$this->c_lokasi_unitkerja_cpns,$lokAtrib,$lokList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Eselon I</td>
+								<td>:</td> 
+								<td id="targetesli">					
+									<?
+										$jmleseloniList=count($this->eseloniList);
+										$eseloniList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniList; $i++) {
+												$eseloniList[(string)$this->eseloniList[$i]->c_eselon_i] = (string)$this->eseloniList[$i]->n_unitkerja;			 
+											}
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_i_cpns","onChange"=>"javascript:cariEselon('targeteslii')");  	
+										echo $ctrlFrm->formSelect('c_eselon_i_cpns',$this->c_eselon_i_cpns,$eslAtrib,$eseloniList); 							
+									?>
+								</td>
+							</tr>
+							<tr id="targetesliix">
+								<td>Eselon II</td>
+								<td>:</td> 
+								<td id="targeteslii">				
+									<?
+										$jmleseloniiList=count($this->eseloniiList);
+										$eseloniiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiList; $i++) {
+												$eseloniiList[(string)$this->eseloniiList[$i]->c_eselon_ii] = (string)$this->eseloniiList[$i]->n_unitkerja;
+											}
+										if ($ceseloncpns>=3){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_ii_cpns","onChange"=>"javascript:cariEselon('targetesliii')");}
+										else {$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_ii_cpns","onChange"=>"javascript:cariEselon('targetesliii')");}
+										echo $ctrlFrm->formSelect('c_eselon_ii_cpns',$this->c_eselon_ii_cpns,$eslAtrib,$eseloniiList); 							
+									?>
+								</td>
+							</tr>						
+							<tr id="targetesliiix">
+								<td>Eselon III</td>
+								<td>:</td> 
+								<td id="targetesliii">					
+									<?
+										$jmleseloniiiList=count($this->eseloniiiList);
+										$eseloniiiList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleseloniiiList; $i++) {
+												$eseloniiiList[(string)$this->eseloniiiList[$i]->c_eselon_iii] = (string)$this->eseloniiiList[$i]->n_unitkerja;			 
+											}
+										
+										if ($ceseloncpns>=5){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii_cpns","onChange"=>"javascript:cariEselon('targetesliv')");  	}										
+										else{	$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iii_cpns","onChange"=>"javascript:cariEselon('targetesliv')");}
+										
+										echo $ctrlFrm->formSelect('c_eselon_iii_cpns',$this->c_eselon_iii_cpns, $eslAtrib, $eseloniiiList); 							
+									?>
+								</td>
+							</tr>
+							<tr id="targeteslivx">
+								<td>Eselon IV</td>
+								<td>:</td> 
+								<td id="targetesliv">				
+									<?
+										$jmleselonivList=count($this->eselonivList);
+										$eselonivList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonivList; $i++) {
+												$eselonivList[(string)$this->eselonivList[$i]->c_eselon_iv] = (string)$this->eselonivList[$i]->n_unitkerja;			 
+											}
+										if ($ceseloncpns>=7){
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iv_cpns","onChange"=>"javascript:cariEselon('targeteslv')"); 
+										}
+										else{
+										$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_iv_cpns","onChange"=>"javascript:cariEselon('targeteslv')"); 
+										}
+										
+										
+										echo $ctrlFrm->formSelect('c_eselon_iv_cpns',$this->c_eselon_iv_cpns,$eslAtrib,$eselonivList); 							
+									?>
+								</td>
+							</tr>
+							<tr id="targeteslvx">
+								<td>Eselon V</td>
+								<td>:</td> 
+								<td id="targeteslv">				
+									<?
+										$jmleselonvList=count($this->eselonvList);
+										$eselonvList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonvList; $i++) {
+												$eselonvList[(string)$this->eselonvList[$i]->c_eselon_v] = (string)$this->eselonvList[$i]->n_unitkerja;			 
+											}
+										if ($ceseloncpns>=9){$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_v_cpns");}										
+										else{$eslAtrib = array("style"=>"width: 300px","id"=>"c_eselon_v_cpns");}
+										echo $ctrlFrm->formSelect('c_eselon_v_cpns',$this->c_eselon_v_cpns, $eslAtrib, $eselonvList); 							
+									?>
+								</td>
+							</tr>							
+							<tr id="targeteslvx">
+								<td>&nbsp;</td>
+								<td>&nbsp;</td> 
+								<td id="targeteslv">&nbsp;</td>
+							</tr>	
+							<tr>
+								<td>Golongan</td>
+								<td>:</td> 
+								<td>				
+									<?
+										$jmleselonvList=count($this->eselonvList);
+										$eselonvList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonvList; $i++) {
+												$eselonvList[(string)$this->eselonvList[$i]->c_eselon_v] = (string)$this->eselonvList[$i]->n_unitkerja;			 
+											}
+										echo $ctrlFrm->formSelect('c_eselon_v_cpns',$this->c_eselon_v_cpns, null, $eselonvList); 							
+									?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Eselon</td>
+								<td>:</td> 
+								<td>				
+									<?
+										$jmleselonvList=count($this->eselonvList);
+										$eselonvList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonvList; $i++) {
+												$eselonvList[(string)$this->eselonvList[$i]->c_eselon_v] = (string)$this->eselonvList[$i]->n_unitkerja;			 
+											}
+										echo $ctrlFrm->formSelect('c_eselon_v_cpns',$this->c_eselon_v_cpns,null, $eselonvList); 							
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Bulan</td>
+								<td>:</td> 
+								<td>				
+								<?
+								$blnPar = array(""=>"--Pilih--","01"=>"Januari","02"=>"Pebruari","03"=>"Maret","04"=>"April","05"=>"Mei","06"=>"Juni","07"=>"Juli","08"=>"Agustus","09"=>"September","10"=>"Oktober","11"=>"Nopember","12"=>"Desember");
+								echo $ctrlFrm->formSelect('blnawal',$this->blnawal, null, $blnPar); 
+								echo " s/d ";	
+								echo $ctrlFrm->formSelect('blnakhir',$this->blnawal, null, $blnPar); 	
+								echo " Tahun ";
+								$thnx=date('Y');
+								$thnList[''] = '--Pilih--';
+								for ($i = 0; $i < 15; $i++) {									
+									$thnList[$thnx*1-$i] = $thnx*1-$i;			 
+								}
+								echo $ctrlFrm->formSelect('thn',$this->thn, null, $thnList);
+								?>
+								</td>
+							</tr>
+							<tr>
+								<td>Dasar Pengurutan</td>
+								<td>:</td> 
+								<td>				
+									<?
+										$jmleselonvList=count($this->eselonvList);
+										$eselonvList[''] = '--Pilih--';
+											for ($i = 0; $i < $jmleselonvList; $i++) {
+												$eselonvList[(string)$this->eselonvList[$i]->c_eselon_v] = (string)$this->eselonvList[$i]->n_unitkerja;			 
+											}
+										echo $ctrlFrm->formSelect('c_eselon_v_cpns',$this->c_eselon_v_cpns, null, $eselonvList); 							
+									?>
+								</td>
+							</tr>								
+			</table>	
+<br>
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+				<tr>
+					<td align="center">
+						Awal Data : <input type="text" name="n_nama" id="n_nama" value="<?=$this->n_nama?>" size="5">&nbsp;
+						Data per halaman : <input type="text" name="n_nama" id="n_nama" value="<?=$this->n_nama?>" size="5">
+					</td>
+				</tr>
+				<tr>
+					<td align="center">
+						&nbsp;
+					</td>
+				</tr>					
+				<tr>
+					<td align="center">
+						<input type="button" value="Cetak Excel" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datacpns/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datacpns/pegawaijs');"> &nbsp;
+						<input type="button" value="View" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datacpns/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datacpns/pegawaijs');"> 
+					</td>
+				</tr>
+			</table>				
+	</div>
+	<div id="targetdetil"></div>
+</form>	

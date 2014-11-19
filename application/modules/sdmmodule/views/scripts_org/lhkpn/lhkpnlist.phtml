@@ -1,0 +1,95 @@
+<? 
+require_once 'Zend/View.php';
+require_once 'share/tanggal.php'; 
+   
+$ctrlDate = new tanggal();   
+   
+   $ctrlFrm = new Zend_View();
+
+$nip = $_REQUEST['nip'];
+$jumlhkpnList = count($this->lhkpnList);     
+$pesan = $this->pesan;
+$pesancek=$this->pesancek;
+if ($pesancek=='gagal'){$confirm ='confirmfail';}
+else {$confirm ='confirm';}
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+				<strong> &#8250; </strong> LHKPN
+			</div>
+	        <a name="top"></a>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>			
+			
+	<h2 class="title">LHKPN</h2>
+<?php include "$this->leftMenu/linkriwayat.phtml";?>						
+<div class="boxholder">	
+	<div class="panel">
+	<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+  <?if ($this->c_izin=='000002' || $this->c_izin=='000003'){ ?>	  
+<div class="add" title="Tambah Data" onclick="LhkpnM('insert','');"></div>
+<?}	if ($jumlhkpnList == 0) {
+		echo "<font color=\"red\">Data LHKPN Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+				<tr>
+					<th width="45%">Nomor Harta Kekayaan / Tanggal</th>
+					<th width="30%">Formulir yang disampaikan ke KPK</th>
+					<th width="20%">Tahun</th>
+					<th width="5%" colspan="2">&nbsp;</th>
+				</tr>
+
+<?
+	if ($jumlhkpnList == 0) {
+?>				<tr class="event">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				</tr>
+<? } else { ?>				
+		<?php foreach ($this->lhkpnList as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+				<? 
+					$nip=trim($this->escape($val['i_peg_nip']));
+					$d_tahun_lapor=trim($this->escape($val['d_tahun_lapor']));
+					$i_nomor_lhkpn=trim($this->escape($val['i_nomor_lhkpn']));
+					$c_formulira=trim($this->escape($val['c_formulira']));
+					$c_formulirb=trim($this->escape($val['c_formulirb']));
+					if ($c_formulira){$formulir= "- Formulir A <br>";}
+					if ($c_formulirb){$formulir= $formulir."- Formulir B";}
+					
+				?>
+				<td width="6%">
+				<?php echo $this->escape($val['i_nomor_lhkpn']);?><br>
+				<?php echo $this->escape($val['d_lhkpn']);?>
+				</td>
+				<td width="20%"><?php echo $formulir;?></td>
+				<td class="clcenter" width="8%"><?php echo $d_tahun_lapor;?></td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data"  onclick="LhkpnM('update','<?=$nip?>','<?=$i_nomor_lhkpn?>','<?=$d_tahun_lapor?>');"></div>	
+				</td>
+  <?if ($this->c_izin=='000002' || $this->c_izin=='000003'){ ?>					
+				<td class="clcenter">
+					<div class="delete" title="Hapus Data"  onClick="LhkpnM('delete','<?=$nip?>','<?=$i_nomor_lhkpn?>','<?=$d_tahun_lapor?>')"></div>
+				</td>				
+<?}?>				
+		  </tr>
+	<?php endforeach;?> 	
+	<? } ?>
+	</table>									
+		</div>		 
+		</form>

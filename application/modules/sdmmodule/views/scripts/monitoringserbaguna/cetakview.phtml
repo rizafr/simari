@@ -1,0 +1,47 @@
+<?php 
+if ($this->par=='exl'){
+	$file_type = "vnd.ms-excel";
+	$file_ending = "xls";
+	header("Content-Type: application/$file_type");
+	header("Content-Disposition: attachment; filename=serbaguna.$file_ending");
+	header("Pragma: no-cache");
+	header("Expires: 0");
+
+	$html ='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<style type="text/css">
+	</style></head>
+	<body>'.$this->view.'';
+
+	echo $html;
+}
+else{
+	require_once 'share/halaman_list.php'; 
+	$halaman = new halaman_list(); 
+	?>
+	<div id="topx"></div>
+	<div id="backgroundPopup"></div>
+	<div id="popupContact">
+		<table width="100%" border="0" cellpadding="0" cellspacing="1">
+			<tr>
+				<td align="right">
+					<input type="button" value="Keluar"  onclick="closeDetil()">
+				</td>
+			</tr>
+		</table>
+		<? echo $this->view;?>
+		<?
+
+		
+		//$modul = $this->basePath."/sdmmodule/monitoringserbaguna/cetakviewhal?limit=$this->limit&a_kota_lahir=$this->a_kota_lahir&bln_cpns=$this->bln_cpns&bln_pns=$this->bln_pns&c_eselon_i=$this->c_eselon_i&c_eselon_ii=$this->c_eselon_ii&c_eselon_iii=$this->c_eselon_iii&c_eselon_iv=$this->c_eselon_iv&c_lokasi_unitkerja=$this->c_lokasi_unitkerja&c_propinsi_lahir=$this->c_propinsi_lahir&d_tgl_lahir=$this->d_tgl_lahir&d_tmt_eselon=$this->d_tmt_eselon&d_tmt_golongan=$this->d_tmt_golongan&d_tmt_jabatan=$this->d_tmt_jabatan&dt_tpl2_get=$this->dt_tpl2_get&hobby=$this->hobby&jabkelfungsional=$this->jabkelfungsional&jns_sex=$this->jns_sex&judul_lap=$this->judul_lap&kd_askes=$this->kd_askes&kd_jbt=$this->kd_jbt&kd_jbt2=$this->kd_jbt2&kd_karpeg=$this->kd_karpeg&kd_korpri=$this->kd_korpri&kd_ktp=$this->kd_ktp&kd_pos=$this->kd_pos&kd_taspen=$this->kd_taspen&kd_tlp=$this->kd_tlp&limit=$this->limit&n_jurusan=$this->n_jurusan&n_universitas=$this->n_universitas&orderby2_get=$this->orderby2_get&propinsi_unit=$this->propinsi_unit&s_nama=$this->s_nama&s_nip=$this->s_nip&sk_cpns=$this->sk_cpns&sk_pns=$this->sk_pns&start=$this->start&tptlahir=$this->tptlahir&usia_akh=$this->usia_akh&usia_awl=$this->usia_awl&w_kulit=$this->w_kulit&y_cpns=$this->y_cpns&y_diklatpim=$this->y_diklatpim&y_lulus=$this->y_lulus&y_pns=$this->y_pns&jns_agama3=$this->jns_agama3&c_eselon_v=$this->c_eselon_v&c_jabatan_jabdiv=$this->c_jabatan_jabdiv";
+		//&start=$this->start
+		$modul = $this->basePath."/sdmmodule/monitoringserbaguna/cetakviewhal?limit=$this->limit&cari=$this->cari".($this->judul_lap ? "&judul_lap=$this->judul_lap":'').($this->orderby2_get ? "&orderby2_get=$this->orderby2_get":"").($this->dt_tpl2_get ? "&dt_tpl2_get=$this->dt_tpl2_get":'');
+		//echo $modul; 
+		//&bln_cpns=$this->bln_cpns&bln_pns=$this->bln_pns&c_eselon_i=$this->c_eselon_i&c_eselon_ii=$this->c_eselon_ii&c_eselon_iii=$this->c_eselon_iii&c_eselon_iv=$this->c_eselon_iv&c_lokasi_unitkerja=$this->c_lokasi_unitkerja&c_propinsi_lahir=$this->c_propinsi_lahir&d_tgl_lahir=$this->d_tgl_lahir&d_tmt_eselon=$this->d_tmt_eselon&d_tmt_golongan=$this->d_tmt_golongan&d_tmt_jabatan=$this->d_tmt_jabatan&dt_tpl2_get=$this->dt_tpl2_get&hobby=$this->hobby&jabkelfungsional=$this->jabkelfungsional&jns_sex=$this->jns_sex&judul_lap=$this->judul_lap&kd_askes=$this->kd_askes&kd_jbt=$this->kd_jbt&kd_jbt2=$this->kd_jbt2&kd_karpeg=$this->kd_karpeg&kd_korpri=$this->kd_korpri&kd_ktp=$this->kd_ktp&kd_pos=$this->kd_pos&kd_taspen=$this->kd_taspen&kd_tlp=$this->kd_tlp&limit=$this->limit&n_jurusan=$this->n_jurusan&n_universitas=$this->n_universitas&orderby2_get=$this->orderby2_get&propinsi_unit=$this->propinsi_unit&s_nama=$this->s_nama&s_nip=$this->s_nip&sk_cpns=$this->sk_cpns&sk_pns=$this->sk_pns&start=$this->start&tptlahir=$this->tptlahir&usia_akh=$this->usia_akh&usia_awl=$this->usia_awl&w_kulit=$this->w_kulit&y_cpns=$this->y_cpns&y_diklatpim=$this->y_diklatpim&y_lulus=$this->y_lulus&y_pns=$this->y_pns&jns_agama3=$this->jns_agama3&c_eselon_v=$this->c_eselon_v&c_jabatan_jabdiv=$this->c_jabatan_jabdiv";
+		echo $halaman->halamanListPopup($this->totalpegawaiList, $this->numToDisplay, $this->currentPage, $modul)
+		?>		
+	</div>
+	
+<?}?>

@@ -1,0 +1,240 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_mulai_sanksi").datepicker();
+		jQuery("#d_akhir_sanksi").datepicker();
+		jQuery("#d_sk_sanksi").datepicker();
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datahukuman/listhukuman','<?php echo $this->basePath; ?>/sdmmodule/datahukuman/hukumanjs');">Hukuman</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Hukuman
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Hukuman</h2>	
+<div class="boxholder">					
+	<div class="panel">
+		<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<br>
+<form id="formhukuman" method="post" name="formhukuman">		
+	<div class="panel">
+		<div class="spacer"></div> 
+				<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td width="30%">Jenis Pelanggaran<span class="hightlight">*</span></td>
+					<td width="2%">:</td> 
+					<td>					
+						<?
+							$jnpel = array(""=>"--Pilih--",
+									"PT"=>"Peringatan Tertulis",
+									"PL"=>"Pelangggaran",
+									"MT"=>"Pemalsuan Tandatangan Absensi");	
+							$tktHuk = array("onChange"=>"javascript:cariTingkat()"); 			
+							echo $ctrlFrm->formSelect('c_jns_pelanggaran', $this->c_jns_pelanggaran, $tktHuk, $jnpel); 							
+						?>
+						<input type="hidden" name="c_jns_pelanggaranb" id="c_jns_pelanggaranb" value="<?=$this->c_jns_pelanggaran?>" size="10">
+					</td>
+				</tr>
+			</table>
+<?if ($this->c_jns_pelanggaran=='PL'){?>			
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" id="listcomboa">	
+				<tr>
+					<td width="30%">Tingkat Hukuman<span class="hightlight">*</span></td>
+					<td width="2%">:</td> 
+					<td>					
+						<?
+							$tingkat = array(""=>"--Pilih--",
+									"3"=>"Ringan",
+									"2"=>"Sedang",
+									"1"=>"Berat");
+							$jnsHuk = array("onChange"=>"javascript:cariJnsHuk()"); 									
+							echo $ctrlFrm->formSelect('c_tingkat_sanksi', $this->c_tingkat_sanksi,$jnsHuk, $tingkat); 							
+						?>
+						<input type="hidden" name="c_tingkat_sanksib" id="c_tingkat_sanksib" value="<?=$this->c_tingkat_sanksi?>" size="10">
+					</td>
+				</tr>
+				<tr>
+					<td>Jenis Hukuman</td>
+					<td>:</td> 
+					<td id="listcombob">
+						<?
+							$jmldata=count($this->jnsHukuman);
+								$jenis[''] = '--Pilih--';
+								for ($i = 0; $i < $jmldata; $i++) {
+									$jenis[(string)$this->jnsHukuman[$i]->c_hukuman] = (string)$this->jnsHukuman[$i]->n_hukuman;			 
+								}
+							echo $ctrlFrm->formSelect('c_jenis_sanksi', $this->c_jenis_sanksi, null, $jenis); 	
+								
+						?>
+						<input type="hidden" name="c_jenis_sanksib" id="c_jenis_sanksib" value="<?=$this->c_jenis_sanksi?>" size="10">
+					</td>
+				</tr>
+			</table>
+<?}else{?>
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" id="listcomboa">	
+				<tr>
+					<td width="30%">Tingkat Hukuman<span class="hightlight">*</span></td>
+					<td width="2%">:</td> 
+					<td>					
+						<?
+								$tingkat = array(""=>"--Pilih--",
+										"1"=>"Peringatan Tertulis I",
+										"2"=>"Peringatan Tertulis II",
+										"3"=>"Peringatan Tertulis III");								
+								echo $ctrlFrm->formSelect('c_tingkat_sanksi', $this->c_tingkat_sanksi,$jnsHuk, $tingkat); 							
+
+						?>
+						<input type="hidden" name="c_tingkat_sanksib" id="c_tingkat_sanksib" value="<?=$this->c_tingkat_sanksi?>" size="10">
+					</td>
+				</tr>
+				<input type="hidden" name="c_jenis_sanksi" id="c_jenis_sanksi" value="<?=$this->c_jenis_sanksi?>" size="10">
+			</table>
+<?}?>			
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">			
+				<tr>
+					<td width="30%">Alasan Hukuman</td>
+					<td width="2%">:</td> 
+					<td>
+						<input type="text" name="e_alasan_sanksi" id="e_alasan_sanksi" value="<?=$this->e_alasan_sanksi?>" size="70">
+					</td>
+				</tr>				
+				<tr>
+					<td>Mulai</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_mulai_sanksi" id="d_mulai_sanksi" value="<?=$this->d_mulai_sanksi?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+						<input type="hidden" name="d_mulai_sanksib" id="d_mulai_sanksib" value="<?=$this->d_mulai_sanksi?>" size="10">						
+					</td>
+				</tr>
+				<tr>
+					<td>Akhir</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_akhir_sanksi" id="d_akhir_sanksi" value="<?=$this->d_akhir_sanksi?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>	 
+					</td>
+				</tr>
+				<tr>
+					<td>Nomor Surat Keputusan</td>
+					<td>:</td> 
+					<td>
+						<input type="text" maxlength="50" name="i_sk_sanksi" id="i_sk_sanksi" value="<?=$this->i_sk_sanksi?>" size="60">
+					</td>
+				</tr>
+				<tr>
+					<td>Tanggal Surat Keputusan</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_sk_sanksi" id="d_sk_sanksi" value="<?=$this->d_sk_sanksi?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>	 
+					</td>
+				</tr>
+				<tr>
+					<td>Pejabat Penandatangan SK</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="n_pejabat" id="n_pejabat" value="<?=$this->n_pejabat?>" size="50">
+					</td>
+				</tr>
+				<tr>
+					<td>File Surat Keputusan</td>
+					<td>:</td> 
+					<td>
+						<div class="fileinputs">
+							<input type="file" size=55 id="e_file_sk" name="e_file_sk"  value="<? echo $this->e_file_sk?>"onChange="setvalueuplfile(this.value,'efiledok','pdf')" />
+							<div class="fakefile">
+								<input type="text" size=54 name="a_file" id="a_file" value="<? echo $this->e_file_sk?>"/>
+							</div>
+						</div>
+						<input type="hidden" size=49 name="a_file2" id="a_file2"value="<? echo $e_file_sk?>"/>	
+
+					</td>
+				</tr>					
+				<tr>
+					<td>Keterangan</td>
+					<td>:</td> 
+					<td>
+					<?php 
+						$keteranganAtrib = array("rows"=>"3","cols"=>"25","maxlength"=>"100", "class"=>"medium"); 
+						echo $ctrlFrm->formTextarea('e_keterangan', $this->e_keterangan, $keteranganAtrib);
+					?>
+					</td>
+				</tr>
+	</table>
+	</div>
+	<br>
+	<div class="panel">
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">		
+				</tr>
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td>
+								<div class="right">
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datahukuman/listhukuman','');"> 
+									<? if ($this->c_izin=="000002"||$this->c_izin=="000003"){?>	
+									<input type="submit" value="<?=$this->par;?>" onClick="insertHukuman()">
+									<?}?>
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+								</div>
+							</td>
+						</tr>			
+			</table>
+	</div>
+	</form>
+</div>	
+
+
+<script>
+
+function cariJnsHuk(){
+	var c_tingkat_sanksi =document.getElementById('c_tingkat_sanksi').value;	
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/datahukuman/listcombojns'; 
+	var param = {c_tingkat_sanksi:c_tingkat_sanksi};
+	jQuery.get(url, param, function(data) {
+		jQuery("#listcombob").html(data);
+	});
+}
+
+function cariTingkat(){
+	var c_jns_pelanggaran =document.getElementById('c_jns_pelanggaran').value;
+if (c_jns_pelanggaran=='PT'){
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/datahukuman/listcombotkt'; 
+	var param = {c_jns_pelanggaran:c_jns_pelanggaran};
+	jQuery.get(url, param, function(data) {
+		jQuery("#listcomboa").html(data);
+	});
+	}
+else if (c_jns_pelanggaran=='MT'){
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/datahukuman/listcombotktc'; 
+	var param = {c_jns_pelanggaran:c_jns_pelanggaran};
+	jQuery.get(url, param, function(data) {
+		jQuery("#listcomboa").html(data);
+	});
+	}	
+else{
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/datahukuman/listcombotktb'; 
+	var param = {c_jns_pelanggaran:c_jns_pelanggaran};
+	jQuery.get(url, param, function(data) {
+		jQuery("#listcomboa").html(data);
+	});
+	}	
+}
+
+</script>

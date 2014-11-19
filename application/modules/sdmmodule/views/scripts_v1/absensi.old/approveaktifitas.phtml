@@ -1,0 +1,183 @@
+<? 	require_once 'Zend/View.php';
+	require_once 'share/oa_page.php';
+	require_once 'share/oa_date.php'; 
+   
+	$ctrlDate = new oa_date();      
+	$ctrlFrm = new Zend_View();
+	$halaman = new oa_page();
+
+
+   $thnskrg = date("Y");
+   $thnList = $thnskrg - 11;
+   $thnList2 = $thnskrg - 55;
+	
+   $thnArrayList['#'] = '--';
+   		
+   for ($i = 0; $i < 21; $i++) {
+     $thnList = $thnList + 1;
+     $thnArrayList[$thnList] = $thnList;
+   }
+
+	
+   $thnArrayList2['#'] = '--';
+   	 
+   for ($i = 0; $i < 60; $i++) {
+     $thnList2 = $thnList2 + 1;
+     $thnArrayList2[$thnList2] = $thnList2;
+   }
+		
+		
+   $pnjngArray = count($thnArrayList);
+
+	  $blnList = 0;
+	  for ($j = 0; $j < 12; $j++) {
+        $blnList = $blnList + 1;
+		if ($blnList < 10) {
+		  $blnBaruList = "0".$blnList;
+		  $blnArrayList[] = $blnBaruList;
+		} else {
+		  $blnBaruList = $blnList;
+		  $blnArrayList[] = $blnBaruList;
+		}
+      }
+		
+	  $hrList = 0;
+	  for ($k = 0; $k < 31; $k++) {
+        $hrList = $hrList + 1;
+		if ($hrList < 10) {
+		  $hrBaruList = "0".$hrList;
+		  $hrArrayList[] = $hrBaruList;
+		} else {
+		  $hrBaruList = $hrList;
+		  $hrArrayList[] = $hrBaruList;
+		}
+      }
+
+
+
+   $xxxIdList = array("#"=>"--",
+                     "nip"=>"NIP",
+					 "nama"=>"Nama Pegawai");
+
+
+   $jmlSetujuList = count($this->setujuList);
+   //echo "jmlSetujuList =".$jmlSetujuList;
+   for ($j = 0; $j < $jmlSetujuList; $j++) {
+     $setuju[$j] = array("nip"  		=>(string)$this->setujuList[$j]['nip'],
+	                      "nama"      	=>(string)$this->setujuList[$j]['nama'],
+						  "tanggal"  	=>(string)$this->setujuList[$j]['tanggal'],
+						  "aktifitas"  	=>(string)$this->setujuList[$j]['aktifitas'],  
+						  "nmFile"  	=>(string)$this->setujuList[$j]['nmFile']);
+   }
+
+   	$pesan = $this->pesan;
+
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'absensi');
+   echo $this->render('aktifitasjs.phtml'); 
+   
+	$numToDisplay = $this->numToDisplay;
+	$currentPage = $this->currentPage;  
+?>
+<div class="contentdata-modul" id="modul">
+   <div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Absensi
+		<strong> &#8250; </strong> Persetujuan Aktifitas Harian
+	</div>
+	<div class="navlink">Halaman Utama Pegawai</div>
+	<h3 class="title">PERSETUJUAN AKTIFITAS HARIAN PEGAWAI</h3>
+	&nbsp;&nbsp;&nbsp;&nbsp;Menu ini digunakan untuk menyetujui aktifitas harian pegawai.
+	<div class="spacer"></div>
+	<a name="top"></a>	
+
+	<div class="space-line"></div>
+	
+	<fieldset class="fields">
+		<form id="frmAppAkt" action="<?php echo $this->basePath; ?>/sdm/absensi/approveaktifitas" method="post" name="frmAppAkt">
+		<div class="title2">Data Aktifitas Pegawai</div>
+			<? if (!$pesan == null) {
+			?>
+				<div class="spacer"> </div>
+				<fieldset id="message" class="confirm"><? echo $pesan; ?></fieldset>
+				<div class="spacer"> </div>	
+			<?}?>
+
+			<div class="blank"></div>
+<? 	if ($jmlSetujuList == 0) {
+		echo "<font color=\"red\">Data Tidak Ditemukan</font>";
+?>
+		<table align="center" width="80%" border="0" cellspacing="1" cellpadding="2" class="tbl">
+		   <tr>
+				<th width="4%">No.</th>
+				<th width="7%">Tanggal</th>
+				<th width="20%">Nama Pegawai</th>
+				<th width="7%">NIP</th>
+				<th width="36%">Aktifitas</th>
+				<th width="15%">Nama File</th>
+				<th width="3%">&nbsp;</th>
+				<th width="8%">Persetujuan</th>
+			</tr> 
+		</table>
+<? } else { ?>
+		<table align="center" width="80%" border="0" cellspacing="1" cellpadding="2" class="tbl">
+			<tr>
+				<th width="4%">No.</th>
+				<th width="7%">Tanggal</th>
+				<th width="20%">Nama Pegawai</th>
+				<th width="7%">NIP</th>
+				<th width="36%">Aktifitas</th>
+				<th width="15%">Nama File</th>
+				<th width="3%">&nbsp;</th>
+				<th width="8%">Persetujuan</th>
+			</tr> 
+	  			<?php 
+		$ok = 0;
+					   foreach ($setuju as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+						$noUrut = (($currentPage -1)* $numToDisplay) + $key +1;
+					?>
+				<td class="clcenter">&nbsp;<?php echo $noUrut;?></td>
+				<td class="clcenter">&nbsp;<?php echo $ctrlDate->convertTglMachineToHuman($this->escape($val['tanggal']));?></td>
+			    <td>&nbsp;<?php echo $this->escape($val['nama']);?></td>
+				<td>&nbsp;<?php echo $this->escape($val['nip']);?></td>
+				<td>&nbsp;<?php echo $this->escape($val['aktifitas']);?></td>
+				<td>&nbsp;<?php echo $this->escape($val['nmFile']);?></td>
+				<td class="clcenter">
+				<? if ($this->escape($val['nmFile']) != '' ) { ?>
+				<img src="<?php echo $this->basePath; ?>/images/file.gif" title="Lihat File Pendukung" class="link" onClick="javascript:ningali('<? echo $this->escape($val['nmFile']); ?>');"></a>
+				<? }?>
+				</td>
+				<td class="clcenter">
+					<?php 
+					echo $this->formCheckbox('status['.$ok.']', null, null);;	
+					?>			
+				</td>
+				
+			</tr>
+			<?php
+		$ok++;
+	 endforeach;?> 	
+
+	</table>
+			
+			<div class="spacer"></div>
+			<div class="right">
+
+			<?php  
+			  $atribProses = array("onclick"=>"javascript:prosesApp();");
+			  echo $ctrlFrm->formSubmit('perintah', 'PROSES', $atribProses)."&nbsp;";
+			?>
+			</div>
+	<? } ?>
+			<div class="spacer"></div>
+	
+			</form>
+
+	</fieldset>
+</div>		   			   

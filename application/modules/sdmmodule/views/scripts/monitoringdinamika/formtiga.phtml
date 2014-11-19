@@ -1,0 +1,181 @@
+<h3 class="title"><b><u>DASAR PENGURUTAN</u></b><h3>	
+		<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+			<tr>
+				<td width="10%">Dasar</td>
+				<td width="25%">
+				<select style="width:270pt; height=100;"size="10" name="orderby" id="orderby" multiple="">	
+					<option value="LOK,KDU1,KDU2,KDU3,KDU4,ESELON,GOL,TMTGOL">UNIT KERJA (LOK,KDU1,KDU2,KDU3,KDU4,ESELON,GOL,TMTGOL)</option>
+					<option value="NIP">NIP</option>
+					<option value="NAMA">NAMA</option>
+					<option value="GOL">PANGKAT/GOL.</option>
+					<option value="TMTGOL">TMT GOL.</option>
+					<option value="ESELON">ESELON</option>
+					<option value="TMTESEL">TMT ESELON</option>
+					<option value="TMT_CPNS">TMT CPNS</option>
+					<option value="LEVELPIM">LEVEL PIM</option>
+					<option value="THNPIM">THN. DIKLATPIM</option>
+					<option value="TKTPDK">PENDIDIKAN</option>
+					<option value="THNLULUS">THN. LULUS</option>
+					<option value="TGLLAHIR">TGL. LAHIR</option>
+					<option value="LOK">LOK</option>
+					<option value="KDU1">KDU1</option>
+					<option value="KDU2">KDU2</option>
+					<option value="KDU3">KDU3</option>
+					<option value="KDU4">KDU4</option>				
+					<option value="TGLLAHIR">TANGGAL LAHIR</option>
+					<option value="f.TMT_JABATAN">TMT JABATAN (Riw. Jabatan)</option>
+				</select>
+				</td>
+				<td width="25%" align="center">
+					<input name="btn1" value="ASC (Kecil ke Besar)  -&gt;"  onclick="appendOptionSelected('orderby','orderby2','ASC');" type="button"><br>
+					<input name="btn2" value="DESC (Besar ke Kecil) -&gt;" onclick="appendOptionSelected('orderby','orderby2','DESC');" type="button"><br>
+					<input name="btn1" value="&lt;&lt; DEL" onclick="removeOptionSelected('orderby2');" type="button">
+				</td>
+				<td>
+				
+					<select name="orderby2" id="orderby2" style="width: 250pt;" size="10" multiple="multiple">
+					</select>			
+				</td>				
+			</tr>
+			<tr>
+				<td colspan="3">
+					<h3 class="title"><b><u>DATA YANG DITAMPILKAN</u></b><h3>
+				</td>
+			</tr>
+			<tr>
+				<td>Kolom</td>
+				<td>
+<select style="width:270pt;height:200pt" size="10" name="dt_tpl" id="dt_tpl" multiple="">				
+<?				
+				$data_tampil = array(
+					"211"=>"Nama/NIP",
+					"109"=>"Gelar depan",
+					"209"=>"Nama Tp. Gelar",
+					"108"=>"Gelar Belakang",
+					"210"=>"Nama Lengkap",
+					"101"=>"NIP Baru",
+					"54"=>"NIP Lama",
+					"68"=>"Pangkat/Gol & TMT",
+					"201"=>"Jabatan & TMT ",
+					"53"=>"Eselon & TMT",
+					"70"=>"Pendidikan",
+					"155"=>"Fak/Jurusan",
+					"60"=>"Thn. Lulus",
+					"150"=>"Lembaga Pendidikan",
+					"50"=>"Kelamin",
+					"55"=>"Status Kawin",
+					"51"=>"Agama",
+					"40"=>"Gol. Darah",
+					"102"=>"Tempat Lahir",
+					"75"=>"Tanggal Lahir",
+					"69"=>"Pangkat/Gol CPNS & TMT",
+					"71"=>"TMT PNS",
+					"56"=>"Masa Kerja",
+					"52"=>"Usia",
+					"203"=>"Alamat Rumah",
+					"204"=>"Alamat Kantor",
+					"156"=>"SK Pangkat",
+					"171"=>"SK Jabatan",
+					"202"=>"Unit Kerja",
+					"232"=>"Riwayat Diklat Pim",
+					"224"=>"Riwayat Diklat Fungsional",
+					"223"=>"Riwayat Diklat Teknis",
+					"222"=>"Riwayat Diklat Lain",
+					"250"=>"Riwayat Pendidikan",
+					//"246"=>"Riwayat Tugas Belajar",
+					"251"=>"Riwayat Jabatan",
+					"252"=>"TMT & Jabatan yang sesuai pada Riw. Jabatan",
+					"175"=>"Riwayat Pangkat",
+					"247"=>"Riwayat Organisasi",
+					"241"=>"Riwayat Kunjungan",
+					"240"=>"Riwayat Seminar",
+					"245"=>"Riwayat Penghargaan",
+					"248"=>"Riwayat Sanksi",
+					"249"=>"Data Angka Kredit",
+					"228"=>"Data Pasangan",
+					"220"=>"Data Anak",
+					"231"=>"Data Orang Tua",
+					"221"=>"Data Saudara",
+					"100"=>"Foto"
+				);
+				
+					foreach ($data_tampil as $keypim => $titlepim) {
+							//$form .= "<option value='($keypim) :: $titlepim'>$titlepim</option>";
+							$form .= "<option value=' :: $titlepim'>$titlepim</option>";
+						}
+					echo $form;						
+?>	
+</select>					
+				</td>
+				<td align="center">
+					<input type="hidden" size="20" name="dt_tpl2_get" id="dt_tpl2_get" value="">
+					<input type="hidden" size="20" name="orderby2_get" id="orderby2_get" value="">
+					<input name="btn1" value="  &gt;&gt;  " onclick="appendOptionSelected('dt_tpl','dt_tpl2','');" type="button"><br>
+					<input name="btn1" value="&lt;&lt; DEL" onclick="removeOptionSelected('dt_tpl2')" type="button">
+				</td>
+				<td>
+					<select name="dt_tpl2" id="dt_tpl2" style="width: 250pt;height:200pt" size="10" multiple="multiple">
+					</select>			
+				</td>				
+			</tr>			
+		</table>
+	
+<br>
+<div class="panel">
+	<div class="spacer"></div> 	
+	<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">	
+			<tr>
+				<td align="center">
+					<input class="btn" value="Cetak" onclick="cetakVSerA()" type="submit">
+					<!--<input class="btn" value="Cetak excel" onclick="document.getElementById('tipe').value=2;return form_submit();" type="submit">-->
+				</td>
+			</tr>
+	</table>	
+</div>
+
+<script>
+var count1 = 0;
+var count2 = 0;
+
+function removeOptionSelected(par)
+{
+  var ambl='';
+  var elSel = document.getElementById(par);
+  var i;
+  for (i = elSel.length - 1; i>=0; i--) {
+    if (elSel.options[i].selected) {elSel.remove(i);}
+  }
+  for (i = elSel.length - 1; i>=0; i--) {
+	var ambl2=elSel.options[i].value;
+	ambl=ambl2+ambl;
+  } 
+  
+  document.getElementById('dt_tpl2_get').value=ambl;
+}
+function appendOptionSelected(par1,par2,par3)
+{
+  var optTarget = document.getElementById(par1).value;  
+  var elOptNew = document.createElement('option');
+  if (par3){
+	elOptNew.text = optTarget+" "+par3;
+	elOptNew.value = optTarget+" "+par3;
+	var textgetOb=document.getElementById('orderby2_get').value;
+	document.getElementById('orderby2_get').value=textgetOb+optTarget+" "+par3;
+  }	
+  else{
+	elOptNew.text = optTarget;
+	elOptNew.value = optTarget;
+	var textgetTpl=document.getElementById('dt_tpl2_get').value;
+	document.getElementById('dt_tpl2_get').value=textgetTpl+optTarget;	
+  }
+  var elSel = document.getElementById(par2);
+  try {
+    elSel.add(elOptNew, null); // standards compliant; doesn't work in IE
+  }
+  catch(ex) {
+    elSel.add(elOptNew); // IE only
+  }
+}
+
+
+</script>

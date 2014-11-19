@@ -1,0 +1,112 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+/* 		jQuery("#d_test_kemampuan").datepicker();
+		jQuery("#d_tmt_berlaku").datepicker(); */
+		$( "#d_test_kemampuan" ).datepicker({	changeMonth: true,changeYear: true});
+		$( "#d_tmt_berlaku" ).datepicker({	changeMonth: true,changeYear: true});
+		
+	});
+</script>
+		   <div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/databahasa/listbahasa','');">Bahasa</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Data Bahasa
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+		
+	<h2 class="title"><?=$this->jdl;?> Data Bahasa</h2>
+	<?php $opr='pbhs'; include "$this->leftMenu/linkdatapenilaian.phtml";?>		
+<div class="boxholder">
+		<div class="search-panel">
+			<?php include "$this->leftMenu/toplink.phtml";?>
+		</div>	
+	<br>	
+<form id="formbahasa" method="post" name="formbahasa">		
+	<div class="panel">
+		<div class="spacer"></div> 
+				<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Jenis Bahasa<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" size="80" name="e_bahasa" id="e_bahasa" value="<?=$this->e_bahasa?>">
+					</td>
+				</tr>
+				<tr>
+					<td>Tujuan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="e_tujuan" id="e_tujuan" value="<?=$this->e_tujuan?>" size="70">
+					</td>
+				</tr>
+				<tr>
+					<td>Nilai<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="q_nilai" id="q_nilai" value="<?=$this->q_nilai?>" size="10" maxlength=6 onKeypress="return justnumberanddot(event)">
+					</td>
+				</tr>				
+				<tr>
+					<td>Tanggal Test<span class="hightlight">*</span></td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="d_test_kemampuan" id="d_test_kemampuan" value="<?=$this->d_test_kemampuan?>" size="10">
+						<span class="hightlight">dd-mm-yyyy</span>
+						<input type="hidden" name="d_test_kemampuan2" id="d_test_kemampuan2" value="<?=$this->d_test_kemampuan?>" size="10">
+					</td>
+				</tr>			
+				<tr>
+					<td>Tanggal Berlaku</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="d_tmt_berlaku" id="d_tmt_berlaku" value="<?=$this->d_tmt_berlaku?>" size="10">
+						<span class="hightlight">dd-mm-yyyy</span>
+					</td>
+				</tr>
+
+				<tr>
+					<td>Lembaga Penyelenggara</td>
+					<td>:</td> 
+					<td>
+						<input type="text" name="n_penyelenggara" id="n_penyelenggara" value="<?=$this->n_penyelenggara?>" size="80">
+					</td>
+				</tr>				
+</table>				
+</div>
+<br>
+	<div class="panel">
+		<div class="spacer"></div> 				
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">				
+				<tr>
+					<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/databahasa/listbahasa','');"> 
+							<input type="submit" value="<?=$this->par;?>" onClick="insertBahasa()">
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+							<input type="hidden" name="id" value="<?=$this->id;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+</div>
+	</form>

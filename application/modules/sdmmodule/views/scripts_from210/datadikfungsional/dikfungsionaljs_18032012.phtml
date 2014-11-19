@@ -1,0 +1,68 @@
+function diklatFungsionalL(par,nip){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datadikfungsional/listdiklat"	
+	var opt = {par:par,nip:nip};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+} 
+function diklatFungsionalM(par,nip,c_jns_fungsional,c_kel_pelatihan,c_jns_kelompok,c_nama_kelompok){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/datadikfungsional/fungsional"	
+	var opt = {par:par,nip:nip,c_jns_fungsional:c_jns_fungsional,c_kel_pelatihan:c_kel_pelatihan,c_jns_kelompok:c_jns_kelompok,c_nama_kelompok:c_nama_kelompok};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+} 
+
+
+var maintain_fungsional = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formfungsional;
+		astr= "document.formfungsional";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/								
+					if((!c_jns_fungsional.value)){cekVal = sdmValidasiData(astr,"c_jns_fungsional","Jenis pelatihan harus diisi....!");return false;break;}
+					if((!c_kel_pelatihan.value)){cekVal = sdmValidasiData(astr,"c_kel_pelatihan","Kelompok pelatihan harus diisi....!");return false;break;}
+					if((!c_jns_kelompok.value)){cekVal = sdmValidasiData(astr,"c_jns_kelompok","Jenis pelatihan harus diisi....!");return false;break;}
+					if((!c_nama_kelompok.value)){cekVal = sdmValidasiData(astr,"c_nama_kelompok","Nama pelatihan harus diisi....!");return false;break;}
+					if((!q_pelatihan.value)){cekVal = sdmValidasiData(astr,"q_pelatihan","Lama Diklat harus diisi....!");return false;break;}	
+					if((!i_sertifikat.value)){cekVal = sdmValidasiData(astr,"i_sertifikat","Nomor Sertifikat harus diisi....!");return false;break;}					
+					if((!d_sertifikat.value)){cekVal = sdmValidasiData(astr,"d_sertifikat","Tanggal Sertifikat harus diisi....!");return false;break;}					
+				
+				 break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formfungsional").ajaxForm(maintain_fungsional);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/datadikfungsional/maintaindatafungsional',
+	type: 'post',
+	resetForm: false
+};
+function insertFungsional(){
+	jQuery("#formfungsional").ajaxForm(maintain_fungsional);
+}
+
+function HapusDikFung(nip,c_jns_fungsional,c_kel_pelatihan,c_jns_kelompok,c_nama_kelompok)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/datadikfungsional/hapusdata"
+		var opt = {nip:nip,c_jns_fungsional:c_jns_fungsional,c_kel_pelatihan:c_kel_pelatihan,c_jns_kelompok:c_jns_kelompok,c_nama_kelompok:c_nama_kelompok};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}
+
+

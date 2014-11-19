@@ -1,0 +1,42 @@
+	<?php
+		$nip = $_REQUEST['nip'];
+		if ($nip == ''){
+		$nip = $this->escape($this->nip);
+		}
+		$vFoto = $this->basePath."/data/sdm/photo/".trim($this->e_file_photo).".jpg";
+	?>
+
+<div class="panel">
+<center>
+
+<b>
+		<a href="#DataPokok" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Diri</a> |
+		<a href="#Pasangan" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapasangan/listpasangan','<?php echo $this->basePath; ?>/sdmmodule/datapasangan/pasanganjs');">Suami/Istri</a> |
+		<a href="#Anak" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/dataanak/listanak','<?php echo $this->basePath; ?>/sdmmodule/dataanak/anakjs');">Anak</a> |
+		<a href="#Kerabat" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datakerabat/listkerabat','<?php echo $this->basePath; ?>/sdmmodule/datakerabat/kerabatjs');">Orang Tua & Kerabat</a>|
+</b>
+<?
+if ($this->menulink!='datadiri'){
+?>			
+		<table width="70%" border="0" cellpadding="0" cellspacing="1" class="std">
+			<tr>
+				<td align="center">
+					&nbsp;					
+				</td>
+			</tr>		
+			<tr>
+				<td align="center">
+					<img src="<?=$vFoto?>" width="90" height="100" >						
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<?echo $this->nama." / ".$this->nip;?>						
+				</td>
+			</tr>			
+		</table>	
+<?
+}
+?>
+</center>	
+</div>	

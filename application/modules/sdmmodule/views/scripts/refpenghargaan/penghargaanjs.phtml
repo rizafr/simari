@@ -1,0 +1,56 @@
+function openFormPenghargaan(par,c_penghargaan,n_penghargaan){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refpenghargaan/penghargaanolahdata";
+	var opt = {par:par, c_penghargaan:c_penghargaan, n_penghargaan:n_penghargaan};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formpenghargaan").ajaxForm(maintain_penghargaan);
+		});		
+} 
+
+function insertPenghargaan(){
+	jQuery("#formpenghargaan").ajaxForm(maintain_penghargaan);
+}
+
+var maintain_penghargaan = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpenghargaan").ajaxForm(maintain_penghargaan);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refpenghargaan/insertpenghargaan',
+	type: 'post',
+	resetForm: false
+};
+
+function updatePenghargaan(){
+	jQuery("#formpenghargaan").ajaxForm(update_penghargaan);
+}
+
+var update_penghargaan = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formpenghargaan").ajaxForm(maintain_penghargaan);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refpenghargaan/updatepenghargaan',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusPenghargaan(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refpenghargaan/deletepenghargaan';
+		var opt = {c_penghargaan : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

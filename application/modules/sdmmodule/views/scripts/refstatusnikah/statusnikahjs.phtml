@@ -1,0 +1,56 @@
+function openFormStatusnikah(par,c_status_nikah,n_status_nikah,filt){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refstatusnikah/statusnikaholahdata";
+	var opt = {par:par, c_status_nikah:c_status_nikah, n_status_nikah:n_status_nikah,filt:filt};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formstatusnikah").ajaxForm(maintain_statusnikah);
+		});		
+} 
+
+function insertStatusnikah(){
+	jQuery("#formstatusnikah").ajaxForm(maintain_statusnikah);
+}
+
+var maintain_statusnikah = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formstatusnikah").ajaxForm(maintain_statusnikah);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refstatusnikah/insertstatusnikah',
+	type: 'post',
+	resetForm: false
+};
+
+function updateStatusnikah(){
+	jQuery("#formstatusnikah").ajaxForm(update_statusnikah);
+}
+
+var update_statusnikah = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formstatusnikah").ajaxForm(maintain_statusnikah);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refstatusnikah/updatestatusnikah',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusStatusnikah(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refstatusnikah/deletestatusnikah';
+		var opt = {c_status_nikah : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

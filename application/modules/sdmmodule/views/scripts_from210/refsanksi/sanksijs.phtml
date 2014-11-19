@@ -1,0 +1,56 @@
+function openFormSanksi(par,c_jns_sanksi,n_jns_sanksi,MDISIPLINJNS_SORT,c_status){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refsanksi/sanksiolahdata";
+	var opt = {par:par, c_jns_sanksi:c_jns_sanksi, n_jns_sanksi:n_jns_sanksi, MDISIPLINJNS_SORT:MDISIPLINJNS_SORT, c_status:c_status};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formsanksi").ajaxForm(maintain_sanksi);
+		});		
+} 
+
+function insertSanksi(){
+	jQuery("#formsanksi").ajaxForm(maintain_sanksi);
+}
+
+var maintain_sanksi = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formsanksi").ajaxForm(maintain_sanksi);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refsanksi/insertsanksi',
+	type: 'post',
+	resetForm: false
+};
+
+function updateSanksi(){
+	jQuery("#formsanksi").ajaxForm(update_sanksi);
+}
+
+var update_sanksi = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formsanksi").ajaxForm(maintain_sanksi);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refsanksi/updatesanksi',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusSanksi(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refsanksi/deletesanksi';
+		var opt = {c_jns_sanksi : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

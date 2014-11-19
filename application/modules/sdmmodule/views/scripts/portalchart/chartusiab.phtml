@@ -1,0 +1,122 @@
+			<div id="targetchart">
+					<table border="0" width="100%" align="center">
+						<tr>
+						<td width="50%">
+						<div class="hideshow">
+							<table border="0" width="100%" align="center">
+							<tr>
+								<td align="left">
+									
+										<h2 class="title">Komposisi Pegawai Berdasarkan Usia</h2>
+										<?echo $this->chartjmlpeg;?>
+														
+								</td>
+							</tr>
+							</table>			
+						</div>	
+						</td>
+						<td width="50%">
+							<table border="0" width="100%" align="center">
+							<tr>
+								<td align="left">
+									<table>
+										<tr>
+										<td>
+											<a onclick="showChart('pendidikan');" class="icon-pie" href="#">Pendidikan</a>&nbsp;
+											<a onclick="showChart('golongan');" class="icon-pie" href="#">Golongan</a>
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Kategori
+										</td>
+										</tr>
+									</table>
+									<table border="0" width="100%" align="center" class="tbl" cellspacing="1">
+										<th>Usia</th>
+										<th>Jumlah</th>
+										<tr class="event">
+											<td><25</td>
+											<td align="right">
+											<?if ($this->jml25!=0){?>
+											<a href="#" onclick="viewData('usia','25')"><?=$this->jml25?></a>
+											<?} else{
+											?>
+											<?=$this->jml25; }
+											?>
+											</td>
+										</tr>
+										<tr class="event">		
+											<td>26 s/d 35</td>
+											<td align="right">
+											<?if ($this->jml2635!=0){?>
+											<a href="#" onclick="viewData('usia','26-35')"><?=$this->jml2635?></a>
+											<?} else{
+											?>
+											<?=$this->jml2635; }
+											?>
+											</td>
+										</tr>
+										<tr class="event">	
+											<td>36 s/d 45</td>
+											<td align="right">
+											<?if ($this->jml3645!=0){?>
+											<a href="#" onclick="viewData('usia','36-45')"><?=$this->jml3645?></a>
+											<?} else{
+											?>
+											<?=$this->jml3645; }
+											?>											
+											</td>
+										</tr>
+										<tr class="event">	
+											<td>46 s/d 55</td>
+											<td align="right">
+											<?if ($this->jml4655!=0){?>
+											<a href="#" onclick="viewData('usia','46-55')"><?=$this->jml4655?></a>
+											<?} else{
+											?>
+											<?=$this->jml4655; }
+											?>											
+											</td>
+										</tr>
+										<tr class="event">	
+											<td>>56</td>
+											<td align="right">
+											<?if ($this->jml56!=0){?>
+											<a href="#" onclick="viewData('usia','56')"><?=$this->jml56?></a>
+											<?} else{
+											?>
+											<?=$this->jml56; }
+											?>											</td>
+										</tr>
+										<tr class="event2">	
+											<td>Data Kosong</td>
+											<td align="right">
+											<?if ($this->jmlkosong!=0){?>
+											<a href="#"><?=$this->jmlkosong?></a>
+											<?} else{
+											?>
+											<?=$this->jmlkosong; }
+											?>											
+											</td>
+										</tr>										
+										<tr class="event">	
+											<td><b>Total</b></td>
+											<td align="right"><b>
+											<?if ($this->totalusia!=0){?>
+											<?=$this->totalusia?>
+											<?} else{
+											?>
+											<?=$this->totalusia; }
+											?></b>											
+											</td>
+										</tr>											
+									</table>								
+								</td>
+							</tr>
+							</table>						
+						</td>						
+						</tr>
+					</table>	
+						
+				</div>

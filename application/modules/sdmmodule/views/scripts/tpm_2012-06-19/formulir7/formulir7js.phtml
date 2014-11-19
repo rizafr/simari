@@ -1,0 +1,146 @@
+function tampilTaun(){
+	var tahun= document.getElementById('tahun').value;
+			
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir7/listformulir7';
+	
+		var opt = {tahun:tahun};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				if(tahun != "Tahun"){
+				jQuery(".thn_skr").html(tahun);
+				jQuery("#thn_sblm").html(tahun-1);
+				jQuery("#tahun").val(tahun);
+				}else{
+				jQuery(".thn_skr").html("");
+				jQuery("#thn_sblm").html("");
+				
+				}
+			 });
+		
+		
+};
+
+function OpenFormulir7Olahdata(par,id,perwakilan){
+		
+		var thn_skr=jQuery(".thn_skr").html();
+		var thn_sblm=jQuery("#thn_sblm").html();
+		var tahun=jQuery("#tahun").val();
+		if(thn_skr == ""){
+		alert("Tampil Tahun Terlebih dahulu !");
+		return;
+		}
+		
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir7/formulir7olahdata';
+		
+		if(id==""){
+		par="Insert";
+		}else{
+		par="Update";
+		}
+		var opt = {par:par,id:id,perwakilan:perwakilan};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				jQuery(".thn_skr").html(thn_skr);
+				jQuery("#thn_sblm").html(thn_sblm);
+				jQuery("#thn_skrg2").val(thn_skr);
+				jQuery("#thn_sblm2").val(thn_sblm);
+				jQuery("#tahun").val(thn_skr);
+			 });
+
+}
+
+function OpenFormulir7(){
+		var thn_skr=jQuery(".thn_skr").html();
+		var thn_sblm=jQuery("#thn_sblm").html();
+		var tahun=jQuery("#tahun").val()
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir7/listformulir7';
+		
+		var opt = {tahun:tahun};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				jQuery("#tahun").val(thn_skr);
+				jQuery(".thn_skr").html(thn_skr);
+				jQuery("#thn_sblm").html(thn_sblm);
+			 });
+
+}
+
+function insertFormulir7(){
+		var thn_skr=jQuery(".thn_skr").html();
+		var thn_sblm=jQuery("#thn_sblm").html();
+		var tahun=jQuery("#tahun").val()
+		jQuery("#formformulir7").ajaxForm(maintain_formulir7);
+	
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir7/listformulir7';
+		var opt = {tahun:tahun,thn_skr:thn_skr,thn_sblm:thn_sblm};
+		jQuery.get(handler,opt,function(data) {
+				//$("#tableview").html(data);
+			jQuery("#tahun").val(thn_skr);
+				jQuery(".thn_skr").html(thn_skr);
+				jQuery("#thn_sblm").html(thn_sblm);
+			 });
+}
+
+var maintain_formulir7 = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formformulir7").ajaxForm(maintain_formulir7);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/formulir7/insertformulir7',
+	type: 'post',
+	resetForm: false
+};
+
+function updateFormulir7(){
+	var thn_skr=jQuery(".thn_skr").html();
+	var thn_sblm=jQuery("#thn_sblm").html();
+	var tahun=jQuery("#tahun").val()
+	
+	jQuery("#formformulir7").ajaxForm(update_formulir7);
+	
+	handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir7/listformulir7';
+		
+		var opt = {tahun:tahun,thn_skr:thn_skr,thn_sblm:thn_sblm};
+		jQuery.get(handler,opt,function(data) {
+				//$("#tableview").html(data);
+				jQuery("#tahun").val(thn_skr);
+				jQuery(".thn_skr").html(thn_skr);
+				jQuery("#thn_sblm").html(thn_sblm);
+			 });
+}
+
+var update_formulir7 = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formformulir7").ajaxForm(update_formulir7);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/formulir7/updateformulir7',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusFormulir7(param1, param2, param3){
+	var thn_skr=jQuery(".thn_skr").html();
+	var thn_sblm=jQuery("#thn_sblm").html();
+	var tahun=jQuery("#tahun").val()
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/formulir7/deleteformulir7';
+		var opt = {id : param2,tahun:tahun};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				jQuery("#tahun").val(thn_skr);
+				jQuery(".thn_skr").html(thn_skr);
+				jQuery("#thn_sblm").html(thn_sblm);
+				doCount(5);
+			 });
+	} 
+}

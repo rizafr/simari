@@ -1,0 +1,47 @@
+function cetakVSerA(){jQuery("#formresult").ajaxForm(getlaporan);}
+
+var getlaporan = {
+	target:'#popupview',
+	beforeSubmit: function() {}, 
+	success:function(){
+		centerPopup();
+		loadPopup();
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/monitoringdinamika/cetakview',
+	type: 'post',
+	resetForm: false
+};
+
+
+function viewPopupDtDiri(par){
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/monitoringdinamika/popupdatadiri'; 
+	var param = {par:par};
+	jQuery.get(url, param, function(data) {
+		jQuery("#popupview").html(data);
+		centerPopup();
+		loadPopup();
+	});
+}
+function check_all(fieldsender,sumdata,bolean){
+	if (sumdata){
+		var xr;
+		xr = 0;
+		var init = '';
+		var strsbg= ',';
+		for (i = 0; i < fieldsender.length; i++){
+			
+			if (fieldsender[i].checked == bolean){
+				xr++;
+				if (xr == sumdata ) {strsbg='';}
+				init = init + "\'" + fieldsender[i].value + "\'" + strsbg;
+				
+
+			}
+		}
+		return init;
+	} else {
+		for (i = 0; i < fieldsender.length; i++){
+			fieldsender[i].checked = bolean;
+		}
+	}	
+}

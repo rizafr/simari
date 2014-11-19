@@ -1,0 +1,286 @@
+function cariAbsenmahasiswa()
+{
+	$("#frmCariAbsenmahasiswa").ajaxForm(frmCariAbsenmahasiswa_opt);
+}
+var frmCariAbsenmahasiswa_opt = {
+		target : '#tableview',
+		url: '<?php echo $this->basePath; ?>/bak/absenmahasiswa/absenmahasiswalist',
+		type: 'post', 
+		resetForm: false
+};
+
+
+function absenmahasiswalist()
+{
+	prodi = document.getElementById('prodi').value;
+	tahun = document.getElementById('tahun').value;
+	semester = document.getElementById('semester').value;
+	matakuliah = document.getElementById('matakuliah').value;
+	pertemuaan = document.getElementById('n_mingguke').value;
+	kelas = document.getElementById('kelas').value;
+	var url = '<?php echo $this->basePath; ?>/bak/absenmahasiswa/absenmahasiswalist';
+	var param = {prodi:prodi,tahun:tahun,semester:semester,matakuliah:matakuliah,kelas:kelas,pertemuaan:pertemuaan};
+	jQuery.get(url, param, function(data) {
+		$("div#tableview").html(data);
+	});
+}
+
+function absenmahasiswalistBy()
+{
+	prodi = document.getElementById('prodi').value;
+	tahun = document.getElementById('tahun').value;
+	semester = document.getElementById('semester').value;
+	matakuliah = document.getElementById('matakuliah').value;
+	kelas = document.getElementById('kelas').value;
+	pertemuaan = document.getElementById('pertemuaan').value;
+	var url = '<?php echo $this->basePath; ?>/bak/absenmahasiswa/absenmahasiswalist';
+	var param = {prodi:prodi,tahun:tahun,semester:semester,matakuliah:matakuliah,kelas:kelas,pertemuaan:pertemuaan};
+	jQuery.get(url, param, function(data) {
+		$("div#tableview").html(data);
+	});
+}
+
+function absenmahasiswalistPertemuaan(jenisForm,id,c_perkuliahan)
+{
+	prodi = document.getElementById('prodi').value;
+	tahun = document.getElementById('tahun').value;
+	semester = document.getElementById('semester').value;
+	matakuliah = document.getElementById('matakuliah').value;
+	kelas = document.getElementById('kelas').value;
+	n_mingguke = document.getElementById('n_mingguke').value;
+	var url = '<?php echo $this->basePath; ?>/bak/absenmahasiswa/absenmahasiswaolahdata';
+	var param = {jenisForm:jenisForm,id:id,prodi:prodi,tahun:tahun,semester:semester,matakuliah:matakuliah,kelas:kelas,n_mingguke:n_mingguke,c_perkuliahan:c_perkuliahan};
+	jQuery.get(url, param, function(data) {
+		$("div#tableview").html(data);
+	});
+}
+
+
+function absenmahasiswaForm(jenisForm, id,c_perkuliahan)
+{
+	prodi = document.getElementById('prodi').value;
+	tahun = document.getElementById('tahun').value;
+	semester = document.getElementById('semester').value;
+	matakuliah = document.getElementById('matakuliah').value;
+	kelas = document.getElementById('kelas').value;
+	pertemuaan = document.getElementById('pertemuaan').value;
+	if(jenisForm == 'insert'){if(prodi == '-') {alert("Pilih Program Studi");return false;}}
+	if(jenisForm == 'insert'){if(tahun == '-') {alert(" Pilih Tahun");return false;}}
+	if(jenisForm == 'insert'){if(semester == '-') {alert("Pilih Semester");return false;}}
+	if(jenisForm == 'insert'){if(kelas == '' || kelas == '-') {alert("Pilih Kelas");return false;}}
+	if(jenisForm == 'insert'){if(matakuliah == '-') {alert("Pilih Matakuliah");return false;}}
+	if(jenisForm == 'insert'){if(pertemuaan == '-') {alert("Pilih Pertemuan");return false;}}
+	var url = '<?php echo $this->basePath; ?>/bak/absenmahasiswa/absenmahasiswaolahdata';
+	var param = { jenisForm:jenisForm, id:id,prodi:prodi,tahun:tahun,semester:semester,matakuliah:matakuliah,kelas:kelas,c_perkuliahan:c_perkuliahan,pertemuaan:pertemuaan};
+	jQuery.get(url, param, function(data) {
+		jQuery("div#tableview").html(data);
+		jQuery("#frmtambahabsenmahasiswa").ajaxForm(tambahAbsenmahasiswa_opt);
+		jQuery("#frmubahabsenmahasiswa").ajaxForm(ubahAbsenmahasiswa_opt);
+		});
+	
+}
+
+var tambahAbsenmahasiswa_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/bak/absenmahasiswa/absenmahasiswa',
+	beforeSubmit : function() {
+alert('Tanggal harus Diisi');
+		/*if (document.getElementById('dTanggal').value == ''){
+			alert('Tanggal harus Diisi');
+			return false;
+		}
+		if (document.getElementById('id_npm').value == ''){
+			alert('NPM Ke harus Diisi');
+			return false;
+		}
+		if (document.getElementById('n_alasan').value == ''){
+			alert('Alasan harus Diisi');
+			return false;
+		}*/
+		
+		
+	},
+	success: function(){doCount(5);},
+	type: 'post', 
+	resetForm: false
+};
+
+var ubahAbsenmahasiswa_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/bak/absenmahasiswa/absenmahasiswaupdate',
+	beforeSubmit : function() {
+		if (document.getElementById('dTanggal').value == ''){
+			alert('Tanggal harus Diisi');
+			return false;
+		}
+		if (document.getElementById('id_npm').value == ''){
+			alert('NPM Ke harus Diisi');
+			return false;
+		}
+		if (document.getElementById('n_alasan').value == ''){
+			alert('Alasan  harus Diisi');
+			return false;
+		}
+		
+		
+	},
+	success: function(){doCount(5);},
+	type: 'post', 
+	resetForm: false
+};
+
+
+function absenmahasiswaHapus(param1, param2)
+{ 
+	
+	if(ConfirmDelete(param1, param2))
+	{	
+	prodi = document.getElementById('prodi').value;
+	tahun = document.getElementById('tahun').value;
+	semester = document.getElementById('semester').value;
+	matakuliah = document.getElementById('matakuliah').value;
+	kelas = document.getElementById('kelas').value;
+	pertemuaan = document.getElementById('pertemuaan').value;
+
+		handler = '<?php echo $this->basePath; ?>/bak/absenmahasiswa/absenmahasiswahapus';
+		var opt = {id : param2,prodi:prodi,tahun:tahun,semester:semester,matakuliah:matakuliah,kelas:kelas,pertemuaan:pertemuaan};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	}
+}  
+
+function ubahStatus(key)
+{
+	var absenmahasiswaid= '';
+	var status= '';
+	if(document.getElementById('statusAktif_'+key).checked == true)
+	{
+		absenmahasiswaid = document.getElementById('statusAktif_'+key).value;
+		status = '1';
+	}
+	else
+	{
+		absenmahasiswaid = document.getElementById('statusAktif_'+key).value;
+		status = '0';
+	}
+	
+	var url = '<?php echo $this->basePath; ?>/bak/absenmahasiswa/ubahstatus';
+	
+	var param = { absenmahasiswaid:absenmahasiswaid, status:status};
+	jQuery.get(url, param, function(data) {
+		jQuery("div#tableview").html(data);
+		doCount(5);
+	});
+}
+
+function absen(jenisForm)
+
+{
+	dTanggal = document.getElementById('dTanggal').value;
+	n_mingguke = document.getElementById('n_mingguke').value;
+	pertemuaan = document.getElementById('pertemuaan').value;
+	prodi = document.getElementById('prodi').value;
+	tahun = document.getElementById('tahun').value;
+	semester = document.getElementById('semester').value;
+	matakuliah = document.getElementById('matakuliah').value;
+	kelas = document.getElementById('kelas').value;
+	c_dosen = document.getElementById('c_dosen').value;
+	var id_npm ='';var n_alasan ='';var c_mhskelas ='';
+	var kode ='awal';
+	if(n_mingguke == '-'){alert("Isi Pertemuaan");return false;
+	if(dTanggal == ''){alert("Isi Tanggal");return false;}
+	}
+	
+	IDNPM2 = document.getElementById('id_npm');
+	IDNPM1 = document.getElementsByName('id_npm');
+	if(IDNPM1.length == 1){ 
+		
+		id_npm = document.getElementById('id_npm').value;
+		c_mhskelas = document.getElementById('c_mhskelas').value;
+		//c_krs = document.getElementById('id').value;
+
+		id = document.getElementById('id').value;
+		var radioGrp1 = document.getElementById('radio_'+id_npm);//alert("masuk satu--->"+radioGrp1);
+		var radioGrp = document.getElementsByName('radio_'+id_npm);//alert("masuk satu--->"+radioGrp);
+
+			for (var j = 0; j< radioGrp.length; j++) {
+				if (radioGrp[j].checked) {
+					n_alasan = n_alasan + radioGrp [j].value ;
+				}
+			} 
+		if (jenisForm == 'update'){var url = '<?php echo $this->basePath; ?>/bak/absenmahasiswa/updateabsen'; 
+		}
+		if (jenisForm == 'insert'){var url = '<?php echo $this->basePath; ?>/bak/absenmahasiswa/tambahsatuabsen';}
+	}
+	else { 
+		IDS = document.getElementsByName("c_mhskelas");
+		IDS2 = document.getElementsByName("id_npm");
+		IDS3 = document.getElementsByName("id");
+		for (var i = 0; i < IDS.length; i++)
+		{
+			c_mhskelas = c_mhskelas +  IDS[i].value + ";";
+			id_npm = id_npm +  IDS2[i].value + ";";
+			//c_krs = c_krs +  IDS3[i].value + ";";
+			var radioGrp = document.getElementsByName("radio_"+IDS2[i].value);
+			for (var j = 0; j< radioGrp.length; j++) {
+				if (radioGrp[j].checked) {
+					n_alasan = n_alasan + radioGrp [j].value + ";";
+				}
+			} 
+		}
+		if (jenisForm == 'insert'){var url = '<?php echo $this->basePath; ?>/bak/absenmahasiswa/tambahabsen';}
+	}
+
+	if (jenisForm == 'insert'){
+	var param = {prodi:prodi,tahun:tahun,semester:semester,pertemuaan:pertemuaan,matakuliah:matakuliah,kelas:kelas, n_alasan:n_alasan, id_npm:id_npm, dTanggal:dTanggal,n_mingguke:n_mingguke,c_dosen:c_dosen,c_mhskelas:c_mhskelas};
+	}
+	if (jenisForm == 'update'){
+	id = document.getElementById('id').value;
+	var param = {prodi:prodi,tahun:tahun,semester:semester,pertemuaan:pertemuaan,matakuliah:matakuliah,kelas:kelas, n_alasan:n_alasan, id_npm:id_npm, dTanggal:dTanggal,n_mingguke:n_mingguke,id:id,c_mhskelas:c_mhskelas};
+	}
+	jQuery.get(url, param, function(data) {
+		jQuery("div#tableview").html(data);
+		doCount(5);
+	});
+}
+
+function cetakabsen(jenisForm,matakuliah)
+{	
+	
+	prodi = document.getElementById('prodi').value;
+	tahun = document.getElementById('tahun').value;
+	semester = document.getElementById('semester').value;
+	matakuliah = document.getElementById('matakuliah').value;
+	kelas = document.getElementById('kelas').value;
+	var c_jenis = 'P';
+	if(jenisForm == 'insert'){if(prodi == '-') {alert("Pilih Program Studi");return false;}}
+	if(jenisForm == 'insert'){if(tahun == '-') {alert(" Pilih Tahun");return false;}}
+	if(jenisForm == 'insert'){if(semester == '-') {alert("Pilih Semester");return false;}}
+	if(jenisForm == 'insert'){if(kelas == '' || kelas == '-') {alert("Pilih Kelas");return false;}}
+	if(jenisForm == 'insert'){if(matakuliah == '-') {alert("Pilih Matakuliah");return false;}}
+	var url = '<?php echo $this->basePath; ?>/bak/absenmahasiswa/cetakabsen?matakuliah='+matakuliah+'&tahun='+tahun+'&semester='+semester+'&kelas='+kelas+'&c_jenis='+c_jenis;
+	swin = window.open(url,'win','scrollbars,width=600,height=400,top=80,left=140,status=yes,toolbar=no,menubar=yes,location=no');
+	swin.focus();
+}
+
+function cetakabsen1(jenisForm,matakuliah)
+{	
+	
+	prodi = document.getElementById('prodi').value;
+	tahun = document.getElementById('tahun').value;
+	semester = document.getElementById('semester').value;
+	matakuliah = document.getElementById('matakuliah').value;
+	kelas = document.getElementById('kelas').value;
+	var c_jenis = 'M';
+	if(jenisForm == 'insert'){if(prodi == '-') {alert("Pilih Program Studi");return false;}}
+	if(jenisForm == 'insert'){if(tahun == '-') {alert(" Pilih Tahun");return false;}}
+	if(jenisForm == 'insert'){if(semester == '-') {alert("Pilih Semester");return false;}}
+	if(jenisForm == 'insert'){if(kelas == '' || kelas == '-') {alert("Pilih Kelas");return false;}}
+	if(jenisForm == 'insert'){if(matakuliah == '-') {alert("Pilih Matakuliah");return false;}}
+	var url = '<?php echo $this->basePath; ?>/bak/absenmahasiswa/cetakabsen?matakuliah='+matakuliah+'&tahun='+tahun+'&semester='+semester+'&kelas='+kelas+'&c_jenis='+c_jenis;
+	swin = window.open(url,'win','scrollbars,width=600,height=400,top=80,left=140,status=yes,toolbar=no,menubar=yes,location=no');
+	swin.focus();
+}
+

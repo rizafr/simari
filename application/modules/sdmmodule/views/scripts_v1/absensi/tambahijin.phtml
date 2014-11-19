@@ -1,0 +1,211 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/tanggal.php'; 
+   
+	$ctrlDate = new tanggal();   
+   
+	$ctrlFrm = new Zend_View();
+	$thnskrg = date("Y");
+
+
+	$nip = $_REQUEST['nip'];
+  
+	  // $jmlKodeAbsen = count($this->jnsAbsen);
+	  // for ($i=0; $i<$jmlKodeAbsen; $i++)
+	  // {
+	      // $ijinList[(string)$this->jnsAbsen[$i]['c_absensi']] = (string)$this->jnsAbsen[$i]['n_absensi'];
+	  // }
+					
+	$jamArr = array("00"=>"00","01"=>"01","02"=>"02","03"=>"03","04"=>"04","05"=>"05","06"=>"06","07"=>"07",
+					"08"=>"08","09"=>"09","10"=>"10","11"=>"11","12"=>"12","13"=>"13","14"=>"14","15"=>"15",
+					"16"=>"16","17"=>"17","18"=>"18","19"=>"19","20"=>"20","21"=>"21","22"=>"22","23"=>"23");
+						
+	$mntArr = array("00"=>"00","01"=>"01","02"=>"02","03"=>"03","04"=>"04","05"=>"05","06"=>"06","07"=>"07",
+					"08"=>"08","09"=>"09","10"=>"10","11"=>"11","12"=>"12","13"=>"13","14"=>"14","15"=>"15",
+					"16"=>"16","17"=>"17","18"=>"18","19"=>"19","20"=>"20","21"=>"21","22"=>"22","23"=>"23",
+					"24"=>"24","25"=>"25","26"=>"26","27"=>"27","28"=>"28","29"=>"29","30"=>"30","31"=>"31",
+					"32"=>"32","33"=>"33","34"=>"34","35"=>"35","36"=>"36","37"=>"37","38"=>"38","39"=>"39",
+					"40"=>"40","41"=>"41","42"=>"42","43"=>"44","45"=>"46","47"=>"47","48"=>"48","49"=>"49",
+					"50"=>"50","51"=>"51","52"=>"52","53"=>"53","54"=>"54","55"=>"55","56"=>"56","57"=>"57",
+					"58"=>"58","59"=>"59");
+	  
+	$dtkArr = array("00"=>"00","01"=>"01","02"=>"02","03"=>"03","04"=>"04","05"=>"05","06"=>"06","07"=>"07",
+					"08"=>"08","09"=>"09","10"=>"10","11"=>"11","12"=>"12","13"=>"13","14"=>"14","15"=>"15",
+					"16"=>"16","17"=>"17","18"=>"18","19"=>"19","20"=>"20","21"=>"21","22"=>"22","23"=>"23",
+					"24"=>"24","25"=>"25","26"=>"26","27"=>"27","28"=>"28","29"=>"29","30"=>"30","31"=>"31",
+					"32"=>"32","33"=>"33","34"=>"34","35"=>"35","36"=>"36","37"=>"37","38"=>"38","39"=>"39",
+					"40"=>"40","41"=>"41","42"=>"42","43"=>"44","45"=>"46","47"=>"47","48"=>"48","49"=>"49",
+					"50"=>"50","51"=>"51","52"=>"52","53"=>"53","54"=>"54","55"=>"55","56"=>"56","57"=>"57",
+					"58"=>"58","59"=>"59");
+	  
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'absensi');
+
+
+?>
+<div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong> SDM 
+				<strong> &#8250; </strong>Absensi
+				<strong> &#8250; </strong>Pencatatan Absensi
+				<strong> &#8250; </strong>Menambah Data Ijin
+</div>
+<a name="top"></a>
+
+	<div style="overflow: hidden;">
+		<div class="wrap">
+			<div class="panel">
+				<div class="inner">
+					<span class="corners-top"><span></span></span>
+					<h2 class="title">Menambah Data Ijin</h2>
+			<table border="0" cellpadding="0" cellspacing="1" class="std">		
+			<tr>
+				<td width="25%">Nomor Surat
+				<span class="hightlight">*</span>
+				</dt>
+				<td width="2%">:</dd> 
+				<td>
+				<?php 
+					  $noSuratAtrib = array("size"=>"50",
+										 "maxlength"=>"30",
+										 "class"=>""); 
+					  echo $ctrlFrm->formText('noSurat', $noSurat, $noSuratAtrib);
+					  echo $ctrlFrm->formHidden('hr1', $this->hr1, null);
+					  echo $ctrlFrm->formHidden('bln1', $this->bln1, null);
+					  echo $ctrlFrm->formHidden('thn1', $this->thn1, null);
+					  echo $ctrlFrm->formHidden('hr2', $this->hr2, null);
+					  echo $ctrlFrm->formHidden('bln2', $this->bln2, null);
+					  echo $ctrlFrm->formHidden('thn2', $this->thn2, null);
+				?>
+				</dd>
+			</tr>
+			<tr>
+				<td>Nama
+				<span class="hightlight">*</span>
+				</dt>
+				<td>:</dd> 
+				<td>
+				<?php 
+						$nama = $_POST['nama'];
+						$namaAtrib = array("size"=>"50",
+											"maxlength"=>"35",
+											"class"=>"",
+											"readonly"=>"true"); 
+						echo $ctrlFrm->formText('nama', $nama, $namaAtrib);
+				?>
+				<input type="button" name="cariNama" value="Cari" onClick="javascript:windowListNama()" >
+				</dd>
+			</tr>
+			<tr>
+				<td>NIP / Id Pegawai
+				<span class="hightlight">*</span>
+				</dt>
+				<td>:</dd> 
+				<td>
+				<?php 
+					  $nip = $_POST['nip'];
+					  $nipAtrib = array("size"=>"25",
+										//"maxlength"=>"9",
+										"maxlength"=>"20",
+										"class"=>"",
+										"readonly"=>"true"); 
+					  echo $ctrlFrm->formText('nip', $nip, $nipAtrib);
+				?>
+				</dd>
+			</tr>
+			<tr>
+				<td>Tanggal Mulai Ijin
+				<span class="hightlight">*</span>
+				</dt>
+				<td>:</dd> 
+				<td>
+				<?php 
+					echo $ctrlDate->formattanggal('hrIjin',$hrIjin,'blnIjin',$blnIjin,'thnIjin',$thnIjin); 	
+				?>
+				</dd>
+			</tr>
+			<tr>
+				<td>Tanggal Akhir Ijin</dt>
+				<td>:</dd> 
+				<td>
+				<?php 
+					echo $ctrlDate->formattanggal('hrIjinA',$hrIjinA,'blnIjinA',$blnIjinA,'thnIjinA',$thnIjinA); 	
+				?>
+				</dd>
+			</tr>
+			<tr>
+				<td>Jam Mulai
+				<span class="hightlight">*</span>
+				</dt>
+				<td>:</dd> 
+				<td>
+				<?php
+				echo $ctrlFrm->formSelect('jamMulai', $jamMulai, null, $jamArr);?>&nbsp;:
+				<?
+				echo $ctrlFrm->formSelect('menitMulai', $menitMulai, null, $mntArr);?>&nbsp;:
+				<?
+				echo $ctrlFrm->formSelect('detikMulai', $detikMulai, null, $dtkArr);?>&nbsp;
+				<?
+				echo "<font color=\"red\">hh:mm:ss</font>";
+				?>
+				</dd>
+			</tr>
+			<tr>
+				<td>Jam Selesai</dt>
+				<td>:</dd> 
+				<td>
+				<?php 
+				echo $ctrlFrm->formSelect('jamSelesai', $jamSelesai, null, $jamArr);?>&nbsp;:
+				<?
+				echo $ctrlFrm->formSelect('menitSelesai', $menitSelesai, null, $mntArr);?>&nbsp;:
+				<?
+				echo $ctrlFrm->formSelect('detikSelesai', $detikSelesai, null, $dtkArr);?>&nbsp;
+				<?
+				echo "<font color=\"red\">hh:mm:ss</font>";
+				?>
+				</dd>
+			</tr>
+			<tr>
+				<td>Jenis Ijin</dt>
+				<td>:</dd> 
+				<td>
+					<select id="kdIjin" name="kdIjin">
+						<option label="Terlambat" value="TL">Terlambat</option>
+						<option label="Pulang Sebelum Waktu" value="PSW">Pulang Sebelum Waktu</option>
+						<option label="Tidak Masuk Tanpa Keterangan" value="ABSEN">Tidak Masuk Tanpa Keterangan</option>
+						<option label="Ijin" value="IJIN">Ijin</option>
+						<option label="Sakit Tanpa Sertifikat" value="STS">Sakit Tanpa Sertifikat</option>
+						<option label="Sakit Dengan Sertifikat" value="SDS">Sakit Dengan Sertifikat</option>
+						<option label="Cuti Tahunan" value="CT">Cuti Tahunan</option>
+						<option label="Cuti Penting" value="CP">Cuti Penting</option>
+						<option label="Cuti Sakit" value="CS">Cuti Sakit</option>
+						<option label="Cuti Besar" value="CB">Cuti Besar</option>
+						<option label="Cuti Bersalin" value="CBN">Cuti Bersalin</option>
+						<option label="Cuti Di Luar Tanggungan Negara" value="CTLN">Cuti Di Luar Tanggungan Negara</option>
+						<option label="Tugas Belajar" value="TB">Tugas Belajar</option>
+						<option label="Dinas Luar" value="DL">Dinas Luar</option>
+						<option label="Rapat" value="R">Rapat</option>
+					</select>
+				</dd>
+			</tr>
+			<tr>
+				<td>Keterangan</dt>
+				<td>:</dd> 
+				<td>
+				<? 
+					 if ($keterangan == '') {
+						$keterangan = null;
+					 } 
+					 $keteranganAtrib = array("rows"=>"3",
+												"cols"=>"25",
+												"maxlength"=>"100",
+												"class"=>"medium"); 
+					 echo $ctrlFrm->formTextarea('keterangan', $keterangan, $keteranganAtrib);
+				?>
+				</dd>
+			</tr>
+			</table>
+					<span class="corners-bottom"><span></span></span>
+				</div>
+			</div>
+		</div>
+	</div>

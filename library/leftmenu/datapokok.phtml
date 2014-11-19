@@ -1,0 +1,20 @@
+	<?php
+		$vFoto = $this->basePath."/upld/Uploaddata/getphoto?f=".trim($this->filephoto);
+	?>
+
+<div class="panel">
+<center>
+		<table width="70%" border="0" cellpadding="0" cellspacing="1" class="std">
+			<tr>
+				<td align="center">
+					<img src="<?=$vFoto?>" width="90" height="100" >						
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<?echo $this->nama." / ".$this->nip;?>						
+				</td>
+			</tr>			
+		</table>	
+</center>	
+</div>	

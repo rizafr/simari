@@ -1,0 +1,128 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/ma_date.php";  
+require_once "share/ma_message.php";
+
+$ctrlFrm = new Zend_View();
+$pesan1 = new ma_message();
+$tanggal = new ma_date();
+?>
+		   
+<div class="navlink">
+	<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+	<strong> &#8250; </strong> Administrasi 
+	<strong> &#8250; </strong><?=$this->jdl;?> Administrasi Aplikasi
+</div>
+<div id="top"></div>
+	
+<h2 class="title"><?=$this->jdl;?>Daftar Aplikasi</h2>
+
+<div class="search-panel">
+	<form method="post" name="frmCariAplikasi" id="frmCariAplikasi">
+		<center>
+			<table>
+				<tr>
+					<td>Pencarian Berdasarkan :&nbsp;
+						<?
+						$isiKategoriCari = array("semua" => "Semua",
+												"c_aplikasi" => "Kode Aplikasi",
+												"n_aplikasi" => "Nama Aplikasi",
+												"e_aplikasi" => "Keterangan Aplikasi");
+												
+						$kategoriCariAttrib = array("onClick" => "setKatakunci();");						
+						echo $ctrlFrm->formSelect('kategoriCari', $kategoriCari, $kategoriCariAttrib, $isiKategoriCari);
+						?>
+					</td>
+					<td>
+						<?php 
+							
+							if 	($this->kategoriCari == 'semua'){
+							?>
+								<div id="cari" style="display:none">
+							<?php
+							} else {
+							?>
+								<div id="cari" style="display:block">
+							<?php
+							}
+							$kataKunciAtrib = array("size"=>"31",
+							"maxlength"=>"30",
+							"class"=>""
+							);
+							echo $ctrlFrm->formText('kataKunci', $kataKunci, $kataKunciAtrib);
+						?>
+						</div>
+					</td> 
+					<td>
+						<? 
+						$buttonAtrib = array("onClick"=>"javascript:prosesCariUser();");
+						echo $ctrlFrm->formSubmit('cari', 'Cari', $buttonAtrib); 
+						?>
+					</td>
+				</tr>
+			</table>
+		</center>
+	</form>
+</div>
+
+<? 
+$status = $this->hasil;
+$proses = $this->proses;
+$keterangan = $this->keterangan;
+
+$pesan1->show_message($proses, $keterangan, "$status" ); 
+?>
+
+<div class="add" title="Tambah Data" onClick="javascript:displayAplikasiOlahdata();"></div>
+<table width="100%" class="std">
+	<tbody>
+		<tr>
+			<th>No.</th>
+			<!--th>Status</th>
+			<th>Userid</th-->
+			<th>Kode Aplikasi</th>
+			<th>Nama Aplikasi</th>
+			<th>Keterangan Aplikasi</th>					
+			<th width="10%">Tindakan</th>
+		</tr>
+		<?php
+		if(count($this->aplikasiList)){
+		?>
+			
+			<?php
+			$a =0;
+			$noAwal = $numToDisplay*($currentPage -1)+1;
+			foreach ($this->aplikasiList as $key => $val): 
+				$noUrut = $noAwal+$a;
+				$iAplikasi 		= $this->escape($val['i_aplikasi']);
+				$cAplikasi		= $this->escape($val['c_aplikasi']);
+				$nAplikasi		= $this->escape($val['n_aplikasi']);
+				$eAplikasi	 	= $this->escape($val['e_aplikasi']);
+										
+				if ($key%2==0) { ?>
+				  <tr class="event">
+				<? } else if ($key%2==1) { ?>
+				  <tr class="event2">
+				<? } ?>
+					<td class="clleft" width="5%">&nbsp;<?php echo $noUrut; ?></td>
+					<td class="clleft" width="10%">&nbsp;<?php echo $cAplikasi; ?></td>
+					<td class="clleft" width="25%">&nbsp;<?php echo $nAplikasi; ?></td>
+					<td class="clleft" width="60%">&nbsp;<?php echo $eAplikasi; ?></td>
+					<td align="center">
+						<div class="edit" title="Ubah Data" onClick="javascript:ubahAplikasi('<? echo $iAplikasi; ?>');"></div>	
+						<div class="delete" title="Hapus Data"  onClick="javascript:hapusAplikasi('Aplikasi', <? echo "$iAplikasi"; ?>,'<? echo "$nAplikasi"; ?>')"></div>
+					</td>
+				</tr>
+				
+			<?php
+				$a++;
+			endforeach;
+		} else {
+		?>
+			<tr class="event">
+				<td class="clleft" width="5%" colspan="5">&nbsp;<font color="orange">Data Tidak Ada </font></td>
+			</tr>
+		<?php
+		}?>
+	</tbody>
+</table>

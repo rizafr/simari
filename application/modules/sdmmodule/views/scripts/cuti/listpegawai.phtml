@@ -1,0 +1,207 @@
+<? 
+	require_once 'Zend/View.php';
+    require_once 'share/halaman_list.php';
+	require_once 'share/tanggal.php';
+  
+	$tanggal = new tanggal();
+	$ctrlFrm = new Zend_View();
+	$halaman = new halaman_list(); 
+  
+    $jmlPegawaiList = count($this->pegawaiList);
+	$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}  
+?>
+	<script type="text/javascript">
+	jQuery(function() {
+/* 		jQuery("#d_tmt_cpns").datepicker();
+		//jQuery("#d_tmt_kerjacpns").datepicker();
+		jQuery("#d_peg_lahir").datepicker();
+		jQuery("#d_sk_cpns").datepicker();
+		jQuery("#d_spmt_cpns").datepicker(); */
+		$( "#periode_i" ).datepicker({	changeMonth: true,changeYear: true});	
+		$( "#periode_ii" ).datepicker({	changeMonth: true,changeYear: true});	
+				
+		
+	});
+	
+	</script>
+
+	<div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a>
+		<strong>&#8250;</strong>&nbsp;<?=$this->jdl?> Data Cuti Pegawai
+	</div>
+
+	<div id="top"></div>
+	<div id="confirm" class="<?=$confirm?>" style="display: none">
+		<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+	</div>
+
+	<h2 class="title"><?=$this->jdl?> Data Cuti Pegawai</h2>
+<form id="frmSearch" method="post" name="frmSearch">	
+	<div class="search-panel">
+<?if($this->c_eselon!='15' || $this->wewenang!='E'){?>
+			
+					Pencarian berdasarkan :
+					<?
+							$cCol = array(""=>"--Pilih--",
+									"i_peg_nip"=>"NIP",
+									"n_peg"=>"Nama",
+									"unitkerja"=>"Unit Kerja",
+									"c_golongan"=>"Golongan",
+									"c_peg_jeniskelamin"=>"Jenis Kelamin",
+									"c_eselon"=>"Eselon",
+									"c_peg_status"=>"Status Pegawai");
+							$varUnit = array("onchange"=>"javascript:cariDataUnit('')");  								
+							echo $ctrlFrm->formSelect('cCol', $this->cCol, $varUnit, $cCol); 							
+					?>
+					<span id="target" style="display:inline">
+					<?if (trim($this->cCol)=='c_golongan'){
+						include("combogolongan.phtml");}
+					elseif (trim($this->cCol)=='c_peg_jeniskelamin'){
+						include("combojnskelamin.phtml");}
+					elseif (trim($this->cCol)=='c_eselon'){
+						include("comboeselon.phtml");}
+					elseif (trim($this->cCol)=='c_peg_status'){
+						include("combostatpegawai.phtml");}
+					else{
+					if (trim($this->cCol)!='unitkerja'){
+					?>
+						<input type="text" name="nCol" id="nCol" value="<?echo $this->nCol?>" size="50">
+					<?}}?>	
+					</span>
+					
+		<?if (trim($this->cCol)=='unitkerja'){?>					
+		<div id="targetcari" style="display:inline">
+		<?}else{?>
+		<div id="targetcari" style="display:none">
+		<?}
+		if ($this->c_lokasi_unitkerja=='1'){
+		include("listcombo.phtml");}
+		else{include("listcombo2.phtml");}
+
+		?>
+	</div>				
+									
+							
+	</div>	
+	<div class="search-panel">Periode Cuti :&nbsp;
+		<input type="text" name="periode_i" id="periode_i" value="<?=$this->periode_i?>" size="10">&nbsp; s.d &nbsp;
+		<input type="text" name="periode_ii" id="periode_ii" value="<?=$this->periode_ii?>" size="10">
+	</div>
+	<div class="search-panel">
+		<input type="submit" value="Cari" onclick="javascript:cariListPegawai();">
+	</div>
+<?}?>	
+</form>		
+	<div class="space-line"></div>
+	<form action="" method="post"> 
+		<fieldset class="fields"> 
+
+<fieldset id="targetdetil">			   
+<?include("listpegawaidetil.phtml");?>	
+</fieldset>
+	</fieldset>		 
+	</form>
+
+<script>
+function detilPeg(nip){
+var url = '<?php echo $this->basePath; ?>/sdmmodule/detil/detilpegawai';
+var param = {nip:nip};
+jQuery.get(url,param,function(data) {
+jQuery("#targetdetil").html(data);
+centerPopup();
+loadPopup();});}
+
+
+function cariDataUnit(){
+
+var cCol =document.getElementById('cCol').value;
+if (cCol=='unitkerja'){
+	$("#targetcari").css("display","block");
+	$("#target").css("display","none");
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/cuti/listcombo';
+	var param = {cCol:cCol};
+	jQuery.get(url,param,function(data) {
+	jQuery("#targetcari").html(data);});	
+}
+else if (cCol=='c_peg_jeniskelamin'){
+	$("#targetcari").css("display","none");
+	$("#target").css("display","inline");
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/cuti/combojnskelamin';
+	var param = {cCol:cCol};
+	jQuery.get(url,param,function(data) {
+	jQuery("#target").html(data);});
+
+}
+else if (cCol=='c_golongan'){
+	$("#targetcari").css("display","none");
+	$("#target").css("display","inline");
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/cuti/combogolongan';
+	var param = {cCol:cCol};
+	jQuery.get(url,param,function(data) {
+	jQuery("#target").html(data);});
+
+}
+else if (cCol=='c_peg_status'){
+	$("#targetcari").css("display","none");
+	$("#target").css("display","inline");
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/cuti/combostatpegawai';
+	var param = {cCol:cCol};
+	jQuery.get(url,param,function(data) {
+	jQuery("#target").html(data);});
+
+}
+else if (cCol=='c_eselon'){
+	$("#targetcari").css("display","none");
+	$("#target").css("display","inline");
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/cuti/comboeselon';
+	var param = {cCol:cCol};
+	jQuery.get(url,param,function(data) {
+	jQuery("#target").html(data);});
+
+}
+else{
+	$("#target").css("display","inline");
+	$("#targetcari").css("display","none");	
+	document.getElementById('nCol').value="";
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/cuti/listtext';
+	var param = {cCol:cCol};
+	jQuery.get(url,param,function(data) {
+	jQuery("#target").html(data);});		
+}
+
+
+
+}
+
+ function cariCombo3(){
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+	var eseloni=document.getElementById('c_eselon_i').value;
+	var eselonii=document.getElementById('c_eselon_ii').value;
+	var eseloniii=document.getElementById('c_eselon_iii').value;
+	var eseloniv=document.getElementById('c_eselon_iv').value;
+	
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/cuti/listcombo'; 
+	var param = {c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+	jQuery.get(url, param, function(data) {
+		jQuery("#listcombo").html(data);
+	});
+} 
+
+
+function cariCombonya(){
+	var c_lokasi_unitkerja=document.getElementById('c_lokasi_unitkerja').value;	
+	var eseloni=document.getElementById('c_eselon_i').value;
+	var eselonii=document.getElementById('c_eselon_ii').value;
+	var eseloniii=document.getElementById('c_eselon_iii').value;
+	var eseloniv=document.getElementById('c_eselon_iv').value;	
+	
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/cuti/listcombo'; 
+	var param = {c_lokasi_unitkerja:c_lokasi_unitkerja,eseloni:eseloni,eselonii:eselonii,eseloniii:eseloniii,eseloniv:eseloniv};
+	jQuery.get(url, param, function(data) {
+		jQuery("#listcombo").html(data);
+	});
+}
+
+</script>		

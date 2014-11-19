@@ -1,0 +1,77 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+	
+	//var_dump($this->detailAgama);
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tanggal_lahir").datepicker();
+		jQuery("#d_tanggal_nikah").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Jenis Sanksi
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Referensi Jenis Sanksi</h2>	
+		
+<form id="formsanksi" method="post" name="formsanksi">		
+	<div class="panel">
+		<div class="spacer"></div> 
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Kode Jenis Sanksi<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>	
+						<input type="text" name="c_jns_sanksi" id="c_jns_sanksi" value="<?=$this->detailSanksi['c_jns_sanksi'];?>" size="70" <? if($this->par != "insert"){ ?> readonly <? } ?> >
+					</td>
+				</tr><tr>
+					<td>Nama Jenis Sanksi<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_jns_sanksi" id="n_jns_sanksi" value="<?=$this->detailSanksi['n_jns_sanksi'];?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Disiplin Jenis<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="MDISIPLINJNS_SORT" id="MDISIPLINJNS_SORT" value="<?=$this->detailSanksi['MDISIPLINJNS_SORT'];?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Kode Status<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_status" id="c_status" value="<?=$this->detailSanksi['c_status'];?>" size="70" maxlength="1">
+					</td>
+				</tr>
+				<tr>
+					<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/refsanksi/listsanksi','<?php echo $this->basePath; ?>/sdmmodule/refsanksi/sanksijs');"> 
+							<?if ($this->par == 'insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertSanksi()">
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updateSanksi()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>

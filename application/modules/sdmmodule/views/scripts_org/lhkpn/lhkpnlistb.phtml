@@ -1,0 +1,77 @@
+<?
+	require_once 'share/halaman.php';
+    $halaman = new halaman(); 
+?>
+	<div class="title2">Daftar LHKPN</div>
+	<table align="center" border="0" cellspacing="1" cellpadding="2" class="tbl2" >
+		<th rowspan=2 width="10%">Tahun Laporan</th>
+		<th rowspan=2 width="25%">Nama</th>	
+		<th rowspan=2 width="10%">Tidak Wajib</th>
+		<th colspan=4>Keterangan</th>
+		<th rowspan=2 width="5%">Ubah</th>
+		<th rowspan=2 width="5%">Hapus</th>
+		<tr>
+			<th width="10%">Status Penyampaian</th>
+			<th width="15%">Tgl Penyampaian</th>
+			<th width="20%">NHK</th>
+			<th width="15%">Formulir</th>
+		</tr>
+		<?
+				if (count($this->datalhkpn) == 0){ 
+		?>
+		<tr class="event">
+			<td><font color=\"red\">-</font></td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>	
+			<td>&nbsp;</td>		
+		</tr>
+				<?} else {					
+			foreach ($this->datalhkpn as $key => $val): 
+				if ($key%2==0) { ?>
+					<tr class="event">
+				<? } else if ($key%2==1) { ?>
+					<tr class="event2">
+						<? } 
+						$i_lhkpn = $this->escape($val['i_lhkpn']); 
+						$i_user = $this->escape($val['i_user']); 
+						$e_nhk = $this->escape($val['e_nhk']); 
+						$d_tahun = $this->escape($val['d_tahun']); 
+						$d_kirim_laporan = $this->escape($val['d_kirim_laporan']); 						
+						$tglkirimlaporan= substr($d_kirim_laporan,8,2);
+						$blnkirimlaporan= substr($d_kirim_laporan,5,2);
+						$thnkirimlaporan= substr($d_kirim_laporan,0,4);
+						if ($thnkirimlaporan){$d_kirim_laporan=$tglkirimlaporan."-".$blnkirimlaporan."-".$thnkirimlaporan;}
+						$c_lhkpn = $this->escape($val['c_lhkpn']); 
+						$c_formulir = $this->escape($val['c_formulir']);
+						$n_formulir = $this->escape($val['n_formulir']);
+						$n_formulir=ereg_replace(';','<br>',$n_formulir);
+						$n_fname=$this->escape($val['n_fname']); 
+						$c_wajib_kirim=$this->escape($val['c_wajib_kirim']); 
+						
+						?>
+						<td class="clcenter"><? echo $d_tahun;?></td>
+						<td class="clleft"><? echo $n_fname;?></td>
+						<td class="clleft"><? if ($c_wajib_kirim==true){echo "Wajib Lapor KPK";}else{echo "Tdk Wajib Lapor KPK";}?></td>
+						<td class="clleft"><? if ($c_lhkp=='1'){echo "Sudah Lapor KPK";}else{echo "Belum Lapor KPK";}?></td>
+						<td class="clleft"><? echo $d_kirim_laporan;?></td>
+						<td class="clleft"><? echo $e_nhk;?></td>
+						<td class="clleft"><? echo $n_formulir;?></td>
+						<td><div onClick="return ubahDataLhkpn('<?php echo $i_lhkpn ?>','ubah');" class="edit" title="Ubah Data"></div></td>
+						<td><div class="delete" title="Hapus Data" onClick="return hapusDataLhkpn('<?php echo $i_lhkpn ?>')" ></div></td>
+						
+<?
+endforeach;
+}?>
+	</table>
+<?
+$numToDisplay = $this->numToDisplay;
+$currentPage = $this->currentPage;
+$total=$this->totaldata;
+$modul = $this->basePath."/datapribadi/lhkpn/lhkpn";
+echo $halaman->showPage($total, $numToDisplay, $currentPage, $modul, $proses, $proses, '','','');
+?>	

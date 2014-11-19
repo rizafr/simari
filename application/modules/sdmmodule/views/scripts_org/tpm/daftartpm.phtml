@@ -1,0 +1,104 @@
+<? require_once 'Zend/View.php';
+    require_once 'share/halaman_list.php';
+  
+	$ctrlFrm = new Zend_View();
+	$halaman = new halaman_list(); 
+  
+	$jmldataPraTpm = count($this->dataPraTpm);
+
+	$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}  
+?>
+	<div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong> TPM &nbsp;
+			<strong>&#8250;</strong>&nbsp;Daftar TPM
+	</div>
+
+	<div id="top"></div>
+	<div id="confirm" class="<?=$confirm?>" style="display: none">
+		<h2 class="title"><?echo $this->pesan;?></h2>				
+	</div>
+	<h2 class="title">Daftar TPM</h2>
+<div class="panel">	
+
+	<form action="" method="post"> 
+		<fieldset class="fields"> 
+<?if ($jmldataPraTpm!=0){?>		
+			   <div class="right">
+			    <input type="button" value="Cetak" onclick="cetak();">
+			   </div>
+<?}?>			   
+			   
+   <table width="100%" border="0" cellpadding="0" cellspacing="1" class="tbl">
+		<tr>
+			<th rowspan="2">No. Usulan</th>
+			<th rowspan="2">Usulan</th>
+			<th rowspan="2">Unit Kerja</th>
+			<th rowspan="2">Tanggal TPM</th>
+			<th colspan="2">Hasil TPM</th>
+		</tr>
+		<tr>
+			<th>NIP</th>
+			<th>Nama</th>
+		</tr>	
+<? 		if (count($this->dataPraTpm) == 0) {?>
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>	
+<?}else{
+				foreach ($this->dataPraTpm as $key => $val): 
+				if ($key%2==0) { ?>
+				<tr class="event">
+				<? } else if ($key%2==1) { ?>
+				<tr class="event2">
+				<? } 
+				$usulan_id=$this->escape($val['usulan_id']);
+				if ($usulan_id!=$usulan_id2){
+				$usulan_nomor=$this->escape($val['usulan_nomor']);
+				$usulan_keterangan=$this->escape($val['usulan_keterangan']);
+				$tvinstansi_kd=$this->escape($val['tvinstansi_kd']);
+				$tpm_tgl=$this->escape($val['tpm_tgl']);
+				}
+				else{
+				$usulan_nomor="";
+				$usulan_keterangan="";
+				$tvinstansi_kd="";
+				$tpm_tgl="";
+				}
+				$usulan_id2=$this->escape($val['usulan_id']);
+				?>
+					<td align="right"><?php echo $usulan_nomor;?></td>
+					<td align="right"><?php echo $usulan_keterangan;?></td>
+					<td align="right"><?php echo $tvinstansi_kd;?></td>
+					<td align="right"><?php echo $tpm_tgl;?></td>								
+					<td><?php echo trim($this->escape($val['peg_nip']));?></td>
+					<td><?php echo trim($this->escape($val['tpm_namalengkap']));?></td>					
+				</tr>
+				<?php endforeach;}?>
+	
+	</table>
+	</div>		 
+	</form>
+	
+<script>
+function cetak(){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/tpm/cetak";
+	var wid='1000';
+	var heg='600';
+	var w = 0; 
+	var h = 0;
+	w = screen.availWidth;
+	h = screen.availHeight;
+	var popW = wid, popH = heg;
+	var leftc = (w-popW)/2;
+	var topc = (h-popH)/2;
+	var selectWindow = window.open(url,'Selection', 'left=' + leftc + ',top=' + topc + ', width='+popW+',height='+popH+',resizable=0,scrollbars=yes');	
+}
+</script>

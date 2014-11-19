@@ -1,0 +1,86 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php'; 
+   
+	$ctrlDate = new oa_date();   
+	$ctrlFrm = new Zend_View();
+	
+	echo "idSetujuX = ".$this->idSetujuX.'<br>';
+	
+	$spath = $this->getScriptPaths();
+	$this->addScriptPath($spath[0] . 'pangkat');
+	echo $this->render('pangkatjs.phtml');
+?>
+
+<form id="frmcetakrekap" action="<?php echo $this->basePath; ?>/sdm/pangkat/cetakrekap" method="post" name="frmcetakrekap">	  
+<a name="top"></a>
+<div class="blank"></div>
+	<br><br>
+	<table width="100%" border="0" align="center">
+	  <tr>
+	     <td class="clcenter" colspan="7"><strong><h2>CETAK REKAP</h2></strong></td>
+	  </tr>
+	  <tr>
+	     <td width="26%">&nbsp;</td> 
+	     <td width="20%"><strong>PERIODE</strong></td>
+		 <td width="2%">:</td>
+		 <td width="10%">10-02-2000</td>
+		 <td width="5%">s/d</td>
+		 <td width="10%">10-02-2000</td>
+		 <td width="27%">&nbsp;</td>
+	  </tr>
+	  <tr>
+	   	 <td >&nbsp;</td> 
+	     <td ><strong>PERSETUJUAN</strong></td>
+		 <td >:</td>
+		 <td >SETUJU</td>
+		 <td >&nbsp;</td>
+		 <td >&nbsp;</td>
+		 <td >&nbsp;</td>
+	  </tr>
+	</table>  
+	<br>
+	<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+			<tr>
+				<th >No.</th>
+				<th >NIP</th>
+				<th >NAMA</th>
+				<th >Golongan <br>Pangkat</th>
+				<th >Jenis <br>Kenaikan</th>
+				<th >TMT CPNS</th>
+				<th >Masa Kerja</th>
+				<th >Tanggal <br>Usulan</th>
+				<th >Persetujuan</th>
+			</tr>
+		</table>
+	<?php
+		/*foreach ($setuju as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+				<?php
+				
+				//$no = $this->escape($val['no']);
+				?>
+				<td align=left>&nbsp; <?php echo no;?></td>
+				<td align=left>&nbsp; <?php echo nip;?> </a></td>
+				<td align=left>&nbsp; <?php echo NAMA;?></td>
+				<td align=left>&nbsp; <?php echo golPangkat;?></td>
+				<td align=left>&nbsp; <?php echo jnsNaik;?></td>
+				<td class="clcenter"> <?php echo tglTmt;?></td>
+				<td class="clcenter"> <?php echo mk;?></td>
+				<td class="clcenter"> <?php echo Tanggal; ?></td>
+				<td align=left>&nbsp; <?php echo status; ?></td>
+				</td>
+		  </tr>
+	<?php 
+		endforeach;  */ ?> 		  
+</table>
+<br>
+
+
+</form>
+
+</body>
+</html>

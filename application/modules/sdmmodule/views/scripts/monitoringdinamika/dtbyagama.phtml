@@ -1,0 +1,61 @@
+<div id="backgroundPopup" >
+	<center>
+	<div id="popupContact" style="height:250px; width:500px;" >
+	
+
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+			<tr class="event">
+				<td align="left">
+					<h3>AGAMA</h3>
+				</td>
+				<td align="right">
+					<div class="delete" title="Close" onclick="closeDetil()"></div>
+				</td>
+			</tr>
+		</table>
+			<form onsubmit="xjxmW.closeWindow(' .  . ')xajax_add('HELP','querynip',document.getElementById('keyd').value);return false;" id="fd1" name="fd1" enctype="multipart/form-data" method="post">
+			<table border="0" width="100%" class="table">
+			<tbody>
+				<tr>
+					<td align="center" colspan="3" class="row1">
+						<input type="checkbox" onclick="if (this.checked == true) {document.getElementById('jumlahcek').value = eval(parseInt(document.getElementById('jumlahcek').value) + 1)} else {document.getElementById('jumlahcek').value = eval(document.getElementById('jumlahcek').value - 1)}" value="13" id="jns_darah[]" name="jns_darah[]">&nbsp;Islam&nbsp;[1]&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" onclick="if (this.checked == true) {document.getElementById('jumlahcek').value = eval(parseInt(document.getElementById('jumlahcek').value) + 1)} else {document.getElementById('jumlahcek').value = eval(document.getElementById('jumlahcek').value - 1)}" value="15" id="jns_darah[]" name="jns_darah[]">&nbsp;Protestan&nbsp;[2]&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" onclick="if (this.checked == true) {document.getElementById('jumlahcek').value = eval(parseInt(document.getElementById('jumlahcek').value) + 1)} else {document.getElementById('jumlahcek').value = eval(document.getElementById('jumlahcek').value - 1)}" value="14" id="jns_darah[]" name="jns_darah[]">&nbsp;Katolik&nbsp;[3]&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" onclick="if (this.checked == true) {document.getElementById('jumlahcek').value = eval(parseInt(document.getElementById('jumlahcek').value) + 1)} else {document.getElementById('jumlahcek').value = eval(document.getElementById('jumlahcek').value - 1)}" value="12" id="jns_darah[]" name="jns_darah[]">&nbsp;Hindu&nbsp;[4]&nbsp;&nbsp;&nbsp;
+						<br>
+						<input type="checkbox" onclick="if (this.checked == true) {document.getElementById('jumlahcek').value = eval(parseInt(document.getElementById('jumlahcek').value) + 1)} else {document.getElementById('jumlahcek').value = eval(document.getElementById('jumlahcek').value - 1)}" value="11" id="jns_darah[]" name="jns_darah[]">&nbsp;Budha&nbsp;[5]&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" onclick="if (this.checked == true) {document.getElementById('jumlahcek').value = eval(parseInt(document.getElementById('jumlahcek').value) + 1)} else {document.getElementById('jumlahcek').value = eval(document.getElementById('jumlahcek').value - 1)}" value="16" id="jns_darah[]" name="jns_darah[]">&nbsp;Konghucu&nbsp;[6]&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" onclick="if (this.checked == true) {document.getElementById('jumlahcek').value = eval(parseInt(document.getElementById('jumlahcek').value) + 1)} else {document.getElementById('jumlahcek').value = eval(document.getElementById('jumlahcek').value - 1)}" value="17" id="jns_darah[]" name="jns_darah[]">&nbsp;Kepercayaan&nbsp;[7]&nbsp;&nbsp;&nbsp;
+						<br>
+						<a class="link7" onclick="check_all(document.getElementsByName('jns_darah[]'),'',true);document.getElementById('jumlahcek').value= '8'" href="#">Check</a> - 
+						<a class="link7" onclick="check_all(document.getElementsByName('jns_darah[]'),'',false);document.getElementById('jumlahcek').value= '0'" href="#">Uncheck</a>	
+						<input type="hidden" value="0" id="jumlahcek" name="jumlahcek"> 
+					</td>
+				</tr>
+				<tr>
+					<td align="center" colspan="3" class="row">
+						<input type="button" onclick="if (parseInt(document.getElementById('jumlahcek').value) &gt; 0) {var strg = document.getElementById('query_nip').value; var rstdrh = check_all(document.getElementsByName('jns_darah[]'),document.getElementById('jumlahcek').value,true); if (strg != 'AND ' || strg != 'OR ') {document.getElementById('query_nip').value = strg + ' c_agama  IN (' + rstdrh + ') ';} else {document.getElementById('query_nip').value = document.getElementById('query_nip').value + ' c_agama  IN (' + rstdrh + ') ';}}" value="Masukan!" tabindex="55" name="bt_input" id="bt_input">
+					</td>
+				</tr>
+				<tr>
+					<td align="center" colspan="3" class="row1">
+						<textarea cols="70" rows="5" id="query_nip" name="query_nip"></textarea>
+					</td>
+				</tr>
+				<tr class="row1">
+					<td align="left" colspan="2">
+						&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = document.getElementById('query_nip').value + '(';" value=" ( " tabindex="56" name="bt1">
+						&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg == '') {  document.getElementById('query_nip').value = 'OR ';} else if (strg == 'AND ') {document.getElementById('query_nip').value = 'OR ';}" value=" OR " tabindex="56" name="bt0">
+						&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg == '') {  document.getElementById('query_nip').value = 'AND ';} else if (strg == 'OR ') {document.getElementById('query_nip').value = 'AND ';}" value=" AND " tabindex="57" name="bt2">
+						&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = document.getElementById('query_nip').value + ')';" value=" ) " tabindex="57" name="bt2">
+					</td>
+					<td align="right">
+						<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg != '') {document.getElementById('query_result').value = document.getElementById('query_result').value + ' ' + strg;closeDetil()}" value="OK !" tabindex="58" name="bt3">
+					</td>
+				</tr>
+			</tbody>
+			</table>      
+			</form>
+	</div>
+	</center>
+</div>	

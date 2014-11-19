@@ -1,0 +1,115 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+require_once "share/halaman.php";  
+
+$tanggal = new tanggal();
+$halaman = new halaman();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$jmlterminallist = count($this->terminallist);
+for ($i=0; $i<$jmlterminallist; $i++)
+{
+	$dataterminallist[(string)$this->terminallist[$i]['c_terminal']] = (string)$this->terminallist[$i]['c_terminal'];
+}
+$bulanatrList = $this->bulanatrList;
+$tgllst = $this->tgllst;
+?>
+<div class="navlink">
+	<a  href="<? echo $this->baseUrl; ?>/main">Halaman Utama</a> 
+	<strong> &#8250; </strong> Absensi 
+	<strong> &#8250; </strong> Entri Data Absensi
+</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+
+<div class="search-panel">
+	<table width="100%" class="tbl2">
+			<tr>
+				<td class="clright" width="15%"><b>Server Absensi :</b></td>
+				<td class="clleft" width="85%" align="left"><b>
+				<?
+				$kdLokasiListatr = array("style"=>"width:250px");
+				echo $ctrlFrm->formSelect('kd_lokasi', $this->kd_lokasi, $kdLokasiListatr, $dataterminallist);
+				?>
+				</b></td>
+			</tr>
+			<tr>
+				<td class="clright" width="15%"><b>Tanggal :</b></td>
+				<td class="clleft" width="85%" align="left"><b>
+				<?
+				$bulanatr = array("style"=>"width:100px");
+				$tahunatr = array("style"=>"width:30px");
+				$tanggalatr = array("style"=>"width:50px");
+				echo $ctrlFrm->formSelect('tanggal', $this->tanggal, $tanggalatr, $tgllst)."&nbsp;";
+				echo $ctrlFrm->formSelect('bulan', $this->bulan, $bulanatr, $bulanatrList)."&nbsp;";
+				echo $ctrlFrm->formText('tahun', $this->tahun, $tahunatr);
+				?>
+				</b></td>
+			</tr>
+	</table>
+</div>
+
+<div class="panel" id='pentry'>
+				<?
+				echo $ctrlFrm->formHidden('currentPage', $this->currentPage);
+				?>
+   <input type='hidden' id='mode' name='mode' value='0'>
+	<table width="100%" class="tbl">
+		<tbody>
+			<tr>
+				<th>No</th>
+				<th>Kode Finger</th>
+				<th>No Mesin</th>
+				<th>Tanggal</th>
+				<th>No Absensi</th>
+				<th>Jam</th>
+				<th>Status</th>
+			</tr>
+			<?php
+			if(count($this->dataabsensipeg)){
+			    //$i = $this->currentPage;
+				$ipage = (($this->currentPage-1)*($this->numToDisplay))+1;
+				foreach ($this->dataabsensipeg as $key => $val): 
+					if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+					<td class="clright"><?=$ipage?></td>
+					<td class="clleft" ><?=$this->escape($val['i_peg_nip'])?></td>
+					<td class="clleft"><?=$this->escape($val['i_term'])?></td>
+					<td class="clleft"><?=$this->escape($val['d_peg_absensi'])?></td>
+					<td class="clright"><?=$this->escape($val['i_no_absensi'])?></td>
+					<td class="clright"><?=$this->escape($val['d_peg_jam'])?></td>
+					<td class="clright"><?=$this->escape($val['c_status_absn'])?></td>
+					</tr>
+					<?php
+					$ipage++;
+				endforeach;
+			}
+			?>
+		</tbody>
+	</table>
+   <div class="panel">
+   <div class="right">
+<?
+    $totalData 		= $this->dataabsensipegJml;
+	$numToDisplay	= $this->numToDisplay;
+	$currentPage = $this->currentPage;
+	$fungsi = $this->basePath.'/sdmmodule/dataabsensi/dataabsensimesin';
+	$fungsijs = $this->basePath.'/sdmmodule/dataabsensi/dataabsensimesinjs';
+	$param1 = $this->kd_lokasi;
+	$param2 = $this->tanggal.'-'.$this->bulan.'-'.$this->tahun;
+	$modul = "tableview";
+	$halaman->showPagebr($totalData, $numToDisplay, $currentPage, $modul, $fungsi, $fungsijs, $param1, $param2, $param3, $param4);
+?>
+   </div>
+   <br>
+   <br>
+   </div>
+</div>
+

@@ -1,0 +1,137 @@
+function displayMenuOlahdata(jenisForm, iAplikasi, cMenuLevelInduk)
+{
+	var handler = '<?php echo $this->basePath; ?>/admmodule/admmenu/admmenuolahdata';
+	var opt = {jenisForm : jenisForm, iAplikasi : iAplikasi, cMenuLevelInduk :cMenuLevelInduk};
+	jQuery.get(handler,opt,function(data) {
+			$("#tableview").html(data);	
+			jQuery("#frmadmmenuinsert").ajaxForm(tambahMenu_opt);
+			jQuery("#frmadmmenuedit").ajaxForm(ubahMenu_opt);
+		 });
+}
+
+function kembaliDaftarMenu(){
+	var handler = '<?php echo $this->basePath; ?>/admmodule/admmenu/daftarmenu';
+	var opt = {};
+	jQuery.get(handler,opt,function(data) {
+			$("#tableview").html(data);	
+		 });
+}
+
+var tambahMenu_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/admmodule/admmenu/admmenutambah',
+	beforeSubmit : function(){
+	},
+	success : function() {
+		jQuery("#frmadmmenuinsert").ajaxForm(tambahMenu_opt);
+		doCount(5);
+	},
+	type: 'post', 
+	resetForm: false
+};
+
+var ubahMenu_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/admmodule/admmenu/admmenuubah',
+	beforeSubmit : function(){
+	},
+	success : function() {
+		jQuery("#frmadmmenuinsert").ajaxForm(tambahMenu_opt);
+		doCount(5);
+	},
+	type: 'post', 
+	resetForm: false
+};
+
+function hapusMenu(param1, param2, param3, param4)
+{ 
+	
+	if(ConfirmDelete(param1, param4))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/admmodule/admmenu/admmenuhapus';
+		var opt = {iAplikasi : param2, cMenuLevel : param3 };
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	}
+} 
+
+function showDetail(iAplikasi){
+	var jmlAppl = document.getElementById('jmlAppl'). value;
+	var y = 0;
+	
+	//alert(iAplikasi+' | '+jmlAppl);
+	for (var x=0; x<=jmlAppl; x++) {
+		y = x+1;
+		if (y == iAplikasi){
+			if(document.getElementById('down_'+y)){
+				document.getElementById('down_'+y).style.display = "none";
+			}
+			
+			if(document.getElementById('right_'+y)) {
+				document.getElementById('right_'+y).style.display = "block";
+			}
+			
+			if(document.getElementById('detailMenu_'+y)){
+				document.getElementById('detailMenu_'+y).style.display = "block";
+			}
+		} else {
+			if(document.getElementById('down_'+y)){
+				document.getElementById('down_'+y).style.display = "block";
+			}
+			
+			if(document.getElementById('right_'+y)) {
+				document.getElementById('right_'+y).style.display = "none";
+			}
+			
+			if(document.getElementById('detailMenu_'+y)){
+				document.getElementById('detailMenu_'+y).style.display = "none";
+			}
+		}
+	} 
+} 
+
+function hideDetail(iAplikasi){
+	document.getElementById('down_'+iAplikasi).style.display = "block";
+	document.getElementById('right_'+iAplikasi).style.display = "none";
+
+	if(document.getElementById('detailMenu_'+iAplikasi)){
+		document.getElementById('detailMenu_'+iAplikasi).style.display = "none";
+	}
+} 
+ 
+ /*
+function ubahAplikasi(iAplikasi){
+	var handler = '<?php echo $this->basePath; ?>/admmodule/admaplikasi/admaplikasiolahdata';
+	var jenisForm = 'ubah';
+	var opt = {jenisForm : jenisForm, iAplikasi : iAplikasi};
+	jQuery.get(handler,opt,function(data) {
+			$("#tableview").html(data);	
+			jQuery("#frmadmaplikasiedit").ajaxForm(ubahAplikasi_opt);
+		 });
+}
+
+var ubahAplikasi_opt = {
+	target : '#tableview',
+	url: '<?php echo $this->basePath; ?>/admmodule/admaplikasi/admaplikasiubah',
+	beforeSubmit : function(){
+		if(document.getElementById('cAplikasi').value == ''){
+			alert('Kode Aplikasi Harus Diisi.');
+			document.getElementById('cAplikasi').focus();
+			return false;
+		} else if (document.getElementById('nAplikasi').value == ''){
+				alert('Kode Aplikasi Harus Diisi.');
+				document.getElementById('nAplikasi').focus();
+				return false;
+		} 
+	},
+	success : function() {
+		jQuery("#frmadmaplikasiedit").ajaxForm(ubahAplikasi_opt);
+		doCount(5);
+	},
+	type: 'post', 
+	resetForm: false
+};
+
+  */

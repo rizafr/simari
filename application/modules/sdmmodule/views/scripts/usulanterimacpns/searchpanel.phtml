@@ -1,0 +1,12 @@
+<div class="search-panel">
+	Pencarian berdasarkan :
+	<?
+		$cCol = array(""=>"--Pilih--",
+			"n_surat"=>"Nomor Surat",
+			"d_surat"=>"Tahun",
+			"n_perihal"=>"Perihal");
+		echo $ctrlFrm->formSelect('cCol', $this->cCol, $varUnit, $cCol); 	
+	?>
+		<input type="text" name="nCol" id="nCol" value="<?echo $this->nCol?>" size="50">
+		<input type="button" value="Cari" onclick="javascript:cariListSurat();">
+</div>	

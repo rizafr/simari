@@ -1,0 +1,56 @@
+function openFormAgama(par,c_agama,n_agama){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refagama/agamaolahdata";
+	var opt = {par:par, c_agama:c_agama, n_agama:n_agama};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formagama").ajaxForm(maintain_agama);
+		});		
+} 
+
+function insertAgama(){
+	jQuery("#formagama").ajaxForm(maintain_agama);
+}
+
+var maintain_agama = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formagama").ajaxForm(maintain_agama);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refagama/insertagama',
+	type: 'post',
+	resetForm: false
+};
+
+function updateAgama(){
+	jQuery("#formagama").ajaxForm(update_agama);
+}
+
+var update_agama = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formagama").ajaxForm(maintain_agama);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refagama/updateagama',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusAgama(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refagama/deleteagama';
+		var opt = {c_agama : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

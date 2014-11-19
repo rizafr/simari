@@ -1,0 +1,199 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/oa_date.php'; 
+   
+	$ctrlDate = new oa_date();   
+
+	$blnArr = array("#"=>"--","01"=>"Januari","02"=>"Februari","03"=>"Maret","04"=>"April","05"=>"Mei",
+					"06"=>"Juni","07"=>"Juli","08"=>"Agustus","09"=>"September","10"=>"Oktober","11"=>"November",
+					"12"=>"Desember");
+	
+?>
+
+<?php	
+   $ctrlFrm = new Zend_View();
+
+	$jumKgbList = count($this->kgbList);
+   //echo "jumKgbList= ".$jumKgbList;
+   for ($j = 0; $j < $jumKgbList; $j++) {
+     $kgb[$j] = array("no"=>$j+1,
+						"nip"  		=>(string)$this->kgbList[$j]['i_peg_nip'],
+						"nama"		=>(string)$this->kgbList[$j]['n_peg'],
+	                    "gol"      	=>(string)$this->kgbList[$j]['gol'],
+						"pangkat"  	=>(string)$this->kgbList[$j]['pangkat'],
+						"tmtMasuk"  =>(string)$this->kgbList[$j]['tmtMasuk'],
+						"mkThn"  	=>(string)$this->kgbList[$j]['mkThn'],
+						"mkBln"  	=>(string)$this->kgbList[$j]['mkBln'],
+						"tmtKGB"  	=>(string)$this->kgbList[$j]['tmtKGB']);	
+						
+   } 
+
+   
+   $spath = $this->getScriptPaths();
+   $this->addScriptPath($spath[0] . 'pangkat');
+   echo $this->render('pangkatjs.phtml');
+?>
+ <div class="navlink">
+		<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+		<strong> &#8250; </strong> SDM 
+		<strong> &#8250; </strong> Pengembangan Karir
+		<strong> &#8250; </strong> Kenaikan Pangkat
+		<strong> &#8250; </strong> Reguler
+	</div>
+<fieldset class="fields1">
+    <legend>Kenaikan Pangkat Reguler</legend>
+	
+<form id="frmreguler" action="<?php echo $this->basePath; ?>/sdm/pangkat/reguler" method="post" name="frmreguler">	  
+<input type="hidden" name="flag" value="proses">
+<a name="top"></a>
+<div class="blank"></div>
+	<tr>
+	<p align="center">
+		<td><b>Periode&nbsp;:&nbsp;</b>
+			<?php echo $ctrlDate->formTanggal_oa('hr1',$hr1,'bln1',$bln1,'thn1',$thn1); ?> &nbsp;<b>s/d</b>&nbsp;
+		    <?php echo $ctrlDate->formTanggal_oa('hr2',$hr2,'bln2',$bln2,'thn2',$thn2);  ?>&nbsp;
+			
+			<?
+		    $hr1 = $_POST['hr1'];
+			$bln1 = $_POST['bln1'];
+			$thn1 = $_POST['thn1'];
+			$hr2 = $_POST['hr2'];
+			$bln2 = $_POST['bln2'];
+			$thn2 = $_POST['thn2'];
+			$tgl1 = $thn1."-".$bln1."-".$hr1;
+			$tgl2 = $thn2."-".$bln2."-".$hr2;
+			 
+			if (($hr1 == '--') || ($bln1 == '--') || ($thn1 == null)) {
+				$tgl1 = '1900-01-01';
+			}
+			if (($hr2 == '--') || ($bln2 == '--') || ($thn2 == null)) {
+				$tgl2 = '2100-01-01';				
+			}
+			?>
+		    <?php  
+			 // echo $ctrlFrm->formHidden('tgl1H', $tgl1, null)."&nbsp;";
+			//  echo $ctrlFrm->formHidden('tgl2H', $tgl2, null)."&nbsp;";
+			  $atribSubmit = array("onclick"=>"javascript:cariReguler();");
+			  echo $ctrlFrm->formSubmit('cari', 'CARI', $atribSubmit)."&nbsp;";
+			?>
+		</td>
+<br><br>	
+<p align="center" class="date">
+<?
+	if ($jumKgbList == 0) {
+		echo "Data Tidak Ditemukan";
+?>
+</p>
+	<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+	    <tr>
+			<th>No.</th>
+			<th>Nip</th>
+			<th>Nama</th>
+			<th>Pangkat</th>
+			<th>TMT CPNS</th>
+			<th>Masa Kerja</th>
+			<th>TMT Gol/<br> Pangkat Akhir</th>
+			<th>Aksi</th>
+		</tr>
+	</table>
+<? } else { ?>
+
+<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+    <tr>
+		<th>No.</th>
+		<th>NIP</th>
+		<th>NAMA</th>
+		<th>Golongan/Pangkat</th>
+		<th>TMT CPNS</th>
+		<th>Masa Kerja</th>
+		<th>TMT Gol/<br> Pangkat Akhir</th>
+		<th>Aksi</th>
+	</tr>
+		<?php 
+		$ok = 0;
+		foreach ($kgb as $key => $val): 
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } ?>
+				<?php
+				$gol =  $this->escape($val['gol']);
+				$pangkat =  $this->escape($val['pangkat']);
+				$golPangkat = $gol." - ".$pangkat;
+
+				$tglTmt = $this->escape($val['tmtMasuk']);				
+					$thnTmt = substr($tglTmt,0,4);
+					$blnTmt = substr($tglTmt,5,2);
+					$hrTmt = substr($tglTmt,8,2);
+					$tglTmt = $hrTmt."-".$blnTmt."-".$thnTmt;
+					if ($thnTmt == ''){
+						$tglTmt = null;
+					}
+					else if ($blnTmt == '#'){
+						$tglTmt = null;
+					}
+					else if ($hrTmt == '#'){
+						$tglTmt = null;
+					}
+				
+				$mkThn = $this->escape($val['mkThn']);
+				if ($mkThn == null){
+					$mkThn = 0;
+				}
+				$mkBln = $this->escape($val['mkBln']);
+				if ($mkBln == null){
+					$mkBln = 0;
+				}
+				
+				$mk = $mkThn." thn ".$mkBln." bln ";
+
+				$tglKgb = $this->escape($val['tmtKGB']);				
+					$thnKgb = substr($tglKgb,0,4);
+					$blnKgb = substr($tglKgb,5,2);
+					$hrKgb = substr($tglKgb,8,2);
+					$tglKgb = $hrKgb."-".$blnKgb."-".$thnKgb;
+					if ($thnKgb == ''){
+						$tglKgb = null;
+					}
+					else if ($blnKgb == '#'){
+						$tglKgb = null;
+					}
+					else if ($hrKgb == '#'){
+						$tglKgb = null;
+					}
+				
+				$no = $this->escape($val['no']);
+				?>
+				<td align=left>&nbsp; <?php echo $no;?></td>
+				<td align=left>&nbsp;<?php echo $this->escape($val['nip']);?></td>
+				<td align=left>&nbsp; <?php echo $this->escape($val['nama']);?></td>
+				<td align=left>&nbsp; <?php echo $golPangkat;?></td>
+				<td class="clcenter"> <?php echo $tglTmt;?></td>
+				<td class="clcenter"> <?php echo $mk;?></td>
+				<td class="clcenter"> <?php echo $tglKgb;?></td>
+				<td class="clcenter">
+					<?php 
+					echo $this->formCheckbox('status['.$ok.']', null, null);;	
+					?>			
+				</td>
+		  </tr>
+	<?php 
+		$ok++;
+		endforeach;?> 		  
+</table>
+
+<br>
+			<?php  
+			  $atribProses = array("onclick"=>"javascript:prosesReguler();");
+			  echo $ctrlFrm->formSubmit('perintah', 'PROSES', $atribProses)."&nbsp;";
+			?>
+<? } ?>
+</fieldset>
+
+</form>
+<div class="back2">
+	<a href="#" onClick="javascript:kembaliIndex();" class="back" title="Kembali">Kembali</a>
+	 <!--<a href="#top" class="top" title="Kembali ke atas">Top</a>-->
+</div>
+</body>
+</html>

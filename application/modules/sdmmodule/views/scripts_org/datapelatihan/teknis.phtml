@@ -1,0 +1,180 @@
+<? require_once 'Zend/View.php';   
+	$ctrlFrm = new Zend_View();
+	$thnskrg = date("Y");
+   $thnList = $thnskrg - 60;	
+   $thnArrayList['#'] = '--';   		
+   for ($i = 0; $i < 60; $i++) {
+     $thnList = $thnList + 1;
+     $thnArrayList[$thnList] = $thnList;
+   }
+	  $blnArrayList['#'] = '--';	
+	  $blnList = 0;
+	  for ($j = 0; $j < 12; $j++) {
+        $blnList = $blnList + 1;
+		if ($blnList < 10) {
+		  $blnBaruList = "0".$blnList;
+		  $blnArrayList[$blnBaruList] = $blnBaruList;
+		} else {
+		  $blnBaruList = $blnList;
+		  $blnArrayList[$blnBaruList] = $blnBaruList;
+		}
+      }
+	
+	 $hrArrayList['#'] = '--';	
+	  $hrList = 0;
+	  for ($k = 0; $k < 31; $k++) {
+        $hrList = $hrList + 1;
+		if ($hrList < 10) {
+		  $hrBaruList = "0".$hrList;
+		  $hrArrayList[$hrBaruList] = $hrBaruList;
+		} else {
+		  $hrBaruList = $hrList;
+		  $hrArrayList[$hrBaruList] = $hrBaruList;
+		}
+      }
+   $jmlLatihStrukList = count($this->latihStrukList);
+   $latihStrukList[''] = '--Pilih--';
+    for ($i = 0; $i < $jmlLatihStrukList; $i++) {	 
+		$latihStrukList[(string)$this->latihStrukList[$i]->n_pend_latih ]= (string)$this->latihStrukList[$i]->n_pend_latih;			 
+   } 
+   $jenisLatihList = array(""=>"--Pilih--","S"=>"Struktural","N"=>"Non Struktural");	  
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_sertifikat").datepicker();
+		jQuery("#d_mulai_pelatihan").datepicker();
+		jQuery("#d_akhir_pelatihan").datepicker();
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Maintain Data Pegawai</a>
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pelatihan','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Riwayat Pelatihan</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Pelatihan
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+<br>	
+</div>
+
+	<h2 class="title"><?=$this->jdl;?> Pelatihan</h2>
+		<div class="search-panel">
+			<?php include "$this->leftMenu/datapokok.phtml";?>
+		</div>	
+<form id="formpelatihan" method="post" name="formpelatihan" enctype="multipart/form-data">		
+	<div class="panel">
+		<div class="spacer"></div> 
+						<?echo $ctrlFrm->formHidden('i_peg_nip', $this->nip, null); 	?>						
+						<div class="spacer"></div> 
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+					<tr>
+					<td>Jenis Pelatihan
+					<span class="hightlight">*</span>
+					</td>
+					<td>:</dd> 
+					<td>					
+					<?php 
+						echo $ctrlFrm->formSelect('c_pelatihan', $this->c_pelatihan, $jenisLatihAtrib, $jenisLatihList);
+					?>
+					<input type="hidden" name="c_pelatihan2" id="c_pelatihan2" value="<?=$this->c_pelatihan?>" size="10">
+					</dd>
+				</tr>
+				<tr>
+					<td>Nama Pelatihan
+					<span class="hightlight">*</span>
+					</td>
+					<td>:</dd> 
+					<td>
+						<input type="text" maxlength="50" name="n_pelatihan" id="n_pelatihan" value="<?=$this->n_pelatihan?>" size="70">					
+					</dd>
+				</tr>
+				<tr>
+					<td>Penyelenggara</td>
+					<td>:</dd> 
+					<td>
+						<input type="text" maxlength="150" name="n_penyelenggara" id="n_penyelenggara" value="<?=$this->n_penyelenggara?>" size="70">					
+					</dd>
+				</tr>
+				<tr>
+					<td>Mulai<span class="hightlight">*</span></td>
+					<td>:</dd> 
+					<td>
+						<input type="text" name="d_mulai_pelatihan" id="d_mulai_pelatihan" value="<?=$this->d_mulai_pelatihan?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+						<input type="hidden" name="d_mulai_pelatihan2" id="d_mulai_pelatihan2" value="<?=$this->d_mulai_pelatihan?>" size="10">
+					</dd>
+				</tr>
+				<tr>
+					<td>Selesai<span class="hightlight">*</span></td>
+					<td>:</dd> 
+					<td>
+						<input type="text" name="d_akhir_pelatihan" id="d_akhir_pelatihan" value="<?=$this->d_akhir_pelatihan?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+					</dd>
+				</tr>
+				<tr>
+					<td>Tempat</td>
+					<td>:</dd> 
+					<td>
+						<input type="text" name="a_tempat_pelatihan" id="a_tempat_pelatihan" value="<?=$this->a_tempat_pelatihan?>" size="80">
+					</dd>
+				</tr>
+				<tr>
+					<td>Nomor Sertifikat</td>
+					<td>:</dd> 
+					<td>
+						<input type="text" maxlength="80" name="i_sertifikat" id="i_sertifikat" value="<?=$this->i_sertifikat?>" size="50">
+					</dd>
+				</tr>
+				<tr>
+					<td>Tanggal Sertifikat</td>
+					<td>:</dd> 
+					<td>
+						<input type="text" name="d_sertifikat" id="d_sertifikat" value="<?=$this->d_sertifikat?>" size="10">
+						<span class="hightlight">tgl-bln-thn</span>
+					</dd>
+				</tr>
+<!--				
+				<tr>
+					<td>File</td>
+					<td>:</dd> 
+					<td>
+						<div class="fileinputs">
+							<input type="file" size=50 id="n_dok_pelatihanx" name="n_dok_pelatihanx"  value="<? echo $this->n_dok_pelatihan; ?>" onChange="setvalueupl(this.value,'n_dok_pelatihanx','jpg','n_dok_pelatihan')" />
+								<div class="fakefile">
+									<input type="text" size=49 name="n_dok_pelatihan" value="<? echo $this->n_dok_pelatihan; ?>"/>
+								</div>
+						</div>
+						<input type="hidden" size=49 name="n_dok_pelatihan2" value="<? echo $this->n_dok_pelatihan; ?>"/>
+					</dd>
+				</tr>				
+-->				
+				<tr>
+					<td>Keterangan</td>
+					<td>:</dd> 
+					<td>
+					<?php 
+						$keteranganAtrib = array("rows"=>"3","cols"=>"25","maxlength"=>"100","class"=>"medium"); 
+						echo $ctrlFrm->formTextarea('e_keterangan', $this->e_keterangan, $keteranganAtrib);
+					 ?>
+					</dd>
+				</tr>
+			</table>	
+					<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">	
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td align="right">
+									<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapelatihan/listpelatihan','');"> 									<input type="submit" value="<?=$this->par;?>" onClick="insertPelatihan()">
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+							</td>
+						</tr>
+					</table>
+		</div>
+</form>

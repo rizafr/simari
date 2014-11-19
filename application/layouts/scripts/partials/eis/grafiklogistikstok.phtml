@@ -1,0 +1,57 @@
+			<div style="overflow: auto; padding: 15px width: 300px;">
+						<?echo $this->chartStock;?>
+
+			</div>	
+			<table border="0" width="100%" align="center">
+				<tr>
+					<td align="center">
+						
+						<table border="0" width="100%" align="center" class="tbl2">
+							<tr>
+								<th><font face="arial" size="1">Eselon I</font></th>
+								<th><font face="arial" size="1">Bahan</font></th>
+								<th><font face="arial" size="1">Alat Kegiatan Kantor</font></th>
+								<th><font face="arial" size="1">Obat-obatan</font></th>
+							</tr>
+							<tr class="event">
+								<td align="left">Badilag</td>
+								<td align="right"><?echo number_format($this->jmlbadilagBahan, 0, ',', '.');?></td>
+								<td align="right"><?echo number_format($this->jmlbadilagATK, 0, ',', '.');?></td>
+								<td align="right"><?echo number_format($this->jmlbadilagObat, 0, ',', '.');?></td>
+							</tr>
+							<tr class="event2">
+								<td align="left">Badilum</td>
+								<td align="right"><?echo number_format($this->jmlbadilumBahan, 0, ',', '.');?></td>
+								<td align="right"><?echo number_format($this->jmlbadilumATK, 0, ',', '.');?></td>
+								<td align="right"><?echo number_format($this->jmlbadilumObat, 0, ',', '.');?></td>
+							</tr>
+			
+							<tr class="event">
+								<td align="left">BUA</td>
+								<td align="right"><?echo number_format($this->jmlbuaBahan, 0, ',', '.');?></td>
+								<td align="right"><?echo number_format($this->jmlbuaATK, 0, ',', '.');?></td>
+								<td align="right"><?echo number_format($this->jmlbuaObat, 0, ',', '.');?></td>
+							</tr>
+							<tr class="event2">
+								<td align="left">Badimiltun</td>
+								<td align="right"><?echo number_format($this->jmlbadimilBahan, 0, ',', '.');?></td>
+								<td align="right"><?echo number_format($this->jmlbadimilATK, 0, ',', '.');?></td>
+								<td align="right"><?echo number_format($this->jmlbadimilObat, 0, ',', '.');?></td>
+							</tr>
+							<tr class="event">
+								<td align="left">Balitbangkumdil</td>
+								<td align="right"><?echo number_format($this->jmlATKppphpBahan, 0, ',', '.');?></td>
+								<td align="right"><?echo number_format($this->jmlATKppphpATK, 0, ',', '.');?></td>
+								<td align="right"><?echo number_format($this->jmlATKppphpObat, 0, ',', '.');?></td>
+							</tr>
+							<tr class="event2">
+								<td align="left">Bawas</td>
+								<td align="right"><?echo number_format($this->jmlbawasBahan, 0, ',', '.');?></td>
+								<td align="right"><?echo number_format($this->jmlbawasATK, 0, ',', '.');?></td>
+								<td align="right"><?echo number_format($this->jmlbawasObat, 0, ',', '.');?></td>
+							</tr>
+						</table>
+					</td>
+				</tr>		
+			</table>	
+			

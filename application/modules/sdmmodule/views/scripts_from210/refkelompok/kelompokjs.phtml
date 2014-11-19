@@ -1,0 +1,56 @@
+function openFormKelompok(par,c_kelompok,n_kelompok){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refkelompok/kelompokolahdata";
+	var opt = {par:par, c_kelompok:c_kelompok, n_kelompok:n_kelompok};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formkelompok").ajaxForm(maintain_kelompok);
+		});		
+} 
+
+function insertKelompok(){
+	jQuery("#formkelompok").ajaxForm(maintain_kelompok);
+}
+
+var maintain_kelompok = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formkelompok").ajaxForm(maintain_kelompok);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refkelompok/insertkelompok',
+	type: 'post',
+	resetForm: false
+};
+
+function updateKelompok(){
+	jQuery("#formkelompok").ajaxForm(update_kelompok);
+}
+
+var update_kelompok = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formkelompok").ajaxForm(maintain_kelompok);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refkelompok/updatekelompok',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusKelompok(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refkelompok/deletekelompok';
+		var opt = {c_kelompok : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

@@ -1,0 +1,166 @@
+function usulTpmM(par,usulan_id){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/tpm/tpmusul"	
+	var opt = {par:par,usulan_id:usulan_id};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+} 
+function viewTpm(c_proses,usulan_id,varback){
+	//url = "<?php echo $this->basePath; ?>/sdmmodule/tpm/view" + 	vartpm;
+	url = "<?php echo $this->basePath; ?>/sdmmodule/tpm/view";
+	var opt = {c_proses:c_proses,usulan_id:usulan_id,varback:varback};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+}
+
+function insertTpmUsul(){
+	jQuery("#formtpmusul").ajaxForm(maintain_tpmusul);
+}
+
+var maintain_tpmusul = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formtpmusul;
+		astr= "document.formtpmusul";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/
+				if((!usulan_nomor.value)){cekVal = sdmValidasiData(astr,"usulan_nomor","Nomor Surat harus diisi....!");return false;break;}
+				 break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/tpm/maintaindatatpmusul',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusUsulTpm(usulan_id)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/sdmmodule/tpm/maintaindatatpmusul"
+		var opt = {usulan_id:usulan_id};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}
+//===========================================================================================================================================
+
+function getTpmI(){
+	var tanggal=document.getElementById('d_tpm').value;
+    var judul=document.getElementById('n_tpm').value;
+	url = "<?php echo $this->basePath; ?>/sdmmodule/tpm/listtpmi"	
+	var opt = {tanggal:tanggal,judul:judul};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#targettpm").html(data);
+		});		
+} 
+
+function getTpmII(){
+	var tanggal=document.getElementById('d_tpm').value;
+    var judul=document.getElementById('n_tpm').value;
+	url = "<?php echo $this->basePath; ?>/sdmmodule/tpm/listtpmii"	
+	var opt = {tanggal:tanggal,judul:judul};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#targettpm").html(data);
+		});		
+} 
+
+function praTpmM(par,usulan_id){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/tpm/pratpm"	
+	var opt = {par:par,usulan_id:usulan_id};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+} 
+function insertTpm(){
+	jQuery("#formtpm").ajaxForm(maintain_tpm);
+}
+
+var maintain_tpm = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.formtpm;
+		astr= "document.formtpm";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/
+				if((!usulan_nomor.value)){cekVal = sdmValidasiData(astr,"usulan_nomor","Nomor Surat harus diisi....!");return false;break;}
+                    
+				if (modul.value=='tpmi' || modul.value=='tpmii'){
+                    if((!d_tpm.value)){cekVal = sdmValidasiData(astr,"d_tpm","Tanggal TPM harus diisi....!");return false;break;}
+                    if((!n_tpm.value)){cekVal = sdmValidasiData(astr,"n_tpm","Judul harus diisi....!");return false;break;}
+				}else{  
+                    if((!d_tpm.value)){cekVal = sdmValidasiData(astr,"d_tpm","Tanggal Pra TPM harus diisi....!");return false;break;}
+                    if((!n_tpm.value)){cekVal = sdmValidasiData(astr,"n_tpm","Kegiatan Pra TPM harus diisi....!");return false;break;}
+                }
+				 break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/tpm/maintaindatatpm',
+	type: 'post',
+	resetForm: false
+};
+
+
+function TpmIM(par,usulan_id){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/tpm/tpmi"	
+	var opt = {par:par,usulan_id:usulan_id};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+} 
+
+function praTpmtpmiM(par,usulan_id){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/tpm/listtpmi"	
+	var opt = {par:par,usulan_id:usulan_id};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+} 
+
+function tpmitpmiiM(par,usulan_id){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/tpm/listtpmii"	
+	var opt = {par:par,usulan_id:usulan_id};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+} 
+
+function TpmIIM(par,usulan_id){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/tpm/tpmii"	
+	var opt = {par:par,usulan_id:usulan_id};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+} 
+
+
+function CariJabatan(){
+var url = '<?php echo $this->basePath; ?>/sdmmodule/tpm/namajabatan';
+var param = {};
+jQuery.get(url,param,function(data) {
+jQuery("#popupview").html(data);
+centerPopup();
+loadPopup();});}

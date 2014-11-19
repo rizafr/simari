@@ -1,0 +1,150 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/pesan.php';
+   require_once 'share/formatangka.php';
+   require_once 'share/halaman_list.php';
+
+   $ctrlFrm = new Zend_View();
+   $pesan = new pesan();
+   $formatangka = new formatangka();
+   $halaman = new halaman_list();
+
+	  
+$jumformulir8List = count($this->listFormulir8); 
+$jumtotformulir8List = count($this->listJumFormulir8);
+						
+?>
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong>Formasi Kepegawaian <!--a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Maintain Data Pegawai</a-->
+				<strong> &#8250; </strong>Formulir 8
+			</div>
+	        <a name="top"></a>
+<?
+$proses		= $this->proses;
+$keterangan	= $this->keterangan;
+$status		= $this->status;
+echo $pesan->show_message($proses, $keterangan, $status);
+?>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+	<h2 class="title">Formulir 8</h2>
+	<form method="post" name="tampil" id="tampil">
+	<table width="50%" border="0" cellpadding="0" cellspacing="0">
+	<tr><td size="20%">
+	
+	Tahun Anggaran </td><td size="1%">  :</td><td size="79%"> <select name="tahun" id="tahun">
+				<? if($this->tahun != "" && $this->tahun != "Tahun"){
+					for($i=date('Y')+5;$i>=date('Y')-2;$i--){
+						if($i != $this->tahun){
+						echo "<option value=$i>$i</option>";
+						}else{
+						echo "<option value=".$this->tahun.">".$this->tahun."</option>";
+						}
+					}
+				  }else{ ?>
+					 <option>Tahun</option>
+				 <? for($i=date('Y')+5;$i>=date('Y')-2;$i--){
+					echo "<option value=$i>$i</option>";
+				    }
+				    }
+				 ?>
+				 </select></td></tr>
+	<tr><td>&nbsp;</td><td>&nbsp;</td><td><input type="button" value="Tampil" name="tampil" onclick="tampilTaun()"></td></tr>
+	</table>
+	</form><br><br>
+		<h2><div align="center">DAFTAR JUMLAH PEGAWAI YANG BERHENTI, PENSIUN, DAN MENINGGAL DUNIA<br> <span class="thn_skr"><? echo $this->tahun; ?></span></div></h2><div class="add" title="Tambah Data" onclick="OpenFormulir8Olahdata('Insert','','','','','','','','','','','','','');"></div>
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+  
+	
+		<tr><td width="10%"></td></tr>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center" width="50%">
+			<tr>
+			<th width="5%">No</th>
+			<th width="30%">UNIT ORGANISASI DAN NAMA JABATAN</th>
+			<th width="10%">BERHENTI</th>
+			<th width="10%">PENSIUN</th>
+			<th width="10%">MENINGGAL DUNIA</th>
+			<th width="10%">JUMLAH (3+4+5) </th>
+			<th width="25%">KETERANGAN</th>
+			<th colspan="2">&nbsp;</th>
+			</tr>
+			<tr>
+			<th>1</th>
+			<th>2</th>
+			<th>3</th>
+			<th>4</th>
+			<th>5</th>
+			<th>6</th>
+			<th>7</th>
+			<th colspan="2">&nbsp;</th>
+			</tr>
+			<? if($jumtotformulir8List != ""){
+				foreach($this->listJumFormulir8 as $key => $val): ?>
+			<tr class="event"><td colspan="2"><div align="center">JUMLAH SELURUHNYA</div></td><td><? echo $this->escape($val['berhenti']); ?></td>
+			<td><? echo $this->escape($val['pensiun']); ?></td><td><? echo $this->escape($val['meninggal_dunia']); ?></td>
+			<td><? echo $this->escape($val['jml']); ?></td><td>&nbsp;</td><td colspan="2">&nbsp;</td></tr>
+<?			endforeach;
+			}
+	if ($jumformulir8List == 0) {
+?>		
+		
+			<tr class="event">	
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td colspan="2">&nbsp;</td>
+			
+		
+			</tr>
+		
+<? 	}	else { ?>
+
+		<?php 	
+			$i=1;
+			
+			foreach ($this->listFormulir8 as $key => $val):
+				if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? } 
+					//$nip=trim($this->escape($val['i_peg_nip']));*/
+					
+					?>
+				
+				<td><?php echo $i++; ?></td>
+				<td><?php //echo "Nama Jabatan : ".$this->escape($val['nm_jabatan']);
+					  echo "Eseleon I :<br>";
+					  echo $this->escape($val['n_eselon_i']);
+					  echo "<br><br>Eselon II :";
+					  echo "<br>".$this->escape($val['n_eselon_ii']);
+					  echo "<br><br>Eselon III :";
+					  echo "<br>".$this->escape($val['n_eselon_iii']);
+					?></td>	
+				<td><?php echo $this->escape($val['berhenti']);?></td>
+				<td><?php echo $this->escape($val['pensiun']);?></td>
+				<td><?php echo $this->escape($val['meninggal_dunia']);?></td>
+				<td><?php echo $this->escape($val['jml']);?></td>
+				<td><?php echo $this->escape($val['ket']);?></td>
+				<td class="clcenter">			
+					<div class="edit" title="Ubah Data" onclick="OpenFormulir8Olahdata('Update','<?	echo $this->escape($val['id']);?>','<?if(trim($this->escape($val['c_jabatan']))) echo trim($this->escape($val['c_jabatan']));?>','<?if(trim($this->escape($val['nm_jabatan'])))  echo trim($this->escape($val['nm_jabatan'])); ?>','<?=trim($this->escape($val['n_eselon_i']))?>','<?=trim($this->escape($val['n_eselon_ii']))?>','<?=trim($this->escape($val['n_eselon_iii']))?>','<?=trim($this->escape($val['c_eselon_i']))?>','<?=trim($this->escape($val['c_eselon_ii']))?>','<?=trim($this->escape($val['c_eselon_ii_1']))?>','<?=trim($this->escape($val['c_eselon_ii_iii']))?>','<?=trim($this->escape($val['c_eselon_iii']))?>','<?=trim($this->escape($val['c_lokasi_unit']))?>','<?=trim($this->escape($val['n_lokasi_unit']))?>')"></div>	
+				</td>
+				<td class="clcenter">			
+					<div class="delete" title="Hapus Data"  onClick="HapusFormulir8('Formulir 8', '<?=trim($this->escape($val['id']))?>','<?=trim($this->escape($val['nm_jabatan']))?>')"></div>
+				</td>
+								
+			</tr>
+			
+	<?php endforeach; ?>  	  
+<?	}	
+	?>
+	</table>
+	</fieldset>		 
+	</form>

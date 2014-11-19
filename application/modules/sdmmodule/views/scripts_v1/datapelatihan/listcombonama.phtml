@@ -1,0 +1,11 @@
+<?
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+
+	$jmllisnamajenjanglatih = count($this->lisnamajenjanglatih);
+	$lisnamajenjanglatih[''] = '--Pilih--';
+	for ($i = 0; $i < $jmllisnamajenjanglatih; $i++) {	 
+		$lisnamajenjanglatih[$this->lisnamajenjanglatih[$i]->c_jenjang ]= (string)$this->lisnamajenjanglatih[$i]->n_jenjang;			 
+	}    
+	echo $ctrlFrm->formSelect('c_nama_kelompok', $this->c_nama_kelompok, null, $lisnamajenjanglatih);
+?>

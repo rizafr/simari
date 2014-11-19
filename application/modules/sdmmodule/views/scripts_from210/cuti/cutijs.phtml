@@ -1,0 +1,72 @@
+function cetakForm(){
+	var c_cuti_jenis=document.getElementById('c_cuti_jenis').value;
+	var i_peg_nip=document.getElementById('i_peg_nip').value;
+	var url = '<?php echo $this->basePath; ?>/sdm/cuti/cetakform?jeniscuti='+c_cuti_jenis+'&i_peg_nip='+i_peg_nip;	
+	windowOpens(url);	
+}
+
+var maintain_cuti = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		aobj= document.frmajuancuti;
+		astr= "document.frmajuancuti";
+		var cekVal=true;
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				/*sdmValidasiData (navigation.js)*/				
+				if((!i_peg_nip.value)){cekVal = sdmValidasiData(astr,"i_peg_nip","Nip harus diisi....!");return false;break;}
+				if((!c_jenis_cuti.value)){cekVal = sdmValidasiData(astr,"c_jenis_cuti","Jenis Cuti harus diisi....!");return false;break;}
+				if((!q_lama_cuti.value)){cekVal = sdmValidasiData(astr,"q_lama_cuti","Lama Cuti harus diisi....!");return false;break;}
+				if((!d_cuti_mulai.value)){cekVal = sdmValidasiData(astr,"d_cuti_mulai","Tanggal Mulai harus diisi....!");return false;break;}
+				if((!d_cuti_akhir.value)){cekVal = sdmValidasiData(astr,"d_cuti_akhir","Tanggal Akhir harus diisi....!");return false;break;}
+				if (d_cuti_akhir.value && d_cuti_mulai.value){
+					cekVal = compareDate(d_cuti_mulai.value,d_cuti_akhir.value);
+					if (cekVal == false) {return false;break;}						
+				}
+				break;
+			}
+		}
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#frmajuancuti").ajaxForm(maintain_cuti);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/cuti/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+function insertCuti(){
+	jQuery("#frmajuancuti").ajaxForm(maintain_cuti);
+}
+
+function cariListCuti(){
+	var par1 =document.getElementById('par1').value;
+	var par2 =document.getElementById('par2').value;
+	url = "<?php echo $this->basePath; ?>/sdmmodule/cuti/listubahcuti"	
+	var opt = {par1:par1,par2:par2};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+}
+
+function cariListCuti(){
+	var par1 =document.getElementById('par1').value;
+	var par2 =document.getElementById('par2').value;
+	url = "<?php echo $this->basePath; ?>/sdmmodule/cuti/listubahcuti"	
+	var opt = {par1:par1,par2:par2};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+}  
+function ubahCuti(par,nip,jnscuti,tglmulai){
+	url = "<?php echo $this->basePath; ?>/sdmmodule/cuti/cuti"	
+	var opt = {par:par,nip:nip,jnscuti:jnscuti,tglmulai:tglmulai};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+		});		
+} 
+
+

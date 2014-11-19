@@ -1,0 +1,103 @@
+<? require_once 'Zend/View.php';
+    require_once 'share/halaman_list.php';
+  
+	$ctrlFrm = new Zend_View();
+	$halaman = new halaman_list(); 
+  
+	$jmldptigaList = count($this->dptigaList);
+
+	$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}  
+?>
+	<div class="navlink">
+			<a  href="<? echo $this->basePath; ?>/sdm">Halaman Depan</a> 
+			<strong> &#8250; </strong>
+			<a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/datapegawai/listpegawai','<?php echo $this->basePath; ?>/sdmmodule/datapegawai/pegawaijs');">Data Pegawai</a>
+			<strong>&#8250;</strong>Penilaian Kinerja
+	</div>
+
+	<div id="top"></div>
+	<div id="confirm" class="<?=$confirm?>" style="display: none">
+		<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+	</div>
+	<h2 class="title">Penilaian Kinerja</h2>
+<?php $opr='kkgn';include "$this->leftMenu/linkdatakinerja.phtml";?>
+<div class="boxholder">	
+	<div class="panel">
+	<?php include "$this->leftMenu/toplink.phtml";?>
+	</div>
+	<form action="" method="post"> 
+
+
+<h2 class="title"><?=$this->judul?></h2>	
+
+<input type="button" value="Pejabat Penilai" onclick="penilaianV('<?=$this->nip?>','pjb');"> 
+<input type="button" value="Rekan Kerja 1 " onclick="penilaianV('<?=$this->nip?>','rkn1');"> 
+<input type="button" value="Rekan Kerja 2" onclick="penilaianV('<?=$this->nip?>','rkn2');"> 
+&nbsp; Tahun Penilaian : <input type="text" size="5" name="d_nilai_kinerja" id="d_nilai_kinerja" value="<?echo $this->d_nilai_kinerja?>" maxlength=4 onKeypress="return justnumber(event)">
+  <?if ($this->c_izin=='000002' || $this->c_izin=='000003'){ ?>	
+<? if (count($this->penilaianList) != 0) {?>
+<div class="add" title="Ubah Data" onclick="penilaianM('update','<?=$this->nip?>','<?=$this->id?>');"></div>		
+<?} else{?>
+<div class="add" title="Tambah Data" onclick="penilaianM('insert','<?=$this->nip?>','<?=$this->penilai?>');"></div>
+<?}
+}
+?>
+   <table width="100%" border="0" cellpadding="0" cellspacing="1" class="tbl">
+		<tr>
+			<th rowspan="2">No</th>
+			<th rowspan="2">Faktor Kinerja</th>
+			<th rowspan="2">Standar Kinerja</th>
+			<th colspan="4">Pencapaian</th>
+		</tr> 
+		<tr>
+			<th>Dibawah Standar Kinerja</th>
+			<th>Perlu Perbaikan</th>
+			<th>Sesuai Standar Kinerja</th>
+			<th>Diatas Standar Kinerja</th>
+		</tr>	
+<? if (count($this->penilaianList) != 0) {
+		foreach ($this->penilaianList as $key => $val): 
+				if ($key%2==0) { ?>
+				<tr class="event">
+				<? } else if ($key%2==1) { ?>
+				<tr class="event2">
+				<? } 
+				$c_nilai_kinerja=$this->escape($val['c_nilai_kinerja']);
+				$no++;
+				?>
+					<td><?php echo $no;?></td>
+					<td><?php echo $this->escape($val['n_faktor_kinerja']);?></td>
+					<td><?php echo $this->escape($val['n_standar_kinerja']);?></td>
+					<td class="clcenter">
+					<?php 
+					if ($this->escape($val['q_nilai_dibawah'])==$this->escape($val['q_nilai_kinerja'])){?>
+					<img src='../images/check.gif'>
+					<?}?>
+					</td>
+					<td class="clcenter">
+					<?php 
+					if ($this->escape($val['q_nilai_perbaikan'])==$this->escape($val['q_nilai_kinerja'])){?>
+					<img src='../images/check.gif'>
+					<?}?>
+					</td>
+					<td class="clcenter">
+					<?php 
+					if ($this->escape($val['q_nilai_sesuai'])==$this->escape($val['q_nilai_kinerja'])){?>
+					<img src='../images/check.gif'>
+					<?}?>
+					</td>
+					<td class="clcenter">
+					<?php 
+					if ($this->escape($val['q_nilai_diatas'])==$this->escape($val['q_nilai_kinerja'])){?>
+					<img src='../images/check.gif'>
+					<?}?>
+					</td>					
+				
+				</tr>
+				<?php endforeach;}?>
+	
+	</table>
+</div>		 
+</form>

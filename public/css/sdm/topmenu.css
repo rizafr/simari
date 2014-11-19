@@ -1,0 +1,124 @@
+/*hendar
+#cont-nav3{
+	BACKGROUND: url(../images/bg_nav.png) top no-repeat;
+	}
+*/	
+#nav3{
+    position:relative;
+	z-index:3;
+	margin:0 auto;
+	clear:both;
+	height:20px; 
+	color:#fff;
+	font-weight:bold;
+	font-size:1em;
+	padding-left:20px;
+	padding-top:2px;
+	overflow:visible;
+	}
+	
+#cont-nav3{
+    position:relative;
+	z-index:1;
+	margin:0 auto;
+	height:30px; 
+	color:#fff;
+	font-size:1em;
+	overflow:visible;
+	}	
+#cont-nav3 ul.nav3 {
+    color: #FFFFFF;
+    float: left;
+    list-style: none outside none;
+    margin: 0;
+    padding: 7px 0 0;
+    width: auto;
+	z-index:3;
+}
+#cont-nav3 ul.nav3 li {
+    float: left;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+#cont-nav3 ul.nav3 li a, #cont-nav3 ul.nav3 li a:visited {
+    color: #000;
+    display: block;
+    font-family: Arial,Tahoma,Verdana;
+    font-size: 11px;
+    font-weight: bold;
+    margin: 0;
+    padding: 6px 10px 5px;
+    position: relative;
+    text-decoration: none;
+    /*text-shadow: 1px 1px #002838;*/
+}
+#cont-nav3 ul.nav3 li a:hover, #cont-nav3 ul.nav3 li a:active, #cont-nav3 ul.nav3 .current_page_item a {
+    background: none repeat scroll 0 0 #341c01;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+#cont-nav3 ul.nav3 li a.sf-with-ul {
+    padding-right: 20px;
+}
+#cont-nav3 ul.nav3 li a .sf-sub-indicator {
+    background: url("../images/down.gif") repeat scroll 0 0 transparent;
+    display: block;
+    height: 10px;
+    overflow: hidden;
+    position: absolute;
+    right: 5px;
+    text-indent: -9999px;
+    top: 7px;
+    width: 10px;
+}
+#cont-nav3 ul.nav3 li li a, #cont-nav3 ul.nav3 li li a:link, #cont-nav3 ul.nav3 li li a:visited {
+    background: none repeat scroll 0 0 #341c01;
+    border-bottom: 1px solid #4e2d08;
+    border-left: 1px solid #4e2d08;
+    border-right: 1px solid #4e2d08;
+    color: #FFFFFF;
+    font-family: Arial,Tahoma,Verdana;
+    font-size: 12px;
+    margin: 0;
+    padding: 5px 10px;
+    position: relative;
+    text-transform: none;
+    width: 200px;
+    font-weight: normal;
+}
+#cont-nav3 ul.nav3 li li a:hover, #cont-nav3 ul.nav3 li li a:active {
+    background: none repeat scroll 0 0 #4e2d08;
+    border-radius: 0 0 0 0;
+    color: #FFFFFF;
+}
+#cont-nav3 ul.nav3 li li a .sf-sub-indicator {
+    background: url("../images/right.gif") repeat scroll 0 0 transparent;
+    top: 10px;
+}
+#cont-nav3 ul.nav3 li ul {
+    height: auto;
+    left: -999em;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: 170px;
+    z-index: 9999;
+}
+#cont-nav3 ul.nav3 li ul a {
+    width: 150px;
+}
+#cont-nav3 ul.nav3 li ul a:hover, #cont-nav3 ul.nav3 li ul a:active {
+}
+#cont-nav3 ul.nav3 li ul ul {
+    margin: -31px 0 0 169px;
+}
+#cont-nav3 ul.nav3 li:hover ul ul, #cont-nav3 ul.nav3 li:hover ul ul ul, #cont-nav3 ul.nav3 li.sfHover ul ul, #cont-nav3 ul.nav3 li.sfHover ul ul ul {
+    left: -999em;
+}
+#cont-nav3 ul.nav3 li:hover ul, #cont-nav3 ul.nav3 li li:hover ul, #cont-nav3 ul.nav3 li li li:hover ul, #cont-nav3 ul.nav3 li.sfHover ul, #cont-nav3 ul.nav3 li li.sfHover ul, #cont-nav3 ul.nav3 li li li.sfHover ul {
+    left: auto;
+}
+#cont-nav3 ul.nav3 li:hover, #cont-nav3 ul.nav3 li.sfHover {
+    position: static;
+}	

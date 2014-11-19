@@ -1,0 +1,43 @@
+<html>
+<head>
+<?php echo $this->render('partials/head.phtml'); ?>
+</head>
+<body>
+<h1>Portal Internal - Pemerintah Kota Cimahi</h1>
+  <div id="page">
+    <div id="container-login">
+		<div id="result" style="display:none;"></div>
+
+	    <div class="container-top"></div>
+		<div class="container-right"></div>
+		<div class="container-bottom"></div>
+		<div class="container-left"></div>
+		<div class="container-top-right"></div>
+		<div class="container-bottom-right"></div>
+		<div class="container-bottom-left"></div>
+		<div class="container-top-left"></div>
+			
+			<fieldset class="panel-form">
+					<h2>Login</h2>
+					<h4>Portal Internal<br>Pemerintah Kota Cimahi</h4>
+					<form name="login" id="myForm" action="main" method="POST">
+					<div class="panel-login">
+						<label for="posnusername">User ID</label>
+							<br>
+								<input type="text" name="username" class="textbox" id="username" size="23">
+							<br>
+						<label for="pospaswword">Password</label>
+							<br>
+								<input type="password" name="password" class="textbox" id="password" size="23">
+							<br>
+					<div class="alignright">
+						<input type="submit" name="submit" value="Login" class="buttonsubmit"/>
+					</div>
+				</div>
+				<div class="note"></div>	  
+			</fieldset>
+		       </form>		          
+			</div>
+	</div>
+</body>
+</html>

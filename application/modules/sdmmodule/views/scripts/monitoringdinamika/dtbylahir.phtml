@@ -1,0 +1,133 @@
+<?
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+?>
+<div id="backgroundPopup" >
+	<center>
+	<div id="popupContact" style="height:400px; width:650px;" >	
+
+		<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+			<tr class="event">
+				<td align="left">
+					<h3>Help : Kelahiran</h3>
+				</td>
+				<td align="right">
+					<div class="delete" title="Close" onclick="closeDetil()"></div>
+				</td>
+			</tr>
+		</table>
+			<form onsubmit="xjxmW.closeWindow(' .  . ')xajax_add('HELP','querylahir',document.getElementById('keyd').value);return false;" id="fd1" name="fd1" enctype="multipart/form-data" method="post">
+			<table border="0" width="100%" class="table">
+		
+		<tbody><tr class="row1">
+             <td>Tanggal Lhr. </td>
+			 <td>
+				<input type="text" onkeypress="return justnumber(event)" maxlength="2" value="" id="d_lhr" name="d_lhr" size="4"> /
+					<input type="text" onkeypress="return justnumber(event)" maxlength="2" value="" id="m_lhr" name="m_lhr" size="4"> /
+					<input type="text" onkeypress="return justnumber(event)" maxlength="4" value="" id="y_lhr" name="y_lhr" size="6">
+					(dd/mm/yyyy)
+			 </td>
+			 <td>
+				<input type="button" onclick=" var strg = document.getElementById('query_nip').value;  if (document.getElementById('m_lhr').value != '' &amp;&amp; document.getElementById('d_lhr').value != '' &amp;&amp; document.getElementById('y_lhr').value != '') {document.getElementById('query_nip').value = strg + ' to_char(d_peg_lahir, \'dd-mm-yyyy\') = ' + '\''+ document.getElementById('d_lhr').value + '-' + document.getElementById('m_lhr').value + '-' + document.getElementById('y_lhr').value + '\'';} else if (document.getElementById('m_lhr').value != '' &amp;&amp; document.getElementById('d_lhr').value == '' &amp;&amp; document.getElementById('y_lhr').value != '') {document.getElementById('query_nip').value = strg + ' to_char(d_peg_lahir, \'dd-mm-yyyy\') like ' + '\''+ '__' + '-' + document.getElementById('m_lhr').value + '-' + document.getElementById('y_lhr').value + '%\'';} else if (document.getElementById('m_lhr').value == '' &amp;&amp; document.getElementById('d_lhr').value == '' &amp;&amp; document.getElementById('y_lhr').value != '') {document.getElementById('query_nip').value = strg + ' to_char(d_peg_lahir, \'dd-mm-yyyy\') like ' + '\'' + '__' + '-' + '__' + '-' + document.getElementById('y_lhr').value + '%\'';} " value="Masukan!" tabindex="55" name="bt_input" id="bt_input">
+				</td>
+		</tr>
+		<tr class="row1">
+             <td>Usia (Thn)</td>
+			 <td>
+				Antara<input type="text" onkeypress="return justnumber(event)" value="" id="usia_awl" name="usia_awl" size="8">
+				&nbsp;<select name="m_umur1" id="m_umur1"><option value="0">......</option><option value="1">1 bulan</option><option value="2">2 bulan</option><option value="3">3 bulan</option><option value="4">4 bulan</option><option value="5">5 bulan</option><option value="6">6 bulan</option><option value="7">7 bulan</option><option value="8">8 bulan</option><option value="9">9 bulan</option><option value="10">10 bulan</option><option value="11">11 bulan</option><option value="12">12 bulan</option>		
+				</select>
+				&nbsp;S/D&nbsp;&nbsp;
+				<input type="text" onkeypress="return justnumber(event)" value="" id="usia_akh" name="usia_akh" size="8">
+				<select name="m_umur2" id="m_umur2"><option value="0">......</option><option value="1">1 bulan</option><option value="2">2 bulan</option><option value="3">3 bulan</option><option value="4">4 bulan</option><option value="5">5 bulan</option><option value="6">6 bulan</option><option value="7">7 bulan</option><option value="8">8 bulan</option><option value="9">9 bulan</option><option value="10">10 bulan</option><option value="11">11 bulan</option><option value="12">12 bulan</option>		
+				</select>
+			</td>
+			 <td>
+				<input type="button" onclick="if (document.getElementById('usia_awl').value != '' &amp;&amp; document.getElementById('usia_akh').value != '') {var bln_1=document.getElementById('m_umur1').value; var bln_2=document.getElementById('m_umur2').value;var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = strg + ' MONTHS_BETWEEN(SYSDATE,d_peg_lahir) between ' + '\''+ (eval((document.getElementById('usia_awl').value) * 12 + eval(bln_1))) + '\'' + ' and ' + '\'' + (eval((document.getElementById('usia_akh').value) * 12 + eval(bln_2))) + '\'';}" value="Masukan!" tabindex="54" name="bt_input0" id="bt_input0">
+				</td>
+		</tr>
+		<tr class="row1">
+             <td>Propinsi</td>
+			 <td>
+				<?php 
+				$jmlPropList = count($this->propinsiList);
+				$propinsiList[''] = '--Pilih--';
+				for ($i = 0; $i < $jmlPropList; $i++) {
+					$propinsiList[(string)$this->propinsiList[$i]->c_propinsi] = (string)$this->propinsiList[$i]->n_propinsi;			 
+				}
+				$propAtrib = array("onClick"=>"javascript:cariKabupaten('targetkablhr','propinsiLahir')"); 
+				echo $ctrlFrm->formSelect('propinsi', $this->propinsi, $propAtrib, $propinsiList)
+				?>				  
+			</td>
+			 <td>
+				<input type="button" onclick="if (document.getElementById('propinsi').value != '') {var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = strg + ' c_peg_propinsi_lahir like ' + '\''+ document.getElementById('propinsi').value + '%\'';} " value="Masukan!" tabindex="55" name="bt_input2" id="bt_input2">
+				</td>
+		</tr>
+		<tr class="row">
+             <td>Kabupaten</td>
+			 <td id="targetkablhr">
+				<?php 
+				$jmlKabList = count($this->kabupatenListLahir);
+				$kabupatenListLahir[''] = '--Pilih--';
+				for ($i = 0; $i < $jmlKabList; $i++) {
+					$kabupatenListLahir[(string)$this->kabupatenListLahir[$i]->c_kabupaten] = (string)$this->kabupatenListLahir[$i]->n_kabupaten;			 
+				}
+				echo $ctrlFrm->formSelect('a_kota_lahir', $this->a_kota_lahir,null, $kabupatenListLahir);
+				?>
+			</td>
+			 <td>
+				<input type="button" onclick="if (document.getElementById('a_kota_lahir').value != '') {var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = strg + ' a_peg_kota_lahir = ' + '\''+ document.getElementById('a_kota_lahir').value + '\'';}" value="Masukan!" tabindex="55" name="bt_input3" id="bt_input3">
+				</td>
+		</tr>
+<!--		
+		<tr class="row1">
+             <td>Tempat Lahir</td>
+			 <td>
+				<input type="text" value="" id="tptlahir" name="tptlahir" size="30">
+			</td>
+			 <td>
+				<input type="button" onclick=" if (document.getElementById('tptlahir').value != '') {var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = strg + ' upper(a.TPTLAHIR) like ' + '\'%'+ document.getElementById('tptlahir').value.toUpperCase() + '%\'';}" value="Masukan!" tabindex="55" name="bt_input4" id="bt_input4">
+				</td>
+		</tr>	
+			 
+         
+		<tr>
+             <td align="center" colspan="3" class="row">&nbsp;
+     			</td>
+         </tr>
+-->	 
+		 <tr>
+             <td align="center" colspan="3" class="row1">
+			 <textarea cols="70" rows="5" id="query_nip" name="query_nip"></textarea>
+						</td>
+         </tr>
+		 <tr class="row1">
+             <td align="left" colspan="2">
+					&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg == '') {document.getElementById('query_nip').value = 'OR (';}  else {document.getElementById('query_nip').value = document.getElementById('query_nip').value + ' OR ';} d" value=" OR " tabindex="56" name="bt0">
+			 	&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg == '') {document.getElementById('query_nip').value = 'AND (';} else {document.getElementById('query_nip').value = document.getElementById('query_nip').value + ' AND ';} " value=" AND " tabindex="57" name="bt2">
+				&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = document.getElementById('query_nip').value + '(';" value=" ( " tabindex="56" name="bt1">
+			 	&nbsp;&nbsp;&nbsp;<input type="button" onclick="var strg = document.getElementById('query_nip').value; document.getElementById('query_nip').value = document.getElementById('query_nip').value + ')';" value=" ) " tabindex="57" name="bt2">
+			</td>
+			 <td align="right">
+			 <input type="button" onclick="var strg = document.getElementById('query_nip').value; if (strg != '') {document.getElementById('query_result').value = document.getElementById('query_result').value + ' ' + strg;closeDetil()}" value="OK !" tabindex="58" name="bt3">
+			 </td>
+         </tr></tbody></table>      
+			</form>
+			
+			</fieldset>
+	
+	</div>
+	</center>
+</div>	
+
+<script>
+function cariKabupaten(target,target2){
+	var c_propinsi=document.getElementById(target2).value;
+	var url = '<?php echo $this->basePath; ?>/sdmmodule/pendaftaranonline/listcombokabupaten';	
+	var param = {c_propinsi:c_propinsi,target:target};
+	jQuery.get(url, param, function(data) {
+		jQuery("#"+target).html(data);
+
+	});
+}
+</script>

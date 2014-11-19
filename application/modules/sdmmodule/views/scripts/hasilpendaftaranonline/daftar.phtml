@@ -1,0 +1,177 @@
+<?  require_once 'Zend/View.php';
+    require_once 'share/halaman_list.php';
+  
+   $ctrlFrm = new Zend_View();
+   $halaman = new halaman_list();  
+
+?>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/sdm">Halaman Utama</a> 
+				<strong> &#8250; </strong>List Data Pendaftar
+			</div>
+	        <a name="top"></a>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+</div>
+	<h2 class="title">List Data Pendaftar</h2>
+	<div class="search-panel">
+				<form id="frmSearch" method="post" name="frmSearch">
+					Pencarian berdasarkan :
+					<?
+							$cCol = array(""=>"--Pilih--",
+									"a.i_ktp"=>"Nomor KTP",
+									"n_pendaftar"=>"Nama",
+									"c_posisi_jabatan"=>"Posisi Jabatan",
+									"c_wil_pengadilan"=>"Wilayah",
+									"q_nomor_daftar"=>"Nomor Pendaftaran",
+									"c_hasil"=>"Hasil");	
+							$var =array("onchange"=>"Src()");				
+							echo $ctrlFrm->formSelect('cCol', $this->cCol, $var, $cCol); 							
+					?>						
+					<span id="targetcari"><input type="text" name="nCol" id="nCol" value="<?echo $this->nCol?>" size="50"></span>
+					<input type="submit" value="Cari" onclick="javascript:cariData();">		   
+				</form>						
+	</div>	
+<br>
+<div class="right">
+<input type="button"  onclick="CetakDaf();" value="Cetak">
+</div>	
+<div id="trgttbl">
+
+<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std" >
+
+<?	if ($this->dataList == 0) {
+		echo "<font color=\"red\">Data Tidak Ditemukan</font>";
+}
+?>
+		<table class="tbl" cellspacing="1" cellpadding="2" border="0" align="center">
+		<tr>
+			<th width="5%">No</th>
+			<th width="30%">Nama</th>
+			<th width="15%">Nomor KTP</th>
+			<th width="15%">Nomor Pendaftaran</th>
+			<th width="15%">Pilihan Jabatan</th>
+			<th width="30%">Wilayah</th>
+		</tr>
+<?
+	if ($this->dataList == 0) {
+?>		
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+<? 	}	else { ?>
+
+		<?php foreach ($this->dataList as $key => $val): 
+		$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
+					   if ($key%2==0) { ?>
+				      <tr class="event">
+					<? } else if ($key%2==1) { ?>
+					  <tr class="event2">
+					<? }?>
+				<td><?php echo $noUrut;?></td>	
+				<td>
+				<a href="#" onclick="viewData('<?=$this->escape($val['i_ktp']);?>','<?=$this->escape($val['q_nomor_daftar'])?>')"><?php echo $this->escape($val['n_pendaftar']);?></a>
+				</td>
+				<td><?php  echo $this->escape($val['i_ktp']);?></td>
+				<td><?php  echo $this->escape($val['q_nomor_daftar']);?></td>
+				<td><?php echo $this->escape($val['n_posisi_jabatan']);?></td>
+				<td><?php  echo $this->escape($val['n_wilayah'])." - ".$this->escape($val['n_pengadilan']);?></td>
+
+		  </tr>
+	<?php endforeach;?> 		  	  
+<?	}	?>
+	</table>
+</div>	
+<div id="popupview"></div>	
+<?
+$modul = $this->basePath."/sdmmodule/hasilpendaftaranonline/daftar?cCol=$this->cCol&nCol=$this->nCol";
+echo $halaman->halamanList($this->totaldataList, $this->numToDisplay, $this->currentPage, $modul)
+?>						
+									
+	</fieldset>		 
+	</form>
+	
+<script>
+function cariData(){
+	jQuery("#frmSearch").ajaxForm(search);
+}
+
+var search = {
+	target:'#trgttbl',
+	beforeSubmit: function() {
+		var col=document.getElementById('cCol').value;
+		if(!col){
+			alert("Combo Pilihan harus diisi....!") 
+			return false;
+			document.getElementById('cCol').focus;
+		}
+	
+	}, 
+	success:function(){
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/hasilpendaftaranonline/daftar',
+	type: 'post',
+	resetForm: false
+};
+
+function Src(){
+	var ccol=document.getElementById('cCol').value;
+	if (ccol=='c_posisi_jabatan'){
+	var url = '<?php echo $this->basePath;?>/sdmmodule/hasilpendaftaranonline/listcombojabatan';
+	var param = {};
+		jQuery.get(url, param, function(data) {
+			jQuery("#targetcari").html(data);			
+		});	
+	}
+	if (ccol=='c_wil_pengadilan'){
+	var url = '<?php echo $this->basePath;?>/sdmmodule/hasilpendaftaranonline/listcombowilayah';
+	var param = {};
+		jQuery.get(url, param, function(data) {
+			jQuery("#targetcari").html(data);			
+		});	
+	}
+	if (ccol=='c_hasil'){
+	var url = '<?php echo $this->basePath;?>/sdmmodule/hasilpendaftaranonline/listcombohasil';
+	var param = {};
+		jQuery.get(url, param, function(data) {
+			jQuery("#targetcari").html(data);			
+		});	
+	}	
+
+}
+
+function viewData(i_ktp,q_nomor_daftar){
+var url = '<?php echo $this->basePath;?>/sdmmodule/hasilpendaftaranonline/view';
+var param = {i_ktp:i_ktp,q_nomor_daftar:q_nomor_daftar};
+	jQuery.get(url, param, function(data) {
+		jQuery("#popupview").html(data);
+		centerPopup();
+		loadPopup();			
+	});	
+}
+
+function CetakDaf()
+{
+	var cCol=document.getElementById('cCol').value;
+	var nCol=document.getElementById('nCol').value;
+	url = "<?php echo $this->basePath; ?>/sdmmodule/hasilpendaftaranonline/cetakdaftar?cCol="+cCol+"&nCol="+nCol;	
+	windowOpens();
+} 
+
+function windowOpens(){
+	var w = 0; 
+	var h = 0;
+	w = screen.availWidth;
+	h = screen.availHeight;
+	var popW = 700, popH = 600;
+	var leftc = (w-popW)/2;
+	var topc = (h-popH)/2;
+	var selectWindow = window.open(url,'Selection', 'left=' + leftc + ',top=' + topc + ', width='+popW+',height='+popH+',resizable=0,scrollbars=yes');
+}
+
+</script>		

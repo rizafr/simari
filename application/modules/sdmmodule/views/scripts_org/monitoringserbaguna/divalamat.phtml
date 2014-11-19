@@ -1,0 +1,69 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+?>
+
+	<h3 class="title"><b>Alamat</b><h3>
+	<br>
+	<table border="0" cellpadding="0" cellspacing="1" class="std" width="100%">
+							<tr>
+								<td width="15%">Jalan</td>
+								<td width="2%">:</td>
+								<td>
+									<textarea rows="1" name="a_peg_rumah" id="a_peg_rumah"><?=$this->a_peg_rumah?></textarea>
+								</td>
+							</tr>	
+							<tr>
+								<td>RT / RW</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="5" name="a_peg_rt" id="a_peg_rt" value="<?=$this->a_peg_rt?>" onkeyup="isNumber('a_peg_rt')" > /
+									<input type="text" size="5" name="a_peg_rw" id="a_peg_rw" value="<?=$this->a_peg_rw?>" onkeyup="isNumber('a_peg_rw')">
+								</td>
+							</tr>	
+							<tr>
+								<td>Desa/Keluarahan</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="55" name="a_peg_kelurahan" id="a_peg_kelurahan" value="<?=$this->a_peg_kelurahan?>">
+								</td>
+							</tr>	
+							<tr>
+								<td>Kecamatan</td>
+								<td>:</td>
+								<td>
+									<input type="text" size="55" name="a_peg_kecamatan" id="a_peg_kecamatan" value="<?=$this->a_peg_kecamatan?>">
+								</td>
+							</tr>	
+							<tr>
+								<td>Propinsi</td>
+								<td>:</td>
+								<td>
+									<?php 
+									   $jmlPropList = count($this->propinsiList);
+									   $propinsiList[''] = '--Pilih--';
+									   for ($i = 0; $i < $jmlPropList; $i++) {
+									   $propinsiList[(string)$this->propinsiList[$i]->c_propinsi] = (string)$this->propinsiList[$i]->n_propinsi;			 
+									   }
+										$propAtrib = array("id"=>"propinsiSelect","onClick"=>"javascript:cariKabupaten('targetkabupaten','propinsiSelect')"); 
+										echo $ctrlFrm->formSelect('a_peg_propinsi', $this->a_peg_propinsi, $propAtrib, $propinsiList)
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Kabupaten</td>
+								<td>:</td>
+								<td id="targetkabupaten">
+									<?php 
+										$jmlKabList = count($this->kabupatenList);
+										$kabupatenList[''] = '--Pilih--';
+										for ($i = 0; $i < $jmlKabList; $i++) {
+											$kabupatenList[(string)$this->kabupatenList[$i]->c_kabupaten] = (string)$this->kabupatenList[$i]->n_kabupaten;			 
+										}
+										echo $ctrlFrm->formSelect('a_peg_kota', $this->a_peg_kota,null, $kabupatenList);
+									?>
+								</td>
+							</tr>				
+	</table>

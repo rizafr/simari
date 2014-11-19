@@ -1,0 +1,56 @@
+function openFormUniversitas(par,c_universitas,n_universitas2,n_rayon_pro,q_strata,n_universitas){
+	var url = "<?php echo $this->basePath; ?>/sdmmodule/refuniversitas/universitasolahdata";
+	var opt = {par:par, c_universitas:c_universitas, n_universitas2:n_universitas2,n_rayon_pro:n_rayon_pro,q_strata:q_strata,n_universitas:n_universitas};
+	jQuery.get(url,opt,function(data) {
+		jQuery("#tableview").html(data);
+			//jQuery("#formuniversitas").ajaxForm(maintain_universitas);
+		});		
+} 
+
+function insertUniversitas(){
+	jQuery("#formuniversitas").ajaxForm(maintain_universitas);
+}
+
+var maintain_universitas = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formuniversitas").ajaxForm(maintain_universitas);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refuniversitas/insertuniversitas',
+	type: 'post',
+	resetForm: false
+};
+
+function updateUniversitas(){
+	jQuery("#formuniversitas").ajaxForm(update_universitas);
+}
+
+var update_universitas = {
+	target:'#tableview',
+	beforeSubmit: function() {
+		}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		jQuery("#formuniversitas").ajaxForm(maintain_universitas);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/refuniversitas/updateuniversitas',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusUniversitas(param1, param2, param3){
+	if(ConfirmDelete(param1, param3))
+	{	//alert("test");
+		handler = '<?php echo $this->basePath; ?>/sdmmodule/refuniversitas/deleteuniversitas';
+		var opt = {c_universitas : param2};
+		jQuery.get(handler,opt,function(data) {
+				$("#tableview").html(data);
+				doCount(5);
+			 });
+	} 
+}

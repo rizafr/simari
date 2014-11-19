@@ -1,0 +1,142 @@
+<? require_once 'Zend/View.php';
+   require_once 'share/tanggal.php'; 
+  require_once 'share/halaman_list.php';
+   
+   $ctrlFrm = new Zend_View();
+$ctrlDate = new tanggal(); 
+   $halaman = new halaman_list();
+   $bulanDesc = array("01"=>"Januari",
+                      "02"=>"Februari",
+                      "03"=>"Maret",
+                      "04"=>"April",
+                      "05"=>"Mei",
+                      "06"=>"Juni",
+                      "07"=>"Juli",
+                      "08"=>"Agustus",
+                      "09"=>"September",
+                      "10"=>"Oktober",
+                      "11"=>"November",
+                      "12"=>"Desember");
+	$hari = array("Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu");
+
+    $jmlUnitKerjaList = count($this->unitKerjaList);
+	for ($i=0; $i<$jmlUnitKerjaList; $i++)
+	{
+	   $orgList[(string)$this->unitKerjaList[$i]['i_orgb']] = (string)$this->unitKerjaList[$i]['n_orgb'];
+	}
+?>   
+<div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong> SDM 
+				<strong> &#8250; </strong>Absensi
+				<strong> &#8250; </strong>Melihat Absensi Pegawai
+</div>
+<a name="top"></a>
+
+	<div style="overflow: hidden;">
+		<div class="wrap">
+			<div class="panel">
+				<div class="inner">
+					<span class="corners-top"><span></span></span>
+					<h2 class="title">Melihat Absensi Pegawai</h2>
+								<table border="0" cellpadding="0" cellspacing="1" class="std">
+									<tr>
+										<td width="25%">Unit Kerja</td>
+										<td width="2%">:</td> 
+										<td>
+<?
+											echo $ctrlFrm->formSelect('idORG', $idORG, null, $orgList);
+											echo $ctrlFrm->formHidden('c',$this->category,null);
+?>
+										</td> 
+									</tr>
+									<tr>
+										<td>Nip</td>
+										<td>:</td> 
+										<td>
+<?
+											echo $ctrlFrm->formText('itNip', $itNip, $this->nippegAtr);
+?>
+										</td> 
+									</tr>
+									<tr>
+										<td>Nama </td>
+										<td>:</td> 
+										<td>
+<?
+											echo $ctrlFrm->formText('itNama', $itNama, $this->namapegAtr);
+?>
+										</td> 
+									</tr>									
+									<tr>
+										<td>Periode</td>
+										<td>:</td> 
+										<td>
+<?										
+											echo $ctrlDate->formatTanggal('d_pend_ijazah',$this->d_pend_ijazah)." s/d ".$ctrlDate->formatTanggal('d_pend_ijazah',$this->d_pend_ijazah);
+?>											
+										</td> 
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td> 
+										<td>
+											<input type='submit' id='iiCariPegAbsensi' value='Cari' onClick='ioCariPegAbsensi()'>
+										</td> 
+									</tr>
+								</table>	
+
+						<table align='center' width='90%' border='0' cellspacing='1' cellpadding='2' class='tbl'>
+							<tr>
+								<th rowspan='2'>No</th>			
+								<th rowspan='2'>Tanggal</th>
+								<th rowspan='2'>Hari</th>
+								<th colspan='3'>Masuk</th>
+								<th colspan='3'>Keluar</th>
+								<th colspan='2'>Lembur</th>
+								<th colspan='2'>Jumlah Jam (menit)</th>
+								<th rowspan='2'>Mns Jam Kerja (mnt)</th>
+								<th rowspan='2'>Nomor Surat</th>
+								<th rowspan='2'>Tanggal Entry</th>
+							</tr>
+							<tr>
+								<th>Kerja</th>
+								<th>Dari Ijin</th>
+								<th>Dari Istirahat</th>
+								<th>Ijin Dinas</th>
+								<th>Ijin Pribadi</th>
+								<th>Pulang</th>
+								<th>Mulai</th>
+								<th>Selesai</th>
+								<th>Kerja</th>
+								<th>Lembur</th>
+							</tr>
+							<tr class="event">
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+						</table>	
+<?
+$modul = $this->basePath."/sdm/datapegawai/pegawaisearch";
+echo $halaman->halamanList($this->totalpegawaiList, $this->numToDisplay, $this->currentPage, $modul)
+?>							
+					<span class="corners-bottom"><span></span></span>
+				</div>
+			</div>
+		</div>
+	</div>
+

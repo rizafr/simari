@@ -1,0 +1,111 @@
+<div id="cont-nav">
+	<div id="nav-top">
+		
+			<div class="username"><?php echo $this->ssologin->userid; ?> (<?php echo $this->ssologin->n_peg;?>) | <a href="/logout">Logout</a></div>
+			<div class="crdate"><span id="servertime"></span></div>
+	</div>		
+	<div id="nav">
+				<h2 class="accessibility">Navigation</h2>
+					<ul class="nav">
+					  <li ><a href="./main">Halaman Utama</a></li>
+					  <li ><a href="#">EISxx</a>
+					    <ul>
+						  <li><a href="/siap">Sistem Informasi SIAP</a></li>
+						  <li><a href="#">Sistem Informasi Perencanaan dan Organisasi</a></li>
+						  <li><a href="#" onclick="showPortalChart('<?php echo $this->basePath; ?>/sdmmodule/portalchart/chartusia','<?php echo $this->basePath; ?>/sdmmodule/portalchart/chartjs');">Sistem Informasi Kepegawaian</a></li>
+						  <li><a href="#">Sistem Informasi Keuangan</a></li>
+						  <li><a href="#">Sistem Informasi Aset</a></li>
+						  <li><a href="#">Sistem Informasi Logistik</a></li>
+						  <!--li><a href="#komdata">Sistem Informasi Komunikasi Data</a></li-->	
+					    </ul>
+					  </li>
+					  <li><a href="#tentangkami" onclick="showDetil('<?php echo $this->basePath; ?>/portalmodule/tentangkami/tentangkamidetil','1','Tentang Kami')">Tentang Kami</a></li>
+					  <li><a href="#kontakkami" onclick="showDetil('<?php echo $this->basePath; ?>/portalmodule/kontakkami/kontakkamidetil','1','Kontak Kami')">Kontak Kami</a></li>
+					  <li><a href="#indeksberita" onclick="goExec_Script('<?php echo $this->basePath; ?>/portalmodule/berita/indeksberita','<?php echo $this->basePath; ?>/portalmodule/berita/beritajs', 'Berita')">Berita</a></li>
+					  <li><a href="#indekspengumuman" onclick="goExec_Script('<?php echo $this->basePath; ?>/portalmodule/pengumuman/indekspengumuman','<?php echo $this->basePath; ?>/portalmodule/pengumuman/pengumumanjs', 'Pengumuman')">Pengumuman</a></li>
+					  <li ><a href="#">Produk Hukum</a>
+					  <?php 
+		   //var_dump($this->detailUser);
+			//echo "satker = ".$this->ssologin->n_satker;
+		?>
+<?php
+$jumkategoriprodukhukumPubList = count($this->kategoriprodukhukumPubList); 
+//echo "n=".$jumkategoriprodukhukumPubList;    
+if ($jumkategoriprodukhukumPubList!=0) {
+//  if ($jumkategoriprodukhukumPubList > 10) $end=10; 
+//  else $end=$jumkategoriprodukhukumPubList-1;
+echo" 		<ul class=\"nostyle\">\n";
+ foreach ($this->kategoriprodukhukumPubList as $val): 
+$dat = $listtmkategoriprodukhukum[$i];
+	$objtmkategoriprodukhukum = unserialize($dat); 
+$idkategoriprodukhukum=trim($this->escape($val['c_kategori']));
+$jdlkategoriprodukhukum=trim($this->escape($val['n_judul']));
+
+ ?>		
+	               <li><a href="#" onclick="goExec_ScriptId('<?php echo $this->basePath; ?>/portalmodule/produkhukum/indeksprodukhukum','<?php echo $idkategoriprodukhukum;?>','<?php echo $this->basePath; ?>/portalmodule/produkhukum/produkhukumjs', 'Produk Hukum')"><?php echo $jdlkategoriprodukhukum;?></a></li>
+ 
+	<?php endforeach;?> 	
+	             </ul>
+<?php } ?>		     
+					  
+					  </li>
+					  <li ><a href="forum/" target="_blank">Forum</a></li>
+
+					  <?php
+					       $mailhost = 'mail.mahkamahagung.go.id';
+						$mailport = '80';
+						$userid = '';
+						$password = '';
+						
+						require_once 'Zend/Auth.php';
+						$ssologin = new Zend_Session_Namespace('ssologin');
+						
+						if ($ssologin->userid && $ssologin->n_peg) {
+							$userid = $ssologin->userid;
+							$password = $ssologin->password;
+						}
+
+						$chars = array();
+						for($i = 0; $i < strlen($password ); $i++){
+        						$chars[] = '%'.dechex(ord($password [$i]));
+    						}
+						$password = implode('', $chars);
+
+						$url = "http://".$mailhost.":".$mailport."/zimbra/?loginOp=login&username=".$userid."&password=".$password;
+					  ?>
+
+					  <li ><a href="<?php echo $url; ?>" target="_blank">Email</a></li>
+					  <!--li ><a href="#">Chat</a></li-->
+					  
+					  
+					  <?
+					  //Check Otoritas dan ambil nama aplikasinya
+					  //------------------------------------------------------
+					  $admaplikasi_serv = Adm_Admaplikasi_Service::getInstance();
+					  for($a=0;$a<count($this->checkotoritas); $a++){
+							$iAplikasi = $this->checkotoritas[$a];
+							$dataDetailAplikasi = array("i_aplikasi" => $iAplikasi);
+							$detailAplikasi = $admaplikasi_serv->aplikasiDetail($dataDetailAplikasi);
+							//echo "detailAplikasi = ".$detailAplikasi['c_aplikasi']."<br>";
+							
+							$checkotoritasKodeAplikasi[$a] = $detailAplikasi['c_aplikasi'];
+					  }
+					  //var_dump($checkotoritasKodeAplikasi);
+					  $cAplikasiCms = 'cms'; //di db manajemen aplikasi i_aplikasi=8
+					  if(in_array($cAplikasiCms, $checkotoritasKodeAplikasi)){
+					  ?>
+						<li ><a href="/cms">CMS</a></li>
+					  <?
+					  }
+					  
+					  $cAplikasiAdm = 'adm'; //di db manajemen aplikasi i_aplikasi=8
+					  //var_dump($checkotoritasKodeAplikasi);
+					  if(in_array($cAplikasiAdm, $checkotoritasKodeAplikasi)){
+					  ?>
+						<li ><a href="/adm">Manajemen Aplikasi</a></li>
+					  <?php
+					  }
+					  ?>
+					</ul>
+   </div>
+   </div>

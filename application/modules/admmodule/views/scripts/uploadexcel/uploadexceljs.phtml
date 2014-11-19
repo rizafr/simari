@@ -1,0 +1,57 @@
+function uploadData(){
+   document.getElementById("trgt").style.display="block";
+	jQuery("#formimport").ajaxForm(import_data);
+}
+
+var import_data = {
+	target:'#tableview',
+	beforeSubmit: function() {}, 
+	success:function(){
+		location.href="#top";
+		//doCounter(5);
+	},
+	url: '<?php echo $this->basePath; ?>/sdmmodule/uploadexcel/prosesuploadexcel',
+	type: 'post',
+	resetForm: false
+};
+
+function ambilFile(){
+ 
+	url = "<?php echo $this->basePath; ?>/sdmmodule/uploadexcel/downloadexcel";
+	BukaWindows(url,500,200);
+}
+
+function ambilFilePdf(){
+ 
+	url = "<?php echo $this->basePath; ?>/admmodule/uploadexcel/downloadpdf";
+	BukaWindows(url,500,200);
+} 
+
+function BukaWindows(url,wid,heg){
+	var w = 0; 
+	var h = 0;
+	w = screen.availWidth;
+	h = screen.availHeight;
+	var popW = wid, popH = heg;
+	var leftc = (w-popW)/2;
+	var topc = (h-popH)/2;
+	var selectWindow = window.open(url,'Selection', 'left=' + leftc + ',top=' + topc + ', width='+popW+',height='+popH+',resizable=0,scrollbars=yes');
+}	
+
+function setvalueuplfile(v,n,f) { 
+	  if (f!="") {
+	    var pass=false;
+	    var af=f.split("/");
+        var nval=eval("document.forms[0]."+n);
+		var ext=v.substring(v.lastIndexOf(".")+1,v.length);
+		if ((ext==f)){ 
+		document.forms[0].a_file.value=v; 
+		}
+		else{
+		  alert ("Hanya untuk file berekstensi '"+f+"'");
+		  nval.value="";
+		  document.forms[0].a_file.value=""; 
+		  return;	  
+		}
+	  }
+}

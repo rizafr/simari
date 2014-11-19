@@ -1,0 +1,153 @@
+<? require_once 'Zend/View.php';
+   $ctrlFrm = new Zend_View();
+
+   $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+?>
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("#d_tanggal_lahir").datepicker();
+		jQuery("#d_tanggal_nikah").datepicker();
+		
+	});
+</script>
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong>SDM 
+				<strong> &#8250; </strong><a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdm/datapegawai/pegawaisearch','<?php echo $this->basePath; ?>/sdm/pegawai/pegawaijs');">Referensi</a>
+				<strong> &#8250; </strong><?=$this->jdl;?> Jabatan
+			</div>
+<div id="top"></div>
+	
+	<h2 class="title"><?=$this->par;?> Referensi Jabatan</h2>	
+		
+<form id="formjabatan" method="post" name="formjabatan">		
+	<div class="panel">
+		<div class="spacer"></div> 
+			<table width="100%" border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>Kode Jabatan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_jabatan" id="c_jabatan" value="<?=$this->detailJabatan['c_jabatan']?>" size="70" maxlength="4">
+					</td>
+				</tr><tr>
+					<td>Nama Jabatan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_jabatan" id="n_jabatan" value="<?=$this->detailJabatan['n_jabatan']?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Keterangan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="e_keterangan" id="e_keterangan" value="<?=$this->detailJabatan['e_keterangan']?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Tkfgs<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_tkfgs" id="c_tkfgs" value="<?=$this->detailJabatan['c_tkfgs']?>" size="70" maxlength="2">
+					</td>
+				</tr><tr>
+					<td>Kelfgs<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_kelfgs" id="c_kelfgs" value="<?=$this->detailJabatan['c_kelfgs']?>" size="70" maxlength="2">
+					</td>
+				</tr><tr>
+					<td>C Golr<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_golr" id="c_golr" value="<?=$this->detailJabatan['c_golr']?>" size="70" maxlength="2">
+					</td>
+				</tr><tr>
+					<td>C Golt<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_golt" id="c_golt" value="<?=$this->detailJabatan['c_golt']?>" size="70" maxlength="2">
+					</td>
+				</tr><tr>
+					<td>Nama Jenjang<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="n_jenjang" id="n_jenjang" value="<?=$this->detailJabatan['n_jenjang']?>" size="70" maxlength="15">
+					</td>
+				</tr><tr>
+					<td>Kode Tanda<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_tanda" id="c_tanda" value="<?=$this->detailJabatan['c_tanda']?>" size="70" maxlength="2">
+					</td>
+				</tr><tr>
+					<td>Kode Eselon<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_eselon" id="c_eselon" value="<?=$this->detailJabatan['c_eselon']?>" size="70" maxlength="2">
+					</td>
+				</tr><tr>
+					<td>Kode Strata<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="c_strata" id="c_strata" value="<?=$this->detailJabatan['c_strata']?>" size="70" maxlength="2">
+					</td>
+				</tr><tr>
+					<td>Q Tunjangan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="q_tunjangan" id="q_tunjangan" value="<?=$this->detailJabatan['q_tunjangan']?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Q Usia Tunjangan<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="q_usia_pens" id="q_usia_pens" value="<?=$this->detailJabatan['q_usia_pens']?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Q Tktfgs<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="q_tktfgs" id="q_tktfgs" value="<?=$this->detailJabatan['q_tktfgs']?>" size="70">
+					</td>
+				</tr><tr>
+					<td>Q ak_minimal<span class="hightlight">*</span>
+					</td>
+					<td>:</td> 
+					<td>					
+						<input type="text" name="q_ak_minimal" id="q_ak_minimal" value="<?=$this->detailJabatan['q_ak_minimal']?>" size="70">
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+					<td></td>
+					<td>
+						<div class="right">
+							<input type="button" value="Batal" onclick="open_url_to_div('<?php echo $this->basePath; ?>/sdmmodule/refjabatan/listjabatan','<?php echo $this->basePath; ?>/sdmmodule/refjabatan/jabatanjs');"> 
+							<?if ($this->par == 'insert'){?>
+								<input type="submit" value="<?=$this->par;?>" onClick="insertJabatan()">
+							<?} else {?>
+								<input type="submit" value="<?=$this->par;?>" onClick="updateJabatan()">
+							<?}?>
+							<input type="hidden" name="proses" value="<?=$this->par;?>">
+						</div>
+					</td>
+				</tr>			
+			</table>
+	</div>
+	</form>

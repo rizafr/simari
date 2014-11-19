@@ -1,0 +1,293 @@
+<?php 
+require_once 'Zend/View.php';
+require_once "share/tanggal.php";  
+$tanggal = new tanggal();
+$ctrlFrm = new Zend_View();
+$pesancek=$this->pesancek;
+
+$pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}
+   $thnskrg = date("Y");
+   $thnList = $thnskrg - 40;
+   $thnArrayList[''] = '--';
+   for ($i = 0; $i < 60; $i++) {
+     $thnList = $thnList + 1;
+     $thnArrayList[$thnList] = $thnList;
+   }
+
+?>
+<script type="text/javascript">
+	$(function() {
+		$("#d_lahir").datepicker();
+		jQuery("#d_pend_ijazah").datepicker();
+	
+	});
+</script>
+
+		   <div class="navlink">
+				<a  href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a> 
+				<strong> &#8250; </strong> SDM 
+				<strong> &#8250; </strong> Pegawai Baru
+				<strong> &#8250; </strong>Melihat Hasil Ujian
+			</div>
+<div id="top"></div>
+<div id="confirm" class="<?=$confirm?>" style="display: none">
+	<h2 class="title"><?echo $pesan = $this->pesan;?></h2>	
+	<br>	
+</div>
+
+	
+<form name="formdaftaronline" id="formdaftaronline" method="post" action="">
+<h2 class="title">Melihat Hasil Ujian</h2>
+
+	<div class="boxholder">
+	<div class="panel">	
+
+		<div class="spacer"></div> 
+			<table border="0" cellpadding="0" cellspacing="1" class="std">
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+						<table border="0" cellpadding="0" cellspacing="1" class="std">
+							<tr>
+								<td width="25%">Nomor Pendaftaran<span class="hightlight">*</span></td>
+								<td width="2%">:</td>
+								<td>
+									<input type="text" size="60" name="q_nomor_daftar" id="q_nomor_daftar" value="<?=$this->q_nomor_daftar?>" onchange="cariData('hasil')">
+								</td>
+							</tr>						
+							<tr>
+								<td>Nomor KTP</td>
+								<td>:</td>
+								<td>
+									<?=$this->i_ktp?>
+								</td>
+							</tr>
+							<tr>
+								<td>Nama Lengkap</td>
+								<td>:</td>
+								<td>
+									<?=$this->n_pendaftar?>
+								</td>
+							</tr>
+						
+							<tr>
+								<td>Jenis Kelamin</td>
+								<td>:</td> 
+								<td>					
+								<?php
+									if ($this->c_jeniskelamin=="L"){echo "Laki-laki";}
+									if ($this->c_jeniskelamin=="P"){echo "Perempuan";}
+								?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Status Kewarganegaraan</td>
+								<td>:</td> 
+								<td>					
+								<?php 
+									if ($this->c_warganegara=="WNA"){echo "Warga Negara Asing";}
+									if ($this->c_warganegara=="WNI"){echo "Warga Negara Indonesia";}
+								?>
+								</td>
+							</tr>
+							<tr>
+								<td>Agama</td>
+								<td>:</td>
+								<td>
+									<?php													   
+										for ($i = 0; $i < count($this->agamaList); $i++) {
+											if($this->agamaList[$i]['c_agama']==$this->c_agama){echo trim($this->agamaList[$i]['n_agama']);}
+										}
+									?>									
+								</td>
+							</tr>	
+							<tr>
+								<td>Pendidikan</td>
+								<td>:</td>
+								<td>
+									<?php
+										for ($i = 0; $i < count($this->nmJenjangList); $i++) {											
+											if($this->nmJenjangList[$i]['c_pend']==trim($this->c_pend)){echo $this->nmJenjangList[$i]['n_pend'];}
+										}
+									?>									
+								</td>
+							</tr>	
+							<tr id="idjur">
+								<td>Jurusan</td>
+								<td>:</td> 
+								<td>
+								<?php 
+									echo $this->n_pend_jurusan;
+								?>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b>KELAHIRAN</b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td>Propinsi</td>
+								<td>:</td>
+								<td>
+								<?php 
+									   for ($i = 0; $i < count($this->propinsiList); $i++) {
+										
+										if((string)$this->propinsiList[$i]->c_propinsi==trim($this->c_propinsi_lahir)){echo(string)$this->propinsiList[$i]->n_propinsi;}
+									   }
+									
+								?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Kabupaten</td>
+								<td>:</td>
+								<td>
+								<?php 
+									$jmlKabList = count($this->kabupatenList);
+										$kabupatenList[''] = '--Pilih--';
+										for ($i = 0; $i < $jmlKabList; $i++) {	
+										if((string)$this->kabupatenList[$i]->c_kabupaten==trim($this->a_kota_lahir)){echo(string)$this->kabupatenList[$i]->n_kabupaten;}
+									}
+								?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Tanggal</td>
+								<td>:</td>
+								<td>
+									<?=$this->d_lahir?>
+								</td>
+							</tr>								
+							<tr>
+								<td colspan="3" align="left">
+									<h3 class="title"><b>ALAMAT</b><h3>
+								</td>
+							</tr>
+							<tr>
+								<td>Jalan</td>
+								<td>:</td>
+								<td>
+									<?=$this->a_rumah?>
+								</td>
+							</tr>	
+							<tr>
+								<td>RT / RW</td>
+								<td>:</td>
+								<td>
+									<?=$this->a_rt?>/<?=$this->a_rw?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Desa/Keluarahan</td>
+								<td>:</td>
+								<td>
+									<?=$this->a_kelurahan?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Kecamatan</td>
+								<td>:</td>
+								<td>
+									<?=$this->a_kecamatan?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Propinsi</td>
+								<td>:</td>
+								<td>
+									<?php 
+									
+									   for ($i = 0; $i < count($this->propinsiList); $i++) {
+										if((string)$this->propinsiList[$i]->c_propinsi==trim($this->a_propinsi)){echo(string)$this->propinsiList[$i]->n_propinsi;}
+									   }
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Kabupaten</td>
+								<td>:</td>
+								<td id="targetkabupaten">
+									<?php 
+										$jmlKabList = count($this->kabupatenList);
+										$kabupatenList[''] = '--Pilih--';
+										for ($i = 0; $i < $jmlKabList; $i++) {											
+											if((string)$this->kabupatenList[$i]->c_kabupaten==trim($this->a_kota)){echo(string)$this->kabupatenList[$i]->n_kabupaten;}	
+										}										
+									?>
+								</td>
+							</tr>
+							<tr>
+								<td>Kode Pos</td>
+								<td>:</td>
+								<td>
+									<?=$this->a_kodepos?>
+								</td>
+							</tr>	
+							<tr>
+								<td>Telp/HP</td>
+								<td>:</td>
+								<td>
+							<?
+								$fieldId="i_telponrumah";
+								$value=$this->i_telponrumah;
+								$val = explode("-",$value);
+								$size="10";
+								if (!$size) $size = Array(5,10);
+								$xsize = $size[0]+$size[1]+1;
+								$h .= "".$value."";
+								echo $h;
+							?>
+							/ <?=$this->i_telponhp?>
+							
+								</td>
+							</tr>
+							<tr>
+								<td>Alamat Email</td>
+								<td>:</td>
+								<td>
+									<?=$this->a_email?>
+								</td>
+							</tr>	
+								
+						</table>
+		
+	</div>		
+<br>
+<div class="panel">
+						<center>
+						<table width="100%"
+							<tr>
+								<td width="100%" align="center">									
+									<font size="4" face="arial" color="red" >
+									<b>
+									<?if ($this->c_hasil=='1'){echo "L U L U S";}?>
+									<?if ($this->c_hasil=='2'){echo "T I D A K  L U L U S";}?>
+									</b>
+									</font>									
+								</td>
+							</tr>
+						</table>
+						</center>
+	</div>		
+<br>						
+	<div class="panel">
+	
+		<div class="spacer"></div>			
+			<table border="0" cellpadding="0" cellspacing="1" class="std"  width="100%">
+						<tr>
+							<td align="left">ket :&nbsp;(<span class="hightlight">*</span>)&nbsp;harus diisi</td>
+							<td></td>
+							<td align="right">
+								<div class="right">							
+									<input type="hidden" name="proses" value="<?=$this->par;?>">
+								</div>
+							</td>
+						</tr>
+			</table>	
+</div>			
+	</div>
+</form>	

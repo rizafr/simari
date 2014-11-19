@@ -1,0 +1,135 @@
+<? require_once 'Zend/View.php';
+    require_once 'share/halaman_list.php';
+  
+   $ctrlFrm = new Zend_View();
+   $halaman = new halaman_list(); 
+  
+    $jmlPegawaiList = count($this->cutiList);
+  $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';}  
+?>
+	<div class="navlink">
+	<a href="<? echo $this->basePath; ?>/home/index/main">Halaman Utama</a>&nbsp;<strong>&#8250;</strong>&nbsp;SDM&nbsp;<strong>&#8250;</strong>&nbsp;Data Cuti Pegawai&nbsp;
+	</div>
+
+	<div id="top"></div>
+	<div id="confirm" class="<?=$confirm?>" style="display: none">
+		<h2 class="title"><?echo $pesan = $this->pesan;?></h2>				
+	</div>
+	<h2 class="title">Data Cuti Pegawai</h2>
+	<div class="search-panel">
+				<form id="frmSearch" method="post" name="frmSearch">
+					Pencarian berdasarkan :
+					<?php 
+							$ncutilist = array(""=>"--Pilih--",
+											"b.i_peg_nip"=>"NIP",
+											"b.n_peg"=>"Nama");
+							echo $ctrlFrm->formSelect('par1', $this->par1, null, $ncutilist);
+					?>						
+					    <span id="targetcari"><input type="text" name="par2" id="par2" value="<?=$this->par2?>"></span>
+					    <input type="button" value="Cari" onclick="javascript:cariListCuti();">		   
+				</form>						
+	</div>	
+	<div class="space-line"></div>
+	<form action="" method="post"> 
+		<fieldset class="fields"> 
+   <table align="center" border="0" cellspacing="1" cellpadding="2" class="sortable">
+		<tr>
+			<th class="nosort" width="4%">No.</th>
+			<th>Biodata</th>
+			<th>Jenis Cuti</th>
+			<th>Lama Cuti</th>
+			<th>Tanggal Mulai</th>
+			<th>Tanggal Akhir</th>
+			<th>Alamat Cuti</th>
+			<th width="5%" colspan="2">&nbsp;</th>
+		</tr> 
+<? 		if ($jmlPegawaiList == 0) {?>
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>	
+<?}else{
+				foreach ($this->cutiList as $key => $val): 
+				if ($key%2==0) { ?>
+				<tr class="event">
+				<? } else if ($key%2==1) { ?>
+				<tr class="event2">
+				<? } 
+					$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
+					$pangkat = $this->escape($val['n_pangkat']);
+					$golongan = $this->escape($val['c_golongan']);
+					$golPangkat = $golongan." - ".$pangkat;	
+					$nip=$this->escape($val['i_peg_nip']);
+					$tglmulai=$this->escape($val['d_cuti_mulai']);
+					$jnscuti=$this->escape($val['c_jenis_cuti']);
+				?>
+					<td class="clcenter"><?php echo $noUrut;?></td>
+					<td>
+						<table>
+							<tr>
+								<td>NIP</td>
+								<td>:</td>
+								<td><?php echo $this->escape($val['i_peg_nip']);?></td>
+							</tr>
+							<tr>
+								<td>Nama</td>
+								<td>:</td>
+								<td><?php echo $this->escape($val['n_peg']);?></td>
+							</tr>	
+							<tr>
+								<td>Gol/Pangkat</td>
+								<td>:</td>
+								<td><?php echo $golPangkat;?></td>
+							</tr>							
+						</table>
+					</td>
+					<td><?php echo $this->escape($val['n_jenis_cuti']);?></td>
+					<td><?php echo $this->escape($val['q_lama_cuti']);?> Hari</td>						
+				    <td align="center"><?php echo $this->escape($val['d_cuti_mulai']);?></td>
+					<td align="center"><?php echo $this->escape($val['d_cuti_akhir']);?></td>
+					<td>
+						<table>
+							<tr>
+								<td>Jalan</td>
+								<td>:</td>
+								<td><?php echo $this->escape($val['a_alamat_cuti']);?></td>
+							</tr>
+							<tr>
+								<td>RT/RW</td>
+								<td>:</td>
+								<td><?php echo $this->escape($val['a_cuti_rt']);?>/<?php echo $this->escape($val['a_cuti_rw']);?></td>
+							</tr>	
+							<tr>
+								<td>Propinsi</td>
+								<td>:</td>
+								<td><?php echo $this->escape($val['n_propinsi']);?></td>
+							</tr>
+							<tr>
+								<td>Kota</td>
+								<td>:</td>
+								<td><?php echo $this->escape($val['n_kabupaten']);?></td>
+							</tr>							
+						</table>
+					</td>					
+					<td>
+						<div class="edit" title="Ubah Data" onclick="ubahCuti('update','<?=$nip;?>','<?=$jnscuti;?>','<?=$tglmulai;?>');"></div>
+					</td>
+					<td>
+						<div class="delete" title="Hapus Data"  onClick="javascript:HapusDataPeg('<?php echo $this->escape($val['i_peg_nip']);?>')"></div>
+					</td>					
+				</tr>
+				<?php endforeach;}?>
+	
+	</table>
+<div id="targetdetil"></div>
+	</fieldset>		 
+	</form>

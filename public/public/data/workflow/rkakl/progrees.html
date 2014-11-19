@@ -1,0 +1,20 @@
+<script language="javascript">
+    function loadSubmit() {
+
+    ProgressImage = document.getElementById('progress_image');
+    document.getElementById("progress").style.visibility = "visible";
+    document.getElementById("tes").style.visibility = "hidden";
+    setTimeout("ProgressImage.src = ProgressImage.src",200);
+    return true;
+
+    } 
+</script>
+<html>
+<body>
+<form name="form1" action="form1.html">
+<p style="visibility:hidden;" id="progress"/><img id="progress_image" style="padding-left:5px;padding-top:5px;" src="ajax-loader.gif" alt=""> Uploading in progress…<p>
+
+<p id="tes"><input type="submit" name="tombol" value="submit" onclick="return loadSubmit()" /></p>
+</form>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<?php 
+require_once 'Zend/View.php';
+$ctrlFrm = new Zend_View();
+	$jmldata=count($this->jnsHukuman);
+	$jenis[''] = '--Pilih--';
+		for ($i = 0; $i < $jmldata; $i++) {
+			$jenis[(string)$this->jnsHukuman[$i]->c_hukuman] = (string)$this->jnsHukuman[$i]->n_hukuman;			 
+		}
+	echo $ctrlFrm->formSelect('c_jenis_sanksi', $this->c_jenis_sanksi, null, $jenis); 							
