@@ -1,0 +1,38 @@
+
+	<!-- what we do -->
+	<div class="row">
+		<div class="span8">
+			<div class="title-divider">
+				<h3>Tentang Kami</h3>
+				<div class="divider-arrow"></div>
+			</div>
+		</div>
+		<div class="span8">
+			<div class="block-grey">
+				<div class="block-light wrap15">
+				
+				<?php
+				$jmltentangkamiList = count($this->tentangkamiList);
+					//echo $jmltentangkamiList;
+				   for ($j = 0; $j < $jmltentangkamiList; $j++) {
+					 $tentangkami[$j] = array("c_tentangkami"  		=>(string)$this->tentangkamiList[$j]['c_tentangkami'],
+										"n_judul"      		=>(string)$this->tentangkamiList[$j]['n_judul'],
+										 "n_detil"  		=>(string)$this->tentangkamiList[$j]['n_detil'],
+										  "c_status"  		=>(string)$this->tentangkamiList[$j]['c_status']);
+				   } 
+				   
+				   
+					foreach ($tentangkami as $key => $val): 
+						$n_judul	= $this->escape($val['n_judul']);		
+						$n_detil	= $val['n_detil'];
+					?>
+					<p><?php echo ($n_detil);  ?>
+					</p>
+					<?php endforeach;?>
+					
+					<img src="example/about1.jpg" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr>	

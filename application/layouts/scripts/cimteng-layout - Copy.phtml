@@ -3,7 +3,7 @@
 <!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
 <!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
-<?php include "partials/konversi_tanggal.php " ?>
+
 <head>
 	<?php echo $this->render('partials/head-cimsel.phtml'); ?>
 </head>
@@ -19,6 +19,7 @@
                 <ul class="top-menu">
                     <li><a href="./index.html">Home</a></li>
                     <li><a href="#">Sitemap</a></li>
+                    <li><a href="#">Shorcodes</a></li>
                     <li><a href="#" class="last">Contact</a></li>
                 </ul>
             </div>
@@ -48,34 +49,36 @@
         </div>
         <nav id="menu">
             <ul class="clearfix">
-                <li><a href="<? echo $this->basePath; ?>" class="current">Home</a></li>
-                <li><a href="#Tentang Kami" onclick="open_url_to_div('<?php echo $this->basePath; ?>/cmsmodule/tentangkami/about','<?php echo $this->basePath; ?>/cmsmodule/tentangkami/tentangkamijs');">Tentang Kami</a>
+                <li><a href="./index.html" class="current">Home</a></li>
+                <li><a href="./about.html">Tentang Kami</a>
+                    <ul>
+                        <li><a href="./about.html">Profil</a></li>
+                        <li class="last"><a href="./services.html" >Produk Hukum</a></li>
+                    </ul>
                 </li>
-                <li><a href="#produk hukum" onclick="open_url_to_div('<?php echo $this->basePath; ?>/cmsmodule/produkhukum/cmsprodukhukum','<?php echo $this->basePath; ?>/cmsmodule/tentangkami/tentangkamijs');" >Produk Hukum</a>                   
-                <li><a href="#pengumuman" onclick="open_url_to_div('<?php echo $this->basePath; ?>/cmsmodule/pengumuman/cmspengumuman','<?php echo $this->basePath; ?>/cmsmodule/tentangkami/tentangkamijs');" >Pengumuman</a>                   
+                <li><a href="./portfolio2.html" >Pengumuman</a>                   
                 </li>
-                <li><a href="#berita" onclick="open_url_to_div('<?php echo $this->basePath; ?>/cmsmodule/berita/cmsberita','<?php echo $this->basePath; ?>/cmsmodule/tentangkami/tentangkamijs');">Berita</a>                   
+                <li><a href="./blog.html">Berita</a>
+                    <ul>
+                        <li><a href="./blog.html">Blog</a></li>
+                        <li class="last"><a href="./blog-single.html">Blog Single</a></li>
+                    </ul>
                 </li>
-                <li><a href="#kontak kami" onclick="open_url_to_div('<?php echo $this->basePath; ?>/cmsmodule/kontakkami/cmskontakkami','<?php echo $this->basePath; ?>/cmsmodule/tentangkami/tentangkamijs');">Kontak Kami</a></li>
+                <li><a href="./contact.html" >Kontak</a></li>
             </ul>
         </nav>
     </div>
 </header>
 
 <!-- container -->
-
-<div id="loading"></div>
-
 <section id="container">
     <div class="container">
         <div class="row">
             <div class="span12">
                 <div class="row">
                     <!-- page content -->
-					<!-- isi halaman -->
                     <section id="page-sidebar" class="alignleft span8">
                         <!-- slider -->
-						<div id="tableview">
                         <div class="row">
                             <div class="span8">
                                 <div id="mainslider" class="flexslider">
@@ -86,8 +89,7 @@
 										
                                         <li>
                                             <img src="cimteng/slider1.jpg" alt="photo" />
-                                            <h3><span><?php echo $this->escape($val['n_judul']);?></span>
-											<a href="#detilagenda" onclick="detilagenda('<?php echo $this->escape($val['c_agenda']);?>')" ><?php echo ($val['n_detil']);?>.</a></h3>
+                                            <h3><span><?php echo $this->escape($val['n_judul']);?></span><a href="#"><?php echo $this->escape($val['n_detil']);?>.</a></h3>
                                         </li>
 											<?php endforeach;?>
                                        
@@ -105,27 +107,22 @@
                             </div>
 						
 							<?php
-							$jum=count($this->beritaPubList );
 							foreach ($this->beritaPubList as $key => $val): 
 								$n_judul	= $this->escape($val['n_judul']);		
-								$n_detil	=($val['n_detil']);		
+								$n_detil	= $this->escape($val['n_detil']);		
 								$date= $this->escape($val['d_berita']);
-								$date=konversi_tanggal("D, j M Y",$date);
 							?>
 							<!-- artikel -->
                             <article class="blog-post span4">
                                 <div class="block-grey">
                                     <div class="block-light">
-                                        <a href="#"><img src="cimteng/slider1.jpg" alt="photo"/></a>
+                                        <a href="./portfolio2.html"><img src="cimteng/latest1.jpg" alt="photo"/></a>
                                         <div class="wrapper">
-											<p class="tags">
-												<?php echo $date ?>
-											</p>
-                                            <h2 class="post-title"><a href="#judul"><?php echo $n_judul;?></a></h2>
+                                            <h2 class="post-title"><a href="#"><?php echo $n_judul;?></a></h2>
                                             <p>	
-												 <?php echo substr($n_detil, 0, 250);?>
-												  <a href="#detailBerita" onclick="detilBerita('<?php echo $this->escape($val['c_berita']);?>')" class="read-more">[Selengkapnya]</a> <br /> <br />
-                                               
+												 <a href="#"><?php echo $n_detil;?></a>
+												<?php echo $date;?>
+                                                <a href="#" class="read-more">[...]</a>
                                             </p>
                                         </div>
                                     </div>
@@ -135,46 +132,57 @@
 							<!-- end artikel -->                           
                         </div>
                           <!-- end berita -->
-							<!-- what we do -->
-	<div class="row">
-		<div class="span8">
-			<div class="title-divider">
-				<h3>Pengumuman</h3>
-				<div class="divider-arrow"></div>
-			</div>
-		</div>
-		<div class="span8">
-			<div class="block-grey">
-				<div class="block-light wrap15">
-				
-					<ul class="clearfix">
-						<?php	
-									foreach ($this->pengumumanPubList as $key => $val): 
-									$date=$this->escape($val['d_pengumuman']);
-									$date=konversi_tanggal("D, j M Y",$date);
-						?>
+                      
+                        <!-- portfolio slider -->
+                        <div class="row">
+                            <div class="span8">
+                                <div class="title-divider">
+                                    <h3>Pengumuman</h3>
+                                    <div class="divider-arrow"></div>
+                                </div>
+                            </div>
+                            <div class="span8">
+                                <div class="block-grey our-portfolio">
+                                    <div class="block-light wrap10">
+                                        <div id="latest-work" class="carousel btleft">
+                                        <div class="carousel-wrapper">
+                                            <ul class="da-thumbs-folio">
+											<?php
+											foreach ($this->pengumumanPubList as $key => $val): 
+												$n_judul	= $this->escape($val['n_judul']);		
+												$n_detil	= $this->escape($val['n_detil']);		
+												$date= $this->escape($val['d_berita']);
+											?>
+                                                <li>
+                                                    <img src="cimteng/latest1.jpg" />
+                                                    <h3><?php echo $n_judul ?></h3>
+                                                    <div>
+                                                        <a href="cimteng/view.jpg" class="p-view" data-rel="prettyPhoto"></a>
+                                                        <a href="blog-single.html" class="p-link"></a>
+                                                    </div>
+                                                </li>
+											<?php endforeach;?>
+                                                
+                                            </ul>
+                                        </div>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $(document).ready(function(){
+                                                $('#latest-work').elastislide({
+                                                    imageW  : 235,
+                                                    margin  : 10
+                                                });
+                                            });
+                                        </script>
+                                    </div>
 
-						<p>
-						  <span class="date"><?php echo $date ?></span>
-							<h3><a href="#detailpengumuman" onclick="detilpengumuman('<?php echo $this->escape($val['c_pengumuman']);?>')"><?php echo $this->escape($val['n_judul']);?></a></h3>
-							<hr style="border:1px solid #eee">
-						 </p>
-						<?php endforeach;?>										
-							
-					</ul>					
-					
-				</div>
-			</div>
-		</div>
-	</div>
-	<hr>
-                       
-						
-                        </div> 	<!-- end tableview -->
+                                    <div class="short-text">
+                                       <?php echo $n_detil ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </section>
-					
-					<!-- isi halaman -->
-					
                     <!-- sidebar -->
                     <aside id="sidebar" class="alignright span4">
                         <!-- Search -->
@@ -189,7 +197,7 @@
                         <section class="block-grey">
                             <!-- Tabs navigation -->
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#blog" data-toggle="tab">Berita</a></li>
+                                <li class="active"><a href="#blog" data-toggle="tab">Berita Terbaru</a></li>
                                 <li><a href="#archives" data-toggle="tab">Agenda</a></li>
                                 <li><a href="#comments" data-toggle="tab">Pengumuman</a></li>
                             </ul>
@@ -201,22 +209,16 @@
 										<?php
 										foreach ($this->beritaPubList as $key => $val): 
 											$n_judul	= $this->escape($val['n_judul']);		
-											$n_detil	= ($val['n_detil']);		
+											$n_detil	= $this->escape($val['n_detil']);		
 											$date= $this->escape($val['d_berita']);
-											$date=konversi_tanggal("D, j M Y",$date);
 										?>
                                             <li>
                                                 <div class="avatar">
-                                                    <a href="#"><img src="images/logo.jpg" alt="photo"/></a>
+                                                    <a href="#"><img src="cimteng/sidebar1.jpg" alt="photo"/></a>
                                                 </div>
                                                 <div class="description">
-												<span class="date"><em><?php echo $date ?> </em></span>
-                                                    <h3><?php echo $n_judul ?></h3>
-													 <?php echo substr($n_detil, 0,100);?>
-													 <br />
-													<a href="#detailBerita" onclick="detilBerita('<?php echo $this->escape($val['c_berita']);?>')" class="read-more">[Selengkapnya]</a>
-													
-                                                    
+                                                    <p><a href="blog-single.html"><?php echo $n_judul ?></a></p>
+                                                    <span class="date"><em><?php echo $date ?></em></span>
                                                 </div>
                                                 <div class="clear"></div>
                                             </li>
@@ -230,11 +232,10 @@
                                         <ul class="ul-col1 clearfix">
 											<?php
 												foreach ($this->agendaPubList as $key => $val): 
-													$date=$this->escape($val['d_agenda']);
-													$date=konversi_tanggal("D, j M Y",$date);
+													
 											?>
 												<li><span class="date"><?php echo $date ?></span>
-												<h3><a href="#detilagenda" onclick="detilagenda('<?php echo $this->escape($val['c_agenda']);?>')"><?php echo $this->escape($val['n_judul']);?></a></h3>
+												<h3><a href="#" onclick="showDetilmed('<?php echo $this->basePath; ?>/portalmodule/agenda/agendadetil','<?=$this->escape($val['c_agenda'])?>','<?php echo $this->basePath; ?>/portalmodule/agenda/indeksagenda','<?php echo $this->basePath; ?>/portalmodule/agenda/agendajs','Agenda');"><?php echo $this->escape($val['n_judul']);?></a></h3>
 											
 												</li>
                                            	<?php endforeach;?>
@@ -248,12 +249,11 @@
 										<?php	
 													foreach ($this->pengumumanPubList as $key => $val): 
 													$date=$this->escape($val['d_pengumuman']);
-													$date=konversi_tanggal("D, j M Y",$date);
 													
 										?>
 
 										<li><span class="date"><?php echo $date ?></span>
-										  <h3><a href="#detailpengumuman" onclick="detilpengumuman('<?php echo $this->escape($val['c_pengumuman']);?>')"><?php echo $this->escape($val['n_judul']);?></a></h3></li>
+										  <h3><a href="#" onclick="showDetilmed('<?php echo $this->basePath; ?>/portalmodule/pengumuman/pengumumandetil','<?=$this->escape($val['c_pengumuman'])?>','<?php echo $this->basePath; ?>/portalmodule/pengumuman/indekspengumuman','<?php echo $this->basePath; ?>/portalmodule/pengumuman/pengumumanjs','Pengumuman');"><?php echo $this->escape($val['n_judul']);?></a></h3></li>
 										<?php endforeach;?>										
                                             
                                         </ul>
@@ -290,7 +290,7 @@
 													
 								?>
                                 <li>
-                                    <a href="#"><img src="images/logo.jpg" alt="photo"/></a>
+                                    <a href="#"><img src="cimteng/sidebar1.jpg" alt="photo"/></a>
                                     <a href="#"><?php echo $this->escape($val['n_judul']);?></a>
                                     <p><em><?php echo $this->escape($val['i_nomor_produkhukum']);?></em></p>
                                     <div class="clear"></div>
@@ -305,38 +305,49 @@
     </div>
 </section>
 
-<div id="targetdetil"></div>
+<!--footer-->
+<footer id="footer">
+    <div class="container">
+    <div class="row">
+        <div class="span4">
+            <h3>Flickr Photos</h3>
+            <ul class="flickr clearfix"></ul>
+        </div>
+        <div class="span4">
+            <h3>Last Tweet</h3>
+            <div id="twitter-foot"></div>
+        </div>
+        <div class="span4">
+            <h3>Contact Form</h3>
+            <form id="contact" class="form-horizontal" method="post">
+                <div class="controls">
+                    <input type="text" id="inputName" placeholder="Name" name="inputName">
+                    <label class="ferror" for="inputName" id="fname_error">Name is required.</label>
+                </div>
+                <div class="controls">
+                    <input type="text" id="inputEmail" placeholder="Email" name="inputEmail">
+                    <label class="ferror" for="inputEmail" id="femail_error">Email is required.</label>
+                </div>
+                <div class="controls">
+                    <textarea rows="3" id="inputMessage" placeholder="Message" name="inputMessage"></textarea>
+                    <label class="ferror" for="inputMessage" id="fmessage_error">Message is required.</label>
+                </div>
+                <div class="controls">
+                    <input type="submit" class="btn btn-success btn-large footer-button" value="Submit">
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</footer>
 
-<?php echo $this->render('partials/footer.phtml'); ?>
-
-<script>
-function detilBerita(idberita){
-	
-	var url = '<?php echo $this->basePath; ?>/cmsmodule/berita/beritadetil';
-	var param = {idberita:idberita};
-	jQuery.get(url,param,function(data) {
-	jQuery("#targetdetil").html(data);
-	centerPopup();
-	loadPopup();});
-}
-
-function detilagenda(id){
-	var url = '<?php echo $this->basePath; ?>/cmsmodule/agenda/cmsagendadetil';
-	var param = {id:id};
-	jQuery.get(url,param,function(data) {
-	jQuery("#targetdetil").html(data);
-	centerPopup();
-	loadPopup();});}
-	
-	function detilpengumuman(id){
-		var url = '<?php echo $this->basePath; ?>/cmsmodule/pengumuman/cmspengumumandetil';
-		var param = {id:id};
-		jQuery.get(url,param,function(data) {
-		jQuery("#targetdetil").html(data);
-		centerPopup();
-		loadPopup();});}
-		
-
-
-</script>	
-
+<!--footer menu-->
+<section id="footer-menu">
+    <div class="container">
+        <div class="row">
+            <p class="span12"><span>&copy; Copyright 2012, <span class="color2">CITYpress</span> | All Rights Reserved</span></p>
+        </div>
+    </div>
+</section>
+</body>
+</html>

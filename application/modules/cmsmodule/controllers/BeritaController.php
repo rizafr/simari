@@ -74,6 +74,43 @@ public function listberitaAction() {
 		$this->view->totalBeritaList = $this->berita_serv->getBeritaList($cari, 0, 0 ,$orderBy);		
 		$this->view->BeritaList = $this->berita_serv->getBeritaList($cari, $currentPage, $numToDisplay,$orderBy );	 
     }
+	
+public function cmsberitaAction() {    
+    
+	$status=$_GET['status'];
+	$key=strtoupper($_GET['key']);
+	if ($status!=''){
+		if ($key!='') {
+		  $cari = " where c_status='$status' and (upper(n_judul) like '%$key%' or upper(n_detil) like '%$key%')";
+		} else {
+		  $cari = " where c_status='$status'";
+		}
+	}	
+	else if ($key!='') $cari = " where  (upper(n_judul) like '%$key%' or upper(n_detil) like '%$key%')";
+	else $cari ="";
+	//echo "c=".$cari;
+	$orderBy=$_GET['orderBy'];
+	$order=$_GET['order'];
+	if (!$_GET['order']){$this->view->orderbya="asc";$this->view->orderbyb="desc";}
+	else{
+		if ($_GET['order']=='desc'){	$this->view->orderbya="desc";$this->view->orderbyb="asc";}
+		else{$this->view->orderbya="asc";$this->view->orderbyb="desc";}
+	}
+	if ($_GET['orderBy']) $orderBy=" order by $orderBy $order";
+	else $orderBy=" order by d_berita desc";
+	$this->view->orderBy=$_GET['orderBy'];
+	$currentPage=$_GET['currentPage'];
+	if((!$currentPage) || ($currentPage == 'undefined'))
+		{$currentPage = 1;}
+		$numToDisplay = 10;
+		$this->view->numToDisplay = $numToDisplay;
+		$this->view->currentPage = $currentPage;
+		$this->view->totalBeritaList = $this->berita_serv->getBeritaList($cari, 0, 0 ,$orderBy);		
+		$this->view->BeritaList = $this->berita_serv->getBeritaList($cari, $currentPage, $numToDisplay,$orderBy );	 
+    }
+	
+
+	
 public function beritaAction() {
 	$par=$_GET['par'];
 	if ($par=='insert'){
@@ -107,6 +144,7 @@ public function beritadetilAction() {
 		$idberita=$_GET['idberita'];
 		if (!$idberita){$idberita=$this->view->idberita;}
 		$this->listDataByKey($idberita);
+		var_dump($this->listDataByKey($idberita));
 }
 
 public function hapusdataAction() {

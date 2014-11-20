@@ -34,7 +34,7 @@ public function pengumumanjsAction()
 }	
 	
 
-public function listpengumumanAction() {    
+public function cmspengumumanAction() {    
     
 	$status=$_GET['status'];
 	$key=strtoupper($_GET['key']);
@@ -67,6 +67,41 @@ public function listpengumumanAction() {
 		$this->view->totalpengumumanList = $this->pengumuman_serv->getpengumumanList($cari, 0, 0 ,$orderBy);		
 		$this->view->pengumumanList = $this->pengumuman_serv->getpengumumanList($cari, $currentPage, $numToDisplay,$orderBy );	 
     }
+	
+	public function listpengumumanAction() {    
+    
+	$status=$_GET['status'];
+	$key=strtoupper($_GET['key']);
+	if ($status!=''){
+		if ($key!='') {
+		  $cari = " where c_status='$status' and (upper(n_judul) like '%$key%' or upper(n_detil) like '%$key%')";
+		} else {
+		  $cari = " where c_status='$status'";
+		}
+	}	
+	else if ($key!='') $cari = " where  (upper(n_judul) like '%$key%' or upper(n_detil) like '%$key%')";
+	else $cari ="";
+	//echo "c=".$cari;
+	$orderBy=$_GET['orderBy'];
+	$order=$_GET['order'];
+	if (!$_GET['order']){$this->view->orderbya="asc";$this->view->orderbyb="desc";}
+	else{
+		if ($_GET['order']=='desc'){	$this->view->orderbya="desc";$this->view->orderbyb="asc";}
+		else{$this->view->orderbya="asc";$this->view->orderbyb="desc";}
+	}
+	if ($_GET['orderBy']) $orderBy=" order by $orderBy $order";
+	else $orderBy=" order by d_pengumuman desc";
+	$this->view->orderBy=$_GET['orderBy'];
+	$currentPage=$_GET['currentPage'];
+	if((!$currentPage) || ($currentPage == 'undefined'))
+		{$currentPage = 1;}
+		$numToDisplay = 10;
+		$this->view->numToDisplay = $numToDisplay;
+		$this->view->currentPage = $currentPage;
+		$this->view->totalpengumumanList = $this->pengumuman_serv->getpengumumanList($cari, 0, 0 ,$orderBy);		
+		$this->view->pengumumanList = $this->pengumuman_serv->getpengumumanList($cari, $currentPage, $numToDisplay,$orderBy );	 
+    }
+	
 public function pengumumanAction() {
 	$par=$_GET['par'];
 	if ($par=='insert'){
@@ -96,6 +131,15 @@ public function listDataByKey($idpengumuman) {
 
 }	
 public function pengumumandetilAction() {  
+	$idpengumuman=$_GET['id'];
+	$pengumuman=$this->pengumuman_serv->findpengumumanByKey($idpengumuman);
+	$this->view->idpengumuman= $pengumuman['c_pengumuman'];
+	$this->view->jdlpengumuman= $pengumuman['n_judul'];
+	$this->view->detilpengumuman= $pengumuman['n_detil'];
+	$this->view->tglpengumuman= $pengumuman['d_pengumuman'];	
+}
+
+public function cmspengumumandetilAction() {  
 	$idpengumuman=$_GET['id'];
 	$pengumuman=$this->pengumuman_serv->findpengumumanByKey($idpengumuman);
 	$this->view->idpengumuman= $pengumuman['c_pengumuman'];

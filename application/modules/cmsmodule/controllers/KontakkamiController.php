@@ -36,6 +36,10 @@ public function kontakkamijsAction()
 public function listkontakkamiAction() {    
 		$this->view->kontakkamiList = $this->kontakkami_serv->getkontakkamiList();	 
     }
+	
+	public function cmskontakkamiAction() {    
+		$this->view->kontakkamiList = $this->kontakkami_serv->getkontakkamiList();	 
+    }
 public function kontakkamiAction() {
 	$par=$_GET['par'];
 	if ($par=='insert'){

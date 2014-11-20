@@ -60,6 +60,26 @@ public function listprodukhukumAction() {
 		$this->view->kategoriprodhukumList = $this->produkhukum_serv->getprodukhukumList($cari, $currentPage, $numToDisplay,$orderBy );	 
     }
 	
+	public function cmsprodukhukumAction() {	
+	
+	
+	if ($par=='cari'){
+		if ($key){ if ($status=='J') {$key=strtoupper($key); $cari=" and upper(n_judul) like '%$key%'";} if ($status=='I') {$key=strtoupper($key); $cari=" and upper(n_detil) like '%$key%'";}}
+		else {if ($status=='D') {$cari=" and c_status=1";} if ($status=='T') {$cari=" and c_status=0";} }
+		$this->view->key=$_GET['key'];
+		$this->view->status=$_GET['status'];
+	}			
+	$currentPage=$_GET['currentPage'];
+	if((!$currentPage) || ($currentPage == 'undefined'))
+		{$currentPage = 1;}
+		$numToDisplay = 10;
+		$orderBy=" order by d_tahun_produkhukum desc, n_judul asc ";
+		$this->view->numToDisplay = $numToDisplay;
+		$this->view->currentPage = $currentPage;
+		$this->view->totalkategoriprodhukumList = $this->produkhukum_serv->getprodukhukumList($cari, 0, 0 ,$orderBy);		
+		$this->view->kategoriprodhukumList = $this->produkhukum_serv->getprodukhukumList($cari, $currentPage, $numToDisplay,$orderBy );	 
+    }
+	
 public function produkhukumAction() {
 	$par=$_GET['par'];
 	if ($par=='insert'){
@@ -76,6 +96,8 @@ public function produkhukumAction() {
 	}
 	$this->view->KategoriHukumList = $this->produkhukum_serv->getKategoriHukum(); 	
 }
+
+
 public function maintaindataAction() {
 
 $userlogin=$this->view->userid;

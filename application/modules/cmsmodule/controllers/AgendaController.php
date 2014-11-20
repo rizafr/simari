@@ -119,6 +119,19 @@ public function agendadetilAction() {
 	
 }
 
+public function cmsagendadetilAction() {  
+	$idagenda=$_GET['id'];
+	$agenda=$this->agenda_serv->getagendaDtl($idagenda);
+	$this->view->idagenda=$agenda['c_agenda'];
+	$this->view->jdlagenda= $agenda['n_judul'];
+	$this->view->detilagenda= $agenda['n_detil'];
+	$this->view->tglagenda= $agenda['d_agenda'];
+	$this->view->n_tempat= $agenda['n_tempat'];
+	$this->view->c_status= $agenda['c_status'];
+	
+	
+}
+
 public function hapusdataAction() {
  	$idagenda=$_GET['idagenda'];
 	$userlogin=$this->view->userid;

@@ -5,6 +5,7 @@ require_once "service/cms/Cms_pengumuman_Service.php";
 require_once "service/cms/Cms_agenda_Service.php";
 require_once "service/cms/Cms_kategoriprodhukum.php";
 require_once "service/cms/Cms_produkhukum.php";
+require_once "service/cms/Cms_kontakkami_Service.php";
 
 require_once "service/sdm/Sdm_Dashboard_Service.php";
 require_once "service/sdm/Sdm_Statistik_Service.php";

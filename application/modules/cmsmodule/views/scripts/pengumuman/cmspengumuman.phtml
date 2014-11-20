@@ -1,0 +1,131 @@
+<?php
+function konversi_tanggal($format, $tanggal="now", $bahasa="id"){
+ $en=array("Sun","Mon","Tue","Wed","Thu","Fri","Sat","Jan","Feb",
+ "Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+ 
+ $id=array("Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu",
+ "Januari","Pebruari","Maret","April","Mei","Juni","Juli","Agustus","September",
+ "Oktober","November","Desember");
+ 
+ // tambahan untuk bahasa prancis
+ // sumber http://w.blankon.in/6V
+ $fr = array("dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi",
+ "janvier","février","mars","avril","Mei","mai","juillet","aoùt","septembre",
+ "octobre","novembre","décembre");
+ 
+ // mengganti kata yang berada pada array en dengan array id, fr (default id)
+ return str_replace($en,$$bahasa,date($format,strtotime($tanggal)));
+}
+ 
+// //menampilkan tanggal saat ini
+// //keluaran Tue, 26 Mar 2013
+// echo date("D, j M Y")."<br/>";
+ 
+// //menampilkan tanggal saat ini setelah di konversi
+// //keluaran Minggu, 13 Maret 2011
+// echo konversi_tanggal("D, j M Y")."<br/>";
+ 
+// //menampilkan bulan saat ini
+// //keluaran Maret
+// echo konversi_tanggal("M")."<br/>";
+ 
+// //menampilkan hari saat ini
+// //keluaran Minggu
+// echo konversi_tanggal("D")."<br/>";
+ 
+// //konversi tanggal dari format tanggal di mysql
+// //keluaran Jumat, 17 Agustus 1945
+// echo konversi_tanggal("D, j M Y","1945-08-17")."<br/>";
+ 
+// //konversi tanggal dari format tanggal di mysql
+// //keluaran Jumat
+// echo konversi_tanggal("D","1945-08-17")."<br/>";
+ 
+// //konversi tanggal dari format tanggal di mysql
+// //keluaran Agustus
+// echo konversi_tanggal("M","1945-08-17")."<br/>";
+ 
+// //konversi tanggal dari format dengan bahasa lain
+// //keluaran dimanche, 17 avril 1988
+// echo konversi_tanggal("D, j M Y","1988-04-17", "fr")."<br/>";
+?>
+	<!-- what we do -->
+	<div class="row">
+		<div class="span8">
+			<div class="title-divider">
+				<h3>Pengumuman</h3>
+				<div class="divider-arrow"></div>
+			</div>
+		</div>
+		<div class="span8">
+			<div class="block-grey">
+				<div class="block-light wrap15">
+				<?php
+					 $jmlpengumumanList = count($this->pengumumanList);
+	//echo $jmlpengumumanList;
+   for ($j = 0; $j < $jmlpengumumanList; $j++) {
+     $pengumuman[$j] = array("c_pengumuman"  		=>(string)$this->pengumumanList[$j]['c_pengumuman'],
+						"n_judul"      		=>(string)$this->pengumumanList[$j]['n_judul'],
+						"n_detil"  		=>(string)$this->pengumumanList[$j]['n_detil'],
+						"c_status"  		=>(string)$this->pengumumanList[$j]['c_status'],
+						"d_pengumuman"  		=>(string)$this->pengumumanList[$j]['d_pengumuman']);
+   } 
+		?>
+				<table>
+					<tr>
+						<th class="nosort" width="5%">No.</th>
+						<th class="<?=$this->orderbya?>" width="15%" onclick="orderBy('d_pengumuman','<?=$this->orderbyb?>','<?php echo $this->basePath; ?>/cmsmodule/pengumuman/cmspengumuman')">Tanggal</th>
+						<th class="<?=$this->orderbya?>" width="55%"  onclick="orderBy('n_judul','<?=$this->orderbyb?>','<?php echo $this->basePath; ?>/cmsmodule/pengumuman/cmspengumuman')">Judul</th>
+						
+					</tr> 
+			<? 		if ($jmlpengumumanList == 0) {?>
+					<tr class="event">
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>	
+			<?}else{
+							foreach ($pengumuman as $key => $val): 
+							if ($key%2==0) { ?>
+							<tr class="alternate">
+							<? } else if ($key%2==1) { ?>
+							<tr class="alternate2">
+							<? } 
+							$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
+							$cstatus = $this->escape($val['c_status']);
+							$n_detil = $val['n_detil'];
+							
+							$date= $this->escape($val['d_pengumuman']);
+							$date=konversi_tanggal("D, j M Y",$date);
+							
+							?>
+								<td class="clcenter" width="5%"><?php echo $noUrut;?></td>
+								<td width="25%"><?php echo $date ?></td>	
+								<td width="70%"><a href="#" onclick="detilpengumuman('<?php echo $this->escape($val['c_pengumuman']);?>')"><?php echo $this->escape($val['n_judul']);?></a></td>
+								
+								
+							</tr>
+							<?php endforeach;}?>
+				
+				</table>
+					<hr>
+					<div id="targetdetil"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr>
+	
+
+<script>
+		function detilpengumuman(id){
+		var url = '<?php echo $this->basePath; ?>/cmsmodule/pengumuman/pengumumandetil';
+		var param = {id:id};
+		jQuery.get(url,param,function(data) {
+		jQuery("#targetdetil").html(data);
+		centerPopup();
+		loadPopup();});}
+</script>

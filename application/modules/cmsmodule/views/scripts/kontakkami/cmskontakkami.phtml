@@ -1,0 +1,66 @@
+
+	<!-- what we do -->
+	<div class="row">
+		<div class="span8">
+			<div class="title-divider">
+				<h3>Kontak Kami</h3>
+				<div class="divider-arrow"></div>
+			</div>
+		</div>
+		<div class="span8">
+			<div class="block-grey">
+				<div class="block-light wrap15">
+				
+				<?php
+				$jmlkontakkamiList = count($this->kontakkamiList);
+					//echo $jmlkontakkamiList;
+				   for ($j = 0; $j < $jmlkontakkamiList; $j++) {
+					 $kontakkami[$j] = array("c_kontakkami"  		=>(string)$this->kontakkamiList[$j]['c_kontakkami'],
+										"n_judul"      		=>(string)$this->kontakkamiList[$j]['n_judul'],
+										 "n_detil"  		=>(string)$this->kontakkamiList[$j]['n_detil'],
+										  "c_status"  		=>(string)$this->kontakkamiList[$j]['c_status']);
+				   } 
+				   
+				   
+					foreach ($kontakkami as $key => $val): 
+						$n_judul	= $this->escape($val['n_judul']);		
+						$n_detil	= ($val['n_detil']);
+					?>
+					<p><?php echo ($n_detil)  ?>
+					</p>
+					<?php endforeach;?>
+				</div>
+			</div>
+		</div>
+		<div class="span8">
+			<div class="block-grey">
+				<div class="block-light wrap15">
+					<div class="title-divider">
+						<h3>Hubungi Kami</h3>
+						<div class="divider-arrow"></div>
+					</div>
+						<form id="contact" class="form-horizontal" method="post">
+							<div class="controls">
+								<input type="text" id="inputName" placeholder="Name" name="inputName">
+								<label class="ferror" for="inputName" id="fname_error">Name is required.</label>
+							</div>
+							<div class="controls">
+								<input type="text" id="inputEmail" placeholder="Email" name="inputEmail">
+								<label class="ferror" for="inputEmail" id="femail_error">Email is required.</label>
+							</div>
+							<div class="controls">
+								<textarea rows="3" id="inputMessage" placeholder="Message" name="inputMessage"></textarea>
+								<label class="ferror" for="inputMessage" id="fmessage_error">Message is required.</label>
+							</div>
+							<div class="controls">
+								<input type="submit" class="btn btn-success btn-large footer-button" value="Submit">
+						   </div>
+						   </form>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<hr>	
+	
+	  

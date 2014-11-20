@@ -36,6 +36,10 @@ public function tentangkamijsAction()
 public function listtentangkamiAction() {    
 		$this->view->tentangkamiList = $this->tentangkami_serv->gettentangkamiList();	 
     }
+
+public function aboutAction(){
+		$this->view->tentangkamiList = $this->tentangkami_serv->gettentangkamiList();	
+   }
 public function tentangkamiAction() {
 	$par=$_GET['par'];
 	if ($par=='insert'){
@@ -135,6 +139,8 @@ else{ $hasil="gagal";}
 	$this->view->pesancek = $hasil;
 	$this->render('tentangkami');							
    }
+   
+ 
 	  
  
 
