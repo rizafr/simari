@@ -5,6 +5,7 @@ require_once "service/cms/Cms_pengumuman_Service.php";
 require_once "service/cms/Cms_agenda_Service.php";
 require_once "service/cms/Cms_kategoriprodhukum.php";
 require_once "service/cms/Cms_produkhukum.php";
+require_once "service/cms/Cms_tentangkami_Service.php";
 require_once "service/cms/Cms_kontakkami_Service.php";
 
 require_once "service/sdm/Sdm_Dashboard_Service.php";
@@ -44,6 +45,9 @@ class IndexController extends Zend_Controller_Action
 		$this->view->detilpengumuman= $this->detilpengumuman;
 
 		$this->agenda_serv = Cms_agenda_Service::getInstance();
+		$this->tentang_serv = Cms_tentangkami_Service::getInstance();
+		$this->kontak_serv = Cms_kontakkami_Service::getInstance();
+		
 		$this->view->idagenda= $this->idagenda;
 		$this->view->jdlagenda= $this->jdlagenda;
 		$this->view->detilagenda= $this->detilagenda;
@@ -206,8 +210,8 @@ or (c_pend = '10' and c_golongan in('04','05','06','07','08','09','10','11','12'
 
 			$cari5 = "";
 			$this->view->produkhukumPubList = $this->produkhukum_serv->getprodukhukumTenPubList($cari5);	
-
-			$this->view->shoutboxList = $this->shoutbox_serv->getshoutboxList();	
+			$cari6 = "";
+			$this->view->kontakkamiList = $this->kontak_serv->getkontakkamiPubList($cari6);	
 			
 	}
 

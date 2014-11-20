@@ -22,7 +22,7 @@ class Cms_Berita_Service {
 	   $registry = Zend_Registry::getInstance();
 	   $db = $registry->get('db');
 	   try {
-		$xLimit=10;
+		$xLimit=6;
 		 $db->setFetchMode(Zend_Db::FETCH_OBJ); 
 		 $strQuery="SELECT c_berita,n_judul,n_detil,d_berita,n_sumber,c_status  from portal.tmberita where c_status=1 $cari order by d_berita desc limit $xLimit offset 0";
          //echo $strQuery;

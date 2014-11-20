@@ -110,7 +110,7 @@ class Cms_produkhukum_Service {
 			{$data = $db->fetchOne("select count(*) from  portal.tmprodukhukum where 1=1 $cari");}
 			else		
 			{	
-				$xLimit=$numToDisplay;
+				$xLimit=10;
 				$xOffset=($currentPage-1)*$numToDisplay;				
 				$db->setFetchMode(Zend_Db::FETCH_OBJ);	
 				    $strQuery="SELECT c_produkhukum,c_kategori,n_judul,n_detil,n_file,c_status,i_entry,d_entry,i_nomor_produkhukum,d_tahun_produkhukum

@@ -17,9 +17,9 @@
         <div class="row">
             <div class="span6 hidden-phone">
                 <ul class="top-menu">
-                    <li><a href="./index.html">Home</a></li>
+                    <li><a href="<? echo $this->basePath; ?>">Home</a></li>
                     <li><a href="#">Sitemap</a></li>
-                    <li><a href="#" class="last">Contact</a></li>
+                    <li><a href="#kontak kami" onclick="open_url_to_div('<?php echo $this->basePath; ?>/cmsmodule/kontakkami/cmskontakkami','<?php echo $this->basePath; ?>/cmsmodule/tentangkami/tentangkamijs');" class="last">Kontak</a></li>
                 </ul>
             </div>
             <div class="span6">
@@ -38,10 +38,10 @@
     <div class="container">
         <div class="row">
             <div class="span4 logo">
-                <a href="./index.html"><img src="cimteng/logo.png" alt="logo"/></a>
+                <a href="<? echo $this->basePath; ?>"><img src="cimteng/logo.png" alt="logo"/></a>
             </div>
             <div class="span8 hidden-phone">
-                <a href="./index.html" class="alignright banner">
+                <a href="<? echo $this->basePath; ?>" class="alignright banner">
                     <img src="images/banner-468-60.gif" alt="">
                 </a>
             </div>
@@ -154,11 +154,11 @@
 									$date=konversi_tanggal("D, j M Y",$date);
 						?>
 
-						<p>
+						<li>
 						  <span class="date"><?php echo $date ?></span>
 							<h3><a href="#detailpengumuman" onclick="detilpengumuman('<?php echo $this->escape($val['c_pengumuman']);?>')"><?php echo $this->escape($val['n_judul']);?></a></h3>
-							<hr style="border:1px solid #eee">
-						 </p>
+							  <div class="clear"></div>
+						 </li>
 						<?php endforeach;?>										
 							
 					</ul>					
@@ -167,11 +167,10 @@
 			</div>
 		</div>
 	</div>
-	<hr>
-                       
+	<hr>                      
 						
-                        </div> 	<!-- end tableview -->
-                    </section>
+			</div> 	<!-- end tableview -->
+		</section>
 					
 					<!-- isi halaman -->
 					
