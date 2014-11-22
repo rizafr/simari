@@ -112,7 +112,7 @@ function konversi_tanggal($format, $tanggal="now", $bahasa="id"){
 				
 				</table>
 					<hr>
-					<div id="targetdetil"></div>
+					<div id="targetdetilpengumuman"></div>
 				</div>
 			</div>
 		</div>
@@ -125,7 +125,7 @@ function konversi_tanggal($format, $tanggal="now", $bahasa="id"){
 		var url = '<?php echo $this->basePath; ?>/cmsmodule/pengumuman/pengumumandetil';
 		var param = {id:id};
 		jQuery.get(url,param,function(data) {
-		jQuery("#targetdetil").html(data);
+		jQuery("#targetdetilpengumuman").html(data);
 		centerPopup();
 		loadPopup();});}
 </script>

@@ -28,10 +28,9 @@
 					<table class="widefat sortable" cellspacing="1">
 		<tr>
 			<th class="nosort" width="5%">No.</th>
-			<th width="30%">Judul</th>
+			<th width="30%">Pelayanan</th>
 			<th width="10%">Nomor</th>
-			<th width="10%">Tahun</th>	
-			<th width="15%">File</th>
+			<th width="10%">Tahun</th>
 			<th width="10%">Kategori</th>
 		</tr> 
 <? 		if ($jmlkategoripelayananList == 0) {?>
@@ -64,7 +63,6 @@
 					<td><?php echo $this->escape($val['n_judul']);?></td>
 					<td align="left"><?php echo $this->escape($val['i_nomor_pelayanan']);?></td>
 					<td align="center"><?php echo $this->escape($val['d_tahun_pelayanan']);?></td>
-					<td align="center"><a title="file <?php echo $this->escape($val['n_judul']);?>" href="<?php echo $path_data_pelayanan.$this->escape($val['n_file']);?>"><img src="images/word.png"></a></td>
 					<td><?php echo $val['n_kategori'];?></td>
 				</tr>
 				<?php endforeach;}?>

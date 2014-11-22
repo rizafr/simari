@@ -1,7 +1,7 @@
 <?php
 require_once 'Zend/Controller/Action.php';
 require_once 'Zend/Auth.php';
-require_once "service/cms/Cms_Penghargaan_Service.php";
+require_once "service/cms/Cms_penghargaan_Service.php";
 require_once 'share/Portalconf.php'; 
 
 class Cmsmodule_penghargaanController extends Zend_Controller_Action {
@@ -12,7 +12,7 @@ class Cmsmodule_penghargaanController extends Zend_Controller_Action {
 		$registry = Zend_Registry::getInstance();
 		//$this->view->photoPath = $registry->get('photoPath');
 		 
-		$this->penghargaan_serv = Cms_Penghargaan_Service::getInstance();
+		$this->penghargaan_serv = Cms_penghargaan_Service::getInstance();
 		$this->view->idpenghargaan= $this->idpenghargaan;
 		$this->view->jdlpenghargaan= $this->jdlpenghargaan;
 		$this->view->tglpenghargaan= $this->tglpenghargaan;

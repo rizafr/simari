@@ -1,7 +1,7 @@
 <?php
 require_once 'Zend/Controller/Action.php';
 require_once 'Zend/Auth.php';
-require_once "service/cms/Cms_pelayanan.php";
+require_once "service/cms/Cms_pelayanan_Service.php";
 require_once 'share/Portalconf.php'; 
 
 class Cmsmodule_PelayananController extends Zend_Controller_Action {

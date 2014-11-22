@@ -24,7 +24,7 @@ class Cms_pelayanan_Service {
 			$db = $registry->get('db');
 			try 
 			{if(($currentPage==0) && ($numToDisplay==0))
-			{$data = $db->fetchOne("select count(*) from  portal.tmppelayanan where 1=1 $cari");}
+			{$data = $db->fetchOne("select count(*) from  portal.tmpelayanan where 1=1 $cari");}
 			else		
 			{	
 				$xLimit=$numToDisplay;
