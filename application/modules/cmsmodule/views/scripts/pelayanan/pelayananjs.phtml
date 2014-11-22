@@ -1,0 +1,94 @@
+function isNumber(id){
+	var my_string=document.getElementById(id).value;
+	
+	if(isNaN(my_string)){
+		alert('Isikan dengan angka.');
+		document.getElementById(id).focus();
+		document.getElementById(id).value='';
+	}
+}
+function CekCari(){
+	var status =document.getElementById('status').value;
+	if (status!='J' || status!='I' ){document.getElementById('key').value="";}
+}
+function cariListPelayanan(){
+	var par="cari";
+	var key =document.getElementById('key').value;
+	var status =document.getElementById('status').value;
+	var url = '<?php echo $this->basePath;?>/cmsmodule/pelayanan/listpelayanan';	
+	var param = {par:par,key:key,status:status};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);
+			jQuery("#formpelayanan").ajaxForm(maintain_pelayanan);
+		});
+}
+function pelayanan(par,c_pelayanan){
+	var url = '<?php echo $this->basePath;?>/cmsmodule/pelayanan/pelayanan';	
+	var param = {par:par,c_pelayanan:c_pelayanan};
+		jQuery.get(url, param, function(data) {
+			jQuery("#tableview").html(data);
+			jQuery("#formpelayanan").ajaxForm(maintain_pelayanan);
+		});
+}
+
+function insertPelayanan(){
+	jQuery("#formpelayanan").ajaxForm(maintain_pelayanan);	
+}
+var maintain_pelayanan = {
+	target:'#tableview',
+	beforeSubmit: function() {		
+		aobj= document.formpelayanan;
+		astr= "document.formpelayanan";
+		var cekVal="";
+		with(aobj){      
+			var Proceed = 1;
+			while (Proceed == 1)
+			{
+				if((!c_kategori.value)){cekVal = sdmValidasiData(astr,"c_kategori","Kategori Pelayanan harus diisi....!");return false;break;}
+				if((!n_judul.value)){cekVal = sdmValidasiData(astr,"n_judul","Judul Pelayanan harus diisi....!");return false;break;}				
+				break;
+			}			
+		}
+	}, 
+	success:function(){
+		location.href="#top";
+		doCounter(5);
+		
+	},
+	url: '<?php echo $this->basePath; ?>/cmsmodule/pelayanan/maintaindata',
+	type: 'post',
+	resetForm: false
+};
+
+function HapusDataPelayanan(c_pelayanan)
+{
+	var where_to= confirm("Yakin anda akan hapus data ini ???");
+	 if (where_to== true)
+	 {
+		url = "<?php echo $this->basePath; ?>/cmsmodule/pelayanan/hapusdata"
+		var opt = {c_pelayanan:c_pelayanan};
+		jQuery.get(url,opt,function(data) {
+			jQuery("#tableview").html(data);
+				location.href="#top";
+				doCounter(5);
+			});
+	 }
+}
+
+function setvalueuplfile(v,n,f) { 
+	  if (f!="") {
+	    var pass=false;
+	    var af=f.split("/");
+        var nval=eval("document.forms[0]."+n);
+		var ext=v.substring(v.lastIndexOf(".")+1,v.length);
+		if ((ext==f)||(ext=='pdf')||(ext=='docx')||(ext=='xls')||(ext=='xlsx')){ 
+		document.forms[0].a_file.value=v; 
+		}
+		else{
+		  alert ("Hanya untuk file berekstensi '"+f+"',docx,pdf,xls,xlsx ");
+		  nval.value="";
+		  document.forms[0].a_file.value=""; 
+		  return;	  
+		}
+	  }
+}
