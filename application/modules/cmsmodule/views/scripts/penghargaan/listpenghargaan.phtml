@@ -1,0 +1,115 @@
+<? require_once 'Zend/View.php';
+    require_once 'share/halaman_list.php';
+    require_once 'share/Portalconf.php';
+  
+   $ctrlFrm = new Zend_View();
+   $halaman = new halaman_list(); 
+  
+    $jmlPenghargaanList = count($this->PenghargaanList);
+	//echo $jmlPenghargaanList;
+   for ($j = 0; $j < $jmlPenghargaanList; $j++) {
+     $penghargaan[$j] = array("c_penghargaan"  		=>(string)$this->PenghargaanList[$j]['c_penghargaan'],
+						"n_judul"      		=>(string)$this->PenghargaanList[$j]['n_judul'],
+						 "n_detil"  		=>(string)$this->PenghargaanList[$j]['n_detil'],
+						  "c_status"  		=>(string)$this->PenghargaanList[$j]['c_status'],
+						  "d_penghargaan"  		=>(string)$this->PenghargaanList[$j]['d_penghargaan']);
+   } 
+ $pesancek=$this->pesancek;
+	if ($pesancek=='gagal'){$confirm ='confirmfail';}
+	else {$confirm ='confirm';} 
+$status=$_REQUEST['status'];
+$key=$_REQUEST['key'];
+
+   if ($status!='') {
+	  if ($status==0) $select0="selected";
+	  else if ($status==1) $select1="selected";
+   } else  $select2="selected";	
+?>
+	<div class="navlink">
+	<a href="<? echo $this->basePath; ?>/cms">Halaman Utama</a>&nbsp;<strong>&#8250;</strong>&nbsp;Kelola Data Penghargaan&nbsp;
+	</div>
+<br style="clear:both;" />
+	<div id="top"></div>
+	<div id="confirm" class="<?=$confirm?>" style="display: none">
+		<h3><?echo $pesan = $this->pesan;?></h3>				
+	</div>
+	<h2 class="title">Kelola Data Penghargaan</h2>
+<div class="tablenav">
+				<form id="frmSearch" method="post" name="frmSearch">
+					Pencarian berdasarkan :
+					    <input id="key" type="text" name="key" value="<?=$key?>">
+						<select size="1" name="status" id="status">  
+							<option value='' <?=$select2?>>Lihat semua status</option>
+							<option value='1' <?=$select1?>>Diterbitkan</option>
+							<option value='0' <?=$select0?>>Tidak Diterbitkan</option>
+						</select>
+					    <input type="button" class="button2" value="Cari" onclick="javascript:cariListPenghargaan();">		   
+				</form>						
+	</div>	
+<br style="clear:both;" />
+	<form action="" method="post"> 
+<div class="alignright"><input type="button" class="button2" value="Tambah Data Penghargaan"  onclick="PenghargaanM('insert');"></div>
+<br style="clear:both;" />
+<table class="widefat sortable" cellspacing="1">
+		<tr>
+			<th class="nosort" width="5%">No.</th>
+			<th class="<?=$this->orderbya?>" width="15%" onclick="orderBy('d_penghargaan','<?=$this->orderbyb?>','<?php echo $this->basePath; ?>/cmsmodule/penghargaan/listpenghargaan')">Tanggal</th>
+			<th class="<?=$this->orderbya?>" width="55%"  onclick="orderBy('n_judul','<?=$this->orderbyb?>','<?php echo $this->basePath; ?>/cmsmodule/penghargaan/listpenghargaan')">Judul</th>
+			<th width="15%">Status</th>
+			<th width="10%" colspan="2">&nbsp;</th>
+		</tr> 
+<? 		if ($jmlPenghargaanList == 0) {?>
+		<tr class="event">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>	
+<?}else{
+				foreach ($penghargaan as $key => $val): 
+				if ($key%2==0) { ?>
+				<tr class="alternate">
+				<? } else if ($key%2==1) { ?>
+				<tr class="alternate2">
+				<? } 
+				$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
+				$cstatus = $this->escape($val['c_status']);
+				$date=formatDate2($this->escape($val['d_penghargaan']));
+				if ($cstatus == 1) 	$status = 'Diterbitkan';
+				else $status = 'Tidak Diterbitkan';
+				
+				?>
+					<td class="clcenter"><?php echo $noUrut;?></td>
+					<td><?php echo $date ?></td>	
+					<td><a href="#" onclick="detilPenghargaan('<?php echo $this->escape($val['c_penghargaan']);?>')"><?php echo $this->escape($val['n_judul']);?></a></td>
+				    <td align="center"><?php echo $status;?></td>
+					<td align="center"><a href="#" title="Ubah Data" onclick="PenghargaanM('update','<?=$this->escape($val['c_penghargaan'])?>');">Ubah</a>	
+					</td>
+					<td align="center"><a href="#" title="Hapus Data"  onClick="javascript:HapusDataPenghargaan('<?php echo $this->escape($val['c_penghargaan']);?>','<?php echo $this->escape($val['n_judul']);?>')">Hapus</a>
+					</td>					
+				</tr>
+				<?php endforeach;}?>
+	
+	</table>
+	<div class="spacer"></div>
+<div id="targetdetil"></div>
+
+<?
+$orderBy=$this->orderBy;
+$modul = $this->basePath."/cmsmodule/penghargaan/listpenghargaan?orderBy=$orderBy&order=$this->orderbya";
+echo $halaman->halamanList($this->totalPenghargaanList, $this->numToDisplay, $this->currentPage, $modul)
+?>	
+	</form>
+	<div class="spacer"></div>
+
+<script>
+function detilPenghargaan(idpenghargaan){
+var url = '<?php echo $this->basePath; ?>/cmsmodule/penghargaan/penghargaandetil';
+var param = {idpenghargaan:idpenghargaan};
+jQuery.get(url,param,function(data) {
+jQuery("#targetdetil").html(data);
+centerPopup();
+loadPopup();});}
+</script>		
