@@ -10,27 +10,32 @@ class Cmsmodule_PelayananController extends Zend_Controller_Action {
     public function init() {
 		$this->_helper->layout->setLayout('target-column');
 		$registry = Zend_Registry::getInstance();
+		//$this->view->photoPath = $registry->get('photoPath');
+		 
 		$this->pelayanan_serv = Cms_pelayanan_Service::getInstance();
+		$this->view->idpelayanan= $this->idpelayanan;
+		$this->view->jdlpelayanan= $this->jdlpelayanan;
+		$this->view->tglpelayanan= $this->tglpelayanan;
+		$this->view->detilpelayanan= $this->detilpelayanan;
+		$this->view->sumber= $this->sumber;
 		$this->view->status= $this->status;
-        $this->view->basePath = $registry->get('basepath');
-        $this->view->baseData = $registry->get('baseData');        
-        $this->view->leftMenu = $registry->get('leftMenu');
-        
-        $this->dataPerPage = $registry->get('dataPerPage');
-        
-        //$this->view->photoPath = $registry->get('photoPath');
-         
-        
-  		//sesion dari login
+		 $registry = Zend_Registry::getInstance();
+		 $this->auth = Zend_Auth::getInstance();
+		 $this->view->basePath = $registry->get('basepath');
+		 $this->view->baseData = $registry->get('baseData');
+		 //$this->admmenu_serv = Adm_Admmenu_Service::getInstance();
+		 
+		 //sesion dari login
 		$ssologin = new Zend_Session_Namespace('ssologin');
 		$this->view->userid=$ssologin->userid;
-		$this->view->c_jabatan=$ssologin->c_jabatan;
+		$this->view->c_jabatan=$ssologin->c_jabatan;	
 
-    }		
-		
+		}
 	
     public function indexAction() {
+	
     }
+	
 public function pelayananjsAction() 
 {
 	header('content-type : text/javascript');
@@ -38,47 +43,75 @@ public function pelayananjsAction()
 }	
 	
 
-public function listpelayananAction() {	
-	$key=$_GET['key'];
+public function listpelayananAction() {    
+    
 	$status=$_GET['status'];
-	$par=$_GET['par'];
-	
-	if ($par=='cari'){
-		if ($key){ if ($status=='J') {$key=strtoupper($key); $cari=" and upper(n_judul) like '%$key%'";} if ($status=='I') {$key=strtoupper($key); $cari=" and upper(n_detil) like '%$key%'";}}
-		else {if ($status=='D') {$cari=" and c_status=1";} if ($status=='T') {$cari=" and c_status=0";} }
-		$this->view->key=$_GET['key'];
-		$this->view->status=$_GET['status'];
-	}			
+	$key=strtoupper($_GET['key']);
+	if ($status!=''){
+		if ($key!='') {
+		  $cari = " where c_status='$status' and (upper(n_judul) like '%$key%' or upper(n_detil) like '%$key%')";
+		} else {
+		  $cari = " where c_status='$status'";
+		}
+	}	
+	else if ($key!='') $cari = " where  (upper(n_judul) like '%$key%' or upper(n_detil) like '%$key%')";
+	else $cari ="";
+	//echo "c=".$cari;
+	$orderBy=$_GET['orderBy'];
+	$order=$_GET['order'];
+	if (!$_GET['order']){$this->view->orderbya="asc";$this->view->orderbyb="desc";}
+	else{
+		if ($_GET['order']=='desc'){	$this->view->orderbya="desc";$this->view->orderbyb="asc";}
+		else{$this->view->orderbya="asc";$this->view->orderbyb="desc";}
+	}
+	if ($_GET['orderBy']) $orderBy=" order by $orderBy $order";
+	else $orderBy=" order by d_pelayanan desc";
+	$this->view->orderBy=$_GET['orderBy'];
 	$currentPage=$_GET['currentPage'];
 	if((!$currentPage) || ($currentPage == 'undefined'))
 		{$currentPage = 1;}
 		$numToDisplay = 10;
-		$orderBy=" order by d_tahun_pelayanan desc, n_judul asc ";
 		$this->view->numToDisplay = $numToDisplay;
 		$this->view->currentPage = $currentPage;
-		$this->view->totalkategoripelayananList = $this->pelayanan_serv->getpelayananList($cari, 0, 0 ,$orderBy);		
-		$this->view->kategoripelayananList = $this->pelayanan_serv->getpelayananList($cari, $currentPage, $numToDisplay,$orderBy );	 
+		$this->view->totalPelayananList = $this->pelayanan_serv->getPelayananList($cari, 0, 0 ,$orderBy);		
+		$this->view->PelayananList = $this->pelayanan_serv->getPelayananList($cari, $currentPage, $numToDisplay,$orderBy );	 
     }
 	
-	public function cmspelayananAction() {	
-	
-	
-	if ($par=='cari'){
-		if ($key){ if ($status=='J') {$key=strtoupper($key); $cari=" and upper(n_judul) like '%$key%'";} if ($status=='I') {$key=strtoupper($key); $cari=" and upper(n_detil) like '%$key%'";}}
-		else {if ($status=='D') {$cari=" and c_status=1";} if ($status=='T') {$cari=" and c_status=0";} }
-		$this->view->key=$_GET['key'];
-		$this->view->status=$_GET['status'];
-	}			
+public function cmspelayananAction() {    
+    
+	$status=$_GET['status'];
+	$key=strtoupper($_GET['key']);
+	if ($status!=''){
+		if ($key!='') {
+		  $cari = " where c_status='$status' and (upper(n_judul) like '%$key%' or upper(n_detil) like '%$key%')";
+		} else {
+		  $cari = " where c_status='$status'";
+		}
+	}	
+	else if ($key!='') $cari = " where  (upper(n_judul) like '%$key%' or upper(n_detil) like '%$key%')";
+	else $cari ="";
+	//echo "c=".$cari;
+	$orderBy=$_GET['orderBy'];
+	$order=$_GET['order'];
+	if (!$_GET['order']){$this->view->orderbya="asc";$this->view->orderbyb="desc";}
+	else{
+		if ($_GET['order']=='desc'){	$this->view->orderbya="desc";$this->view->orderbyb="asc";}
+		else{$this->view->orderbya="asc";$this->view->orderbyb="desc";}
+	}
+	if ($_GET['orderBy']) $orderBy=" order by $orderBy $order";
+	else $orderBy=" order by d_pelayanan desc";
+	$this->view->orderBy=$_GET['orderBy'];
 	$currentPage=$_GET['currentPage'];
 	if((!$currentPage) || ($currentPage == 'undefined'))
 		{$currentPage = 1;}
 		$numToDisplay = 10;
-		$orderBy=" order by d_tahun_pelayanan desc, n_judul asc ";
 		$this->view->numToDisplay = $numToDisplay;
 		$this->view->currentPage = $currentPage;
-		$this->view->totalkategoripelayananList = $this->pelayanan_serv->getpelayananList($cari, 0, 0 ,$orderBy);		
-		$this->view->kategoripelayananList = $this->pelayanan_serv->getpelayananList($cari, $currentPage, $numToDisplay,$orderBy );	 
+		$this->view->totalPelayananList = $this->pelayanan_serv->getPelayananList($cari, 0, 0 ,$orderBy);		
+		$this->view->PelayananList = $this->pelayanan_serv->getPelayananList($cari, $currentPage, $numToDisplay,$orderBy );	 
     }
+	
+
 	
 public function pelayananAction() {
 	$par=$_GET['par'];
@@ -86,56 +119,83 @@ public function pelayananAction() {
 		$this->view->par="insert";
 		$this->view->pars="Simpan";
 		$this->view->jdl="Menambah ";
+		//$this->view->maxid=$this->pelayanan_serv->getMaxId();
 	}
 	else{
 		$this->view->par="update";
 		$this->view->pars="Ubah";
 		$this->view->jdl="Merubah ";
-		$c_pelayanan=$_GET['c_pelayanan'];
-		$this->listDataByKey($c_pelayanan);
-	}
-	$this->view->KategoriPelayananList = $this->pelayanan_serv->getKategoriPelayanan(); 	
+		$idpelayanan=$_GET['idpelayanan'];
+		if (!$idpelayanan){$idpelayanan=$this->view->idpelayanan;}
+		$this->listDataByKey($idpelayanan);
+	}	
+}
+public function listDataByKey($idpelayanan) { 
+	$pelayanan=$this->pelayanan_serv->findPelayananByKey($idpelayanan );
+	$this->view->idpelayanan= $pelayanan[0]['c_pelayanan'];
+	$this->view->jdlpelayanan= $pelayanan[0]['n_judul'];
+	$this->view->detilpelayanan= $pelayanan[0]['n_detil'];
+	$this->view->tglpelayanan= $pelayanan[0]['d_pelayanan'];	
+	$this->view->status= $pelayanan[0]['c_status'];	
+	$this->view->sumber= $pelayanan[0]['n_sumber'];	
+	$this->view->ientri=$pelayanan[0]['i_entri'];
+	$this->view->dentri=$pelayanan[0]['d_entri'];
+
+}	
+public function pelayanandetilAction() {  
+		$idpelayanan=$_GET['idpelayanan'];
+		if (!$idpelayanan){$idpelayanan=$this->view->idpelayanan;}
+		$this->listDataByKey($idpelayanan);
 }
 
+public function hapusdataAction() {
+ 	$idpelayanan=$_GET['idpelayanan'];
+	$userlogin=$this->view->userid;
+	$hasil = $this->pelayanan_serv->maintainHapusData($idpelayanan,$userlogin);
+
+	$currentPage=$_GET['currentPage'];
+	if((!$currentPage) || ($currentPage == 'undefined'))
+		{$currentPage = 1;}
+		$numToDisplay = 10;
+		$this->view->numToDisplay = $numToDisplay;
+		$this->view->currentPage = $currentPage;
+		$this->view->totalPelayananList = $this->pelayanan_serv->getPelayananList($cari, 0, 0 ,$orderBy);		
+		$this->view->PelayananList = $this->pelayanan_serv->getPelayananList($cari, $currentPage, $numToDisplay,$orderBy );	
+	
+	$pesan="Hapus data ".$hasil;
+	$this->view->pesan = $pesan;
+	$this->view->pesancek = $hasil;		
+	$this->render('listpelayanan');
+}
 
 public function maintaindataAction() {
 
+$h=$_POST['jam'];
+$i=$_POST['mnt'];
+$date=$_POST['date'];
+$datex=reformatDate($date);
+$dates=$datex." ".$h.":".$i ;
 $userlogin=$this->view->userid;
-//simpan file	
-if (!empty($_FILES['n_file'])) {
-		if ($_POST['a_file'])
-		{
-				$namefile=trim($_POST['c_kategori']).date('Ymdhms');
-				$FileName_dat = $namefile;				
-				$fileName = $_FILES['n_file']['name'];
-				$extention = strtolower(substr($fileName, strrpos($fileName, '.') + 1));				
-				$FileName_pdf = $FileName_dat.'.'.$extention;
-				$destDir = "$FileName_pdf";	
-		}
-}
-else{$destDir=$_POST['a_file'];}
-//----------------------------------------------------------------------------		
-	$MaintainData = array("c_pelayanan"=>$_POST['c_pelayanan'],
-							"c_kategori"=>$_POST['c_kategori'],
-							"n_judul"=>$_POST['n_judul'],
-							"n_detil"=>$_POST['n_detil'],
-							"c_status"=>$_POST['c_status'],
-							"d_tahun_pelayanan"=>$_POST['d_tahun_pelayanan']*1,
-							"i_nomor_pelayanan"=>$_POST['i_nomor_pelayanan'],							
-							"n_file"=>$destDir,							
-							"i_entry"=>$userlogin,
-							"d_entry"=>date("Y-m-d H:i:s"));				
-	if ($_POST['action']=='insert')	
+
+	$MaintainData = array("c_pelayanan"=>$_POST['idpelayanan'],
+							"n_judul"=>$_POST['title'],
+							"n_sumber"=>$_POST['source'],
+							"n_detil"=>stripslashes($_POST['content']),
+							"d_pelayanan"=>$dates,
+							"c_status"=>$_POST['status'],
+							"i_entri"=>$userlogin,
+							"d_entri"=>date("Y-m-d H:i:s"));
+//echo "id=".$_POST['idpelayanan'];							
+
+if ($_POST['title']){	
+//echo "action=".$_POST['action'];					
+	if ($_POST['action']=='insert')
+	
 	{
 		$hasil = $this->pelayanan_serv->maintainData($MaintainData,'insert');		
 		$this->view->pars="Simpan";
 		$this->view->jdl="Menambah ";
 		$par="Menambah";
-		$pesan=$par." data ".$hasil;
-		$this->view->pesan = $pesan;
-		$this->view->pesancek = $hasil;
-		$this->listpelayananAction();
-		$namefile=trim($_POST['c_kategori']).date('Ymdhms');	
 	}		
 	else
 	{
@@ -143,72 +203,46 @@ else{$destDir=$_POST['a_file'];}
 		$this->view->pars="Ubah";
 		$this->view->jdl="Merubah ";
 		$par="Merubah";
-		$c_pelayanan=$_POST['c_pelayanan'];
-		$this->listDataByKey($c_pelayanan);
-		$pesan=$par." data ".$hasil;
-		$this->view->pesan = $pesan;
-		$this->view->pesancek = $hasil;
-		$namefile=trim($_POST['c_kategori']).date('Ymdhms')	;		
+		$this->listDataByKey($_POST['idpelayanan']) ;
 	}
-if ($hasil=='sukses')
-{			
+}
+else{ $hasil="gagal";}	
+
+/// simpan file
+		if ($hasil=="sukses"){
+			$namefile=trim($_POST['i_peg_nip']);
 			$FileName_pdf;
-			$fileNamex = $_FILES['n_file']['name'];
-			$extentionx = strtolower(substr($fileNamex, strrpos($fileNamex, '.') + 1));				
+			$fileNamex = $_FILES['a_filex']['name'];
+			$extentionx = substr($fileNamex, -3, 3);	
 				
-		    if (!empty($_FILES['n_file'])) 
-				{$FileName_pdf = $FileName_dat.'.'.$extentionx;}
-				$FileName_dat = $namefile;
-				$FileName_pdf = $FileName_dat.'.'.$extentionx;
+		    if (!empty($_FILES['a_filex'])) 
+		   {$FileName_pdf = $FileName_dat.'.'.$extentionx;}
+			$FileName_dat = $namefile;
+			$FileName_pdf = $FileName_dat.'.'.$extentionx;				
 					
-				if (!empty($_FILES['n_file'])) 	   {
+	       if (!empty($_FILES['a_filex'])) 	   {
 
-				   $fileName = $_FILES['n_file']['name'];
-				   $extention = strtolower(substr($fileName, strrpos($fileName, '.') + 1));				
-						$destDir = "../public/data/cms/pelayanan/$FileName_pdf";
-						if (move_uploaded_file($_FILES['n_file']['tmp_name'], $destDir)) { 
-							$lampiran ="file";
-						}
-				}
+	           $fileName = $_FILES['a_filex']['name'];
+			   $extention = substr($fileName, -3, 3);
+					$destDir = "data/sdm/photo/$FileName_pdf";		
+					if (move_uploaded_file($_FILES['a_filex']['tmp_name'], $destDir)) { 
+						$lampiran ="file";	
+						$this->cropImage($nw, $nh, $destDir, $extention, $destDir);
+					}
+			}
+			}
 
-}
-	$this->view->KategoriPelayananList = $this->pelayanan_serv->getKategoriPelayanan(); 
-	
-	if ($_POST['action']=='insert')	
-	{$this->render('listpelayanan');}		
-	else
-	{$this->render('pelayanan');}
-						
-}
 
-public function hapusdataAction() {
-	$userlogin=$this->view->userid;
-		$MaintainData = array("c_pelayanan"=>$_GET['c_pelayanan'],"i_entry"=>$userlogin);
-		$hasil = $this->pelayanan_serv->maintainData($MaintainData,'delete');		
-		$par="Hapus";
-		$pesan=$par." data ".$hasil;
-		$this->view->pesan = $pesan;
-		$this->view->pesancek = $hasil;
-		$this->listpelayananAction();
-		$this->render('pelayanan');
-}	  
+
+
+	$pesan=$par." data ".$hasil;
+	$this->view->pesan = $pesan;
+	$this->view->pesancek = $hasil;
+	$this->render('pelayanan');							
+   }
+	  
  
-public function listDataByKey($c_pelayanan) {  
-	$currentPage = 1;
-	$numToDisplay = 10;
-	$cari=" and c_pelayanan='$c_pelayanan' ";
-	$pelayanan=$this->pelayanan_serv->getpelayananList($cari,$currentPage, $numToDisplay,$orderby) ;		
-	$this->view->c_pelayanan= trim($pelayanan[0]['c_pelayanan']);
-	$this->view->c_kategori= trim($pelayanan[0]['c_kategori']);
-	$this->view->n_judul= $pelayanan[0]['n_judul'];
-	$this->view->c_status= $pelayanan[0]['c_status'];
-	$this->view->n_detil= $pelayanan[0]['n_detil'];
-	$this->view->n_file= $pelayanan[0]['n_file'];
-	$this->view->i_nomor_pelayanan= $pelayanan[0]['i_nomor_pelayanan'];
-	$this->view->d_tahun_pelayanan= $pelayanan[0]['d_tahun_pelayanan'];
 
-}	
 	
-
 }
 ?>

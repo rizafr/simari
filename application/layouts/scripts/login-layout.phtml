@@ -1,41 +1,40 @@
+<!DOCTYPE HTML>
 <html>
-	<head>
-	<?php echo $this->render('partials/head.phtml'); ?>
-	</head>
-	<body>
-		<h1>Sistem Informasi Pemerintah Kota Cimahi Terintegrasi</h1>
-		<div id="page">
-			<div id="container-login">
-						<div id="msg" class="note">
-							<font color="red"><?php echo $this->pesan;?></font>
-						</div>	  
 
+<head>
+  <title>Sistem Informasi Pemerintah Kota Cimahi Terintegrasi</title>
+  <meta name="description" content="website description" />
+  <meta name="keywords" content="website keywords, website keywords" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <?php echo $this->render('partials/head.phtml'); ?>
+  <link rel="icon" href="images/cimahi.png" type="image/png">
+ 
+</head>
+
+<body>  
+    <span href="#" class="button" id="toggle-login">Selamat Datang di  <br />Portal Kecamatan Pemerintah Kota Cimahi </span>
+    
+	<div id="login">
 	
-				<fieldset class="panel-form">
-					<h2>Login</h2>
-						
-					<!--form name="login" id="myForm" action="/main" method="POST"-->
-					<input type="hidden" id="pesan" value="<?php echo $this->pesan;?>">
-					
-					<form name="login" id="myForm" action="/main" method="POST">
-						<div class="panel-login">
-							<label for="posusername" style="clear:both">User ID</label>
-							<br>
-							<input type="text" name="username" class="textbox" id="username" size="23">
-							<br>
-							<label for="pospaswword">Password</label>
-							<br>
-							<input type="password" name="password" class="textbox" id="password" size="23">
-							<br>
-							<div class="alignright">
-								<input type="submit" name="submit" value="Login" class="buttonsubmit"/>
-							</div>
-						</div>
-					</form>		          
-				</fieldset>
-			</div>
-		</div>
-	</body>
+		<h1>Silakan Login</h1>	
+			<? echo "<div class='peringatan'>".$this->pesan."</div>"; ?>
+			
+			<form action="/main" method="post" autocomplete="off">
+			 	<input type="text" name="username" value="" placeholder="masukan userID" required />
+				<input type="password" name="password" value="" placeholder="masukan password" required/>
+				<p><span>&nbsp;</span><input class="submit" type="submit" name="name" value="LOGIN" title="Klik jika sudah mengisi username dan password"/></p>
+			 </form>				
+    </div>
+    <footer>
+      <p>Portal Kecamatan Pemerintah Kota Cimahi</p>
+    </footer> 
+  
+  <!-- javascript at the bottom for fast page loading -->
+  <script src="js/index.js"></script>
+  
+  <script src='js/js.js'></script>
+</body>
+
 </html>
 
 <script>

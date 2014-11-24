@@ -144,7 +144,6 @@ public function beritadetilAction() {
 		$idberita=$_GET['idberita'];
 		if (!$idberita){$idberita=$this->view->idberita;}
 		$this->listDataByKey($idberita);
-		var_dump($this->listDataByKey($idberita));
 }
 
 public function hapusdataAction() {

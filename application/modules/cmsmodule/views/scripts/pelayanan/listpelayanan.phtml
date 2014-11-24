@@ -1,22 +1,19 @@
 <? require_once 'Zend/View.php';
     require_once 'share/halaman_list.php';
     require_once 'share/Portalconf.php';
-$path_data_pelayanan="./data/cms/pelayanan/";
+  
    $ctrlFrm = new Zend_View();
    $halaman = new halaman_list(); 
   
-    $jmlkategoripelayananList = count($this->kategoripelayananList);
-	//echo $jmlkategoripelayananList;
-   for ($j = 0; $j < $jmlkategoripelayananList; $j++) {
-     $kategoriprodhukum[$j] = array("c_kategori"=>(string)$this->kategoripelayananList[$j]['c_kategori'],
-	 "n_kategori"=>(string)$this->kategoripelayananList[$j]['n_kategori'],
-						"n_judul"=>(string)$this->kategoripelayananList[$j]['n_judul'],
-						 "n_detil"=>(string)$this->kategoripelayananList[$j]['n_detil'],
-						 "c_pelayanan"=>(string)$this->kategoripelayananList[$j]['c_pelayanan'],
-						 "n_file"=>(string)$this->kategoripelayananList[$j]['n_file'],
-						"i_nomor_pelayanan"=>(string)$this->kategoripelayananList[$j]['i_nomor_pelayanan'],
-						"d_tahun_pelayanan"=>(string)$this->kategoripelayananList[$j]['d_tahun_pelayanan'],
-						  "c_status"=>(string)$this->kategoripelayananList[$j]['c_status']);
+    $jmlPelayananList = count($this->PelayananList);
+	//echo $jmlPelayananList;
+   for ($j = 0; $j < $jmlPelayananList; $j++) {
+     $pelayanan[$j] = array("c_pelayanan"  		=>(string)$this->PelayananList[$j]['c_pelayanan'],
+						"n_judul"      		=>(string)$this->PelayananList[$j]['n_judul'],
+						"n_sumber"      		=>(string)$this->PelayananList[$j]['n_sumber'],
+						 "n_detil"  		=>(string)$this->PelayananList[$j]['n_detil'],
+						  "c_status"  		=>(string)$this->PelayananList[$j]['c_status'],
+						  "d_pelayanan"  		=>(string)$this->PelayananList[$j]['d_pelayanan']);
    } 
  $pesancek=$this->pesancek;
 	if ($pesancek=='gagal'){$confirm ='confirmfail';}
@@ -41,41 +38,29 @@ $key=$_REQUEST['key'];
 <div class="tablenav">
 				<form id="frmSearch" method="post" name="frmSearch">
 					Pencarian berdasarkan :
-					    <input id="key" type="text" name="key" value="<?=$this->key?>">
-						<?
-							$tingkat = array(""=>"--Pilih--",
-														"S"=>"Lihat semua status",
-														"D"=>"Diterbitkan",
-														"T"=>"Tidak Diterbitkan",
-														"J"=>"Judul",
-														"I"=>"Isi");
-							$attr = array("onclick"=>"CekCari()");
-							echo $ctrlFrm->formSelect('status', $this->status, $attr, $tingkat); 							
-						?>
-						
-					    <input type="button" class="button2" value="Cari" onclick="javascript:cariListPelayanan();">
+					    <input id="key" type="text" name="key" value="<?=$key?>">
+						<select size="1" name="status" id="status">  
+							<option value='' <?=$select2?>>Lihat semua status</option>
+							<option value='1' <?=$select1?>>Diterbitkan</option>
+							<option value='0' <?=$select0?>>Tidak Diterbitkan</option>
+						</select>
+					    <input type="button" class="button2" value="Cari" onclick="javascript:cariListPelayanan();">		   
 				</form>						
 	</div>	
 <br style="clear:both;" />
 	<form action="" method="post"> 
-<div class="alignright"><input type="button" class="button2" value="Tambah Data Pelayanan"  onclick="produkPelayanan('insert','');"></div>
+<div class="alignright"><input type="button" class="button2" value="Tambah Data Pelayanan"  onclick="PelayananM('insert');"></div>
 <br style="clear:both;" />
 <table class="widefat sortable" cellspacing="1">
 		<tr>
 			<th class="nosort" width="5%">No.</th>
-			<th width="30%">Judul</th>
-			<th width="10%">Nomor</th>
-			<th width="10%">Tahun</th>	
-			<th width="15%">File</th>
-			<th width="10%">Kategori</th>
-			<th width="10%">Status</th>
+			<th class="<?=$this->orderbya?>" width="15%" onclick="orderBy('d_pelayanan','<?=$this->orderbyb?>','<?php echo $this->basePath; ?>/cmsmodule/pelayanan/listpelayanan')">Tanggal</th>
+			<th class="<?=$this->orderbya?>" width="55%"  onclick="orderBy('n_judul','<?=$this->orderbyb?>','<?php echo $this->basePath; ?>/cmsmodule/pelayanan/listpelayanan')">Judul</th>
+			<th width="15%">Status</th>
 			<th width="10%" colspan="2">&nbsp;</th>
 		</tr> 
-<? 		if ($jmlkategoripelayananList == 0) {?>
+<? 		if ($jmlPelayananList == 0) {?>
 		<tr class="event">
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
@@ -84,7 +69,7 @@ $key=$_REQUEST['key'];
 			<td>&nbsp;</td>
 		</tr>	
 <?}else{
-				foreach ($kategoripelayanan as $key => $val): 
+				foreach ($pelayanan as $key => $val): 
 				if ($key%2==0) { ?>
 				<tr class="alternate">
 				<? } else if ($key%2==1) { ?>
@@ -92,21 +77,18 @@ $key=$_REQUEST['key'];
 				<? } 
 				$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
 				$cstatus = $this->escape($val['c_status']);
-				$date=formatDate2($this->escape($val['d_kategoripelayanan']));
+				$date=formatDate2($this->escape($val['d_pelayanan']));
 				if ($cstatus == 1) 	$status = 'Diterbitkan';
 				else $status = 'Tidak Diterbitkan';
 				
 				?>
 					<td class="clcenter"><?php echo $noUrut;?></td>
-					<td><?php echo $this->escape($val['n_judul']);?></td>
-					<td align="left"><?php echo $this->escape($val['i_nomor_pelayanan']);?></td>
-					<td align="center"><?php echo $this->escape($val['d_tahun_pelayanan']);?></td>
-					<td align="center"><a href="<?php echo $path_data_pelayanan.$this->escape($val['n_file']);?>"><?php echo$this->escape($val['n_file'])?></a></td>
-					<td><?php echo $val['n_kategori'];?></td>
+					<td><?php echo $date ?></td>	
+					<td><a href="#" onclick="detilPelayanan('<?php echo $this->escape($val['c_pelayanan']);?>')"><?php echo $this->escape($val['n_judul']);?></a></td>
 				    <td align="center"><?php echo $status;?></td>
-					<td align="center"><a href="#" title="Ubah Data" onclick="produkPelayanan('update','<?=$this->escape($val['c_pelayanan'])?>');">Ubah</a>	
+					<td align="center"><a href="#" title="Ubah Data" onclick="PelayananM('update','<?=$this->escape($val['c_pelayanan'])?>');">Ubah</a>	
 					</td>
-					<td align="center"><a href="#" title="Hapus Data"  onClick="javascript:HapusDataPelayanan('<?php echo $this->escape($val['c_pelayanan']);?>')">Hapus</a>
+					<td align="center"><a href="#" title="Hapus Data"  onClick="javascript:HapusDataPelayanan('<?php echo $this->escape($val['c_pelayanan']);?>','<?php echo $this->escape($val['n_judul']);?>')">Hapus</a>
 					</td>					
 				</tr>
 				<?php endforeach;}?>
@@ -117,9 +99,18 @@ $key=$_REQUEST['key'];
 
 <?
 $orderBy=$this->orderBy;
-$modul = $this->basePath."/cmsmodule/pelayanan/listpelayanan?par=cari&key=$this->key&status=$this->status";
-echo $halaman->halamanList($this->totalkategoripelayananList, $this->numToDisplay, $this->currentPage, $modul)
+$modul = $this->basePath."/cmsmodule/pelayanan/listpelayanan?orderBy=$orderBy&order=$this->orderbya";
+echo $halaman->halamanList($this->totalPelayananList, $this->numToDisplay, $this->currentPage, $modul)
 ?>	
 	</form>
 	<div class="spacer"></div>
-	
+
+<script>
+function detilPelayanan(idpelayanan){
+var url = '<?php echo $this->basePath; ?>/cmsmodule/pelayanan/pelayanandetil';
+var param = {idpelayanan:idpelayanan};
+jQuery.get(url,param,function(data) {
+jQuery("#targetdetil").html(data);
+centerPopup();
+loadPopup();});}
+</script>		

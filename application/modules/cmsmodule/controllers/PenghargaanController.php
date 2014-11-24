@@ -33,7 +33,9 @@ class Cmsmodule_penghargaanController extends Zend_Controller_Action {
 		}
 	
     public function indexAction() {
+	
     }
+	
 public function penghargaanjsAction() 
 {
 	header('content-type : text/javascript');
@@ -144,7 +146,6 @@ public function penghargaandetilAction() {
 		$idpenghargaan=$_GET['idpenghargaan'];
 		if (!$idpenghargaan){$idpenghargaan=$this->view->idpenghargaan;}
 		$this->listDataByKey($idpenghargaan);
-		var_dump($this->listDataByKey($idpenghargaan));
 }
 
 public function hapusdataAction() {

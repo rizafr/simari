@@ -2,14 +2,17 @@
 /* font-family: 'Open Sans', sans-serif; */
 @import url(http://fonts.googleapis.com/css?family=Dosis:400,500,600,700);
 /* font-family: 'Dosis', sans-serif; */
-
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300);
 /*-----------------------------------------------------------------------------------*/
 /*	1.	Global properties (body, common classes, vertical rhythm, structure etc)
 /*-----------------------------------------------------------------------------------*/
 body{
-    color:#787878;
-    font-size: 13px;
-    font-family: 'Open Sans', sans-serif;
+	font-family: 'Open Sans', Helvetica,sans-serif;
+	font-size: 14px;
+	font-weight: 300;
+	color: #333333;
+	line-height: 1.72222;
+	color: #34495E;
     background: #f6f6f6 url('../../images/body-bg.gif') repeat 50% 0;
 }
 header,

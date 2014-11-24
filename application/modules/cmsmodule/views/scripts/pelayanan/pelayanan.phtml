@@ -5,15 +5,24 @@ require_once 'share/Portalconf.php';
 $tanggal = new tanggal();
 $ctrlFrm = new Zend_View();
 $pesancek=$this->pesancek;
-$cstatus=$this->c_status;
-$ckategori=$this->c_kategori;
-//echo "s=".$ckategori;
+$cstatus=$this->status;
 
-$status1="";
-$status0="";
-if ($this->c_status!='') {
-	if (trim($this->c_status)==1) {$status1='checked';$status0='unchecked';}
-	if (trim($this->c_status)==0) {$status0='checked';$status1='unchecked';}
+//$maxid=$this->maxid;
+
+
+
+if ($this->tglpelayanan!='') {
+  $dates=formatDate4($this->tglpelayanan);
+  $xtime=substr($this->tglpelayanan,11,8);
+  list($jam,$mnt,$det)=split(":",$xtime);
+} else {
+  $dates=date('d/m/Y');
+  $jam=date("H");
+  $mnt=date("i");
+}
+if ($cstatus!='') {
+	if ($cstatus==1) $status1='checked';
+	else $status0='checked';
 } else $status1='checked';
 
 if ($pesancek=='gagal'){$confirm ='confirmfail';}
@@ -21,8 +30,8 @@ else {$confirm ='confirm';}
 
 
 ?>
- <script type="text/javascript">
- $(document).ready(function(){
+	<script type="text/javascript">
+$(document).ready(function(){
 	var rf = "";
 	CKEDITOR.replace("content", {
 	 filebrowserBrowseUrl: rf,
@@ -30,18 +39,16 @@ else {$confirm ='confirm';}
 	 filebrowserImageBrowseUrl: rf + "?type=image",
 	 filebrowserImageUploadUrl: rf + "?type=image"
 	 });
-	 });</script>
-	 <script type="text/javascript">
-
+	 });
 	$(function() {
-		$("#d_pengumuman").datepicker();
+		$("#d_pelayanan").datepicker();
 	});
 	</script>
 
 
 		   <div class="navlink">
 				<a  href="<? echo $this->basePath; ?>cms">Halaman Utama</a> 
-				<strong> &#8250; </strong> <a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/cmsmodule/pelayanan/listpelayanan','<?php echo $this->basePath; ?>/cmsmodule/pelayanan/pelayananjs');">Kelola Data Pelayanan</a>
+				<strong> &#8250; </strong> <a href="#" onclick="open_url_to_div('<?php echo $this->basePath; ?>/cmsmodule/pelayanan/listpelayanan','<?php echo $this->basePath; ?>/cmsmodule/pegawai/pegawaijs');">Kelola Data Pelayanan</a>
 				<strong> &#8250; </strong><?=$this->jdl;?> Data Pelayanan
 			</div>
 			<br>
@@ -51,79 +58,52 @@ else {$confirm ='confirm';}
 </div>
 
 	
-<form id="formpelayanan" name="formpelayanan" enctype="multipart/form-data" method="post" action="">
-
-<h2 class="title"><?=$this->jdl;?> Data Pelayanan</h2>
+<form id="formpelayanan" method="post" name="formpelayanan" action="">
+<input type="hidden" value="<?=$this->idpelayanan?>" name="idpelayanan"> 
+<input type="hidden" value="<?=$this->par?>" name="action"> 
+<h2 class="title"><?=$this->jdl;?> Data pelayanan</h2>
 
 		<div class="spacer"></div> 
 
 <table  width="100%">
  <tr>
-   <td width="20%">Status Pelayanan</td>
+   <td width="20%">Tanggal Pelayanan</td>
    <td width="1%">:</td>
-   <td width="79%">
-		<label for="post_status_publish" class="selectit"><input id="post_status_publish" class="radio" name="c_status" type="radio" value="1" <?=$status1?> /> Diterbitkan</label>
-		<label for="post_status_pengumuman" class="selectit"><input id="post_status_notpublish" class="radio" name="c_status" type="radio" value="0"  <?=$status0?> /> Tidak Diterbitkan</label>
+   <td width="79%"><input type="text" id="d_pelayanan" name="date" value="<?=$dates?>" size="10">
+	Pkl <input type="text" id="jam" name="jam" value="<?=$jam?>" size="2" maxlength="2" tabindex="4" />:<input type="text" id="mnt" name="mnt" value="<?=$mnt?>" size="2" maxlength="2" tabindex="4" />
   </td>
  </tr>
-  <tr>
-   <td width="20%">Kategori Pelayanan<span class="highlight">*</span></td>
+ <tr>
+   <td width="20%">Status pelayanan</td>
    <td width="1%">:</td>
    <td width="79%">
-		<?
-			$jmlgolref = count($this->KategoriPelayananList);												   
-			$ktgrHkmReff[''] = '--Pilih--';
-			for ($i = 0; $i < $jmlgolref; $i++) {										   
-				$ktgrHkmReff[(string)$this->KategoriPelayananList[$i]->c_kategori] = (string)$this->KategoriPelayananList[$i]->n_judul;					
-			}												 
-			echo $ctrlFrm->formSelect('c_kategori', $this->c_kategori, null, $ktgrHkmReff);
-		?>
-   
+   	<label for="post_status_publish" class="selectit"><input id="post_status_publish" class="radio" name="status" type="radio" value="1" <?=$status1?> /> Diterbitkan</label>
+    <label for="post_status_pelayanan" class="selectit"><input id="post_status_pelayanan" class="radio" name="status" type="radio" value="0"  <?=$status0?> /> Tidak Diterbitkan</label>
+
    </td>
  </tr>
  <tr>
-   <td width="20%">Judul Pelayanan<span class="highlight">*</span></td>
+   <td width="20%">Jenis pelayanan</td>
    <td width="1%">:</td>
-   <td width="79%"><input type="text" name="n_judul" size="60" tabindex="1" value="<?=$this->n_judul?>" id="n_judul"/></td>
- </tr>
-  <tr>
-   <td width="20%">Nomor Surat</td>
-   <td width="1%">:</td>
-   <td width="79%"><input type="text" name="i_nomor_pelayanan" size="60" tabindex="1" value="<?=$this->i_nomor_pelayanan?>" id="i_nomor_pelayanan"/></td>
- </tr>
-  <tr>
-   <td width="20%">Tahun</td>
-   <td width="1%">:</td>
-   <td width="79%"><input type="text" name="d_tahun_pelayanan" size="5" tabindex="1" value="<?=$this->d_tahun_pelayanan?>" id="d_tahun_pelayanan" onkeyup="isNumber('d_tahun_pelayanan')"/></td>
+   <td width="79%"><input type="text" name="source" size="50" tabindex="1" value="<?=$this->sumber?>" class="inputbox2"/></td>
  </tr>
  <tr>
-   <td width="20%">Isi Pelayanan</td>
+   <td width="20%">Judul pelayanan <span class="highlight">*</span></td>
    <td width="1%">:</td>
-   <td width="79%"><textarea  class="ckeditor" id="content" name="n_detil" rows="10" cols="80"><?=$this->n_detil?></textarea></td>
+   <td width="79%"><input type="text" name="title" size="30" tabindex="1" value="<?=$this->jdlpelayanan?>" id="title"/></td>
  </tr>
  <tr>
-   <td width="20%">File</td>
+   <td width="20%">Isi pelayanan</td>
    <td width="1%">:</td>
-   <td width="79%">
-		<div class="fileinputs">
-			<input type="file" size="49" id="n_file" name="n_file"  value="<? echo $this->n_file?>"onChange="setvalueuplfile(this.value,'n_file','doc')" />
-			<div class="fakefile">
-				<input type="hidden" size="41" name="a_file" id="a_file" value="<? echo $this->n_file?>"/>
-			</div>
-		</div>   
-   
-   </td>
- </tr> 
- 
+   <td width="79%"><textarea  class="ckeditor" id="content" name="content" rows="10" cols="80"><?=$this->detilpelayanan?></textarea></td>
+ </tr>
 </table>
-<input type="hidden" value="<?=$this->c_pelayanan?>" name="c_pelayanan" id="c_pelayanan" > 
-<input type="hidden" value="<?=$this->par?>" name="action" id="action"> 
 ket :&nbsp;(<span class="highlight">*</span>)&nbsp;harus diisi
 		<p class="submit">
 		<span id="autosave"></span>
 
 		<input name="cancel" type="button" id="publish" tabindex="5" accesskey="p" value="Batal" onClick="open_url_to_div('<?php echo $this->basePath; ?>/cmsmodule/pelayanan/listpelayanan','<?php echo $this->basePath; ?>/cmsmodule/pelayanan/pelayananjs');"/>
-		<input type="submit"  value="<?=$this->pars;?>" onClick="insertPelayanan()" style="font-weight: bold;" />
+		<input type="submit" name="submit" value="<?=$this->pars;?>" onClick="insertPelayanan()" style="font-weight: bold;" />
 
 
 	

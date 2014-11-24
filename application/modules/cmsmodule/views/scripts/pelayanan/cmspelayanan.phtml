@@ -1,39 +1,88 @@
+<?php
+function konversi_tanggal($format, $tanggal="now", $bahasa="id"){
+ $en=array("Sun","Mon","Tue","Wed","Thu","Fri","Sat","Jan","Feb",
+ "Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+ 
+ $id=array("Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu",
+ "Januari","Pebruari","Maret","April","Mei","Juni","Juli","Agustus","September",
+ "Oktober","November","Desember");
+ 
+ // tambahan untuk bahasa prancis
+ // sumber http://w.blankon.in/6V
+ $fr = array("dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi",
+ "janvier","février","mars","avril","Mei","mai","juillet","aoùt","septembre",
+ "octobre","novembre","décembre");
+ 
+ // mengganti kata yang berada pada array en dengan array id, fr (default id)
+ return str_replace($en,$$bahasa,date($format,strtotime($tanggal)));
+}
+ 
+// //menampilkan tanggal saat ini
+// //keluaran Tue, 26 Mar 2013
+// echo date("D, j M Y")."<br/>";
+ 
+// //menampilkan tanggal saat ini setelah di konversi
+// //keluaran Minggu, 13 Maret 2011
+// echo konversi_tanggal("D, j M Y")."<br/>";
+ 
+// //menampilkan bulan saat ini
+// //keluaran Maret
+// echo konversi_tanggal("M")."<br/>";
+ 
+// //menampilkan hari saat ini
+// //keluaran Minggu
+// echo konversi_tanggal("D")."<br/>";
+ 
+// //konversi tanggal dari format tanggal di mysql
+// //keluaran Jumat, 17 Agustus 1945
+// echo konversi_tanggal("D, j M Y","1945-08-17")."<br/>";
+ 
+// //konversi tanggal dari format tanggal di mysql
+// //keluaran Jumat
+// echo konversi_tanggal("D","1945-08-17")."<br/>";
+ 
+// //konversi tanggal dari format tanggal di mysql
+// //keluaran Agustus
+// echo konversi_tanggal("M","1945-08-17")."<br/>";
+ 
+// //konversi tanggal dari format dengan bahasa lain
+// //keluaran dimanche, 17 avril 1988
+// echo konversi_tanggal("D, j M Y","1988-04-17", "fr")."<br/>";
+?>
 
-	<!-- what we do -->
-	<div class="row">
-		<div class="span8">
-			<div class="title-divider">
-				<h3>Pelayanan</h3>
-				<div class="divider-arrow"></div>
-			</div>
+ <div class="row">
+	<div class="span8">
+		<div class="title-divider">
+			<h3>Pelayanan</h3>
+			<div class="divider-arrow"></div>
 		</div>
-		<div class="span8">
+	</div>
+	<div class="span8">
 			<div class="block-grey">
 				<div class="block-light wrap15">
-				<?php
-					 $jmlkategoripelayananList = count($this->kategoripelayananList);
-						//echo $jmlkategoriprodhukumList;
-					   for ($j = 0; $j < $jmlkategoripelayananList; $j++) {
-						 $kategoripelayanan[$j] = array("c_kategori"=>(string)$this->kategoripelayananList[$j]['c_kategori'],
-						 "n_kategori"=>(string)$this->kategoripelayananList[$j]['n_kategori'],
-											"n_judul"=>(string)$this->kategoripelayananList[$j]['n_judul'],
-											 "n_detil"=>(string)$this->kategoripelayananList[$j]['n_detil'],
-											 "c_pelayanan"=>(string)$this->kategoripelayananList[$j]['c_pelayanan'],
-											 "n_file"=>(string)$this->kategoripelayananList[$j]['n_file'],
-											"i_nomor_pelayanan"=>(string)$this->kategoripelayananList[$j]['i_nomor_pelayanan'],
-											"d_tahun_pelayanan"=>(string)$this->kategoripelayananList[$j]['d_tahun_pelayanan'],
-											  "c_status"=>(string)$this->kategoripelayananList[$j]['c_status']);
-					   } 
-		?>
-					<table class="widefat sortable" cellspacing="1">
+	<?php 
+		 $jmlPelayananList = count($this->PelayananList);
+		//echo $jmlPelayananList;
+		for ($j = 0; $j < $jmlPelayananList; $j++) {
+		 $pelayanan[$j] = array("c_pelayanan"  		=>(string)$this->PelayananList[$j]['c_pelayanan'],
+							"n_judul"      		=>(string)$this->PelayananList[$j]['n_judul'],
+							 "n_detil"  		=>(string)$this->PelayananList[$j]['n_detil'],
+							  "n_sumber"  		=>(string)$this->PelayananList[$j]['n_sumber'],
+							  "c_status"  		=>(string)$this->PelayananList[$j]['c_status'],
+							  "d_pelayanan"  		=>(string)$this->PelayananList[$j]['d_pelayanan']);
+	} 
+	
+	
+	?>
+	
+	<table class="widefat sortable" cellspacing="1">
 		<tr>
 			<th class="nosort" width="5%">No.</th>
 			<th width="30%">Pelayanan</th>
-			<th width="10%">Nomor</th>
-			<th width="10%">Tahun</th>
-			<th width="10%">Kategori</th>
+			<th width="10%">Jenis Pelayanan</th>
 		</tr> 
-<? 		if ($jmlkategoripelayananList == 0) {?>
+		
+	<? 		if ($jmlPelayananList == 0) {?>
 		<tr class="event">
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
@@ -46,7 +95,9 @@
 			<td>&nbsp;</td>
 		</tr>	
 <?}else{
-				foreach ($kategoripelayanan as $key => $val): 
+		foreach ($pelayanan as $key => $val): 
+		$date= $this->escape($val['d_pelayanan']);
+		$date=konversi_tanggal("D, j M Y",$date);
 				if ($key%2==0) { ?>
 				<tr class="alternate">
 				<? } else if ($key%2==1) { ?>
@@ -54,24 +105,36 @@
 				<? } 
 				$noUrut = (($this->currentPage -1)* $this->numToDisplay) + $key +1;
 				$cstatus = $this->escape($val['c_status']);
-				$date=formatDate2($this->escape($val['d_kategoripelayanan']));
+				$date=formatDate2($this->escape($val['d_pelayanan']));
 				if ($cstatus == 1) 	$status = 'Diterbitkan';
 				else $status = 'Tidak Diterbitkan';
 				
 				?>
 					<td class="clcenter"><?php echo $noUrut;?></td>
-					<td><?php echo $this->escape($val['n_judul']);?></td>
-					<td align="left"><?php echo $this->escape($val['i_nomor_pelayanan']);?></td>
-					<td align="center"><?php echo $this->escape($val['d_tahun_pelayanan']);?></td>
-					<td><?php echo $val['n_kategori'];?></td>
+					<td><a href="#detilPelayanan" onclick="detilPelayanan('<?php echo $this->escape($val['c_pelayanan']);?>')"><?php echo $this->escape($val['n_judul']);?></a></td>
+					<td align="left"><?php echo $this->escape($val['n_sumber']);?></td>
+					
 				</tr>
 				<?php endforeach;}?>
 	
 			</table>
-					
-					
+			</table>
+					<hr>
+					<div id="targetdetilpengumuman"></div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<hr>	
+	<hr>
+
+<script>
+function detilPelayanan(idpelayanan){
+	
+	var url = '<?php echo $this->basePath; ?>/cmsmodule/pelayanan/pelayanandetil';
+	var param = {idpelayanan:idpelayanan};
+	jQuery.get(url,param,function(data) {
+	jQuery("#targetdetil").html(data);
+	centerPopup();
+	loadPopup();});
+}
+</script>

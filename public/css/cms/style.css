@@ -1,7 +1,13 @@
 /*@import url("menu.css"); */
 @import url("ui.theme.css");
 @import url("ui.datepicker.css");
-body { padding: 0; margin: 0; font: 13px "Trebuchet MS", Arial, sans-serif; line-height: 1.5em; background: #e6e1e1 url(../images/bg_garuda.gif); color: #333; }
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700italic,600italic,700,600,400italic);
+/* font-family: 'Open Sans', sans-serif; */
+@import url(http://fonts.googleapis.com/css?family=Dosis:400,500,600,700);
+/* font-family: 'Dosis', sans-serif; */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300);
+
+body { padding: 0; margin: 0; font-family: 'Open Sans', Helvetica,sans-serif;font-size: 13px; line-height: 1.5em; background: #e6e1e1 url(../images/bg_garuda.gif); color: #333; }
 
 .accessibility {display:none}
 /* NAV */

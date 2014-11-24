@@ -1,4 +1,15 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700italic,600italic,700,600,400italic);
+/* font-family: 'Open Sans', sans-serif; */
+@import url(http://fonts.googleapis.com/css?family=Dosis:400,500,600,700);
+/* font-family: 'Dosis', sans-serif; */
+
+
 #backgroundPopup{  
+font-family: 'Open Sans', Helvetica,sans-serif;
+font-size: 14px;
+line-height: 1.72222;
+font-weight: 300;
+ color: #333333;
 display:none;  
 position:fixed;  
 _position:absolute; /* hack for internet explorer 6*/  
@@ -47,9 +58,7 @@ background:url(../images/cross.png)
 .wrapper{
 	margin:0;
 	background:#FFF;
-	
-	
-	}
+}
 	
 .box{
 	display: block;

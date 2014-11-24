@@ -7,6 +7,12 @@
  *
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
+ 
+ @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700italic,600italic,700,600,400italic);
+/* font-family: 'Open Sans', sans-serif; */
+@import url(http://fonts.googleapis.com/css?family=Dosis:400,500,600,700);
+/* font-family: 'Dosis', sans-serif; */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300);
 
 article,
 aside,
@@ -223,9 +229,10 @@ textarea {
 
 body {
   margin: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', Helvetica,sans-serif;
   font-size: 14px;
   line-height: 20px;
+  font-weight: 300;
   color: #333333;
   background-color: #ffffff;
 }
